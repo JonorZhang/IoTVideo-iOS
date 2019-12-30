@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6CB243577921049350A9223F /* Pods_IotVideoDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F2057A9D56E920A4E39BA18 /* Pods_IotVideoDemo.framework */; };
+		9B3DA75C9528BB7110B59A1E /* Pods_IotVideoDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F2057A9D56E920A4E39BA18 /* Pods_IotVideoDemo.framework */; };
+		9DFBC3585302B4367181A60C /* Pods_IotVideoTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 933B62AF1FB58171C76F8693 /* Pods_IotVideoTest.framework */; };
 		D589047323A9BA4C0082BD17 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D589047223A9BA4C0082BD17 /* Login.storyboard */; };
 		D589047623A9BB380082BD17 /* IVDeviceAccess.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D589047523A9BB380082BD17 /* IVDeviceAccess.storyboard */; };
 		D589047823A9BC530082BD17 /* IVDevice.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D589047723A9BC530082BD17 /* IVDevice.storyboard */; };
@@ -30,17 +31,11 @@
 		D5F040012394F1F400120D99 /* IVLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F040002394F1F400120D99 /* IVLoginVC.swift */; };
 		D5F040042394F21600120D99 /* IVRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F040032394F21600120D99 /* IVRegisterVC.swift */; };
 		D5F040062394F34E00120D99 /* IVAccountAPITestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F040052394F34E00120D99 /* IVAccountAPITestVC.swift */; };
-		D5F22F9023A0C05D007C3A48 /* IVVAS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D591630C2391002200EB2AE9 /* IVVAS.framework */; };
-		D5F22F9123A0C05D007C3A48 /* IVVAS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D591630C2391002200EB2AE9 /* IVVAS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D5F22F9323A0C06C007C3A48 /* IVAccountMgr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D510A95B238CBCE100DBDC62 /* IVAccountMgr.framework */; };
-		D5F22F9423A0C06C007C3A48 /* IVAccountMgr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D510A95B238CBCE100DBDC62 /* IVAccountMgr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D5FB5B372395F45E00C9D737 /* IVRegisterEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FB5B362395F45E00C9D737 /* IVRegisterEmailVC.swift */; };
 		D5FB5B3B2396129000C9D737 /* IVTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FB5B3A2396129000C9D737 /* IVTabBarViewController.swift */; };
 		D5FB5B3D2396132300C9D737 /* IVVasAPITestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FB5B3C2396132300C9D737 /* IVVasAPITestVC.swift */; };
 		D5FB5B40239661E500C9D737 /* IVShareDeviceByQRCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FB5B3F239661E500C9D737 /* IVShareDeviceByQRCodeVC.swift */; };
 		D5FB5B42239661FA00C9D737 /* IVQRcodeScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FB5B41239661FA00C9D737 /* IVQRcodeScanVC.swift */; };
-		EA1AEF8723B9B7470058B5AB /* JZLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAAC287D23B9A91C001C868C /* JZLogger.framework */; };
-		EA1AEF8823B9B7470058B5AB /* JZLogger.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAAC287D23B9A91C001C868C /* JZLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EA1AEFDB23BA1BD10058B5AB /* IVDeviceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58FB6E023AA48440091361E /* IVDeviceTableViewController.swift */; };
 		EA1AEFDC23BA1BD10058B5AB /* IVShareDeviceByAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58FB6E423AB53330091361E /* IVShareDeviceByAccountVC.swift */; };
 		EA1AEFDD23BA1BD10058B5AB /* IVDeviceAccessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD1D43223A9EB120008BA65 /* IVDeviceAccessVC.swift */; };
@@ -70,23 +65,17 @@
 		EA1AEFF523BA1BD10058B5AB /* IVAccountAPITestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F040052394F34E00120D99 /* IVAccountAPITestVC.swift */; };
 		EA1AEFF623BA1BD10058B5AB /* IVApiFormatTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA25897523B5DC4D003B7008 /* IVApiFormatTest.swift */; };
 		EA1AEFF723BA1BD10058B5AB /* IVLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F040002394F1F400120D99 /* IVLoginVC.swift */; };
-		EA1AEFFA23BA1BD10058B5AB /* JZLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAAC287D23B9A91C001C868C /* JZLogger.framework */; };
 		EA1AEFFC23BA1BD10058B5AB /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E4B3E623975C7A00DDA80A /* CoreMedia.framework */; };
 		EA1AEFFD23BA1BD10058B5AB /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E4B3E823975C8600DDA80A /* VideoToolbox.framework */; };
 		EA1AEFFF23BA1BD10058B5AB /* WoodPeckeriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D59BF32023A27B14007270B1 /* WoodPeckeriOS.framework */; };
 		EA1AF00023BA1BD10058B5AB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E4B3E423975C7200DDA80A /* AudioToolbox.framework */; };
-		EA1AF00123BA1BD10058B5AB /* Pods_IotVideoDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F2057A9D56E920A4E39BA18 /* Pods_IotVideoDemo.framework */; };
 		EA1AF00323BA1BD10058B5AB /* IVDeviceAccess.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D589047523A9BB380082BD17 /* IVDeviceAccess.storyboard */; };
 		EA1AF00423BA1BD10058B5AB /* IVDevice.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D589047723A9BC530082BD17 /* IVDevice.storyboard */; };
 		EA1AF00523BA1BD10058B5AB /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D589047223A9BA4C0082BD17 /* Login.storyboard */; };
 		EA1AF00623BA1BD10058B5AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5C7223923839B9700585D33 /* LaunchScreen.storyboard */; };
 		EA1AF00723BA1BD10058B5AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5C7223723839B9700585D33 /* Assets.xcassets */; };
 		EA1AF00823BA1BD10058B5AB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5C7223423839B9600585D33 /* Main.storyboard */; };
-		EA1AF00B23BA1BD10058B5AB /* IVAccountMgr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D510A95B238CBCE100DBDC62 /* IVAccountMgr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EA1AF00C23BA1BD10058B5AB /* WoodPeckeriOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D59BF32023A27B14007270B1 /* WoodPeckeriOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EA1AF00D23BA1BD10058B5AB /* IVVAS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D591630C2391002200EB2AE9 /* IVVAS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EA1AF00E23BA1BD10058B5AB /* JZLogger.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAAC287D23B9A91C001C868C /* JZLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EA1AF00F23BA1BD10058B5AB /* IoTVideo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAAC286D23B9A8A0001C868C /* IoTVideo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EA23228123AB61C60099185B /* IVPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA23228023AB61C60099185B /* IVPopupView.swift */; };
 		EA23228323AB61FB0099185B /* UIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA23228223AB61FB0099185B /* UIControl.swift */; };
 		EA23228523AB62060099185B /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA23228423AB62050099185B /* UIColor.swift */; };
@@ -95,36 +84,47 @@
 		EA60A1F823A78BC100217628 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA60A1F723A78BC100217628 /* UIDevice.swift */; };
 		EA9E3E2C23A0CC840067FAAD /* IVMonitorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9E3E2B23A0CC840067FAAD /* IVMonitorViewController.swift */; };
 		EA9E3E2E23A0CC980067FAAD /* IVPlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9E3E2D23A0CC980067FAAD /* IVPlaybackViewController.swift */; };
-		EAAC286E23B9A8A0001C868C /* IoTVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAAC286D23B9A8A0001C868C /* IoTVideo.framework */; };
-		EAAC286F23B9A8A0001C868C /* IoTVideo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAAC286D23B9A8A0001C868C /* IoTVideo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EABF010B23B2F8BB0020C181 /* IVDevicePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABF010A23B2F8BB0020C181 /* IVDevicePlayerViewController.swift */; };
 		EAD1D42D23A8FFAE0008BA65 /* IVLANDeviceTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD1D42C23A8FFAE0008BA65 /* IVLANDeviceTableVC.swift */; };
 		EAD1D42F23A9E6380008BA65 /* IVMineDeviceTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD1D42E23A9E6380008BA65 /* IVMineDeviceTableVC.swift */; };
 		EAD1D43123A9EADD0008BA65 /* IVDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD1D43023A9EADD0008BA65 /* IVDevice.swift */; };
 		EAD1D43323A9EB120008BA65 /* IVDeviceAccessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD1D43223A9EB120008BA65 /* IVDeviceAccessVC.swift */; };
-		EAE59BF823BA1CB200808D31 /* IVAccountMgr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59BF523BA1CB200808D31 /* IVAccountMgr.framework */; };
-		EAE59BF923BA1CB200808D31 /* IoTVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59BF623BA1CB200808D31 /* IoTVideo.framework */; };
-		EAE59BFA23BA1CB200808D31 /* IVVAS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59BF723BA1CB200808D31 /* IVVAS.framework */; };
+		EAE59C3A23BA31F900808D31 /* IoTVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C3423BA31ED00808D31 /* IoTVideo.framework */; };
+		EAE59C3B23BA31F900808D31 /* IoTVideo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C3423BA31ED00808D31 /* IoTVideo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EAE59C3C23BA31F900808D31 /* IVAccountMgr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C3623BA31ED00808D31 /* IVAccountMgr.framework */; };
+		EAE59C3D23BA31F900808D31 /* IVAccountMgr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C3623BA31ED00808D31 /* IVAccountMgr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EAE59C3E23BA31F900808D31 /* IVVAS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C3823BA31ED00808D31 /* IVVAS.framework */; };
+		EAE59C3F23BA31F900808D31 /* IVVAS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C3823BA31ED00808D31 /* IVVAS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EAE59C4023BA31F900808D31 /* JZLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2223BA307F00808D31 /* JZLogger.framework */; };
+		EAE59C4123BA31F900808D31 /* JZLogger.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2223BA307F00808D31 /* JZLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EAE59C4223BA320100808D31 /* IoTVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2E23BA31CA00808D31 /* IoTVideo.framework */; };
+		EAE59C4323BA320100808D31 /* IoTVideo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2E23BA31CA00808D31 /* IoTVideo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EAE59C4423BA320100808D31 /* IVAccountMgr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C3023BA31CB00808D31 /* IVAccountMgr.framework */; };
+		EAE59C4523BA320100808D31 /* IVAccountMgr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C3023BA31CB00808D31 /* IVAccountMgr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EAE59C4623BA320100808D31 /* IVVAS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2F23BA31CB00808D31 /* IVVAS.framework */; };
+		EAE59C4723BA320100808D31 /* IVVAS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2F23BA31CB00808D31 /* IVVAS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EAE59C4823BA320100808D31 /* JZLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2223BA307F00808D31 /* JZLogger.framework */; };
+		EAE59C4923BA320100808D31 /* JZLogger.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2223BA307F00808D31 /* JZLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		EAAC287C23B9A91C001C868C /* PBXContainerItemProxy */ = {
+		EAE59C2123BA307F00808D31 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EAAC287623B9A91C001C868C /* JZLogger.xcodeproj */;
+			containerPortal = EAE59C1B23BA307F00808D31 /* JZLogger.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EA4B5AA1230B9C8B00A441D0;
 			remoteInfo = JZLogger;
 		};
-		EAAC287E23B9A91C001C868C /* PBXContainerItemProxy */ = {
+		EAE59C2323BA307F00808D31 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EAAC287623B9A91C001C868C /* JZLogger.xcodeproj */;
+			containerPortal = EAE59C1B23BA307F00808D31 /* JZLogger.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EA4B5AAA230B9C8B00A441D0;
 			remoteInfo = JZLoggerTests;
 		};
-		EAAC288023B9A91C001C868C /* PBXContainerItemProxy */ = {
+		EAE59C2523BA307F00808D31 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EAAC287623B9A91C001C868C /* JZLogger.xcodeproj */;
+			containerPortal = EAE59C1B23BA307F00808D31 /* JZLogger.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EAAA4759230E62AF001ADDB2;
 			remoteInfo = Resource;
@@ -138,11 +138,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D5F22F9423A0C06C007C3A48 /* IVAccountMgr.framework in Embed Frameworks */,
+				EAE59C4723BA320100808D31 /* IVVAS.framework in Embed Frameworks */,
+				EAE59C4523BA320100808D31 /* IVAccountMgr.framework in Embed Frameworks */,
 				D59BF32323A27B1E007270B1 /* WoodPeckeriOS.framework in Embed Frameworks */,
-				D5F22F9123A0C05D007C3A48 /* IVVAS.framework in Embed Frameworks */,
-				EA1AEF8823B9B7470058B5AB /* JZLogger.framework in Embed Frameworks */,
-				EAAC286F23B9A8A0001C868C /* IoTVideo.framework in Embed Frameworks */,
+				EAE59C4923BA320100808D31 /* JZLogger.framework in Embed Frameworks */,
+				EAE59C4323BA320100808D31 /* IoTVideo.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -153,11 +153,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				EA1AF00B23BA1BD10058B5AB /* IVAccountMgr.framework in Embed Frameworks */,
+				EAE59C3F23BA31F900808D31 /* IVVAS.framework in Embed Frameworks */,
+				EAE59C3D23BA31F900808D31 /* IVAccountMgr.framework in Embed Frameworks */,
 				EA1AF00C23BA1BD10058B5AB /* WoodPeckeriOS.framework in Embed Frameworks */,
-				EA1AF00D23BA1BD10058B5AB /* IVVAS.framework in Embed Frameworks */,
-				EA1AF00E23BA1BD10058B5AB /* JZLogger.framework in Embed Frameworks */,
-				EA1AF00F23BA1BD10058B5AB /* IoTVideo.framework in Embed Frameworks */,
+				EAE59C4123BA31F900808D31 /* JZLogger.framework in Embed Frameworks */,
+				EAE59C3B23BA31F900808D31 /* IoTVideo.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,13 +165,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		07CC889F7F83AAA1DE5D5A37 /* Pods-IotVideoDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoDemo.release.xcconfig"; path = "../../../Pods/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo.release.xcconfig"; sourceTree = "<group>"; };
+		2160A463823060A34070D379 /* Pods-IotVideoTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoTest.release.xcconfig"; path = "../../../Pods/Target Support Files/Pods-IotVideoTest/Pods-IotVideoTest.release.xcconfig"; sourceTree = "<group>"; };
 		2F2057A9D56E920A4E39BA18 /* Pods_IotVideoDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IotVideoDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7E25AFF7E7E243FDF8D8674D /* Pods-IotVideoDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoDemo.debug.xcconfig"; path = "../../../Pods/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		8DF004ACBB39C6212BA81A65 /* Pods-IotVideoAccontMgrDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoAccontMgrDemo.release.xcconfig"; path = "Target Support Files/Pods-IotVideoAccontMgrDemo/Pods-IotVideoAccontMgrDemo.release.xcconfig"; sourceTree = "<group>"; };
-		D510A95B238CBCE100DBDC62 /* IVAccountMgr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IVAccountMgr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		933B62AF1FB58171C76F8693 /* Pods_IotVideoTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IotVideoTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D547B464238D52D800A4478F /* IotVideoDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IotVideoDemo-Bridging-Header.h"; sourceTree = "<group>"; };
-		D547B48B238E6B8A00A4478F /* IVAccountMgr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IVAccountMgr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D589047223A9BA4C0082BD17 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		D589047523A9BB380082BD17 /* IVDeviceAccess.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = IVDeviceAccess.storyboard; sourceTree = "<group>"; };
 		D589047723A9BC530082BD17 /* IVDevice.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = IVDevice.storyboard; sourceTree = "<group>"; };
@@ -179,7 +177,6 @@
 		D58FB6E023AA48440091361E /* IVDeviceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVDeviceTableViewController.swift; sourceTree = "<group>"; };
 		D58FB6E223AB522B0091361E /* IVShareDeviceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVShareDeviceTableViewController.swift; sourceTree = "<group>"; };
 		D58FB6E423AB53330091361E /* IVShareDeviceByAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVShareDeviceByAccountVC.swift; sourceTree = "<group>"; };
-		D591630C2391002200EB2AE9 /* IVVAS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IVVAS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D59BF32023A27B14007270B1 /* WoodPeckeriOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WoodPeckeriOS.framework; sourceTree = "<group>"; };
 		D5C7222D23839B9600585D33 /* IotVideoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IotVideoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5C7223023839B9600585D33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -204,6 +201,7 @@
 		D5FB5B3F239661E500C9D737 /* IVShareDeviceByQRCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVShareDeviceByQRCodeVC.swift; sourceTree = "<group>"; };
 		D5FB5B41239661FA00C9D737 /* IVQRcodeScanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVQRcodeScanVC.swift; sourceTree = "<group>"; };
 		DACD94A089C77B105D17650E /* Pods-IotVideoAccontMgrDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoAccontMgrDemo.debug.xcconfig"; path = "Target Support Files/Pods-IotVideoAccontMgrDemo/Pods-IotVideoAccontMgrDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		DD572BAB8010505F98B3D510 /* Pods-IotVideoDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoDemo.debug.xcconfig"; path = "../../../Pods/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		EA1AEFC823BA19E70058B5AB /* IotVideoDemo copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "IotVideoDemo copy-Info.plist"; path = "/Users/jonor/Documents/SVN/trunk/IotVideo/Demo/IotVideoDemo/IotVideoDemo copy-Info.plist"; sourceTree = "<absolute>"; };
 		EA1AF01323BA1BD10058B5AB /* IotVideoTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IotVideoTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA1AF01423BA1BD10058B5AB /* IotVideoDemo copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "IotVideoDemo copy2-Info.plist"; path = "/Users/jonor/Documents/SVN/trunk/IotVideo/Demo/IotVideoDemo/IotVideoDemo copy2-Info.plist"; sourceTree = "<absolute>"; };
@@ -215,16 +213,20 @@
 		EA60A1F723A78BC100217628 /* UIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
 		EA9E3E2B23A0CC840067FAAD /* IVMonitorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVMonitorViewController.swift; sourceTree = "<group>"; };
 		EA9E3E2D23A0CC980067FAAD /* IVPlaybackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVPlaybackViewController.swift; sourceTree = "<group>"; };
-		EAAC286D23B9A8A0001C868C /* IoTVideo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IoTVideo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EAAC287623B9A91C001C868C /* JZLogger.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JZLogger.xcodeproj; path = ../../SDK/JZLogger/JZLogger.xcodeproj; sourceTree = "<group>"; };
 		EABF010A23B2F8BB0020C181 /* IVDevicePlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVDevicePlayerViewController.swift; sourceTree = "<group>"; };
 		EAD1D42C23A8FFAE0008BA65 /* IVLANDeviceTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVLANDeviceTableVC.swift; sourceTree = "<group>"; };
 		EAD1D42E23A9E6380008BA65 /* IVMineDeviceTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVMineDeviceTableVC.swift; sourceTree = "<group>"; };
 		EAD1D43023A9EADD0008BA65 /* IVDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVDevice.swift; sourceTree = "<group>"; };
 		EAD1D43223A9EB120008BA65 /* IVDeviceAccessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVDeviceAccessVC.swift; sourceTree = "<group>"; };
-		EAE59BF523BA1CB200808D31 /* IVAccountMgr.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IVAccountMgr.framework; path = ../../SDK/Frameworks/IVAccountMgr.framework; sourceTree = "<group>"; };
-		EAE59BF623BA1CB200808D31 /* IoTVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IoTVideo.framework; path = ../../SDK/Frameworks/IoTVideo.framework; sourceTree = "<group>"; };
-		EAE59BF723BA1CB200808D31 /* IVVAS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IVVAS.framework; path = ../../SDK/Frameworks/IVVAS.framework; sourceTree = "<group>"; };
+		EAE59C1B23BA307F00808D31 /* JZLogger.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JZLogger.xcodeproj; path = JZLogger/JZLogger.xcodeproj; sourceTree = "<group>"; };
+		EAE59C2E23BA31CA00808D31 /* IoTVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IoTVideo.framework; path = ../../SDK/Frameworks/IoTVideo.framework; sourceTree = "<group>"; };
+		EAE59C2F23BA31CB00808D31 /* IVVAS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IVVAS.framework; path = ../../SDK/Frameworks/IVVAS.framework; sourceTree = "<group>"; };
+		EAE59C3023BA31CB00808D31 /* IVAccountMgr.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IVAccountMgr.framework; path = ../../SDK/Frameworks/IVAccountMgr.framework; sourceTree = "<group>"; };
+		EAE59C3423BA31ED00808D31 /* IoTVideo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IoTVideo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAE59C3623BA31ED00808D31 /* IVAccountMgr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IVAccountMgr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAE59C3823BA31ED00808D31 /* IVVAS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IVVAS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECF63F18C2CB6B85B6DBE5A7 /* Pods-IotVideoDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoDemo.release.xcconfig"; path = "../../../Pods/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo.release.xcconfig"; sourceTree = "<group>"; };
+		F9AFCC166400017A1AEA0039 /* Pods-IotVideoTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoTest.debug.xcconfig"; path = "../../../Pods/Target Support Files/Pods-IotVideoTest/Pods-IotVideoTest.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,15 +234,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D5F22F9323A0C06C007C3A48 /* IVAccountMgr.framework in Frameworks */,
-				EA1AEF8723B9B7470058B5AB /* JZLogger.framework in Frameworks */,
-				EAAC286E23B9A8A0001C868C /* IoTVideo.framework in Frameworks */,
+				EAE59C4423BA320100808D31 /* IVAccountMgr.framework in Frameworks */,
+				EAE59C4823BA320100808D31 /* JZLogger.framework in Frameworks */,
+				EAE59C4223BA320100808D31 /* IoTVideo.framework in Frameworks */,
 				D5E4B3E723975C7A00DDA80A /* CoreMedia.framework in Frameworks */,
+				EAE59C4623BA320100808D31 /* IVVAS.framework in Frameworks */,
 				D5E4B3E923975C8600DDA80A /* VideoToolbox.framework in Frameworks */,
-				D5F22F9023A0C05D007C3A48 /* IVVAS.framework in Frameworks */,
 				D59BF32223A27B1E007270B1 /* WoodPeckeriOS.framework in Frameworks */,
 				D5E4B3E523975C7200DDA80A /* AudioToolbox.framework in Frameworks */,
-				6CB243577921049350A9223F /* Pods_IotVideoDemo.framework in Frameworks */,
+				9B3DA75C9528BB7110B59A1E /* Pods_IotVideoDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,15 +250,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAE59BF823BA1CB200808D31 /* IVAccountMgr.framework in Frameworks */,
-				EAE59BF923BA1CB200808D31 /* IoTVideo.framework in Frameworks */,
-				EAE59BFA23BA1CB200808D31 /* IVVAS.framework in Frameworks */,
-				EA1AEFFA23BA1BD10058B5AB /* JZLogger.framework in Frameworks */,
+				EAE59C3C23BA31F900808D31 /* IVAccountMgr.framework in Frameworks */,
+				EAE59C4023BA31F900808D31 /* JZLogger.framework in Frameworks */,
+				EAE59C3A23BA31F900808D31 /* IoTVideo.framework in Frameworks */,
 				EA1AEFFC23BA1BD10058B5AB /* CoreMedia.framework in Frameworks */,
+				EAE59C3E23BA31F900808D31 /* IVVAS.framework in Frameworks */,
 				EA1AEFFD23BA1BD10058B5AB /* VideoToolbox.framework in Frameworks */,
 				EA1AEFFF23BA1BD10058B5AB /* WoodPeckeriOS.framework in Frameworks */,
 				EA1AF00023BA1BD10058B5AB /* AudioToolbox.framework in Frameworks */,
-				EA1AF00123BA1BD10058B5AB /* Pods_IotVideoDemo.framework in Frameworks */,
+				9DFBC3585302B4367181A60C /* Pods_IotVideoTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,19 +268,19 @@
 		32412E4E8AB189944425730E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EAE59BF623BA1CB200808D31 /* IoTVideo.framework */,
-				EAE59BF523BA1CB200808D31 /* IVAccountMgr.framework */,
-				EAE59BF723BA1CB200808D31 /* IVVAS.framework */,
-				EAAC287623B9A91C001C868C /* JZLogger.xcodeproj */,
-				EAAC286D23B9A8A0001C868C /* IoTVideo.framework */,
+				EAE59C3423BA31ED00808D31 /* IoTVideo.framework */,
+				EAE59C3623BA31ED00808D31 /* IVAccountMgr.framework */,
+				EAE59C3823BA31ED00808D31 /* IVVAS.framework */,
+				EAE59C2E23BA31CA00808D31 /* IoTVideo.framework */,
+				EAE59C3023BA31CB00808D31 /* IVAccountMgr.framework */,
+				EAE59C2F23BA31CB00808D31 /* IVVAS.framework */,
+				EAE59C1B23BA307F00808D31 /* JZLogger.xcodeproj */,
 				D5E4B3EA23975C8F00DDA80A /* libz.tbd */,
 				D5E4B3E823975C8600DDA80A /* VideoToolbox.framework */,
 				D5E4B3E623975C7A00DDA80A /* CoreMedia.framework */,
 				D5E4B3E423975C7200DDA80A /* AudioToolbox.framework */,
-				D591630C2391002200EB2AE9 /* IVVAS.framework */,
-				D547B48B238E6B8A00A4478F /* IVAccountMgr.framework */,
-				D510A95B238CBCE100DBDC62 /* IVAccountMgr.framework */,
 				2F2057A9D56E920A4E39BA18 /* Pods_IotVideoDemo.framework */,
+				933B62AF1FB58171C76F8693 /* Pods_IotVideoTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -288,8 +290,10 @@
 			children = (
 				DACD94A089C77B105D17650E /* Pods-IotVideoAccontMgrDemo.debug.xcconfig */,
 				8DF004ACBB39C6212BA81A65 /* Pods-IotVideoAccontMgrDemo.release.xcconfig */,
-				7E25AFF7E7E243FDF8D8674D /* Pods-IotVideoDemo.debug.xcconfig */,
-				07CC889F7F83AAA1DE5D5A37 /* Pods-IotVideoDemo.release.xcconfig */,
+				DD572BAB8010505F98B3D510 /* Pods-IotVideoDemo.debug.xcconfig */,
+				ECF63F18C2CB6B85B6DBE5A7 /* Pods-IotVideoDemo.release.xcconfig */,
+				F9AFCC166400017A1AEA0039 /* Pods-IotVideoTest.debug.xcconfig */,
+				2160A463823060A34070D379 /* Pods-IotVideoTest.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -409,12 +413,12 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		EAAC287723B9A91C001C868C /* Products */ = {
+		EAE59C1C23BA307F00808D31 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EAAC287D23B9A91C001C868C /* JZLogger.framework */,
-				EAAC287F23B9A91C001C868C /* JZLoggerTests.xctest */,
-				EAAC288123B9A91C001C868C /* Resource.bundle */,
+				EAE59C2223BA307F00808D31 /* JZLogger.framework */,
+				EAE59C2423BA307F00808D31 /* JZLoggerTests.xctest */,
+				EAE59C2623BA307F00808D31 /* Resource.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -446,12 +450,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EA1AF01023BA1BD10058B5AB /* Build configuration list for PBXNativeTarget "IotVideoTest" */;
 			buildPhases = (
-				EA1AEFD923BA1BD10058B5AB /* [CP] Check Pods Manifest.lock */,
+				EE1CA2B341429ABF739E9FA7 /* [CP] Check Pods Manifest.lock */,
 				EA1AEFDA23BA1BD10058B5AB /* Sources */,
 				EA1AEFF823BA1BD10058B5AB /* Frameworks */,
 				EA1AF00223BA1BD10058B5AB /* Resources */,
-				EA1AF00923BA1BD10058B5AB /* [CP] Embed Pods Frameworks */,
 				EA1AF00A23BA1BD10058B5AB /* Embed Frameworks */,
+				D7C2A668E93EF5EEC191D6A9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -492,8 +496,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = EAAC287723B9A91C001C868C /* Products */;
-					ProjectRef = EAAC287623B9A91C001C868C /* JZLogger.xcodeproj */;
+					ProductGroup = EAE59C1C23BA307F00808D31 /* Products */;
+					ProjectRef = EAE59C1B23BA307F00808D31 /* JZLogger.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -505,25 +509,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		EAAC287D23B9A91C001C868C /* JZLogger.framework */ = {
+		EAE59C2223BA307F00808D31 /* JZLogger.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = JZLogger.framework;
-			remoteRef = EAAC287C23B9A91C001C868C /* PBXContainerItemProxy */;
+			remoteRef = EAE59C2123BA307F00808D31 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		EAAC287F23B9A91C001C868C /* JZLoggerTests.xctest */ = {
+		EAE59C2423BA307F00808D31 /* JZLoggerTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = JZLoggerTests.xctest;
-			remoteRef = EAAC287E23B9A91C001C868C /* PBXContainerItemProxy */;
+			remoteRef = EAE59C2323BA307F00808D31 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		EAAC288123B9A91C001C868C /* Resource.bundle */ = {
+		EAE59C2623BA307F00808D31 /* Resource.bundle */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = Resource.bundle;
-			remoteRef = EAAC288023B9A91C001C868C /* PBXContainerItemProxy */;
+			remoteRef = EAE59C2523BA307F00808D31 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -580,6 +584,34 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D7C2A668E93EF5EEC191D6A9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IotVideoTest/Pods-IotVideoTest-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/Then/Then.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Then.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IotVideoTest/Pods-IotVideoTest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E4F634524BCE9D1D9E66B1A7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -608,7 +640,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EA1AEFD923BA1BD10058B5AB /* [CP] Check Pods Manifest.lock */ = {
+		EE1CA2B341429ABF739E9FA7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -623,39 +655,11 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-IotVideoDemo-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-IotVideoTest-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EA1AF00923BA1BD10058B5AB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
-				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-				"${BUILT_PRODUCTS_DIR}/Then/Then.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Then.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -873,7 +877,7 @@
 		};
 		D5C7224023839B9700585D33 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7E25AFF7E7E243FDF8D8674D /* Pods-IotVideoDemo.debug.xcconfig */;
+			baseConfigurationReference = DD572BAB8010505F98B3D510 /* Pods-IotVideoDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -909,7 +913,7 @@
 		};
 		D5C7224123839B9700585D33 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 07CC889F7F83AAA1DE5D5A37 /* Pods-IotVideoDemo.release.xcconfig */;
+			baseConfigurationReference = ECF63F18C2CB6B85B6DBE5A7 /* Pods-IotVideoDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -939,7 +943,7 @@
 		};
 		EA1AF01123BA1BD10058B5AB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7E25AFF7E7E243FDF8D8674D /* Pods-IotVideoDemo.debug.xcconfig */;
+			baseConfigurationReference = F9AFCC166400017A1AEA0039 /* Pods-IotVideoTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -975,7 +979,7 @@
 		};
 		EA1AF01223BA1BD10058B5AB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 07CC889F7F83AAA1DE5D5A37 /* Pods-IotVideoDemo.release.xcconfig */;
+			baseConfigurationReference = 2160A463823060A34070D379 /* Pods-IotVideoTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
