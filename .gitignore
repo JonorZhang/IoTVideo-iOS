@@ -2,6 +2,13 @@
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
+*.svn
+Demo/IotVideoSDKImportDemo
+Demo/IVCoreTestSwift
+SDK/IoTVideo
+SDK/IVAccountMgr
+SDK/IVVAS
+
 ## User settings
 xcuserdata/
 

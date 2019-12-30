@@ -1,0 +1,11 @@
+framework module IVVAS {
+  umbrella header "IVVAS.h"
+
+  export *
+  module * { export * }
+}
+
+module IVVAS.Swift {
+    header "IVVAS-Swift.h"
+    requires objc
+}
