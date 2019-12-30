@@ -1,0 +1,11 @@
+framework module IoTVideo {
+  umbrella header "IoTVideo.h"
+
+  export *
+  module * { export * }
+}
+
+module IoTVideo.Swift {
+    header "IoTVideo-Swift.h"
+    requires objc
+}
