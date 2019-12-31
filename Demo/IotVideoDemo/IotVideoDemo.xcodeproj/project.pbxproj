@@ -104,7 +104,6 @@
 		2160A463823060A34070D379 /* Pods-IotVideoTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoTest.release.xcconfig"; path = "../../../Pods/Target Support Files/Pods-IotVideoTest/Pods-IotVideoTest.release.xcconfig"; sourceTree = "<group>"; };
 		2F2057A9D56E920A4E39BA18 /* Pods_IotVideoDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IotVideoDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF004ACBB39C6212BA81A65 /* Pods-IotVideoAccontMgrDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoAccontMgrDemo.release.xcconfig"; path = "Target Support Files/Pods-IotVideoAccontMgrDemo/Pods-IotVideoAccontMgrDemo.release.xcconfig"; sourceTree = "<group>"; };
-		933B62AF1FB58171C76F8693 /* Pods_IotVideoTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IotVideoTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D547B464238D52D800A4478F /* IotVideoDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IotVideoDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		D589047223A9BA4C0082BD17 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		D589047523A9BB380082BD17 /* IVDeviceAccess.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = IVDeviceAccess.storyboard; sourceTree = "<group>"; };
@@ -138,8 +137,6 @@
 		D5FB5B41239661FA00C9D737 /* IVQRcodeScanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVQRcodeScanVC.swift; sourceTree = "<group>"; };
 		DACD94A089C77B105D17650E /* Pods-IotVideoAccontMgrDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoAccontMgrDemo.debug.xcconfig"; path = "Target Support Files/Pods-IotVideoAccontMgrDemo/Pods-IotVideoAccontMgrDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		DD572BAB8010505F98B3D510 /* Pods-IotVideoDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoDemo.debug.xcconfig"; path = "../../../Pods/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		EA1AEFC823BA19E70058B5AB /* IotVideoDemo copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "IotVideoDemo copy-Info.plist"; path = "/Users/jonor/Documents/SVN/trunk/IotVideo/Demo/IotVideoDemo/IotVideoDemo copy-Info.plist"; sourceTree = "<absolute>"; };
-		EA1AF01423BA1BD10058B5AB /* IotVideoDemo copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "IotVideoDemo copy2-Info.plist"; path = "/Users/jonor/Documents/SVN/trunk/IotVideo/Demo/IotVideoDemo/IotVideoDemo copy2-Info.plist"; sourceTree = "<absolute>"; };
 		EA23228023AB61C60099185B /* IVPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVPopupView.swift; sourceTree = "<group>"; };
 		EA23228223AB61FB0099185B /* UIControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIControl.swift; sourceTree = "<group>"; };
 		EA23228423AB62050099185B /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
@@ -193,7 +190,6 @@
 				D5E4B3E623975C7A00DDA80A /* CoreMedia.framework */,
 				D5E4B3E423975C7200DDA80A /* AudioToolbox.framework */,
 				2F2057A9D56E920A4E39BA18 /* Pods_IotVideoDemo.framework */,
-				933B62AF1FB58171C76F8693 /* Pods_IotVideoTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -219,8 +215,6 @@
 				D5C7222E23839B9600585D33 /* Products */,
 				AA07CB14330DE4D2A5BF3121 /* Pods */,
 				32412E4E8AB189944425730E /* Frameworks */,
-				EA1AEFC823BA19E70058B5AB /* IotVideoDemo copy-Info.plist */,
-				EA1AF01423BA1BD10058B5AB /* IotVideoDemo copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
