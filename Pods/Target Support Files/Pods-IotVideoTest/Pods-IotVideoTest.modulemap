@@ -1,6 +1,0 @@
-framework module Pods_IotVideoTest {
-  umbrella header "Pods-IotVideoTest-umbrella.h"
-
-  export *
-  module * { export * }
-}
