@@ -3,6 +3,9 @@
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
 *.svn
+IotVideoDev.*
+IotVideoDev/IotVideoDev.xcworkspace
+Demo/IotVideoDemo/IotVideoDemoDev.xcodeproj
 Demo/IotVideoSDKImportDemo
 Demo/IVCoreTestSwift
 SDK/IoTVideo
