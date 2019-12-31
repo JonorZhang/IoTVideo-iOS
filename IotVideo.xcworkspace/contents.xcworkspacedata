@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <Group
-      location = "container:"
-      name = "SDK">
-      <FileRef
-         location = "group:SDK/IoTVideo/IoTVideo.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:SDK/IVAccountMgr/IVAccountMgr.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:SDK/IVVAS/IVVAS.xcodeproj">
-      </FileRef>
-   </Group>
    <FileRef
       location = "group:Demo/IotVideoDemo/IotVideoDemo.xcodeproj">
    </FileRef>
