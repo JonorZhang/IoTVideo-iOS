@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "IVLog.h"
 
 #import "IVAVDefine.h"
 #import "IVAVCodecable.h"
@@ -16,9 +17,11 @@
 #import "IVPlaybackPlayer.h"
 
 #import "IVMessageMgr.h"
+
+#import "IVQRCodeHelper.h"
 #import "IVLanNetConfig.h"
 #import "IVQRCodeNetConfig.h"
-#import "IVQRCodeHelper.h"
+#import "IVNetConfig.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,12 +39,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 调试模式
 @property (nonatomic, assign) BOOL debugMode;
-@property (nonatomic, copy, nullable) void(^logCallback)(NSString *log);
+
+/// 日志输出回调
+@property (nonatomic, copy, nullable) IVLogCallback logCallback;
 
 /// SDK初始化
 /// @param productId  app的产品id(从平台注册时获取)
 /// @param ivCid      客户id(从平台注册时获取)
 /// @param userInfo  其他信息，默认传nil
+/// @code
+/// [self setupToken]
+/// @endcode
+/// @remark 录成功服务器
 - (void)registerWithProductId:(NSString *)productId ivCid:(NSString *)ivCid userInfo:(nullable NSDictionary *)userInfo;
 
 /// 设置当前用户信息

@@ -17,11 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 typedef void(^IVQRCodeScanCallback)(NSString * _Nullable scanResult);
 
-
 @interface IVQRCodeHelper : NSObject
-
-@property (nonatomic, readonly) NSInteger IVQRCodeNetConfigID;//配网随机码
-
 
 /**
  初始化二维码扫码
@@ -58,6 +54,11 @@ typedef void(^IVQRCodeScanCallback)(NSString * _Nullable scanResult);
  */
 - (void)stopScan;
 
+/// 解析图片二维码
+/// @param image 包含二维码图片
+/// @return 二维码信息
+- (nullable NSString *)detectQRCodeWithImage:(UIImage *)image;
+
 /**
  生成二维码
 
@@ -75,6 +76,13 @@ typedef void(^IVQRCodeScanCallback)(NSString * _Nullable scanResult);
 @return 二维码图片, 失败时为nil
 */
 + (nullable UIImage *)createQRCodeWithData:(NSData *)QRData QRSize:(CGSize)size;
+
+/// 生成分享设备二维码
+///
+/// 需要使用本类扫描解析本类生成的二维码
+/// @param token 分享的token
+/// @param size 二维码大小
++ (UIImage *)createShareDeviceQRCodeWithToken:(NSString *)token QRSize:(CGSize)size;
 
 
 @end

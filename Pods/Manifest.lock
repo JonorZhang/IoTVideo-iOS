@@ -14,12 +14,14 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
+  - MBProgressHUD (1.1.0)
   - SnapKit (4.2.0)
   - SwiftyJSON (4.3.0)
   - Then (2.4.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
+  - MBProgressHUD (~> 1.1.0)
   - SnapKit (~> 4.2.0)
   - SwiftyJSON (~> 4.0)
   - Then (~> 2.4.0)
@@ -27,16 +29,18 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
+    - MBProgressHUD
     - SnapKit
     - SwiftyJSON
     - Then
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
 
-PODFILE CHECKSUM: c802e7533ae04139087a64aac3f302b8c5ab5203
+PODFILE CHECKSUM: 5dbfbcf791e416e30b93154a25add16ff029201e
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.7.5

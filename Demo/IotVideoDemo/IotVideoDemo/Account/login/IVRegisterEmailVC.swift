@@ -43,24 +43,28 @@ class IVRegisterEmailVC: UIViewController {
             //                          verificationCode: emailVerificationCodeTextField.text ?? "") { (json, error) in
             //
             //            }
-            
+            let hud = ivLoadingHud()
             IVAccountMgr.shared.register(by: .email(emailTextField.text ?? ""),
                                          password: emailPasswordTextfiled.text ?? "",
                                          verificationCode: emailVerificationCodeTextField.text ?? "")
             { (json, error) in
+                hud.hide()
                 if let error = error {
-                    self.handleWebCallback(json: json, error: error)
+                    showError(error)
+                    return
                 }
                 self.navigationController?.popToRootViewController(animated: true)
                 
             }
         } else { // 重置
+            let hud = ivLoadingHud()
             IVAccountMgr.shared
                 .resetPasswordBy(email: emailTextField.text ?? "",
                                  password: emailPasswordTextfiled.text ?? "",
                                  verificationCode: emailVerificationCodeTextField.text ?? "") { (json, error) in
+                                    hud.hide()
                                     if let error = error {
-                                        self.handleWebCallback(json: json, error: error)
+                                        showError(error)
                                     }
                                     self.navigationController?.popToRootViewController(animated: true)
             }
@@ -70,8 +74,11 @@ class IVRegisterEmailVC: UIViewController {
     
     @IBAction func sendEmailVerCode(_ sender: UIButton) {
         sender.isEnabled = false
+        let hud = ivLoadingHud()
         IVAccountMgr.shared.getVerificationCode(for: .email(emailTextField.text ?? ""), checkType: comeInType) { (json, error) in
+            hud.hide()
             sender.isEnabled = true
+            handleWebCallback(json: json, error: error)
         }
         
     }
@@ -85,18 +92,4 @@ class IVRegisterEmailVC: UIViewController {
      }
      */
     
-    func handleWebCallback(json: String?, error: Error?) {
-        if let error = error {
-            self.showAlert(msg: "\(error)")
-            return
-        }
-        self.showAlert(msg: json!)
-    }
-    
-    func showAlert(msg: String?) {
-        let alert = UIAlertController(title: "请求结果", message: msg, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alert.addAction(ok)
-        self.present(alert, animated: true, completion: nil)
-    }
 }

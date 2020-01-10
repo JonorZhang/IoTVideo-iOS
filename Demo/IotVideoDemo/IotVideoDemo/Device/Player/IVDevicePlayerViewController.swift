@@ -38,11 +38,11 @@ class MyViewController: UIViewController, IVMessageDelegate {
         IVMessageMgr.sharedInstance.delegate = self
     }
     
-    func didReceiveEventMessage(_ message: String, topic: String) {
-        // do something here
+    func didReceiveEvent(_ event: String, topic: String) {
+        logInfo(event, topic)
     }
     
-    func didReceiveStatusMessage(_ message: IVMessage) {
-        // do something here
+    func didUpdateStatus(_ json: String, path: String, deviceId: String) {
+        logInfo(json, path, deviceId)
     }
 }

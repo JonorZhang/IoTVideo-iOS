@@ -13,6 +13,8 @@ import IoTVideo
 let demo_ivTokenKey    = "IOT_VIDEO_DEMO_IVTOKEN"
 let demo_accessIdKey   = "IOT_VIDEO_DEMO_ACCESSID"
 let demo_expireTimeKey = "IOT_VIDEO_DEMO_EXPIRE_TIME"
+let demo_userName      = "IOT_VIDEO_DEMO_USER_NAME"
+let demo_deviceToken   = "IOT_VIDEO_DEMI_DEVICE_TOKEN"
 
 class IVLoginVC: UIViewController {    
     @IBOutlet weak var accountTextField: UITextField!
@@ -27,22 +29,30 @@ class IVLoginVC: UIViewController {
     }
     
     @IBAction func login(_ sender: Any) {
+        let hud = ivLoadingHud(isMask: true)
         IVAccountMgr.shared.login(account: accountTextField.text ?? "", password: pwdAccount.text ?? "") { (json, error) in
+            hud.hide()
             if let error = error {
-                self.handleWebCallback(json: json, error: error)
+                showError(error)
                 return
             }
             let model = IVJson.decode(json: json!, type: IVModel<LoginModel>.self)
             if let ivToken = model?.data?.ivToken, let accessId = model?.data?.accessId {
                 IoTVideo.sharedInstance.setupToken(ivToken, accessId: accessId)
                 let expireTime = model?.data?.expireTime
+                let userName = model?.data?.nick
                 UserDefaults.standard.do {
-                    $0.set(ivToken, forKey: demo_ivTokenKey)
-                    $0.set(accessId, forKey: demo_accessIdKey)
+                    $0.set(ivToken,    forKey: demo_ivTokenKey)
+                    $0.set(accessId,   forKey: demo_accessIdKey)
                     $0.set(expireTime, forKey: demo_expireTimeKey)
+                    $0.set(userName,   forKey: demo_userName)
+                }
+                
+                let token = UserDefaults.standard.string(forKey: demo_deviceToken)
+                IVNetwork.shared.request(methodType: .PUT, urlString: "user/pushTokenBind", params: ["xingeToken": token]) { (json, error) in
+                    
                 }
                 self.dismiss(animated: true, completion: nil)
-                
             }
         }
     }
@@ -69,20 +79,6 @@ class IVLoginVC: UIViewController {
                 vc.comeInType = .findBackPwd
             }
         }
-    }
-    func handleWebCallback(json: String?, error: Error?) {
-        if let error = error {
-            self.showAlert(msg: "\(error)")
-            return
-        }
-        self.showAlert(msg: json!)
-    }
-    
-    func showAlert(msg: String?) {
-        let alert = UIAlertController(title: "请求结果", message: msg, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alert.addAction(ok)
-        self.present(alert, animated: true, completion: nil)
     }
 }
 

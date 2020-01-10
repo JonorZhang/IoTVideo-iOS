@@ -33,7 +33,7 @@ class IVQRcodeScanVC: UIViewController {
                 IVAccountMgr.shared.getQRCodeSharingInfo(QRCodeToken: string) { (json, error) in
                     if let error = error {
                         print(error)
-                        showAlert(msg: "\(error)")
+                        showError(error)
                         return
                     }
                     print(json!)

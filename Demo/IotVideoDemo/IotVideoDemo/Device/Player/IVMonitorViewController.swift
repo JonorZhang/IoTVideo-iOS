@@ -22,7 +22,7 @@ class IVMonitorViewController: IVDevicePlayerViewController {
     @IBOutlet weak var screenshotBtn: UIButton!
     
     var monitorPlayer: IVMonitorPlayer {
-        get { player as! IVMonitorPlayer }
+        get { return player as! IVMonitorPlayer }
         set { player = newValue }
     }
     
@@ -176,7 +176,7 @@ extension IVMonitorViewController: IVPlayerDelegate {
     }
     
     func player(_ player: IVPlayer, didReceive avHeader: IVAVHeader) {
-        logInfo(avHeader)
+        //logInfo(avHeader)
     }
     
     func player(_ player: IVPlayer, didReceiveUserData userData: Data) {

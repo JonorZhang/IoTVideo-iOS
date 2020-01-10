@@ -50,94 +50,94 @@ class IVVasAPITestVC: UITableViewController {
         switch dataArray[indexPath.row] {
         case .packageHotList:
             IVRequest.queryPackageHotList(countryCode: "CN", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .packageList:
             IVRequest.queryPackageList(countryCode: "CN", serviceType: .evs, responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .serviceOutLine:
             IVRequest.queryServiceOutline(deviceId: "", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .serviceList:
             IVRequest.queryServiceList(deviceId: "", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .createOrder:
             IVRequest.createOrder(deviceId: "", packageNo: "", couponCode: "", timezone: NSTimeZone.system.secondsFromGMT(), responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .orderInfo:
             IVRequest.queryOrderInfo(orderId: "", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .orderList:
             IVRequest.queryOrderList(deviceId: "", orderStatus: .paid, responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .orderOverview:
             IVRequest.queryOrderOverview(deviceId: "0000", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .createPayment:
             IVRequest.createPayment(orderId: "", payType: .wxpay, responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .paymentResult:
             IVRequest.queryPaymentResult(orderId: "", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .cloudList:
             IVRequest.getVideoList(deviceId: "", timezone: NSTimeZone.system.secondsFromGMT(), responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .cloudPlayback:
             let dateTime = "\(getZeroTimeInterval(Date()))"
             IVRequest.getVideoPlaybackList(deviceId: "", timezone: NSTimeZone.system.secondsFromGMT(), dateTime: dateTime, responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .cloudSpeedPlay:
             IVRequest.videoSpeedPlay(deviceId: "", startTime: "\(Date().timeIntervalSince1970 - 300)", speed: 2, responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .cloudDownload:
             IVRequest.downloadVideo(deviceId: "", timezone: NSTimeZone.system.secondsFromGMT(), dateTime: "\(getZeroTimeInterval(Date()))", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .eventList:
             
             IVRequest.getEventList(deviceId: "", startTime: "\(getZeroTimeInterval(Date()))", endTime: "\(Date().timeIntervalSince1970)", lastId: 1, pageSize: 20, responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
             
         case .eventDelete:
             IVRequest.deleteEvents(eventIds: [1001,1002,1003], responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .couponOwner:
             IVRequest.queryOwnedCouponList(responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .couponPromotion:
             IVRequest.queryPromotionList(responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .couponReceive:
             IVRequest.receiveCoupons(couponIds: ["1001","1002"], responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .couponAvailable:
             IVRequest.queryAvailableCouponList(packageNo: "", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .voucherInfo:
             IVRequest.queryVoucher(voucherCode: "", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .voucherExchange:
             IVRequest.useVoucher(deviceId: "000", voucherCode: "", timezone: NSTimeZone.system.secondsFromGMT(), responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
             //        default:
             //            print("暂未实现")
@@ -169,21 +169,6 @@ extension IVVasAPITestVC {
                      .couponAvailable,
                      .voucherInfo,
                      .voucherExchange]
-    }
-    
-    func handleWebCallback(json: String?, error: Error?) {
-        if let error = error {
-            self.showAlert(msg: "\(error)")
-            return
-        }
-        self.showAlert(msg: json!)
-    }
-    
-    func showAlert(msg: String?) {
-        let alert = UIAlertController(title: "请求结果", message: msg, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alert.addAction(ok)
-        self.present(alert, animated: true, completion: nil)
     }
     
     /// 获取某一日的零时零分时间戳

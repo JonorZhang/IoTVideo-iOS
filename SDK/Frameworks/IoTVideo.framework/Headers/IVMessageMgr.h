@@ -10,42 +10,27 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, IVMessageType) {
-    IVMessageTypeEV = 0,  //!<  通知
-    IVMessageTypeFP = 1,  //!<  通知
-    IVMessageTypeST = 2,  //!<  通知 / 读
-    IVMessageTypeCO = 3,  //!<  通知 / 写
-    IVMessageTypeSP = 4,  //!<  通知 / 读 / 写
-};
+#define IVMsgTimeoutAuto  0.0
 
-@interface IVMessage : NSObject
-/// 设备ID
-@property (nonatomic, strong) NSString *deviceId;
-/// 消息类型
-@property (nonatomic, assign) IVMessageType type;
-/// 路径（JSON的叶子节点路径）
-@property (nonatomic, strong) NSString *path;
-/// 内容（JSON的具体字符串）
-@property (nonatomic, strong) NSString *data;
-
-@end
-
-typedef void(^IVMessageCallback)(IVMessage * _Nullable message, NSError * _Nullable error);
-
+typedef void(^IVMsgJSONCallback)(NSString * _Nullable json, NSError * _Nullable error);
+typedef void(^IVMsgDataCallback)(NSData * _Nullable data, NSError * _Nullable error);
 
 @class IVMessageMgr;
 
 /// 消息代理协议
 @protocol IVMessageDelegate <NSObject>
 
+@optional
 /// 接收到事件消息（EVT）:  告警、分享、系统通知
-/// @param message 事件消息体
+/// @param event 事件消息体
 /// @param topic 请参照物模型定义
-- (void)didReceiveEventMessage:(NSString *)message topic:(NSString *)topic;
+- (void)didReceiveEvent:(NSString *)event topic:(NSString *)topic;
 
 /// 接收到状态消息（ST）
-/// @param message 消息体
-- (void)didReceiveStatusMessage:(IVMessage *)message;
+/// @param json 内容（JSON的具体字符串）
+/// @param path 路径（JSON的叶子节点）
+/// @param deviceId 设备ID
+- (void)didUpdateStatus:(NSString *)json path:(NSString *)path deviceId:(NSString *)deviceId;
 
 @end
 
@@ -60,80 +45,107 @@ typedef void(^IVMessageCallback)(IVMessage * _Nullable message, NSError * _Nulla
 /// 消息代理
 @property (nonatomic, weak) id<IVMessageDelegate> delegate;
 
-/// 消息超时时间，默认10秒
-@property (nonatomic, assign) NSTimeInterval timeout;
+/// 全局消息默认超时时间，10秒，不可修改 单个消息可以单独设置
+@property (nonatomic, assign, readonly) NSTimeInterval defaultTimeout;
 
-/// 注册离线消息
-/// @param deviceToken APNs返回的deviceToken
-/// @param completionHandler 完成回调
-- (void)registerForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-                                    completionHandler:(nullable void(^)(NSString * _Nullable json, NSError * _Nullable error))completionHandler;
 
-#pragma mark - 便利方法
+#pragma mark - 物模型方法
 
-/// 控制/操作设备（CO）
+/// 物模型设置
 /// @param deviceId 设备ID
-/// @param path JSON的叶子节点路径
-/// @param data JSON数据内容
+/// @param path 路径（JSON的叶子节点）
+/// @param json  内容（JSON的具体字符串）
 /// @param completionHandler 完成回调
-- (void)controlDevice:(NSString *)deviceId
-                 path:(NSString *)path
-                 data:(NSString *)data
-    completionHandler:(nullable IVMessageCallback)completionHandler;
+- (void)setDataToDevice:(NSString *)deviceId
+                   path:(NSString *)path
+                   json:(NSString *)json
+      completionHandler:(nullable IVMsgJSONCallback)completionHandler;
 
-/// 设置设备参数（SP）
+/// 物模型设置
 /// @param deviceId 设备ID
-/// @param path JSON的叶子节点路径
-/// @param data JSON数据内容
-/// @param completionHandler 完成回调
-- (void)setParameterToDevice:(NSString *)deviceId
-                        path:(NSString *)path
-                        data:(NSString *)data
-           completionHandler:(nullable IVMessageCallback)completionHandler;
-
-/// 获取设备状态（ST）
-/// @param deviceId 设备ID
-/// @param path JSON的叶子节点路径
-/// @param completionHandler 完成回调
-- (void)getStatusFromDevice:(NSString *)deviceId
-                       path:(NSString *)path
-          completionHandler:(nullable IVMessageCallback)completionHandler;
-
-/// 获取设备参数（SP）
-/// @param deviceId 设备ID
-/// @param path JSON的叶子节点路径
-/// @param completionHandler 完成回调
-- (void)getParameterFromDevice:(NSString *)deviceId
-                          path:(NSString *)path
-             completionHandler:(nullable IVMessageCallback)completionHandler;
-
-#pragma mark - 自定义方法
-
-/// 发送消息
-/// @param deviceId 设备ID
-/// @param path JSON的叶子节点路径
-/// @param data JSON数据内容
-/// @param type 具有`写属性`的类型
+/// @param path 路径（JSON的叶子节点）
+/// @param json  内容（JSON的具体字符串）
 /// @param timeout 超时时间
 /// @param completionHandler 完成回调
 - (void)setDataToDevice:(NSString *)deviceId
                    path:(NSString *)path
-                   data:(NSString *)data
-                   type:(IVMessageType)type
+                   json:(NSString *)json
                 timeout:(NSTimeInterval)timeout
-      completionHandler:(nullable IVMessageCallback)completionHandler;
+      completionHandler:(nullable IVMsgJSONCallback)completionHandler;
 
-/// 获取消息
+/// 物模型获取
 /// @param deviceId 设备ID
-/// @param path JSON的叶子节点路径
-/// @param type 具有`读属性`的类型
+/// @param path 路径（JSON的叶子节点）
+/// @param completionHandler 完成回调
+- (void)getDataForDevice:(NSString *)deviceId
+                    path:(NSString *)path
+       completionHandler:(nullable IVMsgJSONCallback)completionHandler;
+
+/// 物模型获取
+/// @param deviceId 设备ID
+/// @param path 路径（JSON的叶子节点）
 /// @param timeout 超时时间
 /// @param completionHandler 完成回调
-- (void)getDataFromDevice:(NSString *)deviceId
-                     path:(NSString *)path
-                     type:(IVMessageType)type
-                  timeout:(NSTimeInterval)timeout
-        completionHandler:(nullable IVMessageCallback)completionHandler;
+- (void)getDataForDevice:(NSString *)deviceId
+                    path:(NSString *)path
+                 timeout:(NSTimeInterval)timeout
+       completionHandler:(nullable IVMsgJSONCallback)completionHandler;
+
+
+#pragma mark - 透传消息方法
+
+/// 透传数据给设备（无数据回传）
+/// 使用在不需要数据回传的场景，如发送控制指令
+/// @note 完成回调条件：收到ACK 或 消息超时
+/// @param deviceId 设备ID
+/// @param data 数据内容
+/// @param completionHandler 完成回调
+- (void)sendDataToDevice:(NSString *)deviceId
+                    data:(NSData *)data
+         withoutResponse:(nullable IVMsgDataCallback)completionHandler;
+
+/// 透传数据给设备（有数据回传）
+/// 使用在预期有数据回传的场景，如获取信息
+/// @note 完成回调条件：收到ACK错误、消息超时 或 有数据回传
+/// @param deviceId 设备ID
+/// @param data 数据内容
+/// @param completionHandler 完成回调
+- (void)sendDataToDevice:(NSString *)deviceId
+                    data:(NSData *)data
+            withResponse:(nullable IVMsgDataCallback)completionHandler;
+
+/// 透传数据给设备
+/// 可使用在需要数据回传的场景，如获取信息
+/// @note 可以等待有数据回传时才完成回调, 如忽略数据回传可简单使用`sendDataToDevice:data:completionHandler:`代替。
+/// @param deviceId 设备ID
+/// @param data 数据内容
+/// @param timeout 自定义超时时间，默认超时时间可使用@c `IVMsgTimeoutAuto`
+/// @param expectResponse 【YES】预期有数据回传 ；【NO】忽略数据回传
+/// @param completionHandler 完成回调
+- (void)sendDataToDevice:(NSString *)deviceId
+                    data:(NSData *)data
+                 timeout:(NSTimeInterval)timeout
+          expectResponse:(BOOL)expectResponse
+       completionHandler:(nullable IVMsgDataCallback)completionHandler;
+
+
+/// 透传数据给服务器
+/// @param url 服务器路径
+/// @param data 数据内容
+/// @param completionHandler 完成回调
+- (void)sendDataToServer:(NSString *)url
+                    data:(nullable NSData *)data
+       completionHandler:(nullable IVMsgDataCallback)completionHandler;
+
+/// 透传数据给服务器
+/// @param url 服务器路径
+/// @param data 数据内容
+/// @param timeout 超时时间
+/// @param completionHandler 完成回调
+- (void)sendDataToServer:(NSString *)url
+                    data:(nullable NSData *)data
+                 timeout:(NSTimeInterval)timeout
+       completionHandler:(nullable IVMsgDataCallback)completionHandler;
 
 @end
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 /// 解析JSon
 class IVJson: NSObject {
@@ -53,4 +54,23 @@ struct IVArrayModel<T: Codable>: Codable {
     var data: [T?]?
     var code: Int = 0
     var msg: String?
+}
+
+extension JSON {
+    func value(_ path: String) -> JSON? {
+        let json = self
+        let subpaths = path.split(separator: ".", maxSplits: 1)
+        if subpaths.count == 1 {
+            let leaf = String(subpaths[0])
+            return json[leaf]
+        } else if subpaths.count > 1 {
+            let leaf = String(subpaths[0])
+            let newpath = String(subpaths[1])
+            let newjson = json[leaf]
+            return newjson.value(newpath)
+        } else {
+            return nil
+        }
+    }
+    
 }

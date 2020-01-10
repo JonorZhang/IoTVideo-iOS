@@ -51,27 +51,30 @@ class IVRegisterVC: UIViewController {
             //                          ivCid: "") { (json, error) in
             //
             //            }
-            
+            let hud = ivLoadingHud()
             IVAccountMgr.shared
                 .register(by: .mobile(phoneNumberTextField.text ?? "", mobileArea: areaCodeTextField.text ?? ""),
                           password: phPasswordTextField.text ?? "",
                           verificationCode: phVerificationCodeTextField.text ?? "")
                 { (json, error) in
+                    hud.hide()
                     if let error = error {
-                        self.handleWebCallback(json: json, error: error)
+                        showError(error)
                         return
                     }
                     self.navigationController?.popViewController(animated: true)
                     
             }
         } else { // 重置
+            let hud = ivLoadingHud()
             IVAccountMgr.shared
                 .resetPasswordBy(mobile: phoneNumberTextField.text ?? "",
                                  mobileArea: areaCodeTextField.text ?? "",
                                  password: phPasswordTextField.text ?? "",
                                  verificationCode: phVerificationCodeTextField.text ?? "") { (json, error) in
+                                    hud.hide()
                                     if let error = error {
-                                        self.handleWebCallback(json: json, error: error)
+                                        showError(error)
                                         return
                                     }
                                     self.navigationController?.popViewController(animated: true)
@@ -89,6 +92,7 @@ class IVRegisterVC: UIViewController {
         sender.isEnabled = false
         IVAccountMgr.shared.getVerificationCode(for: .mobile(phoneNumberTextField.text ?? "", mobileArea: areaCodeTextField.text ?? ""), checkType: comeInType) { (json, error) in
             sender.isEnabled = true
+            handleWebCallback(json: json, error: error)
         }
     }
     
@@ -106,22 +110,6 @@ class IVRegisterVC: UIViewController {
             vc.comeInType = self.comeInType
         }
     }
-    
-    func handleWebCallback(json: String?, error: Error?) {
-        if let error = error {
-            self.showAlert(msg: "\(error)")
-            return
-        }
-        self.showAlert(msg: json!)
-    }
-    
-    func showAlert(msg: String?) {
-        let alert = UIAlertController(title: "请求结果", message: msg, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alert.addAction(ok)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
 }
 
 struct RegisterJson: Codable {

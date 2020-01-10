@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IVMonitorPlayer : IVPlayer
 
+- (instancetype)initWithDeviceId:(NSString *)deviceId;
+
 /// 是否正在对讲
 @property (nonatomic, assign, readonly) BOOL isTalking;
 

@@ -3,51 +3,58 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		9B3DA75C9528BB7110B59A1E /* Pods_IotVideoDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F2057A9D56E920A4E39BA18 /* Pods_IotVideoDemo.framework */; };
-		D589047323A9BA4C0082BD17 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D589047223A9BA4C0082BD17 /* Login.storyboard */; };
-		D589047623A9BB380082BD17 /* IVDeviceAccess.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D589047523A9BB380082BD17 /* IVDeviceAccess.storyboard */; };
-		D589047823A9BC530082BD17 /* IVDevice.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D589047723A9BC530082BD17 /* IVDevice.storyboard */; };
-		D589047A23A9CBAA0082BD17 /* IVQRCodeAddDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = D589047923A9CBAA0082BD17 /* IVQRCodeAddDevice.swift */; };
-		D58FB6E123AA48440091361E /* IVDeviceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58FB6E023AA48440091361E /* IVDeviceTableViewController.swift */; };
-		D58FB6E323AB522B0091361E /* IVShareDeviceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58FB6E223AB522B0091361E /* IVShareDeviceTableViewController.swift */; };
-		D58FB6E523AB53330091361E /* IVShareDeviceByAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58FB6E423AB53330091361E /* IVShareDeviceByAccountVC.swift */; };
 		D59BF32223A27B1E007270B1 /* WoodPeckeriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D59BF32023A27B14007270B1 /* WoodPeckeriOS.framework */; };
 		D59BF32323A27B1E007270B1 /* WoodPeckeriOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D59BF32023A27B14007270B1 /* WoodPeckeriOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D5C7223123839B9600585D33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C7223023839B9600585D33 /* AppDelegate.swift */; };
 		D5C7223623839B9600585D33 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5C7223423839B9600585D33 /* Main.storyboard */; };
 		D5C7223823839B9700585D33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5C7223723839B9700585D33 /* Assets.xcassets */; };
 		D5C7223B23839B9700585D33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5C7223923839B9700585D33 /* LaunchScreen.storyboard */; };
-		D5D058192395134100326515 /* IVJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D058182395134100326515 /* IVJson.swift */; };
-		D5E14E502397A08A004DA11C /* IVApiFormatTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E14E4F2397A08A004DA11C /* IVApiFormatTest.m */; };
-		D5E4B3E023975A8C00DDA80A /* IVLiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E4B3DF23975A8C00DDA80A /* IVLiveViewController.swift */; };
 		D5E4B3E523975C7200DDA80A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E4B3E423975C7200DDA80A /* AudioToolbox.framework */; };
 		D5E4B3E723975C7A00DDA80A /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E4B3E623975C7A00DDA80A /* CoreMedia.framework */; };
 		D5E4B3E923975C8600DDA80A /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E4B3E823975C8600DDA80A /* VideoToolbox.framework */; };
-		D5F040012394F1F400120D99 /* IVLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F040002394F1F400120D99 /* IVLoginVC.swift */; };
-		D5F040042394F21600120D99 /* IVRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F040032394F21600120D99 /* IVRegisterVC.swift */; };
-		D5F040062394F34E00120D99 /* IVAccountAPITestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F040052394F34E00120D99 /* IVAccountAPITestVC.swift */; };
-		D5FB5B372395F45E00C9D737 /* IVRegisterEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FB5B362395F45E00C9D737 /* IVRegisterEmailVC.swift */; };
 		D5FB5B3B2396129000C9D737 /* IVTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FB5B3A2396129000C9D737 /* IVTabBarViewController.swift */; };
-		D5FB5B3D2396132300C9D737 /* IVVasAPITestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FB5B3C2396132300C9D737 /* IVVasAPITestVC.swift */; };
-		D5FB5B40239661E500C9D737 /* IVShareDeviceByQRCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FB5B3F239661E500C9D737 /* IVShareDeviceByQRCodeVC.swift */; };
-		D5FB5B42239661FA00C9D737 /* IVQRcodeScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FB5B41239661FA00C9D737 /* IVQRcodeScanVC.swift */; };
-		EA23228123AB61C60099185B /* IVPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA23228023AB61C60099185B /* IVPopupView.swift */; };
-		EA23228323AB61FB0099185B /* UIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA23228223AB61FB0099185B /* UIControl.swift */; };
-		EA23228523AB62060099185B /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA23228423AB62050099185B /* UIColor.swift */; };
-		EA23228723AB62580099185B /* IVLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA23228623AB62580099185B /* IVLogger.swift */; };
-		EA25897623B5DC4D003B7008 /* IVApiFormatTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA25897523B5DC4D003B7008 /* IVApiFormatTest.swift */; };
-		EA60A1F823A78BC100217628 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA60A1F723A78BC100217628 /* UIDevice.swift */; };
-		EA9E3E2C23A0CC840067FAAD /* IVMonitorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9E3E2B23A0CC840067FAAD /* IVMonitorViewController.swift */; };
-		EA9E3E2E23A0CC980067FAAD /* IVPlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA9E3E2D23A0CC980067FAAD /* IVPlaybackViewController.swift */; };
-		EABF010B23B2F8BB0020C181 /* IVDevicePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABF010A23B2F8BB0020C181 /* IVDevicePlayerViewController.swift */; };
-		EAD1D42D23A8FFAE0008BA65 /* IVLANDeviceTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD1D42C23A8FFAE0008BA65 /* IVLANDeviceTableVC.swift */; };
-		EAD1D42F23A9E6380008BA65 /* IVMineDeviceTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD1D42E23A9E6380008BA65 /* IVMineDeviceTableVC.swift */; };
-		EAD1D43123A9EADD0008BA65 /* IVDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD1D43023A9EADD0008BA65 /* IVDevice.swift */; };
-		EAD1D43323A9EB120008BA65 /* IVDeviceAccessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD1D43223A9EB120008BA65 /* IVDeviceAccessVC.swift */; };
+		EA14EB5423C819A60038798B /* IVAccountAPITestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2123C819A50038798B /* IVAccountAPITestVC.swift */; };
+		EA14EB5523C819A60038798B /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA14EB2323C819A50038798B /* Login.storyboard */; };
+		EA14EB5623C819A60038798B /* IVRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2423C819A50038798B /* IVRegisterVC.swift */; };
+		EA14EB5723C819A60038798B /* IVRegisterEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2523C819A50038798B /* IVRegisterEmailVC.swift */; };
+		EA14EB5823C819A60038798B /* IVLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2623C819A50038798B /* IVLoginVC.swift */; };
+		EA14EB5923C819A60038798B /* IVMsgSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2923C819A50038798B /* IVMsgSetVC.swift */; };
+		EA14EB5A23C819A60038798B /* IVMsgGetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2A23C819A50038798B /* IVMsgGetVC.swift */; };
+		EA14EB5B23C819A60038798B /* msgFile.json in Resources */ = {isa = PBXBuildFile; fileRef = EA14EB2B23C819A50038798B /* msgFile.json */; };
+		EA14EB5C23C819A60038798B /* IVDeviceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2C23C819A50038798B /* IVDeviceTableViewController.swift */; };
+		EA14EB5D23C819A60038798B /* IVDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2D23C819A50038798B /* IVDevice.swift */; };
+		EA14EB5E23C819A60038798B /* IVMineDeviceTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2E23C819A50038798B /* IVMineDeviceTableVC.swift */; };
+		EA14EB5F23C819A60038798B /* IVQRCodeAddDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2F23C819A50038798B /* IVQRCodeAddDevice.swift */; };
+		EA14EB6023C819A60038798B /* IVDeviceAccessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3023C819A50038798B /* IVDeviceAccessVC.swift */; };
+		EA14EB6123C819A60038798B /* IVLANDeviceTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3123C819A50038798B /* IVLANDeviceTableVC.swift */; };
+		EA14EB6223C819A60038798B /* IVDevice.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA14EB3223C819A50038798B /* IVDevice.storyboard */; };
+		EA14EB6323C819A60038798B /* IVSharedListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3423C819A50038798B /* IVSharedListVC.swift */; };
+		EA14EB6423C819A60038798B /* IVShareDeviceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3523C819A50038798B /* IVShareDeviceTableViewController.swift */; };
+		EA14EB6523C819A60038798B /* IVShareDeviceByQRCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3623C819A50038798B /* IVShareDeviceByQRCodeVC.swift */; };
+		EA14EB6623C819A60038798B /* IVQRcodeScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3723C819A50038798B /* IVQRcodeScanVC.swift */; };
+		EA14EB6723C819A60038798B /* IVShareDeviceByAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3823C819A50038798B /* IVShareDeviceByAccountVC.swift */; };
+		EA14EB6823C819A60038798B /* IVDeviceAccess.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA14EB3923C819A50038798B /* IVDeviceAccess.storyboard */; };
+		EA14EB6A23C819A60038798B /* IVLiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3C23C819A60038798B /* IVLiveViewController.swift */; };
+		EA14EB6B23C819A60038798B /* IVPlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3D23C819A60038798B /* IVPlaybackViewController.swift */; };
+		EA14EB6C23C819A60038798B /* IVDevicePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3E23C819A60038798B /* IVDevicePlayerViewController.swift */; };
+		EA14EB6D23C819A60038798B /* IVMonitorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3F23C819A60038798B /* IVMonitorViewController.swift */; };
+		EA14EB6E23C819A60038798B /* IVPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4223C819A60038798B /* IVPopupView.swift */; };
+		EA14EB6F23C819A60038798B /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4323C819A60038798B /* UIColor.swift */; };
+		EA14EB7023C819A60038798B /* IVJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4423C819A60038798B /* IVJson.swift */; };
+		EA14EB7123C819A60038798B /* IVApiFormatTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4523C819A60038798B /* IVApiFormatTest.m */; };
+		EA14EB7223C819A60038798B /* IVHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4623C819A60038798B /* IVHud.swift */; };
+		EA14EB7323C819A60038798B /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4723C819A60038798B /* UIDevice.swift */; };
+		EA14EB7423C819A60038798B /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4823C819A60038798B /* Foundation.swift */; };
+		EA14EB7523C819A60038798B /* IVTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4923C819A60038798B /* IVTimelineView.swift */; };
+		EA14EB7623C819A60038798B /* IVLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4A23C819A60038798B /* IVLogger.swift */; };
+		EA14EB7723C819A60038798B /* IVApiFormatTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4B23C819A60038798B /* IVApiFormatTest.swift */; };
+		EA14EB7823C819A60038798B /* UIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4C23C819A60038798B /* UIControl.swift */; };
+		EA14EB7D23C819A60038798B /* IVVasAPITestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB5323C819A60038798B /* IVVasAPITestVC.swift */; };
 		EAE59C4223BA320100808D31 /* IoTVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2E23BA31CA00808D31 /* IoTVideo.framework */; };
 		EAE59C4323BA320100808D31 /* IoTVideo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2E23BA31CA00808D31 /* IoTVideo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EAE59C4423BA320100808D31 /* IVAccountMgr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C3023BA31CB00808D31 /* IVAccountMgr.framework */; };
@@ -105,13 +112,6 @@
 		2F2057A9D56E920A4E39BA18 /* Pods_IotVideoDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IotVideoDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF004ACBB39C6212BA81A65 /* Pods-IotVideoAccontMgrDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoAccontMgrDemo.release.xcconfig"; path = "Target Support Files/Pods-IotVideoAccontMgrDemo/Pods-IotVideoAccontMgrDemo.release.xcconfig"; sourceTree = "<group>"; };
 		D547B464238D52D800A4478F /* IotVideoDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IotVideoDemo-Bridging-Header.h"; sourceTree = "<group>"; };
-		D589047223A9BA4C0082BD17 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
-		D589047523A9BB380082BD17 /* IVDeviceAccess.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = IVDeviceAccess.storyboard; sourceTree = "<group>"; };
-		D589047723A9BC530082BD17 /* IVDevice.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = IVDevice.storyboard; sourceTree = "<group>"; };
-		D589047923A9CBAA0082BD17 /* IVQRCodeAddDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVQRCodeAddDevice.swift; sourceTree = "<group>"; };
-		D58FB6E023AA48440091361E /* IVDeviceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVDeviceTableViewController.swift; sourceTree = "<group>"; };
-		D58FB6E223AB522B0091361E /* IVShareDeviceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVShareDeviceTableViewController.swift; sourceTree = "<group>"; };
-		D58FB6E423AB53330091361E /* IVShareDeviceByAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVShareDeviceByAccountVC.swift; sourceTree = "<group>"; };
 		D59BF32023A27B14007270B1 /* WoodPeckeriOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WoodPeckeriOS.framework; sourceTree = "<group>"; };
 		D5C7222D23839B9600585D33 /* IotVideoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IotVideoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5C7223023839B9600585D33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -119,37 +119,51 @@
 		D5C7223723839B9700585D33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D5C7223A23839B9700585D33 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D5C7223C23839B9700585D33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D5D058182395134100326515 /* IVJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVJson.swift; sourceTree = "<group>"; };
-		D5E14E4E2397A08A004DA11C /* IVApiFormatTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IVApiFormatTest.h; sourceTree = "<group>"; };
-		D5E14E4F2397A08A004DA11C /* IVApiFormatTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IVApiFormatTest.m; sourceTree = "<group>"; };
-		D5E4B3DF23975A8C00DDA80A /* IVLiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLiveViewController.swift; sourceTree = "<group>"; };
 		D5E4B3E423975C7200DDA80A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D5E4B3E623975C7A00DDA80A /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		D5E4B3E823975C8600DDA80A /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		D5E4B3EA23975C8F00DDA80A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		D5F040002394F1F400120D99 /* IVLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVLoginVC.swift; sourceTree = "<group>"; };
-		D5F040032394F21600120D99 /* IVRegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVRegisterVC.swift; sourceTree = "<group>"; };
-		D5F040052394F34E00120D99 /* IVAccountAPITestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVAccountAPITestVC.swift; sourceTree = "<group>"; };
-		D5FB5B362395F45E00C9D737 /* IVRegisterEmailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVRegisterEmailVC.swift; sourceTree = "<group>"; };
 		D5FB5B3A2396129000C9D737 /* IVTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVTabBarViewController.swift; sourceTree = "<group>"; };
-		D5FB5B3C2396132300C9D737 /* IVVasAPITestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVVasAPITestVC.swift; sourceTree = "<group>"; };
-		D5FB5B3F239661E500C9D737 /* IVShareDeviceByQRCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVShareDeviceByQRCodeVC.swift; sourceTree = "<group>"; };
-		D5FB5B41239661FA00C9D737 /* IVQRcodeScanVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVQRcodeScanVC.swift; sourceTree = "<group>"; };
 		DACD94A089C77B105D17650E /* Pods-IotVideoAccontMgrDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoAccontMgrDemo.debug.xcconfig"; path = "Target Support Files/Pods-IotVideoAccontMgrDemo/Pods-IotVideoAccontMgrDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		DD572BAB8010505F98B3D510 /* Pods-IotVideoDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoDemo.debug.xcconfig"; path = "../../../Pods/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		EA23228023AB61C60099185B /* IVPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVPopupView.swift; sourceTree = "<group>"; };
-		EA23228223AB61FB0099185B /* UIControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIControl.swift; sourceTree = "<group>"; };
-		EA23228423AB62050099185B /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
-		EA23228623AB62580099185B /* IVLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLogger.swift; sourceTree = "<group>"; };
-		EA25897523B5DC4D003B7008 /* IVApiFormatTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVApiFormatTest.swift; sourceTree = "<group>"; };
-		EA60A1F723A78BC100217628 /* UIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
-		EA9E3E2B23A0CC840067FAAD /* IVMonitorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVMonitorViewController.swift; sourceTree = "<group>"; };
-		EA9E3E2D23A0CC980067FAAD /* IVPlaybackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVPlaybackViewController.swift; sourceTree = "<group>"; };
-		EABF010A23B2F8BB0020C181 /* IVDevicePlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVDevicePlayerViewController.swift; sourceTree = "<group>"; };
-		EAD1D42C23A8FFAE0008BA65 /* IVLANDeviceTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVLANDeviceTableVC.swift; sourceTree = "<group>"; };
-		EAD1D42E23A9E6380008BA65 /* IVMineDeviceTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVMineDeviceTableVC.swift; sourceTree = "<group>"; };
-		EAD1D43023A9EADD0008BA65 /* IVDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVDevice.swift; sourceTree = "<group>"; };
-		EAD1D43223A9EB120008BA65 /* IVDeviceAccessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVDeviceAccessVC.swift; sourceTree = "<group>"; };
+		EA14EB2123C819A50038798B /* IVAccountAPITestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVAccountAPITestVC.swift; sourceTree = "<group>"; };
+		EA14EB2323C819A50038798B /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		EA14EB2423C819A50038798B /* IVRegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVRegisterVC.swift; sourceTree = "<group>"; };
+		EA14EB2523C819A50038798B /* IVRegisterEmailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVRegisterEmailVC.swift; sourceTree = "<group>"; };
+		EA14EB2623C819A50038798B /* IVLoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLoginVC.swift; sourceTree = "<group>"; };
+		EA14EB2923C819A50038798B /* IVMsgSetVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVMsgSetVC.swift; sourceTree = "<group>"; };
+		EA14EB2A23C819A50038798B /* IVMsgGetVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVMsgGetVC.swift; sourceTree = "<group>"; };
+		EA14EB2B23C819A50038798B /* msgFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = msgFile.json; sourceTree = "<group>"; };
+		EA14EB2C23C819A50038798B /* IVDeviceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVDeviceTableViewController.swift; sourceTree = "<group>"; };
+		EA14EB2D23C819A50038798B /* IVDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVDevice.swift; sourceTree = "<group>"; };
+		EA14EB2E23C819A50038798B /* IVMineDeviceTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVMineDeviceTableVC.swift; sourceTree = "<group>"; };
+		EA14EB2F23C819A50038798B /* IVQRCodeAddDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVQRCodeAddDevice.swift; sourceTree = "<group>"; };
+		EA14EB3023C819A50038798B /* IVDeviceAccessVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVDeviceAccessVC.swift; sourceTree = "<group>"; };
+		EA14EB3123C819A50038798B /* IVLANDeviceTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLANDeviceTableVC.swift; sourceTree = "<group>"; };
+		EA14EB3223C819A50038798B /* IVDevice.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IVDevice.storyboard; sourceTree = "<group>"; };
+		EA14EB3423C819A50038798B /* IVSharedListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVSharedListVC.swift; sourceTree = "<group>"; };
+		EA14EB3523C819A50038798B /* IVShareDeviceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVShareDeviceTableViewController.swift; sourceTree = "<group>"; };
+		EA14EB3623C819A50038798B /* IVShareDeviceByQRCodeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVShareDeviceByQRCodeVC.swift; sourceTree = "<group>"; };
+		EA14EB3723C819A50038798B /* IVQRcodeScanVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVQRcodeScanVC.swift; sourceTree = "<group>"; };
+		EA14EB3823C819A50038798B /* IVShareDeviceByAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVShareDeviceByAccountVC.swift; sourceTree = "<group>"; };
+		EA14EB3923C819A50038798B /* IVDeviceAccess.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IVDeviceAccess.storyboard; sourceTree = "<group>"; };
+		EA14EB3C23C819A60038798B /* IVLiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLiveViewController.swift; sourceTree = "<group>"; };
+		EA14EB3D23C819A60038798B /* IVPlaybackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVPlaybackViewController.swift; sourceTree = "<group>"; };
+		EA14EB3E23C819A60038798B /* IVDevicePlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVDevicePlayerViewController.swift; sourceTree = "<group>"; };
+		EA14EB3F23C819A60038798B /* IVMonitorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVMonitorViewController.swift; sourceTree = "<group>"; };
+		EA14EB4123C819A60038798B /* IVApiFormatTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVApiFormatTest.h; sourceTree = "<group>"; };
+		EA14EB4223C819A60038798B /* IVPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVPopupView.swift; sourceTree = "<group>"; };
+		EA14EB4323C819A60038798B /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		EA14EB4423C819A60038798B /* IVJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVJson.swift; sourceTree = "<group>"; };
+		EA14EB4523C819A60038798B /* IVApiFormatTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVApiFormatTest.m; sourceTree = "<group>"; };
+		EA14EB4623C819A60038798B /* IVHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVHud.swift; sourceTree = "<group>"; };
+		EA14EB4723C819A60038798B /* UIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
+		EA14EB4823C819A60038798B /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
+		EA14EB4923C819A60038798B /* IVTimelineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVTimelineView.swift; sourceTree = "<group>"; };
+		EA14EB4A23C819A60038798B /* IVLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLogger.swift; sourceTree = "<group>"; };
+		EA14EB4B23C819A60038798B /* IVApiFormatTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVApiFormatTest.swift; sourceTree = "<group>"; };
+		EA14EB4C23C819A60038798B /* UIControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIControl.swift; sourceTree = "<group>"; };
+		EA14EB5323C819A60038798B /* IVVasAPITestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVVasAPITestVC.swift; sourceTree = "<group>"; };
 		EAE59C1B23BA307F00808D31 /* JZLogger.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JZLogger.xcodeproj; path = JZLogger/JZLogger.xcodeproj; sourceTree = "<group>"; };
 		EAE59C2E23BA31CA00808D31 /* IoTVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IoTVideo.framework; path = ../../SDK/Frameworks/IoTVideo.framework; sourceTree = "<group>"; };
 		EAE59C2F23BA31CB00808D31 /* IVVAS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IVVAS.framework; path = ../../SDK/Frameworks/IVVAS.framework; sourceTree = "<group>"; };
@@ -229,13 +243,13 @@
 		D5C7222F23839B9600585D33 /* IotVideoDemo */ = {
 			isa = PBXGroup;
 			children = (
+				EA14EB2023C819A50038798B /* Account */,
+				EA14EB2723C819A50038798B /* Device */,
+				EA14EB4023C819A60038798B /* Utils */,
+				EA14EB5223C819A60038798B /* VAS */,
 				D5C7223023839B9600585D33 /* AppDelegate.swift */,
 				D5FB5B3A2396129000C9D737 /* IVTabBarViewController.swift */,
 				D5C7223423839B9600585D33 /* Main.storyboard */,
-				D5FB5B3E239661C600C9D737 /* Device */,
-				EA23227E23AB5FD60099185B /* VAS */,
-				EA23227D23AB5FBA0099185B /* Account */,
-				EA23227F23AB60400099185B /* Utils */,
 				D5C7223723839B9700585D33 /* Assets.xcassets */,
 				D5C7223923839B9700585D33 /* LaunchScreen.storyboard */,
 				D5C7223C23839B9700585D33 /* Info.plist */,
@@ -244,79 +258,102 @@
 			path = IotVideoDemo;
 			sourceTree = "<group>";
 		};
-		D5E4B3DC2397580B00DDA80A /* Player */ = {
+		EA14EB2023C819A50038798B /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				EABF010A23B2F8BB0020C181 /* IVDevicePlayerViewController.swift */,
-				D5E4B3DF23975A8C00DDA80A /* IVLiveViewController.swift */,
-				EA9E3E2B23A0CC840067FAAD /* IVMonitorViewController.swift */,
-				EA9E3E2D23A0CC980067FAAD /* IVPlaybackViewController.swift */,
-			);
-			path = Player;
-			sourceTree = "<group>";
-		};
-		D5F040022394F1FE00120D99 /* login */ = {
-			isa = PBXGroup;
-			children = (
-				D5FB5B362395F45E00C9D737 /* IVRegisterEmailVC.swift */,
-				D5F040002394F1F400120D99 /* IVLoginVC.swift */,
-				D5F040032394F21600120D99 /* IVRegisterVC.swift */,
-				D589047223A9BA4C0082BD17 /* Login.storyboard */,
-			);
-			path = login;
-			sourceTree = "<group>";
-		};
-		D5FB5B3E239661C600C9D737 /* Device */ = {
-			isa = PBXGroup;
-			children = (
-				D5E4B3DC2397580B00DDA80A /* Player */,
-				D589047723A9BC530082BD17 /* IVDevice.storyboard */,
-				EAD1D43023A9EADD0008BA65 /* IVDevice.swift */,
-				D589047523A9BB380082BD17 /* IVDeviceAccess.storyboard */,
-				EAD1D43223A9EB120008BA65 /* IVDeviceAccessVC.swift */,
-				D58FB6E023AA48440091361E /* IVDeviceTableViewController.swift */,
-				EAD1D42C23A8FFAE0008BA65 /* IVLANDeviceTableVC.swift */,
-				EAD1D42E23A9E6380008BA65 /* IVMineDeviceTableVC.swift */,
-				D589047923A9CBAA0082BD17 /* IVQRCodeAddDevice.swift */,
-				D5FB5B41239661FA00C9D737 /* IVQRcodeScanVC.swift */,
-				D58FB6E423AB53330091361E /* IVShareDeviceByAccountVC.swift */,
-				D5FB5B3F239661E500C9D737 /* IVShareDeviceByQRCodeVC.swift */,
-				D58FB6E223AB522B0091361E /* IVShareDeviceTableViewController.swift */,
-			);
-			path = Device;
-			sourceTree = "<group>";
-		};
-		EA23227D23AB5FBA0099185B /* Account */ = {
-			isa = PBXGroup;
-			children = (
-				D5F040022394F1FE00120D99 /* login */,
-				D5F040052394F34E00120D99 /* IVAccountAPITestVC.swift */,
+				EA14EB2123C819A50038798B /* IVAccountAPITestVC.swift */,
+				EA14EB2223C819A50038798B /* login */,
 			);
 			path = Account;
 			sourceTree = "<group>";
 		};
-		EA23227E23AB5FD60099185B /* VAS */ = {
+		EA14EB2223C819A50038798B /* login */ = {
 			isa = PBXGroup;
 			children = (
-				D5FB5B3C2396132300C9D737 /* IVVasAPITestVC.swift */,
+				EA14EB2323C819A50038798B /* Login.storyboard */,
+				EA14EB2423C819A50038798B /* IVRegisterVC.swift */,
+				EA14EB2523C819A50038798B /* IVRegisterEmailVC.swift */,
+				EA14EB2623C819A50038798B /* IVLoginVC.swift */,
 			);
-			path = VAS;
+			path = login;
 			sourceTree = "<group>";
 		};
-		EA23227F23AB60400099185B /* Utils */ = {
+		EA14EB2723C819A50038798B /* Device */ = {
 			isa = PBXGroup;
 			children = (
-				D5E14E4E2397A08A004DA11C /* IVApiFormatTest.h */,
-				D5E14E4F2397A08A004DA11C /* IVApiFormatTest.m */,
-				EA25897523B5DC4D003B7008 /* IVApiFormatTest.swift */,
-				D5D058182395134100326515 /* IVJson.swift */,
-				EA60A1F723A78BC100217628 /* UIDevice.swift */,
-				EA23228423AB62050099185B /* UIColor.swift */,
-				EA23228623AB62580099185B /* IVLogger.swift */,
-				EA23228223AB61FB0099185B /* UIControl.swift */,
-				EA23228023AB61C60099185B /* IVPopupView.swift */,
+				EA14EB2823C819A50038798B /* IVMsg */,
+				EA14EB2C23C819A50038798B /* IVDeviceTableViewController.swift */,
+				EA14EB2D23C819A50038798B /* IVDevice.swift */,
+				EA14EB2E23C819A50038798B /* IVMineDeviceTableVC.swift */,
+				EA14EB2F23C819A50038798B /* IVQRCodeAddDevice.swift */,
+				EA14EB3023C819A50038798B /* IVDeviceAccessVC.swift */,
+				EA14EB3123C819A50038798B /* IVLANDeviceTableVC.swift */,
+				EA14EB3223C819A50038798B /* IVDevice.storyboard */,
+				EA14EB3323C819A50038798B /* IVShare */,
+				EA14EB3923C819A50038798B /* IVDeviceAccess.storyboard */,
+				EA14EB3B23C819A50038798B /* Player */,
+			);
+			path = Device;
+			sourceTree = "<group>";
+		};
+		EA14EB2823C819A50038798B /* IVMsg */ = {
+			isa = PBXGroup;
+			children = (
+				EA14EB2923C819A50038798B /* IVMsgSetVC.swift */,
+				EA14EB2A23C819A50038798B /* IVMsgGetVC.swift */,
+				EA14EB2B23C819A50038798B /* msgFile.json */,
+			);
+			path = IVMsg;
+			sourceTree = "<group>";
+		};
+		EA14EB3323C819A50038798B /* IVShare */ = {
+			isa = PBXGroup;
+			children = (
+				EA14EB3423C819A50038798B /* IVSharedListVC.swift */,
+				EA14EB3523C819A50038798B /* IVShareDeviceTableViewController.swift */,
+				EA14EB3623C819A50038798B /* IVShareDeviceByQRCodeVC.swift */,
+				EA14EB3723C819A50038798B /* IVQRcodeScanVC.swift */,
+				EA14EB3823C819A50038798B /* IVShareDeviceByAccountVC.swift */,
+			);
+			path = IVShare;
+			sourceTree = "<group>";
+		};
+		EA14EB3B23C819A50038798B /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				EA14EB3C23C819A60038798B /* IVLiveViewController.swift */,
+				EA14EB3D23C819A60038798B /* IVPlaybackViewController.swift */,
+				EA14EB3E23C819A60038798B /* IVDevicePlayerViewController.swift */,
+				EA14EB3F23C819A60038798B /* IVMonitorViewController.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		EA14EB4023C819A60038798B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				EA14EB4123C819A60038798B /* IVApiFormatTest.h */,
+				EA14EB4223C819A60038798B /* IVPopupView.swift */,
+				EA14EB4323C819A60038798B /* UIColor.swift */,
+				EA14EB4423C819A60038798B /* IVJson.swift */,
+				EA14EB4523C819A60038798B /* IVApiFormatTest.m */,
+				EA14EB4623C819A60038798B /* IVHud.swift */,
+				EA14EB4723C819A60038798B /* UIDevice.swift */,
+				EA14EB4823C819A60038798B /* Foundation.swift */,
+				EA14EB4923C819A60038798B /* IVTimelineView.swift */,
+				EA14EB4A23C819A60038798B /* IVLogger.swift */,
+				EA14EB4B23C819A60038798B /* IVApiFormatTest.swift */,
+				EA14EB4C23C819A60038798B /* UIControl.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		EA14EB5223C819A60038798B /* VAS */ = {
+			isa = PBXGroup;
+			children = (
+				EA14EB5323C819A60038798B /* IVVasAPITestVC.swift */,
+			);
+			path = VAS;
 			sourceTree = "<group>";
 		};
 		EAE59C1C23BA307F00808D31 /* Products */ = {
@@ -422,9 +459,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D589047623A9BB380082BD17 /* IVDeviceAccess.storyboard in Resources */,
-				D589047823A9BC530082BD17 /* IVDevice.storyboard in Resources */,
-				D589047323A9BA4C0082BD17 /* Login.storyboard in Resources */,
+				EA14EB5523C819A60038798B /* Login.storyboard in Resources */,
+				EA14EB6823C819A60038798B /* IVDeviceAccess.storyboard in Resources */,
+				EA14EB5B23C819A60038798B /* msgFile.json in Resources */,
+				EA14EB6223C819A60038798B /* IVDevice.storyboard in Resources */,
 				D5C7223B23839B9700585D33 /* LaunchScreen.storyboard in Resources */,
 				D5C7223823839B9700585D33 /* Assets.xcassets in Resources */,
 				D5C7223623839B9600585D33 /* Main.storyboard in Resources */,
@@ -462,22 +500,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
-				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-				"${BUILT_PRODUCTS_DIR}/Then/Then.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Then.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -491,35 +518,41 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D58FB6E123AA48440091361E /* IVDeviceTableViewController.swift in Sources */,
-				D58FB6E523AB53330091361E /* IVShareDeviceByAccountVC.swift in Sources */,
-				EAD1D43323A9EB120008BA65 /* IVDeviceAccessVC.swift in Sources */,
-				EAD1D42D23A8FFAE0008BA65 /* IVLANDeviceTableVC.swift in Sources */,
-				EA23228723AB62580099185B /* IVLogger.swift in Sources */,
-				D5FB5B42239661FA00C9D737 /* IVQRcodeScanVC.swift in Sources */,
-				EA23228323AB61FB0099185B /* UIControl.swift in Sources */,
-				D5F040042394F21600120D99 /* IVRegisterVC.swift in Sources */,
-				EAD1D42F23A9E6380008BA65 /* IVMineDeviceTableVC.swift in Sources */,
-				D5E14E502397A08A004DA11C /* IVApiFormatTest.m in Sources */,
-				EA23228123AB61C60099185B /* IVPopupView.swift in Sources */,
-				EA9E3E2C23A0CC840067FAAD /* IVMonitorViewController.swift in Sources */,
-				D58FB6E323AB522B0091361E /* IVShareDeviceTableViewController.swift in Sources */,
-				D5FB5B40239661E500C9D737 /* IVShareDeviceByQRCodeVC.swift in Sources */,
+				EA14EB7223C819A60038798B /* IVHud.swift in Sources */,
+				EA14EB6323C819A60038798B /* IVSharedListVC.swift in Sources */,
+				EA14EB6623C819A60038798B /* IVQRcodeScanVC.swift in Sources */,
+				EA14EB6E23C819A60038798B /* IVPopupView.swift in Sources */,
+				EA14EB6B23C819A60038798B /* IVPlaybackViewController.swift in Sources */,
+				EA14EB5F23C819A60038798B /* IVQRCodeAddDevice.swift in Sources */,
+				EA14EB5823C819A60038798B /* IVLoginVC.swift in Sources */,
+				EA14EB6523C819A60038798B /* IVShareDeviceByQRCodeVC.swift in Sources */,
+				EA14EB5623C819A60038798B /* IVRegisterVC.swift in Sources */,
+				EA14EB6023C819A60038798B /* IVDeviceAccessVC.swift in Sources */,
 				D5FB5B3B2396129000C9D737 /* IVTabBarViewController.swift in Sources */,
-				D589047A23A9CBAA0082BD17 /* IVQRCodeAddDevice.swift in Sources */,
-				EA23228523AB62060099185B /* UIColor.swift in Sources */,
-				D5FB5B372395F45E00C9D737 /* IVRegisterEmailVC.swift in Sources */,
-				D5FB5B3D2396132300C9D737 /* IVVasAPITestVC.swift in Sources */,
-				EA9E3E2E23A0CC980067FAAD /* IVPlaybackViewController.swift in Sources */,
-				D5E4B3E023975A8C00DDA80A /* IVLiveViewController.swift in Sources */,
-				EA60A1F823A78BC100217628 /* UIDevice.swift in Sources */,
+				EA14EB5C23C819A60038798B /* IVDeviceTableViewController.swift in Sources */,
+				EA14EB6C23C819A60038798B /* IVDevicePlayerViewController.swift in Sources */,
+				EA14EB5E23C819A60038798B /* IVMineDeviceTableVC.swift in Sources */,
+				EA14EB7123C819A60038798B /* IVApiFormatTest.m in Sources */,
+				EA14EB7423C819A60038798B /* Foundation.swift in Sources */,
+				EA14EB7823C819A60038798B /* UIControl.swift in Sources */,
+				EA14EB7523C819A60038798B /* IVTimelineView.swift in Sources */,
+				EA14EB7323C819A60038798B /* UIDevice.swift in Sources */,
+				EA14EB7623C819A60038798B /* IVLogger.swift in Sources */,
+				EA14EB5423C819A60038798B /* IVAccountAPITestVC.swift in Sources */,
+				EA14EB6423C819A60038798B /* IVShareDeviceTableViewController.swift in Sources */,
+				EA14EB6723C819A60038798B /* IVShareDeviceByAccountVC.swift in Sources */,
 				D5C7223123839B9600585D33 /* AppDelegate.swift in Sources */,
-				EABF010B23B2F8BB0020C181 /* IVDevicePlayerViewController.swift in Sources */,
-				EAD1D43123A9EADD0008BA65 /* IVDevice.swift in Sources */,
-				D5D058192395134100326515 /* IVJson.swift in Sources */,
-				D5F040062394F34E00120D99 /* IVAccountAPITestVC.swift in Sources */,
-				EA25897623B5DC4D003B7008 /* IVApiFormatTest.swift in Sources */,
-				D5F040012394F1F400120D99 /* IVLoginVC.swift in Sources */,
+				EA14EB5723C819A60038798B /* IVRegisterEmailVC.swift in Sources */,
+				EA14EB6123C819A60038798B /* IVLANDeviceTableVC.swift in Sources */,
+				EA14EB7D23C819A60038798B /* IVVasAPITestVC.swift in Sources */,
+				EA14EB6D23C819A60038798B /* IVMonitorViewController.swift in Sources */,
+				EA14EB5A23C819A60038798B /* IVMsgGetVC.swift in Sources */,
+				EA14EB6A23C819A60038798B /* IVLiveViewController.swift in Sources */,
+				EA14EB7723C819A60038798B /* IVApiFormatTest.swift in Sources */,
+				EA14EB7023C819A60038798B /* IVJson.swift in Sources */,
+				EA14EB6F23C819A60038798B /* UIColor.swift in Sources */,
+				EA14EB5D23C819A60038798B /* IVDevice.swift in Sources */,
+				EA14EB5923C819A60038798B /* IVMsgSetVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,6 +702,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C3MLE46F3M;
@@ -706,6 +740,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C3MLE46F3M;
 				ENABLE_BITCODE = NO;

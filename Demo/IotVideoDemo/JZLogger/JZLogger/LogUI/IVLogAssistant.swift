@@ -78,6 +78,7 @@ public class IVLogAssistant: UIWindow {
         isHidden = false
         
         addSubview(logo)
+        logo.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
         addGestureRecognizer(tapGes)
         addGestureRecognizer(panGes)
@@ -124,6 +125,7 @@ public class IVLogAssistant: UIWindow {
     public override var rootViewController: UIViewController? {
         didSet {
             rootViewController?.view.frame = self.bounds
+            bringSubviewToFront(logo) 
         }
     }
             
@@ -165,7 +167,7 @@ public class IVLogAssistant: UIWindow {
             self.layer.cornerRadius = 0
             self.tapGes.isEnabled = false
             self.panGes.isEnabled = false
-            self.logo.alpha = 0.2
+            self.logo.alpha = 0.03
             self.active = true
         }
     }

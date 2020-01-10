@@ -25,9 +25,11 @@ class IVPopupAction: UIButton {
     
     fileprivate var title: String?
 
-    fileprivate var handler: (() -> Void)?
-
-    @objc init(title: String? = nil, style: Style = .default, handler: (() -> Void)? = nil) {
+    fileprivate var handler: ((IVPopupView) -> Void)?
+    
+    fileprivate weak var owner: IVPopupView!
+    
+    @objc init(title: String? = nil, style: Style = .default, handler: ((IVPopupView) -> Void)? = nil) {
         self.title   = title
         self.style   = style
         self.handler = handler
@@ -55,7 +57,7 @@ class IVPopupAction: UIButton {
     }
     
     @objc private func didClicked() {
-        handler?()
+        handler?(owner)
     }
 }
 
@@ -84,15 +86,19 @@ class IVPopupView: UIView {
     }
     
     /// 输入框
-    @objc lazy var inputField = UITextField().then {
-        $0.clearButtonMode = .whileEditing
-        $0.leftView = UIView().then{ $0.frame = CGRect(x: 0, y: 0, width: 5, height: 0) }
-        $0.leftViewMode = .always
-        $0.font = .systemFont(ofSize: 13, weight: .regular)
-        $0.layer.borderWidth = 1.0 / UIScreen.main.scale
-        $0.layer.borderColor = UIColor.lightGray.cgColor
-        $0.layer.cornerRadius = 2.0
-        $0.layer.masksToBounds = true
+    @objc lazy var inputFields: [UITextField] = []
+
+    private func makeInputField() -> UITextField {
+        return UITextField().then {
+            $0.clearButtonMode = .whileEditing
+            $0.leftView = UIView().then{ $0.frame = CGRect(x: 0, y: 0, width: 5, height: 0) }
+            $0.leftViewMode = .always
+            $0.font = .systemFont(ofSize: 13, weight: .regular)
+            $0.layer.borderWidth = 1.0 / UIScreen.main.scale
+            $0.layer.borderColor = UIColor.lightGray.cgColor
+            $0.layer.cornerRadius = 2.0
+            $0.layer.masksToBounds = true
+        }
     }
     
     private let checkcontentView = UIView().then {
@@ -188,8 +194,11 @@ class IVPopupView: UIView {
     }
     
     // MARK: - 生命周期
-
-    @objc init(title: String = "", message: String = "", input placeholder: String? = nil, image: UIImage? = nil, url: URL? = nil, checkString: String? = nil, actions: [IVPopupAction] = [.confirm()]) {
+    @objc convenience init(title: String = "", message: String = "", input placeholder: [String]? = nil, actions: [IVPopupAction] = [.confirm()]) {
+        self.init(title: title, message: message, input: placeholder, image: nil, url: nil, checkString: nil, actions: actions)
+    }
+    
+    @objc init(title: String = "", message: String = "", input placeholder: [String]? = nil, image: UIImage? = nil, url: URL? = nil, checkString: String? = nil, actions: [IVPopupAction] = [.confirm()]) {
         super.init(frame: .zero)
         
         backgroundColor = UIColor(white: 0, alpha: 0.3)
@@ -207,14 +216,17 @@ class IVPopupView: UIView {
             stackViewV.addArrangedSubview(titleLabel)
         }
         
-        if let placeholder = placeholder, !placeholder.isEmpty {
-            inputField.placeholder = placeholder
-            stackViewV.addArrangedSubview(inputField)
-            inputField.snp.makeConstraints { make in
-                make.height.equalTo(44)
+        placeholder?.forEach({ (pl) in
+            let inField = makeInputField()
+            inField.delegate = self
+            inField.placeholder = pl
+            inputFields.append(inField)
+            stackViewV.addArrangedSubview(inField)
+            inField.snp.makeConstraints { make in
+                make.height.equalTo(40)
             }
-        }
-        
+        })
+                
         if let image = image {
             imageView.image = image
             stackViewV.addArrangedSubview(imageView)
@@ -259,8 +271,9 @@ class IVPopupView: UIView {
         
         actions.forEach { (action) in
             let oriHandler = action.handler
-            action.handler = { [weak self] in
-                self?.dismiss { oriHandler?() }
+            action.owner = self
+            action.handler = { [weak self](owner) in
+                self?.dismiss { oriHandler?(owner) }
             }
             self.actions.append(action)
             stackViewH.addArrangedSubview(action)
@@ -356,6 +369,12 @@ class IVPopupView: UIView {
             }
         }
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
 }
 
 private extension IVPopupView {
@@ -370,9 +389,10 @@ private extension IVPopupView {
         }
         return nil
     }
+    
 }
 
-extension IVPopupView: WKNavigationDelegate, WKScriptMessageHandler {
+extension IVPopupView: UITextFieldDelegate, WKNavigationDelegate, WKScriptMessageHandler {
     
     // MARK:-WKNavigationDelegate
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
@@ -443,31 +463,31 @@ extension IVPopupView: WKNavigationDelegate, WKScriptMessageHandler {
 }
 
 extension IVPopupAction {
-    @objc static func cancel(_ handler: (()->Void)? = nil) -> IVPopupAction {
+    @objc static func cancel(_ handler: ((IVPopupView)->Void)? = nil) -> IVPopupAction {
         return IVPopupAction(title: "取消", style: .cancel, handler: handler)
     }
     
-    @objc static func delete(_ handler: (()->Void)? = nil) -> IVPopupAction {
+    @objc static func delete(_ handler: ((IVPopupView)->Void)? = nil) -> IVPopupAction {
         return IVPopupAction(title: "删除", style: .destructive, handler: handler)
     }
 
-    @objc static func confirm(_ handler: (()->Void)? = nil) -> IVPopupAction {
+    @objc static func confirm(_ handler: ((IVPopupView)->Void)? = nil) -> IVPopupAction {
         return IVPopupAction(title: "确定", style: .default, handler: handler)
     }
 
-    @objc static func iKnow(_ handler: (()->Void)? = nil) -> IVPopupAction {
+    @objc static func iKnow(_ handler: ((IVPopupView)->Void)? = nil) -> IVPopupAction {
         return IVPopupAction(title: "我知道了", style: .default, handler: handler)
     }
 
-    @objc static func tryAgain(_ handler: (()->Void)? = nil) -> IVPopupAction {
+    @objc static func tryAgain(_ handler: ((IVPopupView)->Void)? = nil) -> IVPopupAction {
         return IVPopupAction(title: "再试一次", style: .default, handler: handler)
     }
 
-    @objc static func ignor(_ handler: (()->Void)? = nil) -> IVPopupAction {
+    @objc static func ignor(_ handler: ((IVPopupView)->Void)? = nil) -> IVPopupAction {
         return IVPopupAction(title: "忽略", style: .cancel, handler: handler)
     }
 
-    @objc static func accept(_ handler: (()->Void)? = nil) -> IVPopupAction {
+    @objc static func accept(_ handler: ((IVPopupView)->Void)? = nil) -> IVPopupAction {
         return IVPopupAction(title: "接受", style: .default, handler: handler)
     }
 }

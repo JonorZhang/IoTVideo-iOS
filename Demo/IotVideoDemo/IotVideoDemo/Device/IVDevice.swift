@@ -11,6 +11,7 @@ import Foundation
 // 来自设备
 struct IVDevice {
     var deviceID: String = ""
+    var tencentID: String = ""
     var productID: String = ""
     var deviceName: String = ""
     var serialNumber: String = ""
@@ -19,15 +20,18 @@ struct IVDevice {
 }
 
 // 来自服务器
-struct IVDeviceModel: Codable {
+class IVDeviceModel: Codable {
     var deviceMode: String?
     var shareType: IVDeviceShareType
-    var did: String
+    var did: String?
+    var devId: String?
     var url: String?
     var deviceName: String?
     var deviceType: String?
+    
+    var online: Bool?
 }
-
+    
 enum IVDeviceShareType: String, Codable {
     case owner
     case guest
