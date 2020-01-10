@@ -4,11 +4,10 @@
 
 *.svn
 *Dev.*
-Demo/IotVideoSDKImportDemo
-Demo/IVCoreTestSwift
-SDK/IoTVideo
-SDK/IVAccountMgr
-SDK/IVVAS
+Demo/*
+!Demo/IotVideoDemo
+SDK/*
+!SDK/Frameworks
 
 ## User settings
 xcuserdata/
