@@ -8,6 +8,7 @@
 
 import UIKit
 import IVAccountMgr
+import IoTVideo.IVMessageMgr
 
 protocol IVDeviceAccessable {
     var device: IVDevice! { get set }
@@ -26,6 +27,7 @@ class IVDeviceAccessVC: UITableViewController, IVDeviceAccessable {
             let cell = tableView.dequeueReusableCell(withIdentifier: "InfoCell") ?? UITableViewCell(style: .default, reuseIdentifier: "InfoCell")
             cell.textLabel?.text = """
                             deviceID:     \(device.deviceID)
+                            tencentID:    \(device.tencentID)
                             productID:    \(device.productID)
                             deviceName:   \(device.deviceName)
                             serialNumber: \(device.serialNumber)
@@ -47,17 +49,71 @@ class IVDeviceAccessVC: UITableViewController, IVDeviceAccessable {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 2 && indexPath.row == 1 { //解绑设备
-            let unbind = IVPopupAction(title: "解绑", style: .destructive, handler: {
-                IVAccountMgr.shared.deleteDevice(deviceId: self.device.deviceID) { (json, error) in
-                    if let error = error {
-                        showAlert(msg: "\(error)")
-                        return
+        switch indexPath.section {
+        case 0:
+            break
+        case 1:
+            break
+        case 2:
+            if indexPath.row == 1 { //解绑设备
+                clickedUnbind()
+            }
+        case 3:
+            
+            if indexPath.row == 0 {
+//                IVPopupView(title: "物模型获取", input: ["ST._online"], actions: [.cancel(), .confirm({ v in
+//                    var inJson = v.inputFields[0].text ?? "ST._online"
+//                    if inJson.isEmpty { inJson = "ST._online"}
+//
+//                    IVMessageMgr.sharedInstance.getDataForDevice(self.device.deviceID, path: inJson, timeout: 0) { (json, err) in
+//                        let message = json ?? err?.localizedDescription ?? "[msg]"
+//                        showAlert(msg: message)
+//                    }
+//                })]).show()
+                
+            } else if indexPath.row == 1 {
+//                let popv = IVPopupView(title: "物模型设置", input: ["path", "json"], actions: [.cancel(), .confirm({ v in
+//                    let inPath = v.inputFields[0].text ?? ""
+//                    let inJson = v.inputFields[1].text ?? ""
+//
+//                    IVMessageMgr.sharedInstance.setDataToDevice(self.device.deviceID, path: inPath, json: inJson, timeout: 0) { (json, err) in
+//                        let message = json ?? err?.localizedDescription ?? "[msg]"
+//                        showAlert(msg: message)
+//                    }
+//                })])
+//                popv.inputFields[0].text = "CO._otaVersion"//"SP._cloudStoage.setVal"//"SP._otaMode.setVal"//"CO._otaVersion.ctlVal"//"CO.cameraOn"
+//                popv.inputFields[1].text = "{\"ctlVal\":\"\"}"//"1"//"{\"ctlVal\":1}"
+//                popv.show()
+                
+            } else if indexPath.row == 2 {
+                IVPopupView(title: "透传数据给设备", input: ["data"], actions: [.cancel(), .confirm({ v in
+                    let data = v.inputFields[0].text?.data(using: .utf8) ?? Data()
+                    let hud = ivLoadingHud()
+                    IVMessageMgr.sharedInstance.sendData(toDevice: self.device.deviceID, data: data, withResponse: { (data, err) in
+                        hud.hide()
+                        let message = data?.string(with: .utf8) ?? err?.localizedDescription ?? "[msg]"
+                        showAlert(msg: message)
+                    })
+                })]).show()
+            } else if indexPath.row == 3 {
+                IVPopupView(title: "透传数据给服务器", input: ["GET/NetCfg_Token", "data"], actions: [.cancel(), .confirm({ v in
+                    var inPath = v.inputFields[0].text ?? "GET/NetCfg_Token"
+                    if inPath.isEmpty { inPath = "GET/NetCfg_Token"}
+
+                    let data = v.inputFields[1].text?.data(using: .utf8) ?? Data()
+                    let hud = ivLoadingHud()
+                    IVMessageMgr.sharedInstance.sendData(toServer: inPath, data: data, timeout: 0) { (data, err) in
+                        hud.hide()
+                        let message = data?.string(with: .utf8) ?? err?.localizedDescription ?? "[msg]"
+                        showAlert(msg: message)
                     }
-                    self.navigationController?.popToRootViewController(animated: true)
-                }
-            })
-            IVPopupView(message: "确认解绑设备？", actions: [unbind, .cancel()]).show()
+                })]).show()
+            } else if indexPath.row == 4 {
+                getPlaybackList(0)
+            }
+            
+        default:
+            break
         }
     }
     
@@ -67,5 +123,33 @@ class IVDeviceAccessVC: UITableViewController, IVDeviceAccessable {
             dstVC.device = device
         }
     }
+    
+    func clickedUnbind() {
+        let unbind = IVPopupAction(title: "解绑", style: .destructive, handler: { _ in
+            IVAccountMgr.shared.deleteDevice(deviceId: self.device.tencentID) { (json, error) in
+                if let error = error {
+                    showAlert(msg: "\(error)")
+                    return
+                }
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        })
+        IVPopupView(message: "确认解绑设备？", actions: [unbind, .cancel()]).show()
+    }
+    
+    func getPlaybackList(_ pageIndex: UInt) {
+        IVPlaybackPlayer.getPlaybackList(ofDevice: device.deviceID, pageIndex: pageIndex, countPerPage: 6, startTime: 0, endTime: Date().timeIntervalSince1970, completionHandler: { page, error in
+            logDebug(page as Any, error as Any)
 
+            var actions: [IVPopupAction] = [.confirm()]
+            if let page = page, page.pageIndex < page.totalPage - 1 {
+                actions.append(IVPopupAction(title: "Next Page", style: .default, handler: { [weak self](v) in
+                    self?.getPlaybackList(pageIndex + 1)
+                }))
+            }
+            let msg = page?.description ?? error?.localizedDescription ?? "??"
+            
+            IVPopupView(title: "回放列表", message: msg, input: nil, actions: actions).show()
+        });
+    }
 }

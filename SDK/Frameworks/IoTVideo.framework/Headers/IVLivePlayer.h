@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IVLivePlayer : IVPlayer
 
+- (instancetype)initWithDeviceId:(NSString *)deviceId;
+
 /// 摄像头预览图层
 @property (nonatomic, strong, readonly) CALayer *previewLayer;
 

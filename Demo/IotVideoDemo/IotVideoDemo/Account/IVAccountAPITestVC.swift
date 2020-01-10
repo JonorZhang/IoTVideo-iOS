@@ -50,79 +50,82 @@ class IVAccountAPITestVC: UITableViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         case .modifyUserPwd:
             IVRequest.modifyPassword(oldPassword: "", newPassword: "", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .modifyUserInfo:
             // nick headUrl
             IVRequest.modifyUserInfo(modifiedInfo: ["nick":"IotVideo"], responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .queryUserInfo:
             IVRequest.getUserInfo(responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .replaceToken:
             IVRequest.updateIvToken(responseHandler: { (json, error) in
                 if let error = error {
-                    self.showAlert(msg: "\(error)")
+                    showError(error)
                     return
                 }
                 let ivToken = json!.ivDecode(TokenModel.self)?.ivToken
                 guard let token = ivToken else {
-                    self.showAlert(msg: "更新的token为空")
+                    showAlert(msg: "更新的token为空")
                     return
                 }
                 IoTVideo.sharedInstance.updateToken(token)
             })
         case .findUser:
             IVRequest.findUserInfo(account: "13043471371", mobileArea: "86", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .sharedUsersList:
             IVRequest.getVisitorList(deviceId: "", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .shareByAccount:
             
             IVRequest.shareDeviceForVisitor(deviceId: "", accountId: "", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
         case .shareByQRCode:
             IVRequest.getQRCodeSharingInfo(QRCodeToken: "token", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
-//        case .acceptShare:
-//            IVRequest.acceptSharing(ownerId: "", deviceId: "", accept: true, responseHandler: { (json, error) in
-//                self.handleWebCallback(json: json, error: error)
-//            })
-        case .shareQRCodeToken:
-            IVRequest.shareDevieForQRCode(deviceId: "", deviceName: "IotVideoCamara", userName: "Gwell", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
-            })
+            //        case .acceptShare:
+            //            IVRequest.acceptSharing(ownerId: "", deviceId: "", accept: true, responseHandler: { (json, error) in
+            //                handleWebCallback(json: json, error: error)
+        //            })
+ 
         case .shareCancel:
             IVRequest.cancelSharing(deviceId: "", accountId: "12313231231", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                handleWebCallback(json: json, error: error)
             })
-        case .deviceBind:
-            IVRequest.addDevice(deviceId: "", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
-            })
-        case .deviceUnbind:
-            IVRequest.deleteDevice(deviceId: "", responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
-            })
+//        case .deviceBind:
+//            IVRequest.addDevice(deviceId: "", responseHandler: { (json, error) in
+//                handleWebCallback(json: json, error: error)
+//            })
+//        case .deviceUnbind:
+//            IVRequest.deleteDevice(deviceId: "", responseHandler: { (json, error) in
+//                handleWebCallback(json: json, error: error)
+//            })
         case .deviceList:
+            let hud = ivLoadingHud()
             IVRequest.deviceList(responseHandler: { (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                hud.hide()
+                handleWebCallback(json: json, error: error)
             })
         case .appUpdateInfo:
+            let hud = ivLoadingHud()
             IVRequest.appUpdateInfo(responseHandler:{ (json, error) in
-                self.handleWebCallback(json: json, error: error)
+                hud.hide()
+                handleWebCallback(json: json, error: error)
             })
         case .logout:
+            let hud = ivLoadingHud()
             IVRequest.logout { (json, error) in
+                hud.hide()
                 if let error = error {
-                    self.handleWebCallback(json: json, error: error)
+                    showError(error)
                     return
                 }
                 UserDefaults.standard.do {
@@ -147,31 +150,17 @@ extension IVAccountAPITestVC {
                      .modifyUserInfo,
                      .queryUserInfo,
                      .replaceToken,
-                     .sharedUsersList,
-//                     .shareByQRCode,
-//                     .acceptShare,
-                     .shareQRCodeToken,
-                     .shareCancel,
-                     .deviceBind,
-                     .deviceUnbind,
-                     .deviceList,
-                     .appUpdateInfo,
-                     .logout]
-    }
-    
-    func handleWebCallback(json: String?, error: Error?) {
-        if let error = error {
-            self.showAlert(msg: "\(error)")
-            return
-        }
-        self.showAlert(msg: json!)
-    }
-    
-    func showAlert(msg: String?) {
-        let alert = UIAlertController(title: "请求结果", message: msg, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alert.addAction(ok)
-        self.present(alert, animated: true, completion: nil)
+//                     .sharedUsersList,
+                     //                     .shareByQRCode,
+            //                     .acceptShare,
+//            .shareQRCodeToken,
+            
+//            .shareCancel,
+//            .deviceBind,
+//            .deviceUnbind,
+            .deviceList,
+            .appUpdateInfo,
+            .logout]
     }
 }
 

@@ -40,10 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 核心播放器
 @interface IVPlayer : NSObject
 
-- (instancetype)initWithDeviceId:(NSString *)deviceId;
-
-- (instancetype)initWithDeviceId:(NSString *)deviceId connType:(IVAVConnType)connType;
-
 /// 音视频编解码器，默认为内置编解码器。⚠️如无必要 请勿修改
 @property (nonatomic, strong, nullable) id<IVVideoDecodable> videoDecoder;
 @property (nonatomic, strong, nullable) id<IVVideoEncodable> videoEncoder;
@@ -71,6 +67,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 解码器信息头
 @property (nonatomic, assign, readonly) IVAVHeader avheader;
+
+/// 视频时间戳
+@property (nonatomic, assign, readonly) NSTimeInterval pts;
 
 /// 视频清晰度
 @property (nonatomic, assign, readwrite) IVVideoDefinition definition;

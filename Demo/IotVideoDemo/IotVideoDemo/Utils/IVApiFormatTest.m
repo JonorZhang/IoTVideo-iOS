@@ -12,7 +12,7 @@
 //#import <IoTVideo/IVMessageMgr.h>
 #import <IoTVideo/IoTVideo.h>
 
-@interface IVApiFormatTest () <IVMessageDelegate>
+@interface IVApiFormatTest ()
 
 @end
 
@@ -33,21 +33,22 @@
         }
         NSLog(@"%@",json);
     }];
-    NSData *deviceToken = [NSData new];
-    [IVMessageMgr.sharedInstance registerForRemoteNotificationsWithDeviceToken:deviceToken completionHandler:^(NSString * _Nullable json, NSError * _Nullable error) {
-        if (error != nil) {
-            NSLog(@"注册失败 Error: %@", error);
-        }
-        NSLog(@"注册成功");
-    }];
+//    NSData *deviceToken = [NSData new];
+//    [IVMessageMgr.sharedInstance registerForRemoteNotificationsWithDeviceToken:deviceToken completionHandler:^(NSString * _Nullable json, NSError * _Nullable error) {
+//        if (error != nil) {
+//            NSLog(@"注册失败 Error: %@", error);
+//        }
+//        NSLog(@"注册成功");
+//    }];
     
     
-    [IVAccountMgr.shareInstance addDeviceWithDeviceId:@"12345678" responseHandler:^(NSString * _Nullable json, NSError * _Nullable error) {
-        
-    }];
+    
+//    [IVAccountMgr.shareInstance addDeviceWithDeviceId:@"12345678" responseHandler:^(NSString * _Nullable json, NSError * _Nullable error) {
+//
+//    }];
 
-    
-    IVMessageMgr.sharedInstance.delegate = self;
+    [IVAccountMgr.shareInstance addDeviceWithDeviceId:@"0000" deviceName:nil forceBind:true responseHandler:nil];
+//    IVMessageMgr.sharedInstance.delegate = self;
     
 //    // deviceId 是设备ID的字符串
 //    // controlPath 是模型路径的字符串，如 "SP.presetPosSetting.setVal"
@@ -60,13 +61,6 @@
 //    }];
 }
 
-- (void)didReceiveEventMessage:(NSString *)message topic:(NSString *)topic {
-    
-}
-
-- (void)didReceiveStatusMessage:(IVMessage *)message {
-    
-}
 
 
 /*

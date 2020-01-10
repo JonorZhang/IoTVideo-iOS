@@ -43,10 +43,6 @@ fileprivate class Log: NSObject {
         return Log.dateFormatter.string(from: date)
     }
     
-    var lineDesc: String {
-        return "\(line)"
-    }
-    
     convenience override init() {
         self.init(date: Date(), level: .verbose, message: "", file: "", function: "", line: 0)
     }
@@ -109,7 +105,7 @@ fileprivate class Log: NSObject {
 @objc public class JZLogger: NSObject {
     
     private static let serialQueue = DispatchQueue(label: "gw.logger.serialQueue")
-
+    
     /// 日志的最高级别, 默认Debug:.debug / Release:.info。 log.level > maxLevel 的将会忽略
     internal static var maxLevel: Level = {
         return JZLogSettingViewController.logLevel
@@ -125,7 +121,7 @@ fileprivate class Log: NSObject {
         
         logMessage(log.description)
     }
-    
+
     @objc public static func logMessage(_ message: String?) {
         guard let message = message else { return }
     #if DEBUG
@@ -150,6 +146,12 @@ fileprivate class Log: NSObject {
         return isxcode
     }()
 
+    @objc public static func register(logLevel: Level = .debug) {
+        maxLevel = logLevel
+        registerCrashHandler { (crashLog) in
+            log(.fatal, message: crashLog)
+        }
+    }
 }
 
 

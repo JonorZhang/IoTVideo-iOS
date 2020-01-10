@@ -8,6 +8,10 @@
 
 import UIKit
 import IoTVideo.IVQRCodeNetConfig
+import IoTVideo.IVMessageMgr
+import IVAccountMgr
+import SwiftyJSON
+
 class IVQRCodeAddDevice: UIViewController {
 
     @IBOutlet weak var ssidTF: UITextField!
@@ -18,25 +22,48 @@ class IVQRCodeAddDevice: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        IVMessageMgr.sharedInstance.delegate = self
     }
     
     @IBAction func createQRCode(_ sender: Any) {
         view.endEditing(true)
-      self.QRImgView.image = IVQRCodeNetConfig.createQRCode(withWifiName: ssidTF.text ?? "", wifiPwd: pwdTF.text, netConfigId: "", qrSize: QRImgView.frame.size)
+        let hud = ivLoadingHud()
+        IVQRCodeNetConfig.createQRCode(withWifiName: ssidTF.text ?? "", wifiPwd: pwdTF.text, qrSize: QRImgView.frame.size, completionHandler: { (image, error) in
+            hud.hide()
+            if let error = error {
+                showError(error as NSError)
+                return
+            }
+            self.QRImgView.image = image
+        })
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         view.endEditing(true)
     }
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension IVQRCodeAddDevice: IVMessageDelegate {
+    func didReceiveEvent(_ event: String, topic: String) {
+        if topic == "EVENT_SYS/NetCfg_OK" {
+            if let devId = JSON(parseJSON: event)["dev_tid"].string {
+                IVAccountMgr.shared.addDevice(deviceId: devId) { (json, error) in
+                    if let error = error {
+                        showError(error)
+                        return
+                    }
+                    showAlert(msg: json)
+                }
+            }
+        }
+    //topic   EVENT_SYS/NetCfg_OK
+        /*event
+         {
+           "devid":"12312321312131"
+            "dev_tid": "ab322342342423sdfds"
+        }
+        */
+        
     }
-    */
-
 }

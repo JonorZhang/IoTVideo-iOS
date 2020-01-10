@@ -24,12 +24,13 @@ class IVLiveViewController: IVDevicePlayerViewController {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
     var livePlayer: IVLivePlayer {
-        get { player as! IVLivePlayer }
+        get { return player as! IVLivePlayer }
         set { player = newValue }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(device)
         livePlayer = IVLivePlayer(deviceId: device.deviceID)
         livePlayer.delegate = self
         previewView.layer.addSublayer(livePlayer.previewLayer)
@@ -158,7 +159,7 @@ extension IVLiveViewController: IVPlayerDelegate {
     }
     
     func player(_ player: IVPlayer, didReceive avHeader: IVAVHeader) {
-        logInfo(avHeader)
+//        logInfo(avHeader)
     }
     
     func player(_ player: IVPlayer, didReceiveUserData userData: Data) {

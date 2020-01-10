@@ -21,11 +21,11 @@ import IoTVideo.IVMessageMgr
 
 class myclas {
     init() {
-        IVMessageMgr.sharedInstance.controlDevice("123456789",
-                                                  path: "SP.presetPosSetting.setVal",
-                                                  data: #"{"pos1":{"x":10,"y":10},"pos2":{"x":100,"y":200}}"#) { (message, error) in
-              // do something here
-        }
+//        IVMessageMgr.sharedInstance.controlDevice("123456789",
+//                                                  path: "SP.presetPosSetting.setVal",
+//                                                  data: #"{"pos1":{"x":10,"y":10},"pos2":{"x":100,"y":200}}"#) { (message, error) in
+//              // do something here
+//        }
 
         IVLanNetConfig.sendWifiName("TP-LINK12345", wifiPwd: "12345678", toDevice: "99999999") { (success, error) in
             if success {

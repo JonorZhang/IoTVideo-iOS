@@ -9,6 +9,27 @@
 import Foundation
 import JZLogger
 
+//@objc class IVLog: NSObject {
+//    @objc static func error(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
+//        JZLogger.log(.error, path: path, function: function, line: line, message: message(items))
+//    }
+//
+//    @objc static func warning(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
+//        JZLogger.log(.warning, path: path, function: function, line: line, message: message(items))
+//    }
+//
+//    @objc static func info(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
+//        JZLogger.log(.info, path: path, function: function, line: line, message: message(items))
+//    }
+//
+//    @objc static func debug(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
+//        JZLogger.log(.debug, path: path, function: function, line: line, message: message(items))
+//    }
+//
+//    @objc static func verbose(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
+//        JZLogger.log(.verbose, path: path, function: function, line: line, message: message(items))
+//    }
+//}
 
 func logError(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
     JZLogger.log(.error, path: path, function: function, line: line, message: message(items))
@@ -30,8 +51,8 @@ func logVerbose(path: String = #file, function: String = #function, line: Int = 
     JZLogger.log(.verbose, path: path, function: function, line: line, message: message(items))
 }
 
-func logMessage(_ message: String) {
-    JZLogger.logMessage(message)
+func logMessage(level: Int32, path: String, function: String, line: Int32, message: String) {
+    JZLogger.log(Level(rawValue: Int(level))!, path: path, function: function, line: Int(line), message: message)
 }
 
 var logAssistant: IVLogAssistant {

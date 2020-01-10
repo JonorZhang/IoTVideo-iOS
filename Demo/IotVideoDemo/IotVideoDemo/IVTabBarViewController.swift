@@ -27,7 +27,7 @@ class IVTabBarViewController: UITabBarController {
                 DispatchQueue.global().async {
                     IVAccountMgr.shared.updateIvToken { (json, error) in
                         guard let json = json else {
-                            showAlert(msg: "error")
+                            showError(error!)
                             return
                         }
                         let newJson = JSON(parseJSON: json)
@@ -40,24 +40,33 @@ class IVTabBarViewController: UITabBarController {
                 }
             }
         }
+        
+        IVMessageMgr.sharedInstance.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //        IoTVideo.sharedInstance.setupToken("010142271C6A0E01B6B84F626600000088BF8A936C85A3E5DF862E1D298FDECDF82E0FAEF9C5AAC21B1F47631242203BABDDE8D10054B143FC47BFE634676C88", accessId: "-9223371598768111613")
         if IoTVideo.sharedInstance.ivToken?.isEmpty ?? true {
-            let board = UIStoryboard(name: "Login", bundle: nil)
-            let loginVC = board.instantiateViewController(withIdentifier: "LogNav") as! UINavigationController
-            loginVC.modalPresentationStyle = .fullScreen
-            self.present(loginVC, animated: true, completion: nil)
+            jumpToLoginView()
         } else {
             print("ivToke:",IoTVideo.sharedInstance.ivToken!)
         }
-
+        
         let window = (UIApplication.shared.delegate as! AppDelegate).window
         window?.addSubview(logAssistant)
         window?.bringSubviewToFront(logAssistant)
     }
+    
+    
+    func jumpToLoginView() {
+        let board = UIStoryboard(name: "Login", bundle: nil)
+        let loginVC = board.instantiateViewController(withIdentifier: "LogNav") as! UINavigationController
+        loginVC.modalPresentationStyle = .fullScreen
+        self.present(loginVC, animated: true, completion: nil)
+    }
+    
+    
     
     /*
      // MARK: - Navigation
@@ -70,9 +79,60 @@ class IVTabBarViewController: UITabBarController {
      */
 }
 
-func showAlert(msg: String?) {
-    let alert = UIAlertController(title: "请求结果", message: msg, preferredStyle: .alert)
+extension IVTabBarViewController: IVMessageDelegate {
+    func didReceiveEvent(_ event: String, topic: String) {
+//        IVPopupView(title: "事件通知", message: "\(topic) \n \(event)", input: nil, actions: [.confirm()]).show()
+        logInfo("事件通知 \(topic) \n \(event)")
+        ivHud("事件通知 \(topic) \n \(event)")
+    }
+    
+    func didUpdateStatus(_ json: String, path: String, deviceId: String) {
+//        IVPopupView(title: "状态通知", message: "\(deviceId) \n \(path) \n \(json)", input: nil, actions: [.confirm()]).show()
+        ivHud("状态通知 \(deviceId) \n \(path) \n \(json)")
+        if let dev = IVDeviceTableViewController.mineDevice.first(where: { $0.did == deviceId }),
+            let online = JSON(parseJSON: json).value("_online.stVal")?.boolValue {
+            dev.online = online
+            logInfo("状态通知 \(deviceId) \n \(path) \n \(json) 在线:\(online)")
+        }
+    }
+}
+
+
+func handleWebCallback(json: String?, error: NSError?) {
+    if let error = error {
+        showError(error)
+        return
+    }
+    showAlert(msg: json!)
+}
+
+func showError(_ error: NSError) {
+    if error.code == 401 {
+        UserDefaults.standard.do {
+            $0.removeObject(forKey: demo_ivTokenKey)
+            $0.removeObject(forKey: demo_accessIdKey)
+            $0.removeObject(forKey: demo_expireTimeKey)
+        }
+        let board = UIStoryboard(name: "Login", bundle: nil)
+        let loginVC = board.instantiateViewController(withIdentifier: "LogNav") as! UINavigationController
+        loginVC.modalPresentationStyle = .fullScreen
+        topVC()?.present(loginVC, animated: true, completion: nil)
+    } else {
+        showAlert(msg: "\(error)", title: "请求失败")
+    }
+}
+
+func showAlert(msg: String?, title: String = "请求结果") {
+    let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
     let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
     alert.addAction(ok)
-    UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+    topVC()?.present(alert, animated: true, completion: nil)
+}
+
+func topVC() -> UIViewController? {
+    var topVC = UIApplication.shared.keyWindow?.rootViewController
+    while topVC?.presentedViewController != nil {
+        topVC = topVC?.presentedViewController
+    }
+    return topVC
 }

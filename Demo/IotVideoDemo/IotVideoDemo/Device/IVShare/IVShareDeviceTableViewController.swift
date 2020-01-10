@@ -15,7 +15,9 @@ class IVShareDeviceTableViewController: UITableViewController, IVDeviceAccessabl
         super.viewDidLoad()
         
     }
-
+    
+    
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if var dstVC = segue.destination as? IVDeviceAccessable {

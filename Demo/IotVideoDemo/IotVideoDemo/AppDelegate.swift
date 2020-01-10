@@ -8,7 +8,7 @@
 
 import UIKit
 import IoTVideo
-//import IVPushMgr
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,7 +21,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         window?.backgroundColor = .white
-        UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: UIUserNotificationType.alert, categories: nil))
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.registerForRemoteNotifications()
+            UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+        } else {
+            // Fallback on earlier versions
+            UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert,.badge,.sound], categories: nil))
+        }
         IoTVideo.sharedInstance.register(withProductId: "440234147841", ivCid: "102", userInfo: nil)
         IoTVideo.sharedInstance.logCallback = logMessage
         sleep(1)
@@ -53,23 +59,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("deviceToken:",error)
+        logWarning("deviceToken:",error)
     }
-    
+
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("deviceToken:",deviceToken)
-        IVMessageMgr.sharedInstance.registerForRemoteNotifications(withDeviceToken: deviceToken) { (json, error) in
-            if let error = error {
-                print("注册失败 Error:", error)
-                return
-            }
+        let token = deviceToken.reduce("", {$0 + String(format: "%02x", $1)})
+        
+        UserDefaults.standard.setValue(token, forKey: demo_deviceToken)
+        guard IoTVideo.sharedInstance.ivToken != nil else {
+            return
+        }
+        
+        IVNetwork.shared.request(methodType: .PUT, urlString: "user/pushTokenBind", params: ["xingeToken": token]) { (json, error) in
             
-            print("注册成功")
         }
     }
     
     func application(_ application: UIApplication, didChangeStatusBarOrientation oldStatusBarOrientation: UIInterfaceOrientation) {
-        print("didChangeStatusBarOrientation: %d",oldStatusBarOrientation)
+        logInfo("didChangeStatusBarOrientation: %d",oldStatusBarOrientation)
     }
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {

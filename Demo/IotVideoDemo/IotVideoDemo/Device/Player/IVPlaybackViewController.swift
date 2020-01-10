@@ -19,19 +19,47 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
     @IBOutlet weak var recordBtn: UIButton!
     @IBOutlet weak var screenshotBtn: UIButton!
     @IBOutlet weak var slider: UISlider!
+    @IBOutlet weak var timelineView: IVTimelineView?
     
     var playbackPlayer: IVPlaybackPlayer {
-        get { player as! IVPlaybackPlayer }
+        get { return player as! IVPlaybackPlayer }
         set { player = newValue }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        playbackPlayer = IVPlaybackPlayer(deviceId: device.deviceID)
+        playbackPlayer = IVPlaybackPlayer(deviceId: device.deviceID, startTime: 0)
         playbackPlayer.delegate = self
         videoView.insertSubview(playbackPlayer.videoView!, at: 0)
-    }
         
+        timelineView?.items = [
+            [
+                IVTimelineItem(),
+                IVTimelineItem(),
+                IVTimelineItem(),
+                IVTimelineItem(),
+                IVTimelineItem()
+            ],
+            [
+                IVTimelineItem(),
+                IVTimelineItem(),
+                IVTimelineItem(),
+                IVTimelineItem(),
+                IVTimelineItem(),
+                IVTimelineItem(),
+                IVTimelineItem(),
+                IVTimelineItem(),
+                IVTimelineItem(),
+                IVTimelineItem()
+            ],
+            [
+                IVTimelineItem(),
+                IVTimelineItem(),
+                IVTimelineItem()
+            ]
+        ]
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         AppDelegate.shared.allowRotation = true
@@ -113,6 +141,10 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
             }
         })
     }
+    
+    @IBAction func playbackListClicked(_ sender: UIButton) {
+        
+    }
 }
 
 extension IVPlaybackViewController: IVPlayerDelegate {
@@ -131,7 +163,7 @@ extension IVPlaybackViewController: IVPlayerDelegate {
     }
     
     func player(_ player: IVPlayer, didReceive avHeader: IVAVHeader) {
-        logInfo(avHeader)
+//        logInfo(avHeader)
     }
     
     func player(_ player: IVPlayer, didReceiveUserData userData: Data) {
