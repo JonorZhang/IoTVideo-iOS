@@ -8,6 +8,7 @@ Demo/*
 !Demo/IotVideoDemo
 SDK/*
 !SDK/Frameworks
+!SDK/IotVideo/IotVideo/libp2p
 
 ## User settings
 xcuserdata/
