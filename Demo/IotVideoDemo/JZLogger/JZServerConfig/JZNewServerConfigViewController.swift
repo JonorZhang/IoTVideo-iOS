@@ -21,6 +21,9 @@ class JZNewServerConfigViewController: UIViewController {
 
         nameField.text = config?.name
         configField.text = config?.config
+        
+        nameField.delegate = self
+        configField.delegate = self
     }
 
     private func makeToast(_ msg: String) {
@@ -42,32 +45,28 @@ class JZNewServerConfigViewController: UIViewController {
             return
         }
 
-        if JZServerConfig.cfgExists(name: name), config?.name != name {
+        nameField.resignFirstResponder()
+        configField.resignFirstResponder()
+        
+        if JZServerConfig.existsCfg(name), config?.name != name {
             let alert = UIAlertController(title: nil, message: "已存在名为“\(name)”的配置文件，是否覆盖？", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "覆盖", style: .destructive, handler: { _ in
-                let err = JZServerConfig.updateCfg(newName: name, cfg: cfg)
-                if let err = err {
-                    self.makeToast("\(err)")
-                } else {
-                    self.makeToast("保存成功")
-                    DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
-                        self.navigationController?.popViewController(animated: true)
-                    })
-                }
+                let newCfg = ServerConfig(name: name, config: cfg, enable: true)
+                JZServerConfig.updateCfg(self.config?.name ?? "", newCfg)
+                self.makeToast("覆盖成功,重启后生效")
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute: {
+                    self.navigationController?.popViewController(animated: true)
+                })
             }))
             present(alert, animated: true)
         } else {
-            let err = JZServerConfig.updateCfg(oldName: config?.name, newName: name, cfg: cfg)
-            if let err = err {
-                self.makeToast("\(err)")
-            } else {
-                self.makeToast("保存成功")
-                DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
-                    self.navigationController?.popViewController(animated: true)
-                })
-            }
-
+            let newCfg = ServerConfig(name: name, config: cfg, enable: true)
+            JZServerConfig.addCfg(newCfg)
+            self.makeToast("保存成功,重启后生效")
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute: {
+                self.navigationController?.popViewController(animated: true)
+            })
         }
     }
     
@@ -80,4 +79,16 @@ class JZNewServerConfigViewController: UIViewController {
     }
  
 
+}
+
+extension JZNewServerConfigViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
+extension JZNewServerConfigViewController: UITextViewDelegate {
+    
 }

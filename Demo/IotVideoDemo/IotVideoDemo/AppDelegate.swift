@@ -9,6 +9,7 @@
 import UIKit
 import IoTVideo
 import UserNotifications
+import IVDevTools
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        registerLogger()
         window?.backgroundColor = .white
         if #available(iOS 10.0, *) {
             UIApplication.shared.registerForRemoteNotifications()
@@ -28,9 +30,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Fallback on earlier versions
             UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert,.badge,.sound], categories: nil))
         }
-        IoTVideo.sharedInstance.register(withProductId: "440234147841", ivCid: "102", userInfo: nil)
+        
+          //kIoTVideoHostType: 0 测试p2p服务器，测试web服务器
+//        Sdk 启动
+//        1、userinfo nil  -> p2p,web，云回放等均使用内置 正式 服务器
+//        2、userinfo kIoTVideoHostKey -> p2p 使用传入的地址 web，云回放等均未内置 正式 服务器
+//        3、userinfo kIoTVideoHostType 0 -> p2p,web，云回放等均使用内置 测试 服务器  不为0，为其他则和 （1、） 保持一致
+        if let type = IVConfigMgr.allConfigs.filter({$0.enable && $0.key == kIoTVideoHostType}).first?.value {
+             IoTVideo.sharedInstance.register(withProductId: "440234147841", ivCid: "103", userInfo: [kIoTVideoHostType: type])
+        } else {
+            //默认正式服务器
+            IoTVideo.sharedInstance.register(withProductId: "440234147841", ivCid: "103", userInfo: nil)
+        }
+        
         IoTVideo.sharedInstance.logCallback = logMessage
-        sleep(1)
+//        sleep(1)
 //        UIApplication.shared.clearLaunchScreenCache()
         return true
     }

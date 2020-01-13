@@ -94,9 +94,9 @@ class IVVasAPITestVC: UITableViewController {
             })
         case .cloudPlayback:
             let dateTime = "\(getZeroTimeInterval(Date()))"
-            IVRequest.getVideoPlaybackList(deviceId: "", timezone: NSTimeZone.system.secondsFromGMT(), dateTime: dateTime, responseHandler: { (json, error) in
-                handleWebCallback(json: json, error: error)
-            })
+//            IVRequest.getVideoPlaybackList(deviceId: "", timezone: NSTimeZone.system.secondsFromGMT(), dateTime: dateTime, responseHandler: { (json, error) in
+//                handleWebCallback(json: json, error: error)
+//            })
         case .cloudSpeedPlay:
             IVRequest.videoSpeedPlay(deviceId: "", startTime: "\(Date().timeIntervalSince1970 - 300)", speed: 2, responseHandler: { (json, error) in
                 handleWebCallback(json: json, error: error)

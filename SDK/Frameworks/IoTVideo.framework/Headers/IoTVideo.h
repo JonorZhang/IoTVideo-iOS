@@ -25,6 +25,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString *kIoTVideoHostKey;
+extern NSString *kIoTVideoHostType;
+
 @interface IoTVideo : NSObject
 
 + (instancetype)sharedInstance;

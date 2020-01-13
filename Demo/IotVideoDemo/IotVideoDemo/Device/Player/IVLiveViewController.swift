@@ -30,7 +30,7 @@ class IVLiveViewController: IVDevicePlayerViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(device)
+//        print(device)
         livePlayer = IVLivePlayer(deviceId: device.deviceID)
         livePlayer.delegate = self
         previewView.layer.addSublayer(livePlayer.previewLayer)

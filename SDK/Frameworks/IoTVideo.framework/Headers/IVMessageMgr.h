@@ -77,7 +77,7 @@ typedef void(^IVMsgDataCallback)(NSData * _Nullable data, NSError * _Nullable er
 /// @param deviceId 设备ID
 /// @param path 路径（JSON的叶子节点）
 /// @param completionHandler 完成回调
-- (void)getDataForDevice:(NSString *)deviceId
+- (void)getDataOfDevice:(NSString *)deviceId
                     path:(NSString *)path
        completionHandler:(nullable IVMsgJSONCallback)completionHandler;
 
@@ -86,7 +86,7 @@ typedef void(^IVMsgDataCallback)(NSData * _Nullable data, NSError * _Nullable er
 /// @param path 路径（JSON的叶子节点）
 /// @param timeout 超时时间
 /// @param completionHandler 完成回调
-- (void)getDataForDevice:(NSString *)deviceId
+- (void)getDataOfDevice:(NSString *)deviceId
                     path:(NSString *)path
                  timeout:(NSTimeInterval)timeout
        completionHandler:(nullable IVMsgJSONCallback)completionHandler;

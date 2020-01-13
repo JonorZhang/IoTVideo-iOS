@@ -29,10 +29,19 @@ class IVDeviceModel: Codable {
     var deviceName: String?
     var deviceType: String?
     
-    var online: Bool?
+    var online: Bool? = false {
+        didSet {
+            logInfo("Device: \(did ?? "???") Online:\(online ?? false)")
+            NotificationCenter.default.post(name: .deviceOnline, object: self)
+        }
+    }
 }
     
 enum IVDeviceShareType: String, Codable {
     case owner
     case guest
+}
+
+extension NSNotification.Name {
+    static let deviceOnline = Notification.Name("deviceOnline")
 }

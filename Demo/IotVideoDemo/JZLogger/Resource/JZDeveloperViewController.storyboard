@@ -43,7 +43,7 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="偏好设置" id="0qZ-28-yOJ">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Qsu-Z4-X2I" style="IBUITableViewCellStyleDefault" id="c7d-K6-gwW">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Qsu-Z4-X2I" style="IBUITableViewCellStyleDefault" id="c7d-K6-gwW">
                                         <rect key="frame" x="0.0" y="155.5" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="c7d-K6-gwW" id="buf-YA-3GS">
@@ -54,7 +54,7 @@
                                                     <rect key="frame" x="16" y="0.0" width="269" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -166,23 +166,36 @@
                             </connections>
                         </button>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="ConfigCell" textLabel="fcG-Bf-T8C" style="IBUITableViewCellStyleDefault" id="nyV-pi-lUR">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ConfigCell" id="nyV-pi-lUR" customClass="JZServerConfigCell" customModule="JZLogger">
                                 <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nyV-pi-lUR" id="eMA-bA-X7Y">
-                                    <rect key="frame" x="0.0" y="0.0" width="280" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fcG-Bf-T8C">
-                                            <rect key="frame" x="16" y="0.0" width="256" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S6m-5Z-VOc">
+                                            <rect key="frame" x="255" y="6.5" width="51" height="31"/>
+                                            <connections>
+                                                <action selector="enableSwitchChanged:" destination="nyV-pi-lUR" eventType="valueChanged" id="AVw-Je-u7s"/>
+                                            </connections>
+                                        </switch>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AK5-0j-MML">
+                                            <rect key="frame" x="16" y="11.5" width="42" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="AK5-0j-MML" firstAttribute="leading" secondItem="eMA-bA-X7Y" secondAttribute="leadingMargin" id="3s5-WV-lju"/>
+                                        <constraint firstItem="S6m-5Z-VOc" firstAttribute="centerY" secondItem="eMA-bA-X7Y" secondAttribute="centerY" id="JIf-Ii-zh6"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="S6m-5Z-VOc" secondAttribute="trailing" id="SE4-cl-C8V"/>
+                                        <constraint firstItem="AK5-0j-MML" firstAttribute="centerY" secondItem="eMA-bA-X7Y" secondAttribute="centerY" id="zaB-Oz-ceH"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="enableSwitch" destination="S6m-5Z-VOc" id="bW2-dk-Qbo"/>
+                                    <outlet property="nameLabel" destination="AK5-0j-MML" id="KLx-8L-KUX"/>
                                     <segue destination="Iub-Ls-a0I" kind="show" identifier="EditConfig" id="ZaT-51-3ZG"/>
                                 </connections>
                             </tableViewCell>
@@ -1059,19 +1072,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L81-DI-ZXF">
-                                <rect key="frame" x="5" y="168" width="310" height="351"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="ConfigureValue" translatesAutoresizingMaskIntoConstraints="NO" id="L81-DI-ZXF">
+                                <rect key="frame" x="5" y="158" width="310" height="80"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <string key="text">web -host 192.168.0.123 -https
-api -host 192.168.0.234 vas -host 192.168.0.345 -https pub -host 192.179.0.456</string>
-                                <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="kkD-oS-Scd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="Iub-Ls-a0I" id="bL1-bB-Q08"/>
                                 </connections>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WGP-az-pkx">
-                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="258" width="320" height="44"/>
                                 <color key="backgroundColor" red="0.0" green="0.99143940210000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="pB2-Y8-R9P"/>
@@ -1081,22 +1095,22 @@ api -host 192.168.0.234 vas -host 192.168.0.345 -https pub -host 192.179.0.4
                                     <action selector="saveConfigClicked:" destination="Iub-Ls-a0I" eventType="touchUpInside" id="Klu-Em-gaw"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="为这个配置起个名称吧" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QAH-jz-uRx">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="ConfigureKey" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QAH-jz-uRx">
                                 <rect key="frame" x="5" y="83.5" width="310" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="K5F-9I-Box"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="配置名称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KYF-fy-L2J">
-                                <rect key="frame" x="5" y="64" width="49.5" height="14.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Key" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KYF-fy-L2J">
+                                <rect key="frame" x="5" y="64" width="21" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="配置内容" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ry-HG-I0O">
-                                <rect key="frame" x="5" y="148.5" width="49.5" height="14.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ry-HG-I0O">
+                                <rect key="frame" x="5" y="138.5" width="31.5" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -1107,16 +1121,15 @@ api -host 192.168.0.234 vas -host 192.168.0.345 -https pub -host 192.179.0.4
                             <constraint firstItem="KYF-fy-L2J" firstAttribute="leading" secondItem="456-xn-cpQ" secondAttribute="leading" constant="5" id="05Q-PF-q49"/>
                             <constraint firstItem="KYF-fy-L2J" firstAttribute="top" secondItem="456-xn-cpQ" secondAttribute="top" constant="20" id="2LH-Mw-zgn"/>
                             <constraint firstItem="456-xn-cpQ" firstAttribute="trailing" secondItem="QAH-jz-uRx" secondAttribute="trailing" constant="5" id="9WB-NA-hJz"/>
+                            <constraint firstItem="WGP-az-pkx" firstAttribute="top" secondItem="L81-DI-ZXF" secondAttribute="bottom" constant="20" id="BfA-jb-vbo"/>
                             <constraint firstItem="L81-DI-ZXF" firstAttribute="top" secondItem="3Ry-HG-I0O" secondAttribute="bottom" constant="5" id="FVt-L1-CVb"/>
                             <constraint firstItem="WGP-az-pkx" firstAttribute="leading" secondItem="456-xn-cpQ" secondAttribute="leading" id="HEZ-sB-y8G"/>
                             <constraint firstItem="QAH-jz-uRx" firstAttribute="leading" secondItem="456-xn-cpQ" secondAttribute="leading" constant="5" id="ONH-GD-8OG"/>
                             <constraint firstItem="456-xn-cpQ" firstAttribute="trailing" secondItem="WGP-az-pkx" secondAttribute="trailing" id="P1K-JV-aVV"/>
                             <constraint firstItem="L81-DI-ZXF" firstAttribute="leading" secondItem="456-xn-cpQ" secondAttribute="leading" constant="5" id="QRT-yt-XBg"/>
                             <constraint firstItem="QAH-jz-uRx" firstAttribute="top" secondItem="KYF-fy-L2J" secondAttribute="bottom" constant="5" id="QrE-qz-qwE"/>
-                            <constraint firstItem="456-xn-cpQ" firstAttribute="bottom" secondItem="WGP-az-pkx" secondAttribute="bottom" id="SHZ-as-GAz"/>
-                            <constraint firstItem="3Ry-HG-I0O" firstAttribute="top" secondItem="QAH-jz-uRx" secondAttribute="bottom" constant="30" id="aPV-WW-k7p"/>
+                            <constraint firstItem="3Ry-HG-I0O" firstAttribute="top" secondItem="QAH-jz-uRx" secondAttribute="bottom" constant="20" id="aPV-WW-k7p"/>
                             <constraint firstItem="3Ry-HG-I0O" firstAttribute="leading" secondItem="456-xn-cpQ" secondAttribute="leading" constant="5" id="iB8-aa-4Y0"/>
-                            <constraint firstItem="WGP-az-pkx" firstAttribute="top" secondItem="L81-DI-ZXF" secondAttribute="bottom" constant="5" id="rRc-fQ-BGa"/>
                             <constraint firstItem="456-xn-cpQ" firstAttribute="trailing" secondItem="L81-DI-ZXF" secondAttribute="trailing" constant="5" id="uqr-ft-TXs"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="456-xn-cpQ"/>
@@ -1129,7 +1142,7 @@ api -host 192.168.0.234 vas -host 192.168.0.345 -https pub -host 192.179.0.4
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aQA-ih-MIt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1741.875" y="17.95774647887324"/>
+            <point key="canvasLocation" x="1798" y="10"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="D61-Pu-QXy">

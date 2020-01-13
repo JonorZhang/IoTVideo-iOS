@@ -52,10 +52,9 @@ class IVTabBarViewController: UITabBarController {
         } else {
             print("ivToke:",IoTVideo.sharedInstance.ivToken!)
         }
-        
         let window = (UIApplication.shared.delegate as! AppDelegate).window
-        window?.addSubview(logAssistant)
-        window?.bringSubviewToFront(logAssistant)
+        window?.addSubview(devToolsAssistant)
+        window?.bringSubviewToFront(devToolsAssistant)
     }
     
     
@@ -88,11 +87,11 @@ extension IVTabBarViewController: IVMessageDelegate {
     
     func didUpdateStatus(_ json: String, path: String, deviceId: String) {
 //        IVPopupView(title: "状态通知", message: "\(deviceId) \n \(path) \n \(json)", input: nil, actions: [.confirm()]).show()
-        ivHud("状态通知 \(deviceId) \n \(path) \n \(json)")
+        logInfo("状态通知 \(deviceId) \n \(path) \(json) ")
+        ivHud("状态通知 \(deviceId) \n \(path) \(json)")
         if let dev = IVDeviceTableViewController.mineDevice.first(where: { $0.did == deviceId }),
             let online = JSON(parseJSON: json).value("_online.stVal")?.boolValue {
             dev.online = online
-            logInfo("状态通知 \(deviceId) \n \(path) \n \(json) 在线:\(online)")
         }
     }
 }

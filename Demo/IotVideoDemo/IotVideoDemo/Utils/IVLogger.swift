@@ -7,56 +7,64 @@
 //
 
 import Foundation
-import JZLogger
+import IVDevTools
 
 //@objc class IVLog: NSObject {
 //    @objc static func error(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-//        JZLogger.log(.error, path: path, function: function, line: line, message: message(items))
+//        IVLogger.log(.error, path: path, function: function, line: line, message: message(items))
 //    }
 //
 //    @objc static func warning(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-//        JZLogger.log(.warning, path: path, function: function, line: line, message: message(items))
+//        IVLogger.log(.warning, path: path, function: function, line: line, message: message(items))
 //    }
 //
 //    @objc static func info(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-//        JZLogger.log(.info, path: path, function: function, line: line, message: message(items))
+//        IVLogger.log(.info, path: path, function: function, line: line, message: message(items))
 //    }
 //
 //    @objc static func debug(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-//        JZLogger.log(.debug, path: path, function: function, line: line, message: message(items))
+//        IVLogger.log(.debug, path: path, function: function, line: line, message: message(items))
 //    }
 //
 //    @objc static func verbose(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-//        JZLogger.log(.verbose, path: path, function: function, line: line, message: message(items))
+//        IVLogger.log(.verbose, path: path, function: function, line: line, message: message(items))
 //    }
 //}
 
+func logFatal(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
+    IVLogger.log(.fatal, path: path, function: function, line: line, message: message(items))
+}
+
 func logError(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-    JZLogger.log(.error, path: path, function: function, line: line, message: message(items))
+    IVLogger.log(.error, path: path, function: function, line: line, message: message(items))
 }
 
 func logWarning(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-    JZLogger.log(.warning, path: path, function: function, line: line, message: message(items))
+    IVLogger.log(.warning, path: path, function: function, line: line, message: message(items))
 }
 
 func logInfo(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-    JZLogger.log(.info, path: path, function: function, line: line, message: message(items))
+    IVLogger.log(.info, path: path, function: function, line: line, message: message(items))
 }
 
 func logDebug(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-    JZLogger.log(.debug, path: path, function: function, line: line, message: message(items))
+    IVLogger.log(.debug, path: path, function: function, line: line, message: message(items))
 }
 
 func logVerbose(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-    JZLogger.log(.verbose, path: path, function: function, line: line, message: message(items))
+    IVLogger.log(.verbose, path: path, function: function, line: line, message: message(items))
 }
 
 func logMessage(level: Int32, path: String, function: String, line: Int32, message: String) {
-    JZLogger.log(Level(rawValue: Int(level))!, path: path, function: function, line: Int(line), message: message)
+    IVLogger.log(Level(rawValue: Int(level))!, path: path, function: function, line: Int(line), message: message)
 }
 
-var logAssistant: IVLogAssistant {
-    return IVLogAssistant.shared
+var devToolsAssistant: IVDevToolsAssistant {
+    return IVDevToolsAssistant.shared
+}
+
+func registerLogger() {
+    IVLogger.register(logLevel: .debug)
 }
 
 fileprivate func unwrap<T: Any>(_ any: T) -> T {

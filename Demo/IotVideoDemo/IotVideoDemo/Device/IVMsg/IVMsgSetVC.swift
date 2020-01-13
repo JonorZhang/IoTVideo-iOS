@@ -18,7 +18,7 @@ class IVMsgSetVC: UITableViewController, IVDeviceAccessable {
     override func viewDidLoad() {
         super.viewDidLoad()
         let hud = ivLoadingHud()
-        IVMessageMgr.sharedInstance.getDataForDevice(device.deviceID, path: "") { (json, error) in
+        IVMessageMgr.sharedInstance.getDataOfDevice(device.deviceID, path: "") { (json, error) in
             hud.hide()
             guard let json = json else {
                 let path = Bundle.main.path(forResource: "msgFile", ofType: "json")
@@ -98,13 +98,12 @@ class IVMsgSetVC: UITableViewController, IVDeviceAccessable {
         }
         
        
-        let pop = IVPopupView(title: "物模型设置 \n \(path)", input: [currentTextJson], actions: [.cancel(), .confirm({ (v) in
+        let pop = IVPopupView(title: "物模型设置 \n \(path).\(subKey) ", input: [currentTextJson], actions: [.cancel(), .confirm({ (v) in
             let inJson = v.inputFields[0].text ?? ""
             let hud = ivLoadingHud()
-            IVMessageMgr.sharedInstance.setDataToDevice(self.device.deviceID, path: (path), json: inJson, timeout: 30) { (json, err) in
+            IVMessageMgr.sharedInstance.setDataToDevice(self.device.deviceID, path: "\(path).\(subKey)", json: inJson, timeout: 30) { (json, err) in
                 hud.hide()
                 let message = "json:\(json ?? "") \n error:\(String(describing: err))"
-                logInfo("物模型设置 \n \(path).setVal \n \(message)")
                 showAlert(msg: path + "\n" + message)
             }
         })])
