@@ -68,6 +68,8 @@ public class IVLogAssistant: UIWindow {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+       
+        windowLevel = .alert-1
         
         rootViewController = developerVC
         rootViewController?.view.isHidden = true
@@ -137,6 +139,7 @@ public class IVLogAssistant: UIWindow {
             self.layer.masksToBounds = true
             self.tapGes.isEnabled = true
             self.panGes.isEnabled = true
+            self.longPressGes.isEnabled = false
             self.logo.alpha = 1.0
             self.active = false
         }) { (_) in
@@ -152,7 +155,9 @@ public class IVLogAssistant: UIWindow {
             self.frame = CGRect(x: UIScreen.main.bounds.width - W, y: 0, width: W, height: H)
             self.rootViewController?.view.frame = self.bounds
             self.rootViewController?.view.isHidden = false
+            self.tapGes.isEnabled = false
             self.panGes.isEnabled = true
+            self.longPressGes.isEnabled = true
             self.alpha = 0.4
         }
     }
@@ -167,6 +172,7 @@ public class IVLogAssistant: UIWindow {
             self.layer.cornerRadius = 0
             self.tapGes.isEnabled = false
             self.panGes.isEnabled = false
+            self.longPressGes.isEnabled = false
             self.logo.alpha = 0.03
             self.active = true
         }

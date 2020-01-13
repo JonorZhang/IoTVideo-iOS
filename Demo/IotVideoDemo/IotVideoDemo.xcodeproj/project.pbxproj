@@ -10,79 +10,78 @@
 		9B3DA75C9528BB7110B59A1E /* Pods_IotVideoDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F2057A9D56E920A4E39BA18 /* Pods_IotVideoDemo.framework */; };
 		D59BF32223A27B1E007270B1 /* WoodPeckeriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D59BF32023A27B14007270B1 /* WoodPeckeriOS.framework */; };
 		D59BF32323A27B1E007270B1 /* WoodPeckeriOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D59BF32023A27B14007270B1 /* WoodPeckeriOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D5C7223123839B9600585D33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C7223023839B9600585D33 /* AppDelegate.swift */; };
-		D5C7223623839B9600585D33 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5C7223423839B9600585D33 /* Main.storyboard */; };
-		D5C7223823839B9700585D33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5C7223723839B9700585D33 /* Assets.xcassets */; };
-		D5C7223B23839B9700585D33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5C7223923839B9700585D33 /* LaunchScreen.storyboard */; };
 		D5E4B3E523975C7200DDA80A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E4B3E423975C7200DDA80A /* AudioToolbox.framework */; };
 		D5E4B3E723975C7A00DDA80A /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E4B3E623975C7A00DDA80A /* CoreMedia.framework */; };
 		D5E4B3E923975C8600DDA80A /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E4B3E823975C8600DDA80A /* VideoToolbox.framework */; };
-		D5FB5B3B2396129000C9D737 /* IVTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FB5B3A2396129000C9D737 /* IVTabBarViewController.swift */; };
-		EA14EB5423C819A60038798B /* IVAccountAPITestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2123C819A50038798B /* IVAccountAPITestVC.swift */; };
-		EA14EB5523C819A60038798B /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA14EB2323C819A50038798B /* Login.storyboard */; };
-		EA14EB5623C819A60038798B /* IVRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2423C819A50038798B /* IVRegisterVC.swift */; };
-		EA14EB5723C819A60038798B /* IVRegisterEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2523C819A50038798B /* IVRegisterEmailVC.swift */; };
-		EA14EB5823C819A60038798B /* IVLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2623C819A50038798B /* IVLoginVC.swift */; };
-		EA14EB5923C819A60038798B /* IVMsgSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2923C819A50038798B /* IVMsgSetVC.swift */; };
-		EA14EB5A23C819A60038798B /* IVMsgGetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2A23C819A50038798B /* IVMsgGetVC.swift */; };
-		EA14EB5B23C819A60038798B /* msgFile.json in Resources */ = {isa = PBXBuildFile; fileRef = EA14EB2B23C819A50038798B /* msgFile.json */; };
-		EA14EB5C23C819A60038798B /* IVDeviceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2C23C819A50038798B /* IVDeviceTableViewController.swift */; };
-		EA14EB5D23C819A60038798B /* IVDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2D23C819A50038798B /* IVDevice.swift */; };
-		EA14EB5E23C819A60038798B /* IVMineDeviceTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2E23C819A50038798B /* IVMineDeviceTableVC.swift */; };
-		EA14EB5F23C819A60038798B /* IVQRCodeAddDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB2F23C819A50038798B /* IVQRCodeAddDevice.swift */; };
-		EA14EB6023C819A60038798B /* IVDeviceAccessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3023C819A50038798B /* IVDeviceAccessVC.swift */; };
-		EA14EB6123C819A60038798B /* IVLANDeviceTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3123C819A50038798B /* IVLANDeviceTableVC.swift */; };
-		EA14EB6223C819A60038798B /* IVDevice.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA14EB3223C819A50038798B /* IVDevice.storyboard */; };
-		EA14EB6323C819A60038798B /* IVSharedListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3423C819A50038798B /* IVSharedListVC.swift */; };
-		EA14EB6423C819A60038798B /* IVShareDeviceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3523C819A50038798B /* IVShareDeviceTableViewController.swift */; };
-		EA14EB6523C819A60038798B /* IVShareDeviceByQRCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3623C819A50038798B /* IVShareDeviceByQRCodeVC.swift */; };
-		EA14EB6623C819A60038798B /* IVQRcodeScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3723C819A50038798B /* IVQRcodeScanVC.swift */; };
-		EA14EB6723C819A60038798B /* IVShareDeviceByAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3823C819A50038798B /* IVShareDeviceByAccountVC.swift */; };
-		EA14EB6823C819A60038798B /* IVDeviceAccess.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA14EB3923C819A50038798B /* IVDeviceAccess.storyboard */; };
-		EA14EB6A23C819A60038798B /* IVLiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3C23C819A60038798B /* IVLiveViewController.swift */; };
-		EA14EB6B23C819A60038798B /* IVPlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3D23C819A60038798B /* IVPlaybackViewController.swift */; };
-		EA14EB6C23C819A60038798B /* IVDevicePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3E23C819A60038798B /* IVDevicePlayerViewController.swift */; };
-		EA14EB6D23C819A60038798B /* IVMonitorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB3F23C819A60038798B /* IVMonitorViewController.swift */; };
-		EA14EB6E23C819A60038798B /* IVPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4223C819A60038798B /* IVPopupView.swift */; };
-		EA14EB6F23C819A60038798B /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4323C819A60038798B /* UIColor.swift */; };
-		EA14EB7023C819A60038798B /* IVJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4423C819A60038798B /* IVJson.swift */; };
-		EA14EB7123C819A60038798B /* IVApiFormatTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4523C819A60038798B /* IVApiFormatTest.m */; };
-		EA14EB7223C819A60038798B /* IVHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4623C819A60038798B /* IVHud.swift */; };
-		EA14EB7323C819A60038798B /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4723C819A60038798B /* UIDevice.swift */; };
-		EA14EB7423C819A60038798B /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4823C819A60038798B /* Foundation.swift */; };
-		EA14EB7523C819A60038798B /* IVTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4923C819A60038798B /* IVTimelineView.swift */; };
-		EA14EB7623C819A60038798B /* IVLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4A23C819A60038798B /* IVLogger.swift */; };
-		EA14EB7723C819A60038798B /* IVApiFormatTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4B23C819A60038798B /* IVApiFormatTest.swift */; };
-		EA14EB7823C819A60038798B /* UIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB4C23C819A60038798B /* UIControl.swift */; };
-		EA14EB7D23C819A60038798B /* IVVasAPITestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA14EB5323C819A60038798B /* IVVasAPITestVC.swift */; };
+		EAB78DAA23CC3E81004B130E /* IVDevTools.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAF055B323CC233200432559 /* IVDevTools.framework */; };
+		EAB78DAB23CC3E81004B130E /* IVDevTools.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAF055B323CC233200432559 /* IVDevTools.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EAE59C4223BA320100808D31 /* IoTVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2E23BA31CA00808D31 /* IoTVideo.framework */; };
 		EAE59C4323BA320100808D31 /* IoTVideo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2E23BA31CA00808D31 /* IoTVideo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EAE59C4423BA320100808D31 /* IVAccountMgr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C3023BA31CB00808D31 /* IVAccountMgr.framework */; };
 		EAE59C4523BA320100808D31 /* IVAccountMgr.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C3023BA31CB00808D31 /* IVAccountMgr.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EAE59C4623BA320100808D31 /* IVVAS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2F23BA31CB00808D31 /* IVVAS.framework */; };
 		EAE59C4723BA320100808D31 /* IVVAS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2F23BA31CB00808D31 /* IVVAS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EAE59C4823BA320100808D31 /* JZLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2223BA307F00808D31 /* JZLogger.framework */; };
-		EAE59C4923BA320100808D31 /* JZLogger.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAE59C2223BA307F00808D31 /* JZLogger.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EAF055FE23CC237300432559 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAF055BB23CC237300432559 /* Assets.xcassets */; };
+		EAF055FF23CC237300432559 /* IVTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055BC23CC237300432559 /* IVTabBarViewController.swift */; };
+		EAF0560023CC237300432559 /* IVPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055BF23CC237300432559 /* IVPopupView.swift */; };
+		EAF0560123CC237300432559 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055C023CC237300432559 /* UIColor.swift */; };
+		EAF0560223CC237300432559 /* IVKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055C123CC237300432559 /* IVKeychain.swift */; };
+		EAF0560323CC237300432559 /* IVJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055C223CC237300432559 /* IVJson.swift */; };
+		EAF0560423CC237300432559 /* IVApiFormatTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF055C323CC237300432559 /* IVApiFormatTest.m */; };
+		EAF0560523CC237300432559 /* IVHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055C423CC237300432559 /* IVHud.swift */; };
+		EAF0560623CC237300432559 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055C523CC237300432559 /* UIDevice.swift */; };
+		EAF0560723CC237300432559 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055C623CC237300432559 /* Foundation.swift */; };
+		EAF0560823CC237300432559 /* IVTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055C723CC237300432559 /* IVTimelineView.swift */; };
+		EAF0560923CC237300432559 /* IVLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055C823CC237300432559 /* IVLogger.swift */; };
+		EAF0560A23CC237300432559 /* IVApiFormatTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055C923CC237300432559 /* IVApiFormatTest.swift */; };
+		EAF0560B23CC237300432559 /* UIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055CA23CC237300432559 /* UIControl.swift */; };
+		EAF0560C23CC237300432559 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAF055CB23CC237300432559 /* LaunchScreen.storyboard */; };
+		EAF0560D23CC237300432559 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAF055CD23CC237300432559 /* Main.storyboard */; };
+		EAF0560E23CC237300432559 /* IVVasAPITestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055D023CC237300432559 /* IVVasAPITestVC.swift */; };
+		EAF0561023CC237300432559 /* IVMsgSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055D423CC237300432559 /* IVMsgSetVC.swift */; };
+		EAF0561123CC237300432559 /* IVMsgGetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055D523CC237300432559 /* IVMsgGetVC.swift */; };
+		EAF0561223CC237300432559 /* msgFile.json in Resources */ = {isa = PBXBuildFile; fileRef = EAF055D623CC237300432559 /* msgFile.json */; };
+		EAF0561323CC237300432559 /* IVDeviceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055D723CC237300432559 /* IVDeviceTableViewController.swift */; };
+		EAF0561423CC237300432559 /* IVDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055D823CC237300432559 /* IVDevice.swift */; };
+		EAF0561523CC237300432559 /* IVMineDeviceTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055D923CC237300432559 /* IVMineDeviceTableVC.swift */; };
+		EAF0561623CC237300432559 /* IVQRCodeAddDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055DA23CC237300432559 /* IVQRCodeAddDevice.swift */; };
+		EAF0561723CC237300432559 /* IVVASBuyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055DC23CC237300432559 /* IVVASBuyVC.swift */; };
+		EAF0561823CC237300432559 /* IVVASGetPlaybackListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055DD23CC237300432559 /* IVVASGetPlaybackListVC.swift */; };
+		EAF0561923CC237300432559 /* IVDeviceAccessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055DE23CC237300432559 /* IVDeviceAccessVC.swift */; };
+		EAF0561A23CC237300432559 /* IVLANDeviceTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055DF23CC237300432559 /* IVLANDeviceTableVC.swift */; };
+		EAF0561B23CC237300432559 /* IVDevice.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAF055E023CC237300432559 /* IVDevice.storyboard */; };
+		EAF0561C23CC237300432559 /* IVSharedListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055E223CC237300432559 /* IVSharedListVC.swift */; };
+		EAF0561D23CC237300432559 /* IVShareDeviceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055E323CC237300432559 /* IVShareDeviceTableViewController.swift */; };
+		EAF0561E23CC237300432559 /* IVShareDeviceByQRCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055E423CC237300432559 /* IVShareDeviceByQRCodeVC.swift */; };
+		EAF0561F23CC237300432559 /* IVQRcodeScanVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055E523CC237300432559 /* IVQRcodeScanVC.swift */; };
+		EAF0562023CC237300432559 /* IVShareDeviceByAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055E623CC237300432559 /* IVShareDeviceByAccountVC.swift */; };
+		EAF0562123CC237300432559 /* IVDeviceAccess.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAF055E723CC237300432559 /* IVDeviceAccess.storyboard */; };
+		EAF0562323CC237300432559 /* IVLiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055EA23CC237300432559 /* IVLiveViewController.swift */; };
+		EAF0562423CC237300432559 /* IVPlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055EB23CC237300432559 /* IVPlaybackViewController.swift */; };
+		EAF0562523CC237300432559 /* IJKMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055EC23CC237300432559 /* IJKMediaViewController.swift */; };
+		EAF0562623CC237300432559 /* IVDevicePlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055ED23CC237300432559 /* IVDevicePlayerViewController.swift */; };
+		EAF0562723CC237300432559 /* IVMonitorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055EE23CC237300432559 /* IVMonitorViewController.swift */; };
+		EAF0562823CC237300432559 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055EF23CC237300432559 /* AppDelegate.swift */; };
+		EAF0562923CC237300432559 /* IVAccountAPITestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055F123CC237300432559 /* IVAccountAPITestVC.swift */; };
+		EAF0562A23CC237300432559 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAF055F323CC237300432559 /* Login.storyboard */; };
+		EAF0562B23CC237300432559 /* IVRegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055F423CC237300432559 /* IVRegisterVC.swift */; };
+		EAF0562C23CC237300432559 /* IVRegisterEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055F523CC237300432559 /* IVRegisterEmailVC.swift */; };
+		EAF0562D23CC237300432559 /* IVLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055F623CC237300432559 /* IVLoginVC.swift */; };
+		EAF0563F23CC274C00432559 /* IJKMediaFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAF0563D23CC273E00432559 /* IJKMediaFramework.framework */; };
+		EAF0564023CC274C00432559 /* IJKMediaFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EAF0563D23CC273E00432559 /* IJKMediaFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		EAE59C2123BA307F00808D31 /* PBXContainerItemProxy */ = {
+		EAF055B223CC233200432559 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EAE59C1B23BA307F00808D31 /* JZLogger.xcodeproj */;
+			containerPortal = EAF055AD23CC233200432559 /* IVDevTools.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EA4B5AA1230B9C8B00A441D0;
-			remoteInfo = JZLogger;
+			remoteInfo = IVDevTools;
 		};
-		EAE59C2323BA307F00808D31 /* PBXContainerItemProxy */ = {
+		EAF055B423CC233200432559 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = EAE59C1B23BA307F00808D31 /* JZLogger.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EA4B5AAA230B9C8B00A441D0;
-			remoteInfo = JZLoggerTests;
-		};
-		EAE59C2523BA307F00808D31 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EAE59C1B23BA307F00808D31 /* JZLogger.xcodeproj */;
+			containerPortal = EAF055AD23CC233200432559 /* IVDevTools.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EAAA4759230E62AF001ADDB2;
 			remoteInfo = Resource;
@@ -99,7 +98,8 @@
 				EAE59C4723BA320100808D31 /* IVVAS.framework in Embed Frameworks */,
 				EAE59C4523BA320100808D31 /* IVAccountMgr.framework in Embed Frameworks */,
 				D59BF32323A27B1E007270B1 /* WoodPeckeriOS.framework in Embed Frameworks */,
-				EAE59C4923BA320100808D31 /* JZLogger.framework in Embed Frameworks */,
+				EAB78DAB23CC3E81004B130E /* IVDevTools.framework in Embed Frameworks */,
+				EAF0564023CC274C00432559 /* IJKMediaFramework.framework in Embed Frameworks */,
 				EAE59C4323BA320100808D31 /* IoTVideo.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -111,63 +111,69 @@
 		2160A463823060A34070D379 /* Pods-IotVideoTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoTest.release.xcconfig"; path = "../../../Pods/Target Support Files/Pods-IotVideoTest/Pods-IotVideoTest.release.xcconfig"; sourceTree = "<group>"; };
 		2F2057A9D56E920A4E39BA18 /* Pods_IotVideoDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IotVideoDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DF004ACBB39C6212BA81A65 /* Pods-IotVideoAccontMgrDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoAccontMgrDemo.release.xcconfig"; path = "Target Support Files/Pods-IotVideoAccontMgrDemo/Pods-IotVideoAccontMgrDemo.release.xcconfig"; sourceTree = "<group>"; };
-		D547B464238D52D800A4478F /* IotVideoDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IotVideoDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		D59BF32023A27B14007270B1 /* WoodPeckeriOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WoodPeckeriOS.framework; sourceTree = "<group>"; };
 		D5C7222D23839B9600585D33 /* IotVideoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IotVideoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D5C7223023839B9600585D33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D5C7223523839B9600585D33 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D5C7223723839B9700585D33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D5C7223A23839B9700585D33 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		D5C7223C23839B9700585D33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5E4B3E423975C7200DDA80A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D5E4B3E623975C7A00DDA80A /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		D5E4B3E823975C8600DDA80A /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		D5E4B3EA23975C8F00DDA80A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		D5FB5B3A2396129000C9D737 /* IVTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVTabBarViewController.swift; sourceTree = "<group>"; };
 		DACD94A089C77B105D17650E /* Pods-IotVideoAccontMgrDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoAccontMgrDemo.debug.xcconfig"; path = "Target Support Files/Pods-IotVideoAccontMgrDemo/Pods-IotVideoAccontMgrDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		DD572BAB8010505F98B3D510 /* Pods-IotVideoDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoDemo.debug.xcconfig"; path = "../../../Pods/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		EA14EB2123C819A50038798B /* IVAccountAPITestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVAccountAPITestVC.swift; sourceTree = "<group>"; };
-		EA14EB2323C819A50038798B /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
-		EA14EB2423C819A50038798B /* IVRegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVRegisterVC.swift; sourceTree = "<group>"; };
-		EA14EB2523C819A50038798B /* IVRegisterEmailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVRegisterEmailVC.swift; sourceTree = "<group>"; };
-		EA14EB2623C819A50038798B /* IVLoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLoginVC.swift; sourceTree = "<group>"; };
-		EA14EB2923C819A50038798B /* IVMsgSetVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVMsgSetVC.swift; sourceTree = "<group>"; };
-		EA14EB2A23C819A50038798B /* IVMsgGetVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVMsgGetVC.swift; sourceTree = "<group>"; };
-		EA14EB2B23C819A50038798B /* msgFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = msgFile.json; sourceTree = "<group>"; };
-		EA14EB2C23C819A50038798B /* IVDeviceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVDeviceTableViewController.swift; sourceTree = "<group>"; };
-		EA14EB2D23C819A50038798B /* IVDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVDevice.swift; sourceTree = "<group>"; };
-		EA14EB2E23C819A50038798B /* IVMineDeviceTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVMineDeviceTableVC.swift; sourceTree = "<group>"; };
-		EA14EB2F23C819A50038798B /* IVQRCodeAddDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVQRCodeAddDevice.swift; sourceTree = "<group>"; };
-		EA14EB3023C819A50038798B /* IVDeviceAccessVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVDeviceAccessVC.swift; sourceTree = "<group>"; };
-		EA14EB3123C819A50038798B /* IVLANDeviceTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLANDeviceTableVC.swift; sourceTree = "<group>"; };
-		EA14EB3223C819A50038798B /* IVDevice.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IVDevice.storyboard; sourceTree = "<group>"; };
-		EA14EB3423C819A50038798B /* IVSharedListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVSharedListVC.swift; sourceTree = "<group>"; };
-		EA14EB3523C819A50038798B /* IVShareDeviceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVShareDeviceTableViewController.swift; sourceTree = "<group>"; };
-		EA14EB3623C819A50038798B /* IVShareDeviceByQRCodeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVShareDeviceByQRCodeVC.swift; sourceTree = "<group>"; };
-		EA14EB3723C819A50038798B /* IVQRcodeScanVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVQRcodeScanVC.swift; sourceTree = "<group>"; };
-		EA14EB3823C819A50038798B /* IVShareDeviceByAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVShareDeviceByAccountVC.swift; sourceTree = "<group>"; };
-		EA14EB3923C819A50038798B /* IVDeviceAccess.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IVDeviceAccess.storyboard; sourceTree = "<group>"; };
-		EA14EB3C23C819A60038798B /* IVLiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLiveViewController.swift; sourceTree = "<group>"; };
-		EA14EB3D23C819A60038798B /* IVPlaybackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVPlaybackViewController.swift; sourceTree = "<group>"; };
-		EA14EB3E23C819A60038798B /* IVDevicePlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVDevicePlayerViewController.swift; sourceTree = "<group>"; };
-		EA14EB3F23C819A60038798B /* IVMonitorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVMonitorViewController.swift; sourceTree = "<group>"; };
-		EA14EB4123C819A60038798B /* IVApiFormatTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVApiFormatTest.h; sourceTree = "<group>"; };
-		EA14EB4223C819A60038798B /* IVPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVPopupView.swift; sourceTree = "<group>"; };
-		EA14EB4323C819A60038798B /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
-		EA14EB4423C819A60038798B /* IVJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVJson.swift; sourceTree = "<group>"; };
-		EA14EB4523C819A60038798B /* IVApiFormatTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVApiFormatTest.m; sourceTree = "<group>"; };
-		EA14EB4623C819A60038798B /* IVHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVHud.swift; sourceTree = "<group>"; };
-		EA14EB4723C819A60038798B /* UIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
-		EA14EB4823C819A60038798B /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
-		EA14EB4923C819A60038798B /* IVTimelineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVTimelineView.swift; sourceTree = "<group>"; };
-		EA14EB4A23C819A60038798B /* IVLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLogger.swift; sourceTree = "<group>"; };
-		EA14EB4B23C819A60038798B /* IVApiFormatTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVApiFormatTest.swift; sourceTree = "<group>"; };
-		EA14EB4C23C819A60038798B /* UIControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIControl.swift; sourceTree = "<group>"; };
-		EA14EB5323C819A60038798B /* IVVasAPITestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVVasAPITestVC.swift; sourceTree = "<group>"; };
-		EAE59C1B23BA307F00808D31 /* JZLogger.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JZLogger.xcodeproj; path = JZLogger/JZLogger.xcodeproj; sourceTree = "<group>"; };
 		EAE59C2E23BA31CA00808D31 /* IoTVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IoTVideo.framework; path = ../../SDK/Frameworks/IoTVideo.framework; sourceTree = "<group>"; };
 		EAE59C2F23BA31CB00808D31 /* IVVAS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IVVAS.framework; path = ../../SDK/Frameworks/IVVAS.framework; sourceTree = "<group>"; };
 		EAE59C3023BA31CB00808D31 /* IVAccountMgr.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IVAccountMgr.framework; path = ../../SDK/Frameworks/IVAccountMgr.framework; sourceTree = "<group>"; };
+		EAF055AD23CC233200432559 /* IVDevTools.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IVDevTools.xcodeproj; path = IVDevTools/IVDevTools.xcodeproj; sourceTree = "<group>"; };
+		EAF055B923CC237300432559 /* IotVideoDemo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IotVideoDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		EAF055BA23CC237300432559 /* IotVideoDemo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = IotVideoDemo.entitlements; sourceTree = "<group>"; };
+		EAF055BB23CC237300432559 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EAF055BC23CC237300432559 /* IVTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVTabBarViewController.swift; sourceTree = "<group>"; };
+		EAF055BE23CC237300432559 /* IVApiFormatTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVApiFormatTest.h; sourceTree = "<group>"; };
+		EAF055BF23CC237300432559 /* IVPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVPopupView.swift; sourceTree = "<group>"; };
+		EAF055C023CC237300432559 /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		EAF055C123CC237300432559 /* IVKeychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVKeychain.swift; sourceTree = "<group>"; };
+		EAF055C223CC237300432559 /* IVJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVJson.swift; sourceTree = "<group>"; };
+		EAF055C323CC237300432559 /* IVApiFormatTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVApiFormatTest.m; sourceTree = "<group>"; };
+		EAF055C423CC237300432559 /* IVHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVHud.swift; sourceTree = "<group>"; };
+		EAF055C523CC237300432559 /* UIDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
+		EAF055C623CC237300432559 /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
+		EAF055C723CC237300432559 /* IVTimelineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVTimelineView.swift; sourceTree = "<group>"; };
+		EAF055C823CC237300432559 /* IVLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLogger.swift; sourceTree = "<group>"; };
+		EAF055C923CC237300432559 /* IVApiFormatTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVApiFormatTest.swift; sourceTree = "<group>"; };
+		EAF055CA23CC237300432559 /* UIControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIControl.swift; sourceTree = "<group>"; };
+		EAF055CC23CC237300432559 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EAF055CE23CC237300432559 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EAF055D023CC237300432559 /* IVVasAPITestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVVasAPITestVC.swift; sourceTree = "<group>"; };
+		EAF055D423CC237300432559 /* IVMsgSetVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVMsgSetVC.swift; sourceTree = "<group>"; };
+		EAF055D523CC237300432559 /* IVMsgGetVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVMsgGetVC.swift; sourceTree = "<group>"; };
+		EAF055D623CC237300432559 /* msgFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = msgFile.json; sourceTree = "<group>"; };
+		EAF055D723CC237300432559 /* IVDeviceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVDeviceTableViewController.swift; sourceTree = "<group>"; };
+		EAF055D823CC237300432559 /* IVDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVDevice.swift; sourceTree = "<group>"; };
+		EAF055D923CC237300432559 /* IVMineDeviceTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVMineDeviceTableVC.swift; sourceTree = "<group>"; };
+		EAF055DA23CC237300432559 /* IVQRCodeAddDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVQRCodeAddDevice.swift; sourceTree = "<group>"; };
+		EAF055DC23CC237300432559 /* IVVASBuyVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVVASBuyVC.swift; sourceTree = "<group>"; };
+		EAF055DD23CC237300432559 /* IVVASGetPlaybackListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVVASGetPlaybackListVC.swift; sourceTree = "<group>"; };
+		EAF055DE23CC237300432559 /* IVDeviceAccessVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVDeviceAccessVC.swift; sourceTree = "<group>"; };
+		EAF055DF23CC237300432559 /* IVLANDeviceTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLANDeviceTableVC.swift; sourceTree = "<group>"; };
+		EAF055E023CC237300432559 /* IVDevice.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IVDevice.storyboard; sourceTree = "<group>"; };
+		EAF055E223CC237300432559 /* IVSharedListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVSharedListVC.swift; sourceTree = "<group>"; };
+		EAF055E323CC237300432559 /* IVShareDeviceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVShareDeviceTableViewController.swift; sourceTree = "<group>"; };
+		EAF055E423CC237300432559 /* IVShareDeviceByQRCodeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVShareDeviceByQRCodeVC.swift; sourceTree = "<group>"; };
+		EAF055E523CC237300432559 /* IVQRcodeScanVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVQRcodeScanVC.swift; sourceTree = "<group>"; };
+		EAF055E623CC237300432559 /* IVShareDeviceByAccountVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVShareDeviceByAccountVC.swift; sourceTree = "<group>"; };
+		EAF055E723CC237300432559 /* IVDeviceAccess.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IVDeviceAccess.storyboard; sourceTree = "<group>"; };
+		EAF055EA23CC237300432559 /* IVLiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLiveViewController.swift; sourceTree = "<group>"; };
+		EAF055EB23CC237300432559 /* IVPlaybackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVPlaybackViewController.swift; sourceTree = "<group>"; };
+		EAF055EC23CC237300432559 /* IJKMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IJKMediaViewController.swift; sourceTree = "<group>"; };
+		EAF055ED23CC237300432559 /* IVDevicePlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVDevicePlayerViewController.swift; sourceTree = "<group>"; };
+		EAF055EE23CC237300432559 /* IVMonitorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVMonitorViewController.swift; sourceTree = "<group>"; };
+		EAF055EF23CC237300432559 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		EAF055F123CC237300432559 /* IVAccountAPITestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVAccountAPITestVC.swift; sourceTree = "<group>"; };
+		EAF055F323CC237300432559 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		EAF055F423CC237300432559 /* IVRegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVRegisterVC.swift; sourceTree = "<group>"; };
+		EAF055F523CC237300432559 /* IVRegisterEmailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVRegisterEmailVC.swift; sourceTree = "<group>"; };
+		EAF055F623CC237300432559 /* IVLoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLoginVC.swift; sourceTree = "<group>"; };
+		EAF055F823CC237300432559 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EAF0563D23CC273E00432559 /* IJKMediaFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IJKMediaFramework.framework; path = IotVideoDemo/IJKMediaFramework.framework; sourceTree = "<group>"; };
 		ECF63F18C2CB6B85B6DBE5A7 /* Pods-IotVideoDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoDemo.release.xcconfig"; path = "../../../Pods/Target Support Files/Pods-IotVideoDemo/Pods-IotVideoDemo.release.xcconfig"; sourceTree = "<group>"; };
 		F9AFCC166400017A1AEA0039 /* Pods-IotVideoTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IotVideoTest.debug.xcconfig"; path = "../../../Pods/Target Support Files/Pods-IotVideoTest/Pods-IotVideoTest.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -177,11 +183,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAE59C4423BA320100808D31 /* IVAccountMgr.framework in Frameworks */,
-				EAE59C4823BA320100808D31 /* JZLogger.framework in Frameworks */,
 				EAE59C4223BA320100808D31 /* IoTVideo.framework in Frameworks */,
-				D5E4B3E723975C7A00DDA80A /* CoreMedia.framework in Frameworks */,
+				EAB78DAA23CC3E81004B130E /* IVDevTools.framework in Frameworks */,
+				EAE59C4423BA320100808D31 /* IVAccountMgr.framework in Frameworks */,
 				EAE59C4623BA320100808D31 /* IVVAS.framework in Frameworks */,
+				EAF0563F23CC274C00432559 /* IJKMediaFramework.framework in Frameworks */,
+				D5E4B3E723975C7A00DDA80A /* CoreMedia.framework in Frameworks */,
 				D5E4B3E923975C8600DDA80A /* VideoToolbox.framework in Frameworks */,
 				D59BF32223A27B1E007270B1 /* WoodPeckeriOS.framework in Frameworks */,
 				D5E4B3E523975C7200DDA80A /* AudioToolbox.framework in Frameworks */,
@@ -195,10 +202,11 @@
 		32412E4E8AB189944425730E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EAF0563D23CC273E00432559 /* IJKMediaFramework.framework */,
+				EAF055AD23CC233200432559 /* IVDevTools.xcodeproj */,
 				EAE59C2E23BA31CA00808D31 /* IoTVideo.framework */,
 				EAE59C3023BA31CB00808D31 /* IVAccountMgr.framework */,
 				EAE59C2F23BA31CB00808D31 /* IVVAS.framework */,
-				EAE59C1B23BA307F00808D31 /* JZLogger.xcodeproj */,
 				D5E4B3EA23975C8F00DDA80A /* libz.tbd */,
 				D5E4B3E823975C8600DDA80A /* VideoToolbox.framework */,
 				D5E4B3E623975C7A00DDA80A /* CoreMedia.framework */,
@@ -225,7 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				D59BF32023A27B14007270B1 /* WoodPeckeriOS.framework */,
-				D5C7222F23839B9600585D33 /* IotVideoDemo */,
+				EAF055B823CC237300432559 /* IotVideoDemo */,
 				D5C7222E23839B9600585D33 /* Products */,
 				AA07CB14330DE4D2A5BF3121 /* Pods */,
 				32412E4E8AB189944425730E /* Frameworks */,
@@ -240,130 +248,142 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D5C7222F23839B9600585D33 /* IotVideoDemo */ = {
+		EAF055AE23CC233200432559 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EA14EB2023C819A50038798B /* Account */,
-				EA14EB2723C819A50038798B /* Device */,
-				EA14EB4023C819A60038798B /* Utils */,
-				EA14EB5223C819A60038798B /* VAS */,
-				D5C7223023839B9600585D33 /* AppDelegate.swift */,
-				D5FB5B3A2396129000C9D737 /* IVTabBarViewController.swift */,
-				D5C7223423839B9600585D33 /* Main.storyboard */,
-				D5C7223723839B9700585D33 /* Assets.xcassets */,
-				D5C7223923839B9700585D33 /* LaunchScreen.storyboard */,
-				D5C7223C23839B9700585D33 /* Info.plist */,
-				D547B464238D52D800A4478F /* IotVideoDemo-Bridging-Header.h */,
+				EAF055B323CC233200432559 /* IVDevTools.framework */,
+				EAF055B523CC233200432559 /* Resource.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EAF055B823CC237300432559 /* IotVideoDemo */ = {
+			isa = PBXGroup;
+			children = (
+				EAF055BA23CC237300432559 /* IotVideoDemo.entitlements */,
+				EAF055EF23CC237300432559 /* AppDelegate.swift */,
+				EAF055BC23CC237300432559 /* IVTabBarViewController.swift */,
+				EAF055CD23CC237300432559 /* Main.storyboard */,
+				EAF055D223CC237300432559 /* Device */,
+				EAF055CF23CC237300432559 /* VAS */,
+				EAF055F023CC237300432559 /* Account */,
+				EAF055BD23CC237300432559 /* Utils */,
+				EAF055BB23CC237300432559 /* Assets.xcassets */,
+				EAF055CB23CC237300432559 /* LaunchScreen.storyboard */,
+				EAF055F823CC237300432559 /* Info.plist */,
+				EAF055B923CC237300432559 /* IotVideoDemo-Bridging-Header.h */,
 			);
 			path = IotVideoDemo;
 			sourceTree = "<group>";
 		};
-		EA14EB2023C819A50038798B /* Account */ = {
+		EAF055BD23CC237300432559 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				EA14EB2123C819A50038798B /* IVAccountAPITestVC.swift */,
-				EA14EB2223C819A50038798B /* login */,
-			);
-			path = Account;
-			sourceTree = "<group>";
-		};
-		EA14EB2223C819A50038798B /* login */ = {
-			isa = PBXGroup;
-			children = (
-				EA14EB2323C819A50038798B /* Login.storyboard */,
-				EA14EB2423C819A50038798B /* IVRegisterVC.swift */,
-				EA14EB2523C819A50038798B /* IVRegisterEmailVC.swift */,
-				EA14EB2623C819A50038798B /* IVLoginVC.swift */,
-			);
-			path = login;
-			sourceTree = "<group>";
-		};
-		EA14EB2723C819A50038798B /* Device */ = {
-			isa = PBXGroup;
-			children = (
-				EA14EB2823C819A50038798B /* IVMsg */,
-				EA14EB2C23C819A50038798B /* IVDeviceTableViewController.swift */,
-				EA14EB2D23C819A50038798B /* IVDevice.swift */,
-				EA14EB2E23C819A50038798B /* IVMineDeviceTableVC.swift */,
-				EA14EB2F23C819A50038798B /* IVQRCodeAddDevice.swift */,
-				EA14EB3023C819A50038798B /* IVDeviceAccessVC.swift */,
-				EA14EB3123C819A50038798B /* IVLANDeviceTableVC.swift */,
-				EA14EB3223C819A50038798B /* IVDevice.storyboard */,
-				EA14EB3323C819A50038798B /* IVShare */,
-				EA14EB3923C819A50038798B /* IVDeviceAccess.storyboard */,
-				EA14EB3B23C819A50038798B /* Player */,
-			);
-			path = Device;
-			sourceTree = "<group>";
-		};
-		EA14EB2823C819A50038798B /* IVMsg */ = {
-			isa = PBXGroup;
-			children = (
-				EA14EB2923C819A50038798B /* IVMsgSetVC.swift */,
-				EA14EB2A23C819A50038798B /* IVMsgGetVC.swift */,
-				EA14EB2B23C819A50038798B /* msgFile.json */,
-			);
-			path = IVMsg;
-			sourceTree = "<group>";
-		};
-		EA14EB3323C819A50038798B /* IVShare */ = {
-			isa = PBXGroup;
-			children = (
-				EA14EB3423C819A50038798B /* IVSharedListVC.swift */,
-				EA14EB3523C819A50038798B /* IVShareDeviceTableViewController.swift */,
-				EA14EB3623C819A50038798B /* IVShareDeviceByQRCodeVC.swift */,
-				EA14EB3723C819A50038798B /* IVQRcodeScanVC.swift */,
-				EA14EB3823C819A50038798B /* IVShareDeviceByAccountVC.swift */,
-			);
-			path = IVShare;
-			sourceTree = "<group>";
-		};
-		EA14EB3B23C819A50038798B /* Player */ = {
-			isa = PBXGroup;
-			children = (
-				EA14EB3C23C819A60038798B /* IVLiveViewController.swift */,
-				EA14EB3D23C819A60038798B /* IVPlaybackViewController.swift */,
-				EA14EB3E23C819A60038798B /* IVDevicePlayerViewController.swift */,
-				EA14EB3F23C819A60038798B /* IVMonitorViewController.swift */,
-			);
-			path = Player;
-			sourceTree = "<group>";
-		};
-		EA14EB4023C819A60038798B /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				EA14EB4123C819A60038798B /* IVApiFormatTest.h */,
-				EA14EB4223C819A60038798B /* IVPopupView.swift */,
-				EA14EB4323C819A60038798B /* UIColor.swift */,
-				EA14EB4423C819A60038798B /* IVJson.swift */,
-				EA14EB4523C819A60038798B /* IVApiFormatTest.m */,
-				EA14EB4623C819A60038798B /* IVHud.swift */,
-				EA14EB4723C819A60038798B /* UIDevice.swift */,
-				EA14EB4823C819A60038798B /* Foundation.swift */,
-				EA14EB4923C819A60038798B /* IVTimelineView.swift */,
-				EA14EB4A23C819A60038798B /* IVLogger.swift */,
-				EA14EB4B23C819A60038798B /* IVApiFormatTest.swift */,
-				EA14EB4C23C819A60038798B /* UIControl.swift */,
+				EAF055BE23CC237300432559 /* IVApiFormatTest.h */,
+				EAF055BF23CC237300432559 /* IVPopupView.swift */,
+				EAF055C023CC237300432559 /* UIColor.swift */,
+				EAF055C123CC237300432559 /* IVKeychain.swift */,
+				EAF055C223CC237300432559 /* IVJson.swift */,
+				EAF055C323CC237300432559 /* IVApiFormatTest.m */,
+				EAF055C423CC237300432559 /* IVHud.swift */,
+				EAF055C523CC237300432559 /* UIDevice.swift */,
+				EAF055C623CC237300432559 /* Foundation.swift */,
+				EAF055C723CC237300432559 /* IVTimelineView.swift */,
+				EAF055C823CC237300432559 /* IVLogger.swift */,
+				EAF055C923CC237300432559 /* IVApiFormatTest.swift */,
+				EAF055CA23CC237300432559 /* UIControl.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		EA14EB5223C819A60038798B /* VAS */ = {
+		EAF055CF23CC237300432559 /* VAS */ = {
 			isa = PBXGroup;
 			children = (
-				EA14EB5323C819A60038798B /* IVVasAPITestVC.swift */,
+				EAF055D023CC237300432559 /* IVVasAPITestVC.swift */,
 			);
 			path = VAS;
 			sourceTree = "<group>";
 		};
-		EAE59C1C23BA307F00808D31 /* Products */ = {
+		EAF055D223CC237300432559 /* Device */ = {
 			isa = PBXGroup;
 			children = (
-				EAE59C2223BA307F00808D31 /* JZLogger.framework */,
-				EAE59C2423BA307F00808D31 /* JZLoggerTests.xctest */,
-				EAE59C2623BA307F00808D31 /* Resource.bundle */,
+				EAF055E723CC237300432559 /* IVDeviceAccess.storyboard */,
+				EAF055DB23CC237300432559 /* IVVAS */,
+				EAF055E123CC237300432559 /* IVShare */,
+				EAF055D323CC237300432559 /* IVMsg */,
+				EAF055E923CC237300432559 /* Player */,
+				EAF055E023CC237300432559 /* IVDevice.storyboard */,
+				EAF055D823CC237300432559 /* IVDevice.swift */,
+				EAF055DE23CC237300432559 /* IVDeviceAccessVC.swift */,
+				EAF055D723CC237300432559 /* IVDeviceTableViewController.swift */,
+				EAF055DF23CC237300432559 /* IVLANDeviceTableVC.swift */,
+				EAF055D923CC237300432559 /* IVMineDeviceTableVC.swift */,
+				EAF055DA23CC237300432559 /* IVQRCodeAddDevice.swift */,
 			);
-			name = Products;
+			path = Device;
+			sourceTree = "<group>";
+		};
+		EAF055D323CC237300432559 /* IVMsg */ = {
+			isa = PBXGroup;
+			children = (
+				EAF055D423CC237300432559 /* IVMsgSetVC.swift */,
+				EAF055D523CC237300432559 /* IVMsgGetVC.swift */,
+				EAF055D623CC237300432559 /* msgFile.json */,
+			);
+			path = IVMsg;
+			sourceTree = "<group>";
+		};
+		EAF055DB23CC237300432559 /* IVVAS */ = {
+			isa = PBXGroup;
+			children = (
+				EAF055DC23CC237300432559 /* IVVASBuyVC.swift */,
+				EAF055DD23CC237300432559 /* IVVASGetPlaybackListVC.swift */,
+			);
+			path = IVVAS;
+			sourceTree = "<group>";
+		};
+		EAF055E123CC237300432559 /* IVShare */ = {
+			isa = PBXGroup;
+			children = (
+				EAF055E223CC237300432559 /* IVSharedListVC.swift */,
+				EAF055E323CC237300432559 /* IVShareDeviceTableViewController.swift */,
+				EAF055E423CC237300432559 /* IVShareDeviceByQRCodeVC.swift */,
+				EAF055E523CC237300432559 /* IVQRcodeScanVC.swift */,
+				EAF055E623CC237300432559 /* IVShareDeviceByAccountVC.swift */,
+			);
+			path = IVShare;
+			sourceTree = "<group>";
+		};
+		EAF055E923CC237300432559 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				EAF055EA23CC237300432559 /* IVLiveViewController.swift */,
+				EAF055EB23CC237300432559 /* IVPlaybackViewController.swift */,
+				EAF055EC23CC237300432559 /* IJKMediaViewController.swift */,
+				EAF055ED23CC237300432559 /* IVDevicePlayerViewController.swift */,
+				EAF055EE23CC237300432559 /* IVMonitorViewController.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		EAF055F023CC237300432559 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				EAF055F123CC237300432559 /* IVAccountAPITestVC.swift */,
+				EAF055F223CC237300432559 /* login */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
+		EAF055F223CC237300432559 /* login */ = {
+			isa = PBXGroup;
+			children = (
+				EAF055F323CC237300432559 /* Login.storyboard */,
+				EAF055F423CC237300432559 /* IVRegisterVC.swift */,
+				EAF055F523CC237300432559 /* IVRegisterEmailVC.swift */,
+				EAF055F623CC237300432559 /* IVLoginVC.swift */,
+			);
+			path = login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -419,8 +439,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = EAE59C1C23BA307F00808D31 /* Products */;
-					ProjectRef = EAE59C1B23BA307F00808D31 /* JZLogger.xcodeproj */;
+					ProductGroup = EAF055AE23CC233200432559 /* Products */;
+					ProjectRef = EAF055AD23CC233200432559 /* IVDevTools.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -431,25 +451,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		EAE59C2223BA307F00808D31 /* JZLogger.framework */ = {
+		EAF055B323CC233200432559 /* IVDevTools.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = JZLogger.framework;
-			remoteRef = EAE59C2123BA307F00808D31 /* PBXContainerItemProxy */;
+			path = IVDevTools.framework;
+			remoteRef = EAF055B223CC233200432559 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		EAE59C2423BA307F00808D31 /* JZLoggerTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = JZLoggerTests.xctest;
-			remoteRef = EAE59C2323BA307F00808D31 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EAE59C2623BA307F00808D31 /* Resource.bundle */ = {
+		EAF055B523CC233200432559 /* Resource.bundle */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = Resource.bundle;
-			remoteRef = EAE59C2523BA307F00808D31 /* PBXContainerItemProxy */;
+			remoteRef = EAF055B423CC233200432559 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -459,13 +472,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA14EB5523C819A60038798B /* Login.storyboard in Resources */,
-				EA14EB6823C819A60038798B /* IVDeviceAccess.storyboard in Resources */,
-				EA14EB5B23C819A60038798B /* msgFile.json in Resources */,
-				EA14EB6223C819A60038798B /* IVDevice.storyboard in Resources */,
-				D5C7223B23839B9700585D33 /* LaunchScreen.storyboard in Resources */,
-				D5C7223823839B9700585D33 /* Assets.xcassets in Resources */,
-				D5C7223623839B9600585D33 /* Main.storyboard in Resources */,
+				EAF0560D23CC237300432559 /* Main.storyboard in Resources */,
+				EAF055FE23CC237300432559 /* Assets.xcassets in Resources */,
+				EAF0562A23CC237300432559 /* Login.storyboard in Resources */,
+				EAF0560C23CC237300432559 /* LaunchScreen.storyboard in Resources */,
+				EAF0561223CC237300432559 /* msgFile.json in Resources */,
+				EAF0561B23CC237300432559 /* IVDevice.storyboard in Resources */,
+				EAF0562123CC237300432559 /* IVDeviceAccess.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,61 +531,65 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA14EB7223C819A60038798B /* IVHud.swift in Sources */,
-				EA14EB6323C819A60038798B /* IVSharedListVC.swift in Sources */,
-				EA14EB6623C819A60038798B /* IVQRcodeScanVC.swift in Sources */,
-				EA14EB6E23C819A60038798B /* IVPopupView.swift in Sources */,
-				EA14EB6B23C819A60038798B /* IVPlaybackViewController.swift in Sources */,
-				EA14EB5F23C819A60038798B /* IVQRCodeAddDevice.swift in Sources */,
-				EA14EB5823C819A60038798B /* IVLoginVC.swift in Sources */,
-				EA14EB6523C819A60038798B /* IVShareDeviceByQRCodeVC.swift in Sources */,
-				EA14EB5623C819A60038798B /* IVRegisterVC.swift in Sources */,
-				EA14EB6023C819A60038798B /* IVDeviceAccessVC.swift in Sources */,
-				D5FB5B3B2396129000C9D737 /* IVTabBarViewController.swift in Sources */,
-				EA14EB5C23C819A60038798B /* IVDeviceTableViewController.swift in Sources */,
-				EA14EB6C23C819A60038798B /* IVDevicePlayerViewController.swift in Sources */,
-				EA14EB5E23C819A60038798B /* IVMineDeviceTableVC.swift in Sources */,
-				EA14EB7123C819A60038798B /* IVApiFormatTest.m in Sources */,
-				EA14EB7423C819A60038798B /* Foundation.swift in Sources */,
-				EA14EB7823C819A60038798B /* UIControl.swift in Sources */,
-				EA14EB7523C819A60038798B /* IVTimelineView.swift in Sources */,
-				EA14EB7323C819A60038798B /* UIDevice.swift in Sources */,
-				EA14EB7623C819A60038798B /* IVLogger.swift in Sources */,
-				EA14EB5423C819A60038798B /* IVAccountAPITestVC.swift in Sources */,
-				EA14EB6423C819A60038798B /* IVShareDeviceTableViewController.swift in Sources */,
-				EA14EB6723C819A60038798B /* IVShareDeviceByAccountVC.swift in Sources */,
-				D5C7223123839B9600585D33 /* AppDelegate.swift in Sources */,
-				EA14EB5723C819A60038798B /* IVRegisterEmailVC.swift in Sources */,
-				EA14EB6123C819A60038798B /* IVLANDeviceTableVC.swift in Sources */,
-				EA14EB7D23C819A60038798B /* IVVasAPITestVC.swift in Sources */,
-				EA14EB6D23C819A60038798B /* IVMonitorViewController.swift in Sources */,
-				EA14EB5A23C819A60038798B /* IVMsgGetVC.swift in Sources */,
-				EA14EB6A23C819A60038798B /* IVLiveViewController.swift in Sources */,
-				EA14EB7723C819A60038798B /* IVApiFormatTest.swift in Sources */,
-				EA14EB7023C819A60038798B /* IVJson.swift in Sources */,
-				EA14EB6F23C819A60038798B /* UIColor.swift in Sources */,
-				EA14EB5D23C819A60038798B /* IVDevice.swift in Sources */,
-				EA14EB5923C819A60038798B /* IVMsgSetVC.swift in Sources */,
+				EAF0560723CC237300432559 /* Foundation.swift in Sources */,
+				EAF0560023CC237300432559 /* IVPopupView.swift in Sources */,
+				EAF0560923CC237300432559 /* IVLogger.swift in Sources */,
+				EAF0562323CC237300432559 /* IVLiveViewController.swift in Sources */,
+				EAF0560123CC237300432559 /* UIColor.swift in Sources */,
+				EAF0562023CC237300432559 /* IVShareDeviceByAccountVC.swift in Sources */,
+				EAF0560B23CC237300432559 /* UIControl.swift in Sources */,
+				EAF0562423CC237300432559 /* IVPlaybackViewController.swift in Sources */,
+				EAF0561523CC237300432559 /* IVMineDeviceTableVC.swift in Sources */,
+				EAF0560423CC237300432559 /* IVApiFormatTest.m in Sources */,
+				EAF0561323CC237300432559 /* IVDeviceTableViewController.swift in Sources */,
+				EAF0562D23CC237300432559 /* IVLoginVC.swift in Sources */,
+				EAF0561623CC237300432559 /* IVQRCodeAddDevice.swift in Sources */,
+				EAF0561A23CC237300432559 /* IVLANDeviceTableVC.swift in Sources */,
+				EAF0562823CC237300432559 /* AppDelegate.swift in Sources */,
+				EAF0561023CC237300432559 /* IVMsgSetVC.swift in Sources */,
+				EAF0561823CC237300432559 /* IVVASGetPlaybackListVC.swift in Sources */,
+				EAF0562B23CC237300432559 /* IVRegisterVC.swift in Sources */,
+				EAF0560223CC237300432559 /* IVKeychain.swift in Sources */,
+				EAF0560323CC237300432559 /* IVJson.swift in Sources */,
+				EAF0561D23CC237300432559 /* IVShareDeviceTableViewController.swift in Sources */,
+				EAF0560823CC237300432559 /* IVTimelineView.swift in Sources */,
+				EAF0561E23CC237300432559 /* IVShareDeviceByQRCodeVC.swift in Sources */,
+				EAF0560523CC237300432559 /* IVHud.swift in Sources */,
+				EAF0562923CC237300432559 /* IVAccountAPITestVC.swift in Sources */,
+				EAF0561723CC237300432559 /* IVVASBuyVC.swift in Sources */,
+				EAF055FF23CC237300432559 /* IVTabBarViewController.swift in Sources */,
+				EAF0560E23CC237300432559 /* IVVasAPITestVC.swift in Sources */,
+				EAF0561C23CC237300432559 /* IVSharedListVC.swift in Sources */,
+				EAF0562623CC237300432559 /* IVDevicePlayerViewController.swift in Sources */,
+				EAF0561923CC237300432559 /* IVDeviceAccessVC.swift in Sources */,
+				EAF0561423CC237300432559 /* IVDevice.swift in Sources */,
+				EAF0561F23CC237300432559 /* IVQRcodeScanVC.swift in Sources */,
+				EAF0562523CC237300432559 /* IJKMediaViewController.swift in Sources */,
+				EAF0560A23CC237300432559 /* IVApiFormatTest.swift in Sources */,
+				EAF0560623CC237300432559 /* UIDevice.swift in Sources */,
+				EAF0562723CC237300432559 /* IVMonitorViewController.swift in Sources */,
+				EAF0561123CC237300432559 /* IVMsgGetVC.swift in Sources */,
+				EAF0562C23CC237300432559 /* IVRegisterEmailVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		D5C7223423839B9600585D33 /* Main.storyboard */ = {
+		EAF055CB23CC237300432559 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D5C7223523839B9600585D33 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		D5C7223923839B9700585D33 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D5C7223A23839B9700585D33 /* Base */,
+				EAF055CC23CC237300432559 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		EAF055CD23CC237300432559 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EAF055CE23CC237300432559 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -702,7 +719,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C3MLE46F3M;
@@ -711,6 +728,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(SRCROOT)/../../SDK/Frameworks",
+					"$(PROJECT_DIR)/IotVideoDemo",
 				);
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
 					"$(inherited)",
@@ -740,7 +758,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C3MLE46F3M;
 				ENABLE_BITCODE = NO;
@@ -748,6 +766,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(SRCROOT)/../../SDK/Frameworks",
+					"$(PROJECT_DIR)/IotVideoDemo",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/IotVideoDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

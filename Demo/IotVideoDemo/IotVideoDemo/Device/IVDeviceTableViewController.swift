@@ -9,6 +9,7 @@
 import UIKit
 import IoTVideo
 import IVAccountMgr
+import SwiftyJSON
 
 class IVDeviceTableViewController: UITableViewController {
     
@@ -42,6 +43,13 @@ class IVDeviceTableViewController: UITableViewController {
                     return
                 }
                 IVDeviceTableViewController.mineDevice = json!.ivArrayDecode(IVDeviceModel.self) as! [IVDeviceModel]
+                IVDeviceTableViewController.mineDevice.forEach { (dev) in
+                    guard let deviceId = dev.did else { return }
+                    IVMessageMgr.sharedInstance.getDataOfDevice(deviceId, path: "ST._online") { (json, error) in
+                        guard let json = json else { return }
+                        dev.online = JSON(parseJSON: json).value("stVal")?.boolValue
+                    }
+                }
             }
         }
     }

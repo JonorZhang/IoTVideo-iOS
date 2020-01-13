@@ -8,8 +8,16 @@
 
 import UIKit
 
+func makeToast(_ msg: String) {
+    let alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
+    IVLogAssistant.shared.rootViewController?.present(alert, animated: true)
+    DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
+        alert.dismiss(animated: true)
+    })
+}
+
 class JZDeveloperViewController: UITableViewController {
-        
+      
     override func viewDidLoad() {
         super.viewDidLoad()
     }

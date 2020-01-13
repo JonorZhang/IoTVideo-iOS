@@ -21,7 +21,7 @@ class JZServerConfigListViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        dataSource = JZServerConfig.svrCfgContents()
+        dataSource = JZServerConfig.allConfigs
         tableView.reloadData()
     }
     
@@ -36,8 +36,9 @@ class JZServerConfigListViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ConfigCell", for: indexPath)
-        cell.textLabel?.text = dataSource[indexPath.row].name
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ConfigCell", for: indexPath) as! JZServerConfigCell
+        cell.nameLabel?.text = dataSource[indexPath.row].name
+        cell.enableSwitch.isOn = dataSource[indexPath.row].enable
         return cell
     }
   
@@ -47,7 +48,7 @@ class JZServerConfigListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            JZServerConfig.deleteCfg(name: dataSource[indexPath.row].name)
+            JZServerConfig.deleteCfg(dataSource[indexPath.row])
             dataSource.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -62,4 +63,16 @@ class JZServerConfigListViewController: UITableViewController {
             }
         }
     }
+    
+}
+
+class JZServerConfigCell: UITableViewCell {
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var enableSwitch: UISwitch!
+    
+    @IBAction func enableSwitchChanged(_ sender: UISwitch) {
+        JZServerConfig.enableCfg(nameLabel.text!, sender.isOn)
+        makeToast("修改成功,重启后生效")
+    }
+    
 }

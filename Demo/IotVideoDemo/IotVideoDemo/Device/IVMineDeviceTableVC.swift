@@ -15,6 +15,10 @@ class IVMineDeviceTableVC: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(forName: .deviceOnline, object: nil, queue: nil) { [weak self](noti) in
+            guard let `self` = self else { return }
+            self.tableView.reloadData()
+        }
     }
 
     // MARK: - Table view data source
@@ -36,8 +40,8 @@ class IVMineDeviceTableVC: UITableViewController {
         cell.detailTextLabel?.text = "tid: \(dataSource[indexPath.row].devId ?? "???")"
         let isOnline = (dataSource[indexPath.row].online == true)
         cell.imageView?.image = UIImage(named: isOnline ? "tabBar_icon_device_S" : "tabBar_icon_device_N")
-        cell.textLabel?.textColor = isOnline ? UIColor.black : UIColor.gray
-        cell.detailTextLabel?.textColor = isOnline ? UIColor.black : UIColor.gray
+        cell.textLabel?.textColor = isOnline ? #colorLiteral(red: 0, green: 0.4141984238, blue: 0.9501903553, alpha: 1) : #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        cell.detailTextLabel?.textColor = isOnline ? #colorLiteral(red: 0, green: 0.4141984238, blue: 0.9501903553, alpha: 1) : #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
 
         return cell
     }

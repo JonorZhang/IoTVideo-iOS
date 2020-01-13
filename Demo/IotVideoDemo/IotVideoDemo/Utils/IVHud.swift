@@ -31,7 +31,7 @@ func ivHud(_ msg: String?, icon: String? = nil,inView view: UIView? = nil, isMas
 }
 
 func ivLoadingHud(_ msg: String? = nil, inView view: UIView? = nil,  isMask mask: Bool = false) -> MBProgressHUD {
-    let showView = view ?? UIApplication.shared.windows.last!
+    let showView = view ?? UIApplication.shared.keyWindow!
     let hud = MBProgressHUD.showAdded(to: showView, animated: true)
     hud.label.text = msg
     hud.mode = .indeterminate

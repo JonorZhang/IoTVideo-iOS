@@ -30,6 +30,8 @@ class IVLoginVC: UIViewController {
     
     @IBAction func login(_ sender: Any) {
         let hud = ivLoadingHud(isMask: true)
+        accountTextField.resignFirstResponder()
+        pwdAccount.resignFirstResponder()
         IVAccountMgr.shared.login(account: accountTextField.text ?? "", password: pwdAccount.text ?? "") { (json, error) in
             hud.hide()
             if let error = error {
