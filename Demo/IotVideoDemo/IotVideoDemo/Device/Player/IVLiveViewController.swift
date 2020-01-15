@@ -33,7 +33,12 @@ class IVLiveViewController: IVDevicePlayerViewController {
 //        print(device)
         livePlayer = IVLivePlayer(deviceId: device.deviceID)
         livePlayer.delegate = self
+        
         previewView.layer.addSublayer(livePlayer.previewLayer)
+        
+        livePlayer.videoView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        livePlayer.videoView!.frame = videoView.bounds
+        videoView.autoresizesSubviews = true
         videoView.insertSubview(livePlayer.videoView!, at: 0)
     }
         

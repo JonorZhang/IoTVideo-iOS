@@ -21,6 +21,14 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
     @IBOutlet weak var slider: UISlider!
     @IBOutlet weak var timelineView: IVTimelineView?
     
+    var playbackList: [IVPlaybackItem] = [] {
+        didSet {
+            timelineView?.items = [playbackList.map({ IVTimelineItem(startTime: $0.startTime,
+                                                                     duration: $0.endTime-$0.startTime,
+                                                                     color: .random) })]
+        }
+    }
+    
     var playbackPlayer: IVPlaybackPlayer {
         get { return player as! IVPlaybackPlayer }
         set { player = newValue }
@@ -28,42 +36,54 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        playbackPlayer = IVPlaybackPlayer(deviceId: device.deviceID, startTime: 0)
+        playbackPlayer = IVPlaybackPlayer(deviceId: device.deviceID, playbackItem: nil)
         playbackPlayer.delegate = self
+        playbackPlayer.videoView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        playbackPlayer.videoView!.frame = videoView.bounds
+        videoView.autoresizesSubviews = true
         videoView.insertSubview(playbackPlayer.videoView!, at: 0)
         
-        timelineView?.items = [
-            [
-                IVTimelineItem(),
-                IVTimelineItem(),
-                IVTimelineItem(),
-                IVTimelineItem(),
-                IVTimelineItem()
-            ],
-            [
-                IVTimelineItem(),
-                IVTimelineItem(),
-                IVTimelineItem(),
-                IVTimelineItem(),
-                IVTimelineItem(),
-                IVTimelineItem(),
-                IVTimelineItem(),
-                IVTimelineItem(),
-                IVTimelineItem(),
-                IVTimelineItem()
-            ],
-            [
-                IVTimelineItem(),
-                IVTimelineItem(),
-                IVTimelineItem()
-            ]
-        ]
+        IVPlaybackPlayer.getPlaybackList(ofDevice: device.deviceID, pageIndex: 0, countPerPage: 50, startTime: 0, endTime: Date().timeIntervalSince1970, completionHandler: { (page, err) in
+            guard let items = page?.items else {
+                logError(err as Any)
+                return
+            }
+            self.playbackList += items
+        })
+
+        timelineView?.didSelectItemCallback = didSelectItemCallback
+
+//        timelineView?.items = [
+//            [
+//                IVTimelineItem(),
+//                IVTimelineItem(),
+//                IVTimelineItem(),
+//                IVTimelineItem(),
+//                IVTimelineItem()
+//            ],
+//            [
+//                IVTimelineItem(),
+//                IVTimelineItem(),
+//                IVTimelineItem(),
+//                IVTimelineItem(),
+//                IVTimelineItem(),
+//                IVTimelineItem(),
+//                IVTimelineItem(),
+//                IVTimelineItem(),
+//                IVTimelineItem(),
+//                IVTimelineItem()
+//            ],
+//            [
+//                IVTimelineItem(),
+//                IVTimelineItem(),
+//                IVTimelineItem()
+//            ]
+//        ]
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         AppDelegate.shared.allowRotation = true
-        playbackPlayer.play()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -73,10 +93,10 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
         playbackPlayer.stop()
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        playbackPlayer.videoView?.frame = videoView.bounds
-    }
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        playbackPlayer.videoView?.frame = videoView.bounds
+//    }
 
     deinit {
         print(self.classForCoder, #function)
@@ -84,6 +104,15 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
 
     // MARK: - 点击事件
 
+    func didSelectItemCallback(_ item: IVTimelineItem) {
+        if playbackPlayer.status != .stoped {
+            playbackPlayer.stop()
+        }
+        let playbackItem = playbackList.first(where: { $0.startTime == item.startTime })
+        playbackPlayer.playbackItem = playbackItem
+        playbackPlayer.play()        
+    }
+    
     @IBAction func playClicked(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         if sender.isSelected {

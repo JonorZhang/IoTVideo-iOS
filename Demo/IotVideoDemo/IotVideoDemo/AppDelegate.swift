@@ -37,10 +37,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        2、userinfo kIoTVideoHostKey -> p2p 使用传入的地址 web，云回放等均未内置 正式 服务器
 //        3、userinfo kIoTVideoHostType 0 -> p2p,web，云回放等均使用内置 测试 服务器  不为0，为其他则和 （1、） 保持一致
         if let type = IVConfigMgr.allConfigs.filter({$0.enable && $0.key == kIoTVideoHostType}).first?.value {
-             IoTVideo.sharedInstance.register(withProductId: "440234147841", ivCid: "103", userInfo: [kIoTVideoHostType: type])
+             IoTVideo.sharedInstance.setupIvCid("103", productId: "440234147841", userInfo: [kIoTVideoHostType: type])
         } else {
             //默认正式服务器
-            IoTVideo.sharedInstance.register(withProductId: "440234147841", ivCid: "103", userInfo: nil)
+            IoTVideo.sharedInstance.setupIvCid("103", productId: "440234147841", userInfo: nil)
         }
         
         IoTVideo.sharedInstance.logCallback = logMessage

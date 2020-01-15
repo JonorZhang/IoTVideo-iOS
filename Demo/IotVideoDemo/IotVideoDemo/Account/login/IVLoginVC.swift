@@ -40,7 +40,7 @@ class IVLoginVC: UIViewController {
             }
             let model = IVJson.decode(json: json!, type: IVModel<LoginModel>.self)
             if let ivToken = model?.data?.ivToken, let accessId = model?.data?.accessId {
-                IoTVideo.sharedInstance.setupToken(ivToken, accessId: accessId)
+                IoTVideo.sharedInstance.register(withAccessId: accessId, ivToken: ivToken)
                 let expireTime = model?.data?.expireTime
                 let userName = model?.data?.nick
                 UserDefaults.standard.do {
@@ -51,7 +51,7 @@ class IVLoginVC: UIViewController {
                 }
                 
                 let token = UserDefaults.standard.string(forKey: demo_deviceToken)
-                IVNetwork.shared.request(methodType: .PUT, urlString: "user/pushTokenBind", params: ["xingeToken": token]) { (json, error) in
+                IVNetwork.shared.request(methodType: .PUT, urlString: "user/pushTokenBind", params: ["xingeToken": token ?? ""]) { (json, error) in
                     
                 }
                 self.dismiss(animated: true, completion: nil)

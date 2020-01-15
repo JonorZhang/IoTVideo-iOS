@@ -30,6 +30,10 @@ class IVMonitorViewController: IVDevicePlayerViewController {
         super.viewDidLoad()
         monitorPlayer = IVMonitorPlayer(deviceId: device.deviceID)
         monitorPlayer.delegate = self
+        
+        monitorPlayer.videoView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        monitorPlayer.videoView!.frame = videoView.bounds
+        videoView.autoresizesSubviews = true
         videoView.insertSubview(monitorPlayer.videoView!, at: 0)
     }
         
@@ -124,39 +128,6 @@ class IVMonitorViewController: IVDevicePlayerViewController {
             }
         })
     }
-
-    var lastTouchesDate = Date();
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        lastTouchesDate = Date();
-        let isHiden = !(tabBarController?.tabBar.isHidden ?? false)
-        tabBarController?.tabBar.isHidden = isHiden
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        DispatchQueue.main.asyncAfter(deadline: .now()+3) { [weak self] in
-            guard let `self` = self else { return }
-            let isHiden = self.tabBarController?.tabBar.isHidden ?? false
-            if Date().timeIntervalSince(self.lastTouchesDate) > 3 && !isHiden {
-                self.tabBarController?.tabBar.isHidden = (UIApplication.shared.statusBarOrientation != .portrait)
-            }
-        }
-    }
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        let isLandScape = size.width > size.height
-        let duration = coordinator.transitionDuration
-        UIView.animate(withDuration: duration) {
-            self.tabBarController?.tabBar.isHidden = isLandScape
-        }
-    }
-    
-//    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
-//        super.willRotate(to: toInterfaceOrientation, duration: duration)
-//        tabBarController?.tabBar.isHidden = (toInterfaceOrientation != .portrait)
-//    }
-    
 }
 
 extension IVMonitorViewController: IVPlayerDelegate {

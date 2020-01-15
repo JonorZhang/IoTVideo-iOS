@@ -22,7 +22,7 @@ class IVTabBarViewController: UITabBarController {
         let accessId = UserDefaults.standard.value(forKey: demo_accessIdKey) as? String
         let expireTime = UserDefaults.standard.value(forKey: demo_expireTimeKey) as? TimeInterval
         if let ivToken = ivToken, let accessId = accessId, let expireTime = expireTime, !ivToken.isEmpty, !accessId.isEmpty {
-            IoTVideo.sharedInstance.setupToken(ivToken, accessId: accessId)
+            IoTVideo.sharedInstance.register(withAccessId: accessId, ivToken: ivToken)
             if expireTime - Date().timeIntervalSince1970 < 7 * 24 * 60 * 60 {
                 DispatchQueue.global().async {
                     IVAccountMgr.shared.updateIvToken { (json, error) in

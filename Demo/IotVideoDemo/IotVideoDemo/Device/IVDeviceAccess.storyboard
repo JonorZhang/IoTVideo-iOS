@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="241-us-eRy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="241-us-eRy">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -905,12 +905,22 @@
                                             </mask>
                                         </variation>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="44v-Jp-NNG" customClass="IVTimelineView" customModule="IotVideoDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="321" width="414" height="64"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="64" id="u7O-P5-onH"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="44v-Jp-NNG" firstAttribute="top" secondItem="MoA-1J-5Mg" secondAttribute="bottom" id="3v1-6q-w2g"/>
+                                    <constraint firstItem="OzO-UG-NIx" firstAttribute="trailing" secondItem="44v-Jp-NNG" secondAttribute="trailing" id="71h-M9-FjH"/>
                                     <constraint firstItem="MoA-1J-5Mg" firstAttribute="top" secondItem="OzO-UG-NIx" secondAttribute="top" id="8MG-Tg-Fyb"/>
                                     <constraint firstItem="OzO-UG-NIx" firstAttribute="bottom" secondItem="MoA-1J-5Mg" secondAttribute="bottom" id="Yqo-2x-P7g"/>
                                     <constraint firstItem="OzO-UG-NIx" firstAttribute="bottom" secondItem="MoA-1J-5Mg" secondAttribute="bottom" id="emn-J2-ljv"/>
+                                    <constraint firstItem="44v-Jp-NNG" firstAttribute="leading" secondItem="OzO-UG-NIx" secondAttribute="leading" id="nZa-WE-SOF"/>
                                     <constraint firstItem="OzO-UG-NIx" firstAttribute="trailing" secondItem="MoA-1J-5Mg" secondAttribute="trailing" id="nxj-HP-lP8"/>
                                     <constraint firstItem="MoA-1J-5Mg" firstAttribute="leading" secondItem="OzO-UG-NIx" secondAttribute="leading" id="tJ0-nV-WDB"/>
                                 </constraints>
@@ -950,6 +960,7 @@
                         <outlet property="screenshotBtn" destination="mSd-rP-Hut" id="jhQ-fb-q0P"/>
                         <outlet property="slider" destination="Mmk-LN-G6o" id="ATd-ie-ewJ"/>
                         <outlet property="speakerBtn" destination="lQH-8X-2zK" id="GQG-q6-9Jt"/>
+                        <outlet property="timelineView" destination="44v-Jp-NNG" id="gIW-sN-PEv"/>
                         <outlet property="videoView" destination="MoA-1J-5Mg" id="9hg-s5-Q1p"/>
                     </connections>
                 </viewController>

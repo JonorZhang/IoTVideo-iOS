@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/IVAccountMgr-Swift.h</key>
 		<data>
-		NpFesIHIMpl7VZDIKRjMgxxhob4=
+		6STm2Xp4pzX2cgH1I/9sQESsd9A=
 		</data>
 		<key>Headers/IVAccountMgr.h</key>
 		<data>
@@ -14,23 +14,47 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		pjY5c3uguDPL0Ugw3sfSzLTddZo=
+		KIZ82e+9jdalq+BVANtB/w4w4og=
+		</data>
+		<key>Modules/IVAccountMgr.swiftmodule/arm.swiftdoc</key>
+		<data>
+		gMoORqbfQVtZDf55zkwbE2Miyas=
+		</data>
+		<key>Modules/IVAccountMgr.swiftmodule/arm.swiftmodule</key>
+		<data>
+		O+Ye08jJu0/u5glpOkHKHPmZVns=
 		</data>
 		<key>Modules/IVAccountMgr.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		JOuvQD1CmM0JKiFhivzu3apgia4=
+		aKHyLvRjWCZ+WwhllMuiJoUcn/E=
 		</data>
 		<key>Modules/IVAccountMgr.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		RnIupQRGlBzL/LZILdz5XV01IJE=
+		SxFG8jXU7phZDiWfvlsxKICABoI=
 		</data>
 		<key>Modules/IVAccountMgr.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		JOuvQD1CmM0JKiFhivzu3apgia4=
+		aKHyLvRjWCZ+WwhllMuiJoUcn/E=
 		</data>
 		<key>Modules/IVAccountMgr.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		RnIupQRGlBzL/LZILdz5XV01IJE=
+		SxFG8jXU7phZDiWfvlsxKICABoI=
+		</data>
+		<key>Modules/IVAccountMgr.swiftmodule/armv7-apple-ios.swiftdoc</key>
+		<data>
+		gMoORqbfQVtZDf55zkwbE2Miyas=
+		</data>
+		<key>Modules/IVAccountMgr.swiftmodule/armv7-apple-ios.swiftmodule</key>
+		<data>
+		O+Ye08jJu0/u5glpOkHKHPmZVns=
+		</data>
+		<key>Modules/IVAccountMgr.swiftmodule/armv7.swiftdoc</key>
+		<data>
+		gMoORqbfQVtZDf55zkwbE2Miyas=
+		</data>
+		<key>Modules/IVAccountMgr.swiftmodule/armv7.swiftmodule</key>
+		<data>
+		O+Ye08jJu0/u5glpOkHKHPmZVns=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -43,11 +67,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			NpFesIHIMpl7VZDIKRjMgxxhob4=
+			6STm2Xp4pzX2cgH1I/9sQESsd9A=
 			</data>
 			<key>hash2</key>
 			<data>
-			LCO2rTL+HYQjS9jtL0nw0iiJwRa9gljBdmtY00R0mug=
+			k7KiY7gDWSNI67t0jUEbfGClyWHB2J/pqAoLzkgaQj0=
 			</data>
 		</dict>
 		<key>Headers/IVAccountMgr.h</key>
@@ -61,48 +85,114 @@
 			KD3y8Q80gniJsgf+nFRcOxdytSxRhPLZKzfjWO5K8YQ=
 			</data>
 		</dict>
+		<key>Modules/IVAccountMgr.swiftmodule/arm.swiftdoc</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			gMoORqbfQVtZDf55zkwbE2Miyas=
+			</data>
+			<key>hash2</key>
+			<data>
+			2LsHeDfG9JMoDv8OMFMQUr/JcMsbkEwNVDaG1IGnLYE=
+			</data>
+		</dict>
+		<key>Modules/IVAccountMgr.swiftmodule/arm.swiftmodule</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			O+Ye08jJu0/u5glpOkHKHPmZVns=
+			</data>
+			<key>hash2</key>
+			<data>
+			RaH6p1OZElntIXjJRZuxG0B5fBLU+U6zODSgAFxdx5A=
+			</data>
+		</dict>
 		<key>Modules/IVAccountMgr.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			JOuvQD1CmM0JKiFhivzu3apgia4=
+			aKHyLvRjWCZ+WwhllMuiJoUcn/E=
 			</data>
 			<key>hash2</key>
 			<data>
-			bvSTzGyQBgu0DDGosMGJVLMjuieh0nA2FfOayOaH3Q4=
+			P05A2oEwoYR1v55t1eR1PhszyNvXIjP6uZEVVRfcraE=
 			</data>
 		</dict>
 		<key>Modules/IVAccountMgr.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			RnIupQRGlBzL/LZILdz5XV01IJE=
+			SxFG8jXU7phZDiWfvlsxKICABoI=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZYnLZ60A2cWHZe2Ad21DfANVtjUa4l96ytl36hromq0=
+			KiCCKe3WR+pY5Vm0jlWtXbCRxTk2+IZP38Q+iYy7jNg=
 			</data>
 		</dict>
 		<key>Modules/IVAccountMgr.swiftmodule/arm64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			JOuvQD1CmM0JKiFhivzu3apgia4=
+			aKHyLvRjWCZ+WwhllMuiJoUcn/E=
 			</data>
 			<key>hash2</key>
 			<data>
-			bvSTzGyQBgu0DDGosMGJVLMjuieh0nA2FfOayOaH3Q4=
+			P05A2oEwoYR1v55t1eR1PhszyNvXIjP6uZEVVRfcraE=
 			</data>
 		</dict>
 		<key>Modules/IVAccountMgr.swiftmodule/arm64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			RnIupQRGlBzL/LZILdz5XV01IJE=
+			SxFG8jXU7phZDiWfvlsxKICABoI=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZYnLZ60A2cWHZe2Ad21DfANVtjUa4l96ytl36hromq0=
+			KiCCKe3WR+pY5Vm0jlWtXbCRxTk2+IZP38Q+iYy7jNg=
+			</data>
+		</dict>
+		<key>Modules/IVAccountMgr.swiftmodule/armv7-apple-ios.swiftdoc</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			gMoORqbfQVtZDf55zkwbE2Miyas=
+			</data>
+			<key>hash2</key>
+			<data>
+			2LsHeDfG9JMoDv8OMFMQUr/JcMsbkEwNVDaG1IGnLYE=
+			</data>
+		</dict>
+		<key>Modules/IVAccountMgr.swiftmodule/armv7-apple-ios.swiftmodule</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			O+Ye08jJu0/u5glpOkHKHPmZVns=
+			</data>
+			<key>hash2</key>
+			<data>
+			RaH6p1OZElntIXjJRZuxG0B5fBLU+U6zODSgAFxdx5A=
+			</data>
+		</dict>
+		<key>Modules/IVAccountMgr.swiftmodule/armv7.swiftdoc</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			gMoORqbfQVtZDf55zkwbE2Miyas=
+			</data>
+			<key>hash2</key>
+			<data>
+			2LsHeDfG9JMoDv8OMFMQUr/JcMsbkEwNVDaG1IGnLYE=
+			</data>
+		</dict>
+		<key>Modules/IVAccountMgr.swiftmodule/armv7.swiftmodule</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			O+Ye08jJu0/u5glpOkHKHPmZVns=
+			</data>
+			<key>hash2</key>
+			<data>
+			RaH6p1OZElntIXjJRZuxG0B5fBLU+U6zODSgAFxdx5A=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

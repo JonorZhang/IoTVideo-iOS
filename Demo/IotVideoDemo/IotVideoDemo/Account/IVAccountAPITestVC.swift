@@ -124,6 +124,7 @@ class IVAccountAPITestVC: UITableViewController {
             let hud = ivLoadingHud()
             IVRequest.logout { (json, error) in
                 hud.hide()
+                IoTVideo.sharedInstance.unregister()
                 if let error = error {
                     showError(error)
                     return
