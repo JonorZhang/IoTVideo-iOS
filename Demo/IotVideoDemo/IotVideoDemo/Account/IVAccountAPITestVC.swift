@@ -62,13 +62,13 @@ class IVAccountAPITestVC: UITableViewController {
                 handleWebCallback(json: json, error: error)
             })
         case .replaceToken:
-            IVRequest.updateIvToken(responseHandler: { (json, error) in
+            IVRequest.updateaccessToken(responseHandler: { (json, error) in
                 if let error = error {
                     showError(error)
                     return
                 }
-                let ivToken = json!.ivDecode(TokenModel.self)?.ivToken
-                guard let token = ivToken else {
+                let accessToken = json!.ivDecode(TokenModel.self)?.accessToken
+                guard let token = accessToken else {
                     showAlert(msg: "更新的token为空")
                     return
                 }
@@ -130,7 +130,7 @@ class IVAccountAPITestVC: UITableViewController {
                     return
                 }
                 UserDefaults.standard.do {
-                    $0.removeObject(forKey: demo_ivTokenKey)
+                    $0.removeObject(forKey: demo_accessTokenKey)
                     $0.removeObject(forKey: demo_accessIdKey)
                     $0.removeObject(forKey: demo_expireTimeKey)
                 }
@@ -150,7 +150,7 @@ extension IVAccountAPITestVC {
         dataArray = [.modifyUserPwd,
                      .modifyUserInfo,
                      .queryUserInfo,
-                     .replaceToken,
+//                     .replaceToken,
 //                     .sharedUsersList,
                      //                     .shareByQRCode,
             //                     .acceptShare,
@@ -198,8 +198,8 @@ fileprivate enum IVAccountApi: String {
     case modifyUserInfo   = "修改用户信息"
     /// 查询用户信息
     case queryUserInfo    = "查询用户信息"
-    /// 更新用户ivToken
-    case replaceToken     = "更新用户ivToken"
+    /// 更新用户accessToken
+    case replaceToken     = "更新用户accessToken"
     /// 根据手机或邮箱或用户id查找用户
     case findUser         = "根据手机或邮箱或用户id查找用户"
     
@@ -251,7 +251,7 @@ fileprivate enum IVAccountApi: String {
 
 
 struct TokenModel: Codable {
-    var ivToken: String
+    var accessToken: String
     var expireTime: Int = 0
 }
 

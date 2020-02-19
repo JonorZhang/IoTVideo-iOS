@@ -459,6 +459,7 @@ enum IVVASOrderPayType : NSInteger;
 /// \param responseHandler 回调
 ///
 - (void)useVoucherWithDeviceId:(NSString * _Nonnull)deviceId voucherCode:(NSString * _Nonnull)voucherCode timezone:(NSInteger)timezone responseHandler:(void (^ _Nullable)(NSString * _Nullable, NSError * _Nullable))responseHandler;
+- (void)testP2PRequestWithResponseHandler:(void (^ _Nullable)(NSString * _Nullable, NSError * _Nullable))responseHandler;
 @end
 
 /// 支付方式
@@ -950,6 +951,7 @@ enum IVVASOrderPayType : NSInteger;
 /// \param responseHandler 回调
 ///
 - (void)useVoucherWithDeviceId:(NSString * _Nonnull)deviceId voucherCode:(NSString * _Nonnull)voucherCode timezone:(NSInteger)timezone responseHandler:(void (^ _Nullable)(NSString * _Nullable, NSError * _Nullable))responseHandler;
+- (void)testP2PRequestWithResponseHandler:(void (^ _Nullable)(NSString * _Nullable, NSError * _Nullable))responseHandler;
 @end
 
 /// 支付方式

@@ -202,6 +202,9 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # pragma pop_macro("any")
 #endif
 
+@class NSURLSession;
+@class NSURLAuthenticationChallenge;
+@class NSURLCredential;
 @class NSURLSessionConfiguration;
 @class NSCoder;
 
@@ -212,6 +215,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) IVNetwork * 
 + (IVNetwork * _Nonnull)shareInstance SWIFT_WARN_UNUSED_RESULT;
 - (id _Nonnull)copy SWIFT_WARN_UNUSED_RESULT SWIFT_UNAVAILABLE_MSG("please use shareInstance instead");
 - (id _Nonnull)mutableCopy SWIFT_WARN_UNUSED_RESULT SWIFT_UNAVAILABLE_MSG("please use shareInstance instead");
+- (void)URLSession:(NSURLSession * _Nonnull)session didReceiveChallenge:(NSURLAuthenticationChallenge * _Nonnull)challenge completionHandler:(void (^ _Nonnull)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler;
 - (nonnull instancetype)initWithBaseURL:(NSURL * _Nullable)url sessionConfiguration:(NSURLSessionConfiguration * _Nullable)configuration OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
@@ -443,6 +447,9 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 # pragma pop_macro("any")
 #endif
 
+@class NSURLSession;
+@class NSURLAuthenticationChallenge;
+@class NSURLCredential;
 @class NSURLSessionConfiguration;
 @class NSCoder;
 
@@ -453,6 +460,7 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) IVNetwork * 
 + (IVNetwork * _Nonnull)shareInstance SWIFT_WARN_UNUSED_RESULT;
 - (id _Nonnull)copy SWIFT_WARN_UNUSED_RESULT SWIFT_UNAVAILABLE_MSG("please use shareInstance instead");
 - (id _Nonnull)mutableCopy SWIFT_WARN_UNUSED_RESULT SWIFT_UNAVAILABLE_MSG("please use shareInstance instead");
+- (void)URLSession:(NSURLSession * _Nonnull)session didReceiveChallenge:(NSURLAuthenticationChallenge * _Nonnull)challenge completionHandler:(void (^ _Nonnull)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler;
 - (nonnull instancetype)initWithBaseURL:(NSURL * _Nullable)url sessionConfiguration:(NSURLSessionConfiguration * _Nullable)configuration OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
