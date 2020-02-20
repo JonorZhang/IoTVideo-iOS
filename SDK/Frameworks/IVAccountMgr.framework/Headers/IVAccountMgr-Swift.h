@@ -317,11 +317,11 @@ enum IVFeedBackType : NSInteger;
 /// \param responseHandler 回调处理
 ///
 - (void)logoutWithResponseHandler:(void (^ _Nullable)(NSString * _Nullable, NSError * _Nullable))responseHandler;
-/// 更新用户ivToken
-/// 终端用户用于更换即将过期的ivToken，根据app端处理的流程不是必须调用
+/// 更新用户accessToken
+/// 终端用户用于更换即将过期的accessToken，根据app端处理的流程不是必须调用
 /// \param responseHandler 回调处理
 ///
-- (void)updateIvTokenWithResponseHandler:(void (^ _Nullable)(NSString * _Nullable, NSError * _Nullable))responseHandler;
+- (void)updateaccessTokenWithResponseHandler:(void (^ _Nullable)(NSString * _Nullable, NSError * _Nullable))responseHandler;
 /// 获取当前用户信息
 /// \param responseHandler 回调处理
 ///
@@ -897,11 +897,11 @@ enum IVFeedBackType : NSInteger;
 /// \param responseHandler 回调处理
 ///
 - (void)logoutWithResponseHandler:(void (^ _Nullable)(NSString * _Nullable, NSError * _Nullable))responseHandler;
-/// 更新用户ivToken
-/// 终端用户用于更换即将过期的ivToken，根据app端处理的流程不是必须调用
+/// 更新用户accessToken
+/// 终端用户用于更换即将过期的accessToken，根据app端处理的流程不是必须调用
 /// \param responseHandler 回调处理
 ///
-- (void)updateIvTokenWithResponseHandler:(void (^ _Nullable)(NSString * _Nullable, NSError * _Nullable))responseHandler;
+- (void)updateaccessTokenWithResponseHandler:(void (^ _Nullable)(NSString * _Nullable, NSError * _Nullable))responseHandler;
 /// 获取当前用户信息
 /// \param responseHandler 回调处理
 ///

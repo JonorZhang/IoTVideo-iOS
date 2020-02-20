@@ -34,7 +34,7 @@ extern NSString *kIoTVideoHostType;
 @property (class, nonatomic, strong, readonly) IoTVideo *sharedInstance;
 
 @property (nonatomic, strong, nullable, readonly) NSString *ivCid;
-@property (nonatomic, strong, nullable, readonly) NSString *ivToken;
+@property (nonatomic, strong, nullable, readonly) NSString *accessToken;
 @property (nonatomic, strong, nullable, readonly) NSString *accessId;
 @property (nonatomic, strong, nullable, readonly) NSString *productId;
 @property (nonatomic, strong, nullable, readonly) NSDictionary *userInfo;
@@ -58,12 +58,12 @@ extern NSString *kIoTVideoHostType;
 
 /// 设置当前用户信息，登录成功调用
 /// @param accessId  是外部访问IotVideo云平台的唯一性身份标识，所有 OpenAPI 接口都需要传入这个头部参数。
-/// @param ivToken   登录成功服务器返回的`ivToken`
-- (void)registerWithAccessId:(NSString *)accessId ivToken:(NSString *)ivToken;
+/// @param accessToken   登录成功服务器返回的`accessToken`
+- (void)registerWithAccessId:(NSString *)accessId accessToken:(NSString *)accessToken;
 
-/// 刷新ivToken
-/// @param ivToken 登录成功服务器返回的`ivToken`
-- (void)updateToken:(NSString *)ivToken;
+/// 刷新accessToken
+/// @param accessToken 登录成功服务器返回的`accessToken`
+- (void)updateToken:(NSString *)accessToken;
 
 /// SDK反注册，退出登录时调用
 - (void)unregister;

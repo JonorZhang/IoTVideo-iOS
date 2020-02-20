@@ -42,7 +42,7 @@
 //    }];
     
 //    [IoTVideo.sharedInstance setupIvCid:@"xxx" productId:@"xxxxxxxxxxxx" userInfo:nil];
-//    [IoTVideo.sharedInstance registerWithAccessId:@"xxxxxxxx" ivToken:@"xxxxxx"];
+//    [IoTVideo.sharedInstance registerWithAccessId:@"xxxxxxxx" accessToken:@"xxxxxx"];
     
 //    [IVAccountMgr.shareInstance addDeviceWithDeviceId:@"12345678" responseHandler:^(NSString * _Nullable json, NSError * _Nullable error) {
 //
