@@ -40,10 +40,13 @@
 		<data>
 		Jz4dQoi3sGNz//+cEnEWCRRxru4=
 		</data>
+<<<<<<< HEAD
 		<key>Headers/IVNetwork_p2p.h</key>
 		<data>
 		lYKpDtgvipI1lCamajnefRXJME8=
 		</data>
+=======
+>>>>>>> ddedc765336aa8a68bee743612ef5202f34af7b6
 		<key>Headers/IVPlaybackPlayer.h</key>
 		<data>
 		gAdzUIf1RqbIH9mA7yg5Ohb9vNE=
@@ -62,7 +65,11 @@
 		</data>
 		<key>Headers/IoTVideo.h</key>
 		<data>
+<<<<<<< HEAD
 		SfsORs9t3JFuHfExOQKz0WWte68=
+=======
+		JJ/NheUpjOQrjR5GqESGrIRLmmE=
+>>>>>>> ddedc765336aa8a68bee743612ef5202f34af7b6
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -174,6 +181,7 @@
 			YU47PwTSUj4d2ulau3AwsvjeObEqbMSqpWdt/4kXqs0=
 			</data>
 		</dict>
+<<<<<<< HEAD
 		<key>Headers/IVNetwork_p2p.h</key>
 		<dict>
 			<key>hash</key>
@@ -185,6 +193,8 @@
 			Pi5XaC+MPw3mM6ObBI1roXajJhqZjBW10dVDD8ZZWDM=
 			</data>
 		</dict>
+=======
+>>>>>>> ddedc765336aa8a68bee743612ef5202f34af7b6
 		<key>Headers/IVPlaybackPlayer.h</key>
 		<dict>
 			<key>hash</key>
@@ -233,11 +243,19 @@
 		<dict>
 			<key>hash</key>
 			<data>
+<<<<<<< HEAD
 			SfsORs9t3JFuHfExOQKz0WWte68=
 			</data>
 			<key>hash2</key>
 			<data>
 			b9jKmd9V/R86/6FGlL+Hg9iAKDgzj7pRsZ2W1+hqAN8=
+=======
+			JJ/NheUpjOQrjR5GqESGrIRLmmE=
+			</data>
+			<key>hash2</key>
+			<data>
+			bOaaUgAvegspFj/gtABsdBTR8iwj6puMRnvmIEZIXHk=
+>>>>>>> ddedc765336aa8a68bee743612ef5202f34af7b6
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
