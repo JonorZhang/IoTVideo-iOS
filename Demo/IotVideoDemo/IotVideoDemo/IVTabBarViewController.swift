@@ -84,7 +84,7 @@ extension IVTabBarViewController: IVMessageDelegate {
         ivHud("事件通知 \(topic) \n \(event)")
     }
     
-    func didUpdateStatus(_ json: String, path: String, deviceId: String) {
+    func didUpdateProperty(_ json: String, path: String, deviceId: String) {
         logInfo("状态通知 \(deviceId) \n \(path) \(json) ")
         ivHud("状态通知 \(deviceId) \n \(path) \(json)")
         if let dev = IVDeviceTableViewController.mineDevice.first(where: { $0.did == deviceId }),
@@ -95,7 +95,7 @@ extension IVTabBarViewController: IVMessageDelegate {
 }
 
 
-func handleWebCallback(json: String?, error: NSError?) {
+func handleWebCallback(json: String?, error: Error?) {
     if let error = error {
         showError(error)
         return
@@ -103,7 +103,8 @@ func handleWebCallback(json: String?, error: NSError?) {
     showAlert(msg: json!)
 }
 
-func showError(_ error: NSError) {
+func showError(_ error: Error) {
+    let error = error as NSError
     if error.code == 401 {
         UserDefaults.standard.do {
             $0.removeObject(forKey: demo_accessTokenKey)

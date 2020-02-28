@@ -11,7 +11,7 @@
 //#import "IotVideoDemo-Swift.h"
 //#import <IoTVideo/IVMessageMgr.h>
 #import <IoTVideo/IoTVideo.h>
-
+#import <IVNetwork/IVNetwork.h>
 @interface IVApiFormatTest ()
 
 @end
@@ -40,19 +40,19 @@
 //        }
 //        NSLog(@"注册成功");
 //    }];
-    
+    [IVNetwork.shareInstance requestWithMethodType:@"" urlString:@"" params:@{} response:nil];
 //    [IoTVideo.sharedInstance setupIvCid:@"xxx" productId:@"xxxxxxxxxxxx" userInfo:nil];
 //    [IoTVideo.sharedInstance registerWithAccessId:@"xxxxxxxx" accessToken:@"xxxxxx"];
     
 //    [IVAccountMgr.shareInstance addDeviceWithDeviceId:@"12345678" responseHandler:^(NSString * _Nullable json, NSError * _Nullable error) {
 //
 //    }];
-
+    
     [IVAccountMgr.shareInstance addDeviceWithDeviceId:@"0000" deviceName:nil forceBind:true responseHandler:nil];
 //    IVMessageMgr.sharedInstance.delegate = self;
     
 //    // deviceId 是设备ID的字符串
-//    // controlPath 是模型路径的字符串，如 "SP.presetPosSetting.setVal"
+//    // controlPath 是模型路径的字符串，如 "ProWritable.presetPosSetting.setVal"
 //    // controlData 是模型参数的字符串，如 "{\"pos1\":{\"x\":10,\"y\":10},\"pos2\":{\"x\":100,\"y\":200}}"
 //    [IVMessageMgr.sharedInstance controlDevice:deviceId
 //                                          path:controlPath

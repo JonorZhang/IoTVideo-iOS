@@ -46,7 +46,7 @@ class IVDeviceTableViewController: UITableViewController {
                 IVDeviceTableViewController.mineDevice = json!.ivArrayDecode(IVDeviceModel.self) as! [IVDeviceModel]
                 IVDeviceTableViewController.mineDevice.forEach { (dev) in
                     guard let deviceId = dev.did else { return }
-                    IVMessageMgr.sharedInstance.getDataOfDevice(deviceId, path: "ST._online") { (json, error) in
+                    IVMessageMgr.sharedInstance.readProperty(ofDevice: deviceId, path: "ProReadonly._online") { (json, error) in
                         guard let json = json else { return }
                         dev.online = JSON(parseJSON: json).value("stVal")?.boolValue
                     }
@@ -58,7 +58,9 @@ class IVDeviceTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 3  && indexPath.row == 0 {
+            let hud = ivLoadingHud()
             IVVAS.shared.testP2PRequest { (json, error) in
+                hud.hide()
                 IVLog.logInfo("\(String(describing: json)),\(String(describing: error))")
                 showAlert(msg: "\(String(describing: json)),\(String(describing: error))")
             }

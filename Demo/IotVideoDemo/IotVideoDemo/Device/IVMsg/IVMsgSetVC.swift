@@ -18,7 +18,7 @@ class IVMsgSetVC: UITableViewController, IVDeviceAccessable {
     override func viewDidLoad() {
         super.viewDidLoad()
         let hud = ivLoadingHud()
-        IVMessageMgr.sharedInstance.getDataOfDevice(device.deviceID, path: "") { (json, error) in
+        IVMessageMgr.sharedInstance.readProperty(ofDevice: device.deviceID, path: "") { (json, error) in
             hud.hide()
             guard let json = json else {
                 let path = Bundle.main.path(forResource: "msgFile", ofType: "json")
@@ -101,16 +101,24 @@ class IVMsgSetVC: UITableViewController, IVDeviceAccessable {
         let pop = IVPopupView(title: "物模型设置 \n \(path).\(subKey) ", input: [currentTextJson], actions: [.cancel(), .confirm({ (v) in
             let inJson = v.inputFields[0].text ?? ""
             let hud = ivLoadingHud()
-            IVMessageMgr.sharedInstance.setDataToDevice(self.device.deviceID, path: "\(path).\(subKey)", json: inJson, timeout: 30) { (json, err) in
-                hud.hide()
-                let message = "json:\(json ?? "") \n error:\(String(describing: err))"
-                showAlert(msg: path + "\n" + message)
+            if path == "Action" {
+                IVMessageMgr.sharedInstance.takeAction(ofDevice: self.device.deviceID, path: "\(path).\(subKey)", json: inJson, timeout: 30) { (json, err) in
+                    hud.hide()
+                    let message = "json:\(json ?? "") \n error:\(String(describing: err))"
+                    showAlert(msg: path + "\n" + message)
+                }
+            } else if path == "ProWritable" {
+                IVMessageMgr.sharedInstance.writeProperty(ofDevice: self.device.deviceID, path: "\(path).\(subKey)", json: inJson, timeout: 30) { (json, err) in
+                    hud.hide()
+                    let message = "json:\(json ?? "") \n error:\(String(describing: err))"
+                    showAlert(msg: path + "\n" + message)
+                }
             }
         })])
         pop.inputFields[0].text = currentTextJson
         pop.show()
         /*
-        if sectionKey == "CO" {
+        if sectionKey == "Action" {
             let pop = IVPopupView(title: "物模型设置 \n \(path)", input: ["json"], actions: [.cancel(), .confirm({ v in
                 var inJson = v.inputFields[0].text ?? ""
                 
@@ -129,7 +137,7 @@ class IVMsgSetVC: UITableViewController, IVDeviceAccessable {
             pop.show()
         }
         
-        if sectionKey == "SP" {
+        if sectionKey == "ProWritable" {
             let canUseSubKeys = ["_otaMode", "_logLevel", "_cloudStoage"]
             if canUseSubKeys.contains(subKey) {
                 let pop = IVPopupView(title: "物模型设置 \n \(path).setVal", input: ["json"], actions: [.cancel(), .confirm({ v in
