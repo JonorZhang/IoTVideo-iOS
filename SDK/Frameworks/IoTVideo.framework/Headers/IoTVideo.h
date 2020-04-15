@@ -27,6 +27,14 @@
 #import "IVNetworkSign.h"
 #import "IVNetwork_p2p.h"
 
+
+//! Project version number for IoTVideo.
+FOUNDATION_EXPORT double IoTVideoVersionNumber;
+
+//! Project version string for IoTVideo.
+FOUNDATION_EXPORT const unsigned char IoTVideoVersionString[];
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString * IVOptionKey NS_STRING_ENUM;
