@@ -80,5 +80,4 @@ class IVDeviceCell: UITableViewCell {
     @IBOutlet weak var deviceIdLabel: UILabel!
     @IBOutlet weak var onlineIcon: UIImageView!
     @IBOutlet weak var onlineLabel: UILabel!
-    
 }

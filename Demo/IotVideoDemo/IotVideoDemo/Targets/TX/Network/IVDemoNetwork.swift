@@ -79,14 +79,13 @@ struct IVDemoNetwork {
         }
     }
     
-    /// 获取分享者列表
+    /// 获取设备绑定的用户列表
     ///
-    /// 仅主人可用
     /// - Parameters:
     ///   - deviceId: 设备id
     ///   - responseHandler: 回调
-    static func getVisitorList(of deviceId: String, responseHandler: IVDemoNetworkResponseHandler) {
-        IVTencentNetwork.shared.getVisitorList(deviceId: deviceId){ (json, err) in
+    static func getUserList(of deviceId: String, responseHandler: IVDemoNetworkResponseHandler) {
+        IVTencentNetwork.shared.getUserList(deviceId: deviceId){ (json, err) in
             guard let json = IVDemoNetwork.handlerError(json, err) else {
                 responseHandler?(nil, err)
                 return
