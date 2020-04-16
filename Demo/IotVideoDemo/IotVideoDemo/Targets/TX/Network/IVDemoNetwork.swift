@@ -70,12 +70,13 @@ struct IVDemoNetwork {
                     newUserDeviceList.append(deviceModel)
                     
                     IVMessageMgr.sharedInstance.readProperty(ofDevice: deviceModel.devId!, path: "ProReadonly._online") { (json, error) in
-                        guard let json = json else { return }
-                        deviceModel.online = JSON(parseJSON: json).value("stVal")?.boolValue
+                        if let json = json {
+                            deviceModel.online = JSON(parseJSON: json).value("stVal")?.boolValue
+                        }
+                        responseHandler?(newUserDeviceList, nil)
                     }
                 }
             }
-            responseHandler?(newUserDeviceList, nil)
         }
     }
     

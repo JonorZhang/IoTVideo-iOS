@@ -9,12 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <IoTVideo/IVNetwork_p2p.h>
 
-//! Project version number for IVVAS.
-FOUNDATION_EXPORT double IVVASVersionNumber;
-
-//! Project version string for IVVAS.
-FOUNDATION_EXPORT const unsigned char IVVASVersionString[];
-
 
 /// 支付方式
 typedef NS_ENUM(NSInteger, IVVASOrderPayType) {
@@ -48,6 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 增值服务管理单例
 + (instancetype)shareInstance;
 @property (nonatomic, class, strong, readonly) IVVAS *shared;
+
+/// SDK版本
+@property (class, nonatomic, strong, readonly) NSString *SDKVersion;
 
 // MARK: - 套餐/订单
 

@@ -27,14 +27,6 @@
 #import "IVNetworkSign.h"
 #import "IVNetwork_p2p.h"
 
-
-//! Project version number for IoTVideo.
-FOUNDATION_EXPORT double IoTVideoVersionNumber;
-
-//! Project version string for IoTVideo.
-FOUNDATION_EXPORT const unsigned char IoTVideoVersionString[];
-
-
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NSString * IVOptionKey NS_STRING_ENUM;
@@ -85,14 +77,14 @@ typedef void(^IVLinkStatusCallback)(IVLinkStatus status);
 @property (nonatomic, strong, nullable, readonly) NSString *accessId;
 /// 终端ID
 @property (nonatomic, strong, nullable, readonly) NSString *terminalId;
-/// SDK版本
-@property (nonatomic, assign, readonly) NSInteger SDKVersion;
 /// SDK与服务器的连接状态
 @property (nonatomic, assign, readonly) IVLinkStatus linkStatus;
 /// 日志级别
 @property (nonatomic, assign) IVLogLevel logLevel;
 /// 可选配置选项
 @property (nonatomic, strong, nullable) NSDictionary<IVOptionKey, id> *options;
+/// SDK版本
+@property (class, nonatomic, strong, readonly) NSString *SDKVersion;
 
 /// SDK初始化配置一些参数, 需要在`application:didFinishLaunchingWithOptions:`中调用
 /// @param launchOptions 传入application:didFinishLaunchingWithOptions: 得到的launchOptions
