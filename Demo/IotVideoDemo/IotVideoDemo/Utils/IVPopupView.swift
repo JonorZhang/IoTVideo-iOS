@@ -298,12 +298,24 @@ class IVPopupView: UIView {
     }
     
     // MARK: - 公开方法
+    @objc static func showAlert(title: String = "", message: String = "", in view: UIView? = nil, duration: TimeInterval = 1.5) {
+        DispatchQueue.main.async {
+            IVPopupView(title: title, message: message, actions: []).show(in: view, duration: duration)
+        }
+    }
+
+    @objc static func showConfirm(title: String = "", message: String = "", in view: UIView? = nil) {
+        DispatchQueue.main.async {
+            IVPopupView(title: title, message: message).show(in: view)
+        }
+    }
+
     @available(swift 10)
-    @objc func show() {
-        show(in: UIApplication.shared.windows.first)
+    @objc func show(_ duration: TimeInterval = 99999) {
+        show(in: UIApplication.shared.windows.first, duration: duration)
     }
     
-    @objc func show(in view: UIView? = nil) {
+    @objc func show(in view: UIView? = nil, duration: TimeInterval = 99999) {
         DispatchQueue.main.async {
             let view = view ?? UIApplication.shared.windows.first ?? AppDelegate.shared.window!
             view.addSubview(self)
@@ -311,6 +323,10 @@ class IVPopupView: UIView {
                 make.top.left.bottom.right.equalTo(view)
             }
             self.transfromAnimation(true)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                self.dismiss()
+            }
         }
     }
 
@@ -351,7 +367,11 @@ class IVPopupView: UIView {
         if let _ = topContainer.superview {
             topContainer.snp.remakeConstraints { make in
                 make.top.left.right.equalTo(contentView)
-                make.bottom.equalTo(stackViewH.snp.top).offset(-0.5)
+                if contentView.subviews.contains(stackViewH) {
+                    make.bottom.equalTo(stackViewH.snp.top).offset(-0.5)
+                } else {
+                    make.bottom.equalTo(contentView)
+                }
             }
         }
         
@@ -370,9 +390,8 @@ class IVPopupView: UIView {
         }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        endEditing(true)
     }
 
 }
@@ -392,7 +411,7 @@ private extension IVPopupView {
     
 }
 
-extension IVPopupView: UITextFieldDelegate, WKNavigationDelegate, WKScriptMessageHandler {
+extension IVPopupView: WKNavigationDelegate, WKScriptMessageHandler {
     
     // MARK:-WKNavigationDelegate
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
@@ -459,8 +478,16 @@ extension IVPopupView: UITextFieldDelegate, WKNavigationDelegate, WKScriptMessag
         //h5给端传值的内容，可在这里实现h5与原生的交互时间
         guard let dict = dictFromScriptMessage(message) else { return }
         logDebug(dict)
-      }
+    }
 }
+
+extension IVPopupView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
 
 extension IVPopupAction {
     @objc static func cancel(_ handler: ((IVPopupView)->Void)? = nil) -> IVPopupAction {

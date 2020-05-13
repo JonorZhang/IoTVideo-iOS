@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="O5N-qB-h4z">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="O5N-qB-h4z">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,7 +11,7 @@
         <!--设备管理-->
         <scene sceneID="sAL-Qn-aoY">
             <objects>
-                <tableViewController storyboardIdentifier="IVTXDeviceList" id="O5N-qB-h4z" customClass="IVDeviceMgrViewController" customModule="IotVideoDemoTX" customModuleProvider="target" propertyAccessControl="none" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="IVTXDeviceList" id="O5N-qB-h4z" customClass="IVDeviceMgrViewController" customModule="IotVideoDemo" customModuleProvider="target" propertyAccessControl="none" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="40" sectionFooterHeight="40" id="gdO-hO-D0R">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -294,7 +294,7 @@
         <!--分享设备-->
         <scene sceneID="Tqy-QZ-iE9">
             <objects>
-                <viewController id="j8a-1E-Kg6" customClass="IVDeviceShareViewController" customModule="IotVideoDemoTX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="j8a-1E-Kg6" customClass="IVDeviceShareViewController" customModule="IotVideoDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qRW-mR-ys2">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

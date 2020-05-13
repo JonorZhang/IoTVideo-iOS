@@ -19,6 +19,9 @@ class IVDeviceMgrViewController: UITableViewController, IVDeviceAccessable {
         if section == 2 { /*暂时屏蔽分享（YUNAPI接口对此方面支持还不够完善,最好是分享给某个用户后，推一条消息，让该用户以分享者身份去绑定并订阅该设备）*/
             return 1
         }
+        if section == 1 { /*暂时屏蔽AI*/
+            return 1
+        }
         return super.tableView(tableView, numberOfRowsInSection: section)
     }
     
@@ -28,12 +31,14 @@ class IVDeviceMgrViewController: UITableViewController, IVDeviceAccessable {
         if cell?.textLabel?.text == "删除设备" {
             let unbind = IVPopupAction(title: "删除设备", style: .destructive, handler: { _ in
                 let hud = ivLoadingHud()
-                IVDemoNetwork.deleteDevice(self.device.deviceID, role: .owner) { (data, error) in
+                IVDemoNetwork.deleteDevice(self.device.deviceID, role: self.device.shareType) { (data, error) in
                     hud.hide()
                     if data == nil {
                         return
                     }
-                    userDeviceList.removeAll(where: { $0.devId == self.device.deviceID })
+                    
+                    userDeviceList.removeAll(where: {$0.devId == self.device.deviceID})
+                    IVNotiPost(.deviceListChange(by: .delete))
                     self.navigationController?.popToRootViewController(animated: true)
                 }
             })

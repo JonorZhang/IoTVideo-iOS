@@ -162,26 +162,48 @@ IVMessageMgr.sharedInstance.takeAction(ofDevice: deviceId, path: actionPath, jso
 
 **2. 将下载并解压得到的IoTVideo相关Framework添加到工程中, 并添加相应依赖库**
 
+
+> ⚠️重要说明：SDK中的IoTVideo.framework和Demo中的IJKMediaFramework.framework皆依赖于FFmpeg库，为方便开发者能自定义FFmpeg库同时避免多个FFmpeg库代码冲突，自`v1.1(ebb)`版本起IoTVideo.framework将FFmpeg库分离出来，由开发者在APP工程中导入。此外，我们提供了一份基于`ff3.4`的FFmpeg库(非GPL)，位于`Demo/IotVideoDemo/IotVideoDemo/Frameworks/ffmpeg/lib`，仅供开发者参考使用，也可另行编译（注：自行编译的FFmpeg版本应考虑接口兼容问题）。
+>
+
 必选库：
 
-- IoTVideo.framework   // 核心库
-- IVVAS.framework      // 增值服务相关
+- IoTVideo.framework (静态库)   // 核心库     
+    - 依赖FFmpeg库 (必须)
+- IVVAS.framework (静态库)      // 增值服务库
+- IVNetwork.framework (静态库)  // 网络库
+
+可选库：
+
+- IJKMediaFramework.framework（静态库）// 用于播放云回放的m3u8文件，
+    - 依赖FFmpeg库 (必须)
+    - 依赖SSL库（可选）
 
 依赖库：
 
   - AudioToolbox.framework   
   - VideoToolbox.framework   
-  - CoreMedia.framework       
+  - CoreMedia.framework 
+  - FFmpeg库 (必须)
+    - libavutil.a     
+    - libavfilter.a     
+    - libavcodec.a     
+    - libavformat.a     
+    - libswresample.a     
+    - libswscale.a
+  - SSL库（可选）
+    - libcrypto.a
+    - libssl.a
+  - libc++.tbd
+  - libz.tbd
+  - libbz2.tbd
+  - libiconv.tbd
 
-可选库：
-
-- IJKMediaFramework.framework     // 用于播放云回放的m3u8文件
-
-![](https://note.youdao.com/yws/api/group/108650997/file/899753505?method=download&inline=true&version=1&shareToken=8F06C8A52D714120BF05F3646BE15F4F)
+![](https://note.youdao.com/yws/api/group/108650997/file/900729043?method=download&inline=true&version=1&shareToken=8EEC2178C08E464184C1A09B6363FEE3)
 
 
 
-**3. ⚠️注意： 需要设置TATGETS -> Build Phases -> Embed Frameworks为 Embed & sign，或者Xcode11后可在General -> Frameworks,Libraries,and Embedded Content 设置 Embed&Sign**
+**3. ⚠️注意： v1.0(da7)及之前版本需要设置TATGETS -> Build Phases -> Embed Frameworks为 Embed & sign，或者Xcode11后可在General -> Frameworks,Libraries,and Embedded Content 设置 Embed&Sign**
 
  ![image](https://note.youdao.com/yws/api/group/108650997/file/898850154?method=download&inline=true&version=2&shareToken=13D2636806184BB1931F4809D2A4C8F0)
 
@@ -705,4 +727,25 @@ func sendData(toServer url: String, data: Data?, completionHandler: IVMsgDataCal
 /// @param timeout 超时时间
 /// @param completionHandler 完成回调
 func sendData(toServer url: String, data: Data?, timeout: TimeInterval, completionHandler: IVMsgDataCallback? = nil)
+```
+
+# SDK LOG输出
+1. 设置代理,设置日志输出等级
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {
+    
+    IoTVideo.sharedInstance.delegate = self
+    IoTVideo.sharedInstance.logLevel = .DEBUG
+    
+    ...
+}
+```
+
+2. 遵守 `IoTVideoDelegate`协议，输出SDK LOG
+```swift
+extension AppDelegate: IoTVideoDelegate {
+    func didOutputLogMessage(_ message: String, level: IVLogLevel, file: String, func: String, line: Int32) {
+        print("\(Date()) <\(file):\(line)> \(`func`): \(message)")
+    }
+}
 ```

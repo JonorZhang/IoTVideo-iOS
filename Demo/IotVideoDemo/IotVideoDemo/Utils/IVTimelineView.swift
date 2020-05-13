@@ -175,6 +175,7 @@ struct IVTime: IVTiming, Hashable {
     }
 }
 
+
 protocol IVTimelineViewDelegate: class {
     /// 滚动或者点击时间轴片段
     /// - Parameters:
@@ -189,6 +190,13 @@ protocol IVTimelineViewDelegate: class {
     ///   - time: 时间片段
     ///   - completionHandler: 数据获取完成回调
     func timelineView(_ timelineView: IVTimelineView, itemsForTimelineAt time: IVTime, completionHandler: @escaping ([IVTimelineItem]?) -> Void)
+    
+    /// 获取打点日期
+    /// - Parameters:
+    ///   - timelineView: 时间轴对象
+    ///   - time: 时间片段
+    ///   - completionHandler: 数据获取完成回调
+    func timelineView(_ timelineView: IVTimelineView, markListForCalendarAt time: IVTime, completionHandler: @escaping ([IVCSMarkItem]?) -> Void)
 }
 
 class IVTimelineView: UIView {
@@ -206,7 +214,7 @@ class IVTimelineView: UIView {
     
     /// 时间轴缩放比例（每秒占多少像素点(pix/sec)）
     private(set)
-    var scale = 1.0 {
+    var scale = 0.005 {
         didSet {
             scale = max(minimumScale, min(maximumScale, scale))
                         
@@ -240,7 +248,7 @@ class IVTimelineView: UIView {
     private(set)
     var currentItem: IVTimelineItem = .placeholder
             
-    /// 当前播放时间（UTC标准时间）
+    /// 当前播放时间戳
     var currentPTS: TimeInterval = 0 {
         didSet {
             logVerbose("currentPTS new:\(currentPTS) old:\(oldValue) diff:\(currentPTS - oldValue)")
@@ -356,6 +364,9 @@ class IVTimelineView: UIView {
         btn.addEvent { (_) in
             self.calendarView.isHidden = false
             self.calendarView.currentDate = self.currentGroup.time.date
+            if self.calendarView.markableDates.isEmpty {
+                self.loadMarkList(at: self.currentGroup.time)
+            }
         }
         return btn
     }()
@@ -388,8 +399,6 @@ class IVTimelineView: UIView {
         let cal = IVCalendar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 300))
         cal.center = vcView!.center
         cal.backgroundColor = .white
-//        cal.markDates = [Date(timeIntervalSince1970: 1584240204),
-//                         Date(timeIntervalSince1970: 1586919204)]
 //        cal.lowerValidDate = Date(timeIntervalSince1970: 1584240204)
         cal.currentDate = currentGroup.time.date
         cal.delegate = self
@@ -473,6 +482,14 @@ private extension IVTimelineView {
         }
     }
     
+    func loadMarkList(at time: IVTime) {
+        self.delegate?.timelineView(self, markListForCalendarAt: time, completionHandler: { [weak self](markList) in
+            if let markList = markList {
+                self?.calendarView.markableDates = markList.map({ ($0.dateTime, $0.playable) })
+            }
+        })
+    }
+    
     /// 插入数据源
     func insertDataSource(_ items: [IVTimelineItem], at time: IVTime) {
         var newItems = items.sorted { $0.start < $1.start }
@@ -503,6 +520,9 @@ private extension IVTimelineView {
         if currentGroup.time == time && currentGroup.isPlaceholder {
             currentGroup = newGroup
             collectionView.reloadData()
+            if let firstItem = currentGroup.items.first(where: { $0.isValid }) {
+                forceScrollToTime(firstItem.start)
+            }
         }
     }
     

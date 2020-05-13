@@ -19,7 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 视频渲染器协议
 @protocol IVVideoRenderable <NSObject>
+
+/// 视频渲染代理
+/// @param player 播放器实例
+/// @param videoFrame 要渲染的视频帧
 - (void)player:(IVPlayer *)player renderVideoFrame:(IVVideoFrame *)videoFrame;
+
 @end
 
 
@@ -95,13 +100,13 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-/// 核心播放器
+/// 核心播放器（抽象类）
 @interface IVPlayer : NSObject
 
 /// 播放器代理
 @property (nonatomic, weak, nullable) id<IVPlayerDelegate> delegate;
 
-/// 连接设备
+/// 连接的设备ID
 @property (nonatomic, strong, readonly) NSString *deviceId;
 
 /// 视频连接类型
@@ -113,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 播放器状态
 @property (nonatomic, assign, readonly) IVPlayerStatus status;
 
-/// 解码器信息头
+/// 流媒体信息头
 @property (nonatomic, assign, readonly) IVAVHeader avheader;
 
 /// 当前播放时间戳（秒）
@@ -128,7 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - 播放控制
 
-/// (可选) 预连接，获取流媒体头信息
+/// (可选) 预连接，获取流媒体信息头
 - (void)prepare;
 
 /// 开始播放
@@ -140,9 +145,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - 截图/录像
 
 /// 视频画面截图
+/// @param completionHandler 完成回调
 - (void)takeScreenshot:(void(^)(UIImage * _Nullable image))completionHandler;
 
 /// 开始录像
+/// @param savePath 录像文件路径
+/// @param completionHandler 完成回调
 - (void)startRecord:(NSString *)savePath completionHandler:(void(^)(NSString * _Nullable savePath, NSError * _Nullable error))completionHandler;
 
 /// 停止录像
@@ -156,24 +164,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 数据发送接口，可用于发送控制指令等用户自定义数据。
 /// 若设备有响应，将通过代理`-[delegate player: didReceiveUserData:]`返回
+/// @param data 要发送的数据
+/// @return 【0】成功，【非0】失败
 - (int)sendUserData:(NSData *)data;
 
 
 #pragma mark - 高级功能【可选】
 
-/// 音视频编解码器，默认为内置编解码器。⚠️如无必要 请勿修改
+/// 视频解码器。⚠️已内置，如无必要 请勿修改
 @property (nonatomic, strong, nullable) id<IVVideoDecodable> videoDecoder;
+/// 视频编码器。⚠️已内置，如无必要 请勿修改
 @property (nonatomic, strong, nullable) id<IVVideoEncodable> videoEncoder;
+/// 音频解码器。⚠️已内置，如无必要 请勿修改
 @property (nonatomic, strong, nullable) id<IVAudioDecodable> audioDecoder;
+/// 音频编码器。⚠️已内置，如无必要 请勿修改
 @property (nonatomic, strong, nullable) id<IVAudioEncodable> audioEncoder;
 
-/// 视频渲染器，默认为内置渲染器。⚠️如无必要 请勿修改
+/// 视频渲染器。⚠️已内置，如无必要 请勿修改
 /// 仅当`syncAudio=YES`时有效。
 @property (nonatomic, strong, nullable) UIView<IVVideoRenderable> *videoView;
 
+/// 自定义音频渲染。⚠️已内置，如无必要 请勿修改
+/// 通过`getAudioFrame:`获取并渲染，⚠️内置音频渲染器将失效。
+@property (nonatomic, assign, readwrite) BOOL customAudioRender;
+
 /// 视频向音频对齐(由音频播放单元驱动)，默认YES。⚠️如无必要 请勿修改
 /// [YES] 执行`play`后，SDK会自动根据当前音频的pts返回对应的视频帧，见`UIView<IVVideoRenderable> *videoView`；
-/// [NO]   执行`play`后，SDK不会自动返回视频帧，需由开发者通过`getVideoFrame:`获取并做音视频对齐；
+/// [NO]  执行`play`后，SDK不会自动返回视频帧，需由开发者通过`getVideoFrame:`获取并做音视频对齐；
 @property (nonatomic, assign, readwrite) BOOL syncAudio;
 
 /// 获取PCM音频数据, 建议由音频播放单元驱动（例如在playbackCallback中调用该方法）

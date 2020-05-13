@@ -46,15 +46,35 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
         NotificationCenter.default.removeObserver(self)
         timer.invalidate()
     }
-     
-    func getPlaybackList(timeRange: IVTime, completionHandler: @escaping ([IVCSPlaybackItem]?) -> Void) {
+
+    func getMarkList(time: IVTime, completionHandler: @escaping ([IVCSMarkItem]?) -> Void) {
+        let hud = ivLoadingHud()
+        let timezone = TimeZone.current.secondsFromGMT()
+        
+        IVVAS.shared.getVideoList(withDeviceId: device.deviceID, timezone: timezone) { (json, error) in
+            hud.hide()
+            guard let json = json else {
+                showAlert(msg: "\(String(describing: error))")
+                completionHandler(nil)
+                return
+            }
+            logDebug(json)
+            
+            var list = json.decode(IVModel<[IVCSMarkItem]>.self)?.data ?? []
+            list.sort(by: { $0.dateTime < $1.dateTime })
+            
+            return completionHandler(list)
+        }
+    }
+
+    func getPlaybackList(time: IVTime, completionHandler: @escaping ([IVCSPlaybackItem]?) -> Void) {
         let hud = ivLoadingHud()
         let timezone = TimeZone.current.secondsFromGMT()
 
         IVVAS.shared.getVideoPlaybackList(withDeviceId: device.deviceID,
                                           timezone: timezone,
-                                          startTime: timeRange.start,
-                                          endTime: timeRange.end)
+                                          startTime: time.start,
+                                          endTime: time.end)
         { (json, error) in
             hud.hide()
             guard let json = json else {
@@ -73,12 +93,12 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
 
     private func prepareToPlay(_ item: IVCSPlaybackItem) {
         csItem = item
-        guard let urlstr = item.m3u8Url?.replacingOccurrences(of: "https", with: "http"), let url = URL(string: urlstr) else { return }
+        guard let urlstr = item.m3u8Url, let url = URL(string: urlstr) else { return }
         
         mediaPlayer?.shutdown()
         
         if let newMediaPlayer = IJKFFMoviePlayerController(contentURL: url, with: IJKFFOptions.byDefault()) {
-            IJKFFMoviePlayerController.setLogLevel(k_IJK_LOG_DEFAULT)
+            IJKFFMoviePlayerController.setLogLevel(k_IJK_LOG_WARN)
             newMediaPlayer.scalingMode = .aspectFit
             newMediaPlayer.shouldAutoplay = true
             newMediaPlayer.playbackVolume = 1.0
@@ -103,13 +123,9 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
     @objc func refreshProgressSlider() {
         guard let mediaPlayer = mediaPlayer, mediaPlayer.playbackState == .playing else { return }
         
-        let posstion = mediaPlayer.currentPlaybackTime
-        
-        let duration = mediaPlayer.duration
-        let intDuration = Int(duration + 0.5)
-
-        if intDuration > 0, let csItem = csItem {
-            timelineView?.currentPTS = posstion + Double(csItem.starttime / 1000)
+        if mediaPlayer.duration > 0, let csItem = csItem {
+            let newPTS = Int64(mediaPlayer.currentPlaybackTime + Double(csItem.starttime / 1000) + 0.5)
+            timelineView?.currentPTS = Double(newPTS)
         } else {
             timelineView?.currentPTS = 0
         }
@@ -129,8 +145,14 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
     @IBAction func playClicked(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         if sender.isSelected {
-            if csItem == nil, let item = timelineView?.currentItem.rawValue as? IVCSPlaybackItem {
-                prepareToPlay(item)
+            if csItem == nil {
+                if let item = timelineView?.currentItem.rawValue as? IVCSPlaybackItem {
+                    prepareToPlay(item)
+                } else {
+                    sender.isSelected = !sender.isSelected
+                    IVPopupView.showAlert(title: "当前日期无可播放文件", in: self.videoView)
+                    return
+                }
             }
             mediaPlayer?.play()
         } else {
@@ -178,13 +200,17 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
 
 extension IJKMediaViewController: IVTimelineViewDelegate {
     
-    func timelineView(_ timelineView: IVTimelineView, itemsForTimelineAt timeRange: IVTime, completionHandler: @escaping ([IVTimelineItem]?) -> Void) {
-        getPlaybackList(timeRange: timeRange) { (playbackList) in
+    func timelineView(_ timelineView: IVTimelineView, markListForCalendarAt time: IVTime, completionHandler: @escaping ([IVCSMarkItem]?) -> Void) {
+        getMarkList(time: time, completionHandler: completionHandler)
+    }
+    
+    func timelineView(_ timelineView: IVTimelineView, itemsForTimelineAt time: IVTime, completionHandler: @escaping ([IVTimelineItem]?) -> Void) {
+        getPlaybackList(time: time) { (playbackList) in
             let timelineItems = playbackList?.compactMap({ IVTimelineItem(start: TimeInterval($0.starttime / 1000),
-                                                                  end: TimeInterval($0.endtime / 1000),
-                                                                  type: "",
-                                                                  color: .random,
-                                                                  rawValue: $0) })
+                                                                          end: TimeInterval($0.endtime / 1000),
+                                                                          type: "",
+                                                                          color: .random,
+                                                                          rawValue: $0) })
             completionHandler(timelineItems)
         }
     }

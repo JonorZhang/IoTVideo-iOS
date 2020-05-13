@@ -24,11 +24,9 @@ class IVQRCodeAddDevice: UIViewController {
         // Do any additional setup after loading the view.
         
         // 监听设备配网结果
-        NotificationCenter.default.addObserver(forName: .IVMessageDidReceiveEvent, object: nil, queue: nil) { (noti) in
+        NotificationCenter.default.addObserver(forName: .iVMessageDidReceiveEvent, object: nil, queue: nil) { (noti) in
             
-            guard let eventModel = noti.userInfo?["body"] as? IVReceiveEventNoti else {
-                return
-            }
+            guard let eventModel = noti.userInfo?[IVNotiBody] as? IVReceiveEvent else { return }
             
             guard eventModel.topic == "EVENT_SYS/NetCfg_OK",
                 let devId = JSON(parseJSON: eventModel.event)["dev_tid"].string else { return }
@@ -42,6 +40,7 @@ class IVQRCodeAddDevice: UIViewController {
                 IVPopupView(title: "添加结果", message: succ ? "成功" : "失败", input: nil, actions: [.iKnow({ (_) in
                     if succ {
                         self.navigationController?.popToRootViewController(animated: true)
+                        IVNotiPost(.deviceListChange(by: .add))
                     }
                 })]).show()
             })

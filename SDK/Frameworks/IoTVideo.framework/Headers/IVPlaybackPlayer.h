@@ -64,26 +64,26 @@ typedef void (^PlaybackListCallback)(IVPlaybackPage *_Nullable page, NSError *_N
                         endTime:(NSTimeInterval)endTime
               completionHandler:(PlaybackListCallback)completionHandler;
 
-/// (未播放前)设置回放参数
-/// @note 文件尚未播放时使用，`setPlaybackItem:seekToTime:` 后需手动调用`play`开始播放
-/// @param item 播放的文件(可跨文件)
-/// @param time 指定播放起始时间点（秒），取值范围`playbackItem.startTime >= time <= playbackItem.endTime`
+/// (未播放前)设置回放参数.
+/// @note 应在文件尚未播放时使用，需手动调用`play`开始播放.
+/// @param item 播放的文件(可跨文件).
+/// @param time 指定播放起始时间点（秒），取值范围`playbackItem.startTime >= time <= playbackItem.endTime`.
 - (void)setPlaybackItem:(IVPlaybackItem *)item seekToTime:(NSTimeInterval)time;
 
 /// (已播放后)跳到指定文件和时间播放
-/// @note 文件正在播放时使用, `seekToTime:playbackItem:`后无需再手动调用`play`开始播放
+/// @note 应在文件正在播放时使用, 无需再手动调用`play`开始播放
 /// @param time 指定播放起始时间点（秒），取值范围`playbackItem.startTime >= time <= playbackItem.endTime`
 /// @param item 播放的文件(可跨文件)
 - (void)seekToTime:(NSTimeInterval)time playbackItem:(IVPlaybackItem *)item;
 
 /// 当前回放的文件。
-/// @note 时间通过`-[IVPlayer pts]`获取
+/// @note 当前回放时间通过`-[IVPlayer pts]`获取
 @property (nonatomic, strong, nullable, readonly) IVPlaybackItem *playbackItem;
 
 /// 暂停
 - (void)pause;
 
-/// 恢复播放
+/// 恢复
 - (void)resume;
 
 @end

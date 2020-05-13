@@ -14,3 +14,23 @@ extension Data {
     }
 }
 
+
+@propertyWrapper
+struct Trimmed { //自动清除空格和换行 包装器
+    private var value: String = ""
+    var wrappedValue: String {
+        get { value }
+        set { value = newValue.trimmingCharacters(in: .whitespacesAndNewlines) }
+    }
+    init(wrappedValue initialValue: String) {
+        self.wrappedValue = initialValue
+    }
+}
+
+extension Date {
+    func string(withFormat fmt: String = "yyyyMMdd-HH:mm:ss.SSS") -> String {
+        let fmtr = DateFormatter()
+        fmtr.dateFormat = fmt
+        return fmtr.string(from: self)
+    }
+}

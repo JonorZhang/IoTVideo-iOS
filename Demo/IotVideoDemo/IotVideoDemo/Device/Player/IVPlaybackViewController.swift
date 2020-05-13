@@ -28,19 +28,7 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
         timelineView?.delegate = self
         deviceRecordBtn.isSelected = UserDefaults.standard.bool(forKey: "deviceRecordBtn.isSelected")
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        AppDelegate.shared.allowRotation = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        AppDelegate.shared.allowRotation = false
-        UIDevice.setOrientation(.portrait)
-        playbackPlayer.stop()
-    }
-    
+        
     /// 获取回放列表
     func loadPlaybackItems(timeRange: IVTime, completionHandler: @escaping ([IVPlaybackItem]?) -> Void) {
         seekTimeLabel.isHidden = true
@@ -71,12 +59,12 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
         
         sender.isEnabled = false
         let hud = ivLoadingHud()
-        IVMessageMgr.sharedInstance.sendData(toDevice: device.deviceID, data: data, withoutResponse: { _, err in
+        IVMessageMgr.sharedInstance.sendData(toDevice: device.deviceID, data: data, withoutResponse: { [weak self]_, err in
             hud.hide()
             if let err = err {
-                showAlert(msg: err.localizedDescription)
+                IVPopupView.showAlert(message: err.localizedDescription, in: self?.videoView)
             } else {
-                showAlert(msg: "发送成功")
+                IVPopupView.showAlert(message: "发送成功", in: self?.videoView)
                 sender.isSelected = !sender.isSelected
                 UserDefaults.standard.set(sender.isSelected, forKey: "deviceRecordBtn.isSelected")
             }
@@ -90,14 +78,20 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
             //加载数据后自动预选择第一段视频
             if let item = timelineView?.currentItem.rawValue as? IVPlaybackItem {
                 self.playbackPlayer.setPlaybackItem(item, seekToTime: item.startTime)
+                super.playClicked(sender)
+            } else {
+                IVPopupView.showAlert(title: "当前日期无可播放文件", in: self.videoView)                
             }
+        } else {
+            super.playClicked(sender)
         }
-        
-        super.playClicked(sender)
     }
 }
 
 extension IVPlaybackViewController: IVTimelineViewDelegate {
+    func timelineView(_ timelineView: IVTimelineView, markListForCalendarAt time: IVTime, completionHandler: @escaping ([IVCSMarkItem]?) -> Void) {
+        completionHandler([])
+    }
     
     func timelineView(_ timelineView: IVTimelineView, itemsForTimelineAt timeRange: IVTime, completionHandler: @escaping ([IVTimelineItem]?) -> Void) {
         loadPlaybackItems(timeRange: timeRange) { (playbackItems) in

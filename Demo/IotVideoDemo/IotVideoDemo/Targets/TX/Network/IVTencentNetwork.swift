@@ -50,28 +50,24 @@ extension IVTencentNetwork {
         self.setupHeader(methodType: methodType, params: params, action: action)
         
         let success = {(task: URLSessionTask, json: Any?) -> () in
-            if let res = response {
-                if json == nil {
-                    res(nil, NSError(domain: "", code: 997, userInfo: nil))
-                    return
-                }
-                if let json = json, let jsonObj = json as? [String: Any], let code:Int = jsonObj["code"] as? Int, code != 0 { //code 不等于0时，返回错误信息
-                    res(nil, NSError(domain: "", code: 998, userInfo: nil))
-                    return
-                }
-                if let jsonData = try? JSONSerialization.data(withJSONObject: json!, options: []) {
-                    let str = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)
-                    print(action + ": \n" + String(str ?? "http call back empty"))
-                    res(str! as String, nil)
-                } else {
-                    res(nil, NSError(domain: "", code: 999, userInfo: nil))
-                }
+            if json == nil {
+                response?(nil, NSError(domain: "", code: 997, userInfo: nil))
+                return
+            }
+            if let json = json, let jsonObj = json as? [String: Any], let code:Int = jsonObj["code"] as? Int, code != 0 { //code 不等于0时，返回错误信息
+                response?(nil, NSError(domain: "", code: 998, userInfo: nil))
+                return
+            }
+            if let jsonData = try? JSONSerialization.data(withJSONObject: json!, options: []) {
+                let str = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)
+                logInfo(action + ": \n" + String(str ?? "http call back empty"))
+                response?(str! as String, nil)
+            } else {
+                response?(nil, NSError(domain: "", code: 999, userInfo: nil))
             }
         }
         let failure = {(task: URLSessionTask?, error: Error) -> () in
-            if let res = response {
-                res(nil, error as NSError)
-            }
+            response?(nil, error as NSError)
         }
         switch methodType {
         case .GET:

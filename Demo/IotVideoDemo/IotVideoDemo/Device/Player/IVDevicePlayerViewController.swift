@@ -10,6 +10,7 @@ import UIKit
 import IoTVideo
 import Photos
 
+
 class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
     @IBOutlet weak var playBtn: UIButton!
     @IBOutlet weak var videoView: UIView!
@@ -17,6 +18,7 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
     @IBOutlet weak var screenshotBtn: UIButton!
     @IBOutlet weak var userdataFiled: UITextField!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    @IBOutlet weak var deviceIdLabel: UILabel?
     
     // IVPlayerTalkable
     @IBOutlet weak var speakerBtn: UIButton?
@@ -31,6 +33,11 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        deviceIdLabel?.text = device.deviceID
+        
+        for ctrl in [recordBtn, screenshotBtn, speakerBtn, micBtn, cameraBtn, userdataFiled] {
+            ctrl?.isEnabled = false
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,11 +51,17 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
         player.videoView!.frame = videoView.bounds
         videoView.autoresizesSubviews = true
         videoView.insertSubview(player.videoView!, at: 0)
-    
+        UIApplication.shared.isIdleTimerDisabled = true //禁止锁屏
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        player.stop()
+        UIApplication.shared.isIdleTimerDisabled = false //允许锁屏
+    }
+
     deinit {
-        print(self.classForCoder, #function)
+        logInfo(self.classForCoder, #function)
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -61,14 +74,14 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
     func requestAuthorization(_ work: @escaping () -> Void) {
         PHPhotoLibrary.requestAuthorization { (status) in
             if status != .authorized {
-                ivHud("未授权访问相册")
+                IVPopupView.showAlert(message: "未授权访问相册", in: self.videoView)
                 return
             }
             DispatchQueue.main.async(execute: work)
         }
     }
 
-    func creationRequestForAsset(_ asset: Any) {
+    static func creationRequestForAsset(_ asset: Any, target: IVDevicePlayerViewController?) {
         PHPhotoLibrary.shared().performChanges({
             if let image = asset as? UIImage {
                 PHAssetChangeRequest.creationRequestForAsset(from: image)
@@ -76,10 +89,15 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
                 PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: url)
             }
         }) { (_, error) in
-            if let _ = error {
-                ivHud("保存失败")
+            
+            let msg = (asset is UIImage ? "图片" : "录像") + (error != nil ? "保存失败 \(asset), \(error!)" : "已保存到相册")
+            
+            error != nil ? logError(msg, asset) : logInfo(msg, asset)
+            
+            if let target = target {
+                IVPopupView.showAlert(message: msg, in: target.videoView)
             } else {
-                ivHud("已保存到相册")
+                IVPopupView.showAlert(message: msg)
             }
         }
     }
@@ -87,7 +105,7 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
 
 // MARK: - 点击事件
 extension IVDevicePlayerViewController {
-    
+            
     @IBAction func playClicked(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         if sender.isSelected {
@@ -113,14 +131,15 @@ extension IVDevicePlayerViewController {
         } else {
             requestAuthorization { [weak self] in
                 let docPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-                let mp4Path = docPath + "/\(Date().timeIntervalSince1970).mp4"
+                let mp4Path = docPath + "/" + Date().string() + ".mp4"
                 self?.player.startRecord(mp4Path) { (savePath, error) in
+                    sender.isSelected = false
                     guard let savePath = savePath else {
-                        ivHud("录像失败")
+                        IVPopupView.showAlert(message: error?.localizedDescription ?? "录像失败", in: self?.videoView)
                         return
                     }
                     let url = URL(fileURLWithPath: savePath)
-                    self?.creationRequestForAsset(url)
+                    IVDevicePlayerViewController.creationRequestForAsset(url, target: self)
                 }
                 sender.isSelected = true
             }
@@ -130,12 +149,12 @@ extension IVDevicePlayerViewController {
     @IBAction func screenshotClicked(_ sender: UIButton) {
         requestAuthorization {  [weak self] in
             self?.player.takeScreenshot({ (image) in
-                guard let `self` = self,
-                    let image = image else {
-                    ivHud("截图失败")
+                guard let image = image else {
+                    IVPopupView.showAlert(message: "截图失败", in: self?.videoView)
                     return
                 }
                 DispatchQueue.main.sync {
+                    guard let `self` = self else { return }
                     let imgW: CGFloat = 150
                     let imgH = imgW / image.size.width * image.size.height
                     let imgVrect = CGRect(x: 8, y: self.videoView.bounds.size.height - imgH - 8, width: imgW, height: imgH)
@@ -145,7 +164,7 @@ extension IVDevicePlayerViewController {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         imgView.removeFromSuperview()
                     }
-                    self.creationRequestForAsset(image)
+                    IVDevicePlayerViewController.creationRequestForAsset(image, target: self)
                 }
             })
         }
@@ -157,7 +176,7 @@ extension IVDevicePlayerViewController {
         if status == AVAudioSession.RecordPermission.denied {
             let errStr = "没有麦克风权限，请在设置中开启"
             logWarning(errStr)
-            ivHud(errStr)
+            IVPopupView.showAlert(message: errStr, in: self.videoView)
             return
         }
         
@@ -183,7 +202,7 @@ extension IVDevicePlayerViewController: UITextFieldDelegate {
         if let cmd = textField.text, !cmd.isEmpty,
             let cmdData = cmd.data(using: .utf8) {
             player.sendUserData(cmdData)
-            showAlert(msg: "\(cmdData)", title: "已发送")
+            IVPopupView.showAlert(title: "已发送", message: "\(cmdData)", in: self.videoView)
         }
         return true
     }
@@ -209,14 +228,18 @@ extension IVDevicePlayerViewController: IVPlayerDelegate {
         if let player = player as? IVLivePlayer {
             cameraBtn?.isSelected = !player.isCameraOpening
         }
+
+        for ctrl in [recordBtn, screenshotBtn, speakerBtn, micBtn, cameraBtn, userdataFiled] {
+            ctrl?.isEnabled = (status == .playing)
+        }
     }
     
     func player(_ player: IVPlayer, didUpdatePTS PTS: TimeInterval) {
-        logVerbose(PTS)
+        logVerbose("PTS: ", PTS)
     }
     
     func player(_ player: IVPlayer, didReceiveError error: Error) {
-        logError(error)
+        IVPopupView.showConfirm(title: "播放器错误", message: error.localizedDescription, in: self.videoView)
     }
     
     func player(_ player: IVPlayer, didReceive avHeader: IVAVHeader) {

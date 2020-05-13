@@ -28,35 +28,37 @@ class IVLoginViewController: UIViewController, UITextFieldDelegate {
         window?.bringSubviewToFront(devToolsAssistant)
         
         #warning("调试使用，打包注释下面四行, 此秘钥为 内部开发使用")
-        let secretId  = "AKIDwmOmvryLcolStUw2vc4JI1hHfpkShJOS"
-        let secretKey = "zmJbfXBZlkkV1IMBk9OSGtIannUwCCwR"
+        let secretId  = "AKIDwmOmvryLcolStUw2vc4JI1hHfpkShJOS" //zyx
+        let secretKey = "zmJbfXBZlkkV1IMBk9OSGtIannUwCCwR" //zyx
+        //        let secretId  = "AKIDPaeT0JOMxTnwtnTncCbo8AwRfcIhaFPy" //user
+        //        let secretKey = "QdGcmkTwCLcVzGHH4gEhohLcDgyENq43" //user
         tmpSecretIDTF.text  = secretId
         tmpSecretKeyTF.text = secretKey
     }
-
+    
     @IBAction func loginBtnClicked(_ sender: UIButton) {
         let hud = ivLoadingHud(isMask: true)
         
         //正常登陆：腾讯控制台获取的 id,key和用户名
-        //零时授权登陆：腾讯控制台获取的 零时id,key,token和用户名
+        //临时授权登陆：腾讯控制台获取的 零时id,key,token和用户名
+        let account = TXAccount(userName: userNameTF.text ?? "",
+                                secretId: tmpSecretIDTF.text ?? "",
+                                secretKey: tmpSecretKeyTF.text ?? "",
+                                tempToken: tokenTF.text ?? "")
         
-        let secretId  = tmpSecretIDTF.text?.trimmingCharacters(in: .whitespaces) ?? ""
-        let secretKey = tmpSecretKeyTF.text?.trimmingCharacters(in: .whitespaces) ?? ""
-        let tempToken = tokenTF.text?.trimmingCharacters(in: .whitespaces) ?? ""
-        let userName  = userNameTF.text?.trimmingCharacters(in: .whitespaces) ?? ""
-        
-        IVTencentNetwork.shared.register(tmpSecretID: secretId, tmpSecretKey: secretKey, token: tempToken, userName: userName) { [weak self](regJson, error) in
 
+        IVTencentNetwork.shared.register(account: account) {[weak self](regJson, error) in
+            
             guard let regJson = IVDemoNetwork.handlerError(regJson, error) else {
                 hud.hide()
                 return
             }
             
             let login = {
-                if regJson["Response"]["CunionId"].string == self?.userNameTF.text, let accessId = regJson["Response"]["AccessId"].string {
+                if let accessId = regJson["Response"]["AccessId"].string {
                     IVTencentNetwork.shared.login(accessId: accessId) { (loginJson, error) in
                         hud.hide()
-
+                        
                         guard let loginJson = IVDemoNetwork.handlerError(loginJson, error) else {
                             UserDefaults.standard.do {
                                 $0.removeObject(forKey: demo_accessToken)
@@ -75,6 +77,8 @@ class IVLoginViewController: UIViewController, UITextFieldDelegate {
                                 $0.set(expireTime, forKey: demo_expireTime)
                                 $0.set(self?.userNameTF.text ?? "", forKey: demo_userName)
                             }
+                            
+                            IVNotiPost(.deviceListChange(by: .reload))
                             self?.dismiss(animated: true, completion: nil)
                         }
                     }
@@ -97,12 +101,11 @@ class IVLoginViewController: UIViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         self.view.endEditing(true)
     }
-
+    
 }
-

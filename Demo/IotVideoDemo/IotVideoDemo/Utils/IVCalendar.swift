@@ -25,10 +25,13 @@ class IVCalendar: UIView {
     weak var delegate: IVCalendarDelegate?
     
     // 需要标记的日期数组
-    var markDates: [Date] = []
-
-    // 有效日期下限
-    var lowerValidDate: Date?
+    var markableDates: [(ti: Int, mark: Bool)] = [] {
+        didSet {
+            DispatchQueue.main.async {[weak self] in
+                self?.collectionView.reloadData()
+            }
+        }
+    }
     
     // 当前选中日期
     var currentDate = Date() {
@@ -248,10 +251,14 @@ extension IVCalendar: UICollectionViewDataSource {
             let date = dateOfDay(day, from: referenceDate)
             
             cell.dayLabel.text = "\(day)"
-            cell.markLayer.isHidden = !markDates.contains(date)
+            let mark = markableDates.first(where: { $0.ti == Int(date.timeIntervalSince1970) })?.mark ?? false
+            cell.markLayer.isHidden = !mark
             
-            if date < (lowerValidDate ?? Date.distantPast) || date > Date() {
-                cell.dayLabel.textColor = .gray
+            if Int(date.timeIntervalSince1970) < (markableDates.first?.ti ?? 0) || date > Date() {
+                cell.dayLabel.textColor = .lightGray
+                if Int(date.timeIntervalSince1970) < (markableDates.first?.ti ?? 0) {
+                    cell.subLabel.text = "过期"
+                }
             }
 
             if Calendar.current.isDate(date, inSameDayAs: currentDate) {
@@ -266,8 +273,10 @@ extension IVCalendar: UICollectionViewDataSource {
 
 extension IVCalendar: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! IVCalendarCell
+        if cell.dayLabel.textColor == .lightGray { return }
+        
         let day = indexPath.row - firstWeekInMonth(date: referenceDate) + 1
-        if indexPath.row < firstWeekInMonth(date: referenceDate) || inFuture(day, for: referenceDate) { return }
         let selectDate = dateOfDay(day, from: referenceDate)
         delegate?.calendar(self, didSelect: selectDate)
     }
@@ -292,7 +301,7 @@ class IVCalendarCell: UICollectionViewCell {
         lb.layer.masksToBounds = true
         lb.textAlignment = .center
         lb.textColor = .black
-        lb.font = .systemFont(ofSize: 14)
+        lb.font = .systemFont(ofSize: 17)
         addSubview(lb)
         return lb
     }()
@@ -300,8 +309,8 @@ class IVCalendarCell: UICollectionViewCell {
     lazy var subLabel: UILabel = {
         let lb = UILabel(frame: CGRect(x: 0, y: bounds.height-15, width: bounds.width, height: 15))
         lb.textAlignment = .center
-        lb.textColor = .gray
-        lb.font = .systemFont(ofSize: 10)
+        lb.textColor = .lightGray
+        lb.font = .systemFont(ofSize: 9)
         addSubview(lb)
         return lb
     }()

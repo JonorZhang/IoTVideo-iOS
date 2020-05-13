@@ -101,10 +101,8 @@ class IVMsgOtaVC: UIViewController, IVDeviceAccessable {
     
     // 监听升级查询结果通知
     func addUpdateObserver() {
-        NotificationCenter.default.addObserver(forName: .IVMessageDidUpdateProperty, object: nil, queue: nil) { (noti) in
-            guard let propertyModel = noti.userInfo?["body"] as? IVUpdatePropertyNoti else {
-                return
-            }
+        NotificationCenter.default.addObserver(forName: .iVMessageDidUpdateProperty, object: nil, queue: nil) { (noti) in
+            guard let propertyModel = noti.userInfo?[IVNotiBody] as? IVUpdateProperty else { return }
             
             // 升级版本通知(最新的返回 Action._otaVersion)
             if propertyModel.path == "ProReadonly._otaVersion" || propertyModel.path == "Action._otaVersion" {
@@ -141,14 +139,19 @@ class IVMsgOtaVC: UIViewController, IVDeviceAccessable {
                 }
                 
                 if persent == 100 {
-                    ivHud("升级完成，设备正在重启，请稍候", isMask: true, delay: 10)
-                    NotificationCenter.default.addObserver(forName: .IVMessageDidUpdateProperty, object: nil, queue: nil) { (noti) in
-                        guard let onlineModel = noti.userInfo?["body"] as? IVUpdatePropertyNoti else {
+                    let hud = ivLoadingHud("设备正在重启，请稍候")
+                    NotificationCenter.default.addObserver(forName: .iVMessageDidUpdateProperty, object: nil, queue: nil) { (noti) in
+                        guard let onlineModel = noti.userInfo?[IVNotiBody] as? IVUpdateProperty else {
                             return
                         }
                         if onlineModel.deviceId == self.device.deviceID && onlineModel.path == "ProReadonly._online" {
+                            hud.hide()
                             showAlert(msg: "更新完成,设备已经重启")
                         }
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 45) {
+                        hud.hide()
                     }
                 }
             }

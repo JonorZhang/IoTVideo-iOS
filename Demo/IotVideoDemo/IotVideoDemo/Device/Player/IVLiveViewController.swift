@@ -57,8 +57,10 @@ class IVLiveViewController: IVDevicePlayerViewController {
         sender.isSelected = !sender.isSelected
         if sender.isSelected {
             livePlayer.closeCamera()
+            previewView.isHidden = true
         } else {
             livePlayer.openCamera()
+            previewView.isHidden = false
         }
     }
     

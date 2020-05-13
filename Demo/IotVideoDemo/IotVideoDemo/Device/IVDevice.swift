@@ -17,6 +17,7 @@ struct IVDevice {
     var serialNumber: String = ""
     var version: String = ""
     var macAddr: String = ""
+    var shareType: IVRole = .owner
     
     init(_ device: IVDeviceModel) {
         self.deviceID = device.devId ?? ""
@@ -25,6 +26,7 @@ struct IVDevice {
         self.serialNumber = ""
         self.version = ""
         self.macAddr = ""
+        self.shareType = device.shareType
     }
 
     init(_ device: IVLANDevice) {
@@ -34,13 +36,14 @@ struct IVDevice {
         self.serialNumber = device.serialNumber
         self.version = device.version
         self.macAddr = device.macAddr
+        self.shareType = .owner
     }
 }
 
 // 来自服务器
 class IVDeviceModel: Codable {
     var deviceMode: String?
-    var shareType: IVDeviceShareType = .owner
+    var shareType: IVRole = .owner
     var devId: String?
     var url: String?
     var deviceName: String?
@@ -49,11 +52,11 @@ class IVDeviceModel: Codable {
     var online: Bool? = false {
         didSet {
             logInfo("Device: \(devId ?? "???") Online:\(online ?? false)")
-            NotificationCenter.default.post(name: .deviceOnline, object: self)
+            IVNotiPost(.deviceOnline(online ?? false))
         }
     }
     
-    init(devId: String!,deviceName: String!, shareType: IVDeviceShareType) {
+    init(devId: String!,deviceName: String!, shareType: IVRole) {
         self.devId = devId
         self.deviceMode = ""
         self.shareType = shareType
@@ -81,20 +84,12 @@ class IVDeviceModel: Codable {
 
 var userDeviceList: [IVDeviceModel] = []
 
-enum IVDeviceShareType: String, Codable {
+//用户角色
+enum IVRole: String, Codable {
     case owner
     case guest
 }
 
-//用户角色
-enum IVRole: String {
-    case owner = "owner"
-    case guest = "guest"
-}
-
-extension NSNotification.Name {
-    static let deviceOnline = Notification.Name("deviceOnline")
-}
 
 
 protocol IVDeviceAccessable where Self: UIViewController {
@@ -112,9 +107,17 @@ struct IVCSPlaybackItem: Codable {
     var m3u8Url: String?
 }
 
+struct IVCSMarkItem: Codable {
+    var dateTime: Int = 0
+    var playable: Bool = false
+}
 
 class IVDeviceAccessableTVC : UITableViewController, IVDeviceAccessable {
     var device: IVDevice!
+    var deviceList: [IVDevice] {
+        let userDevs = userDeviceList.map { IVDevice($0) }
+        return userDevs.isEmpty ? [device] : userDevs
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let dstVC = segue.destination as? IVDeviceAccessable {
@@ -132,3 +135,4 @@ class IVDeviceAccessableVC : UIViewController, IVDeviceAccessable {
         }
     }
 }
+
