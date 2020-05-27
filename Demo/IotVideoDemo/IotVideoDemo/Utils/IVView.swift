@@ -53,54 +53,47 @@ extension UIView {
     @objc enum Gesture: Int {
         case longPress
         case tap
-        case pin
+        case pinch
+        case pan
+        case swipe
+        case rotation
+        case screenEdgePan
         
-        var actionForGestureKey: UnsafeRawPointer {
+        fileprivate var type: UIGestureRecognizer.Type {
             switch self {
-            case .longPress:
-                return UnsafeRawPointer(bitPattern: "actionForLongPress".hashValue)!
-            case .tap:
-                return UnsafeRawPointer(bitPattern: "actionForTap".hashValue)!
-            case .pin:
-                return UnsafeRawPointer(bitPattern: "actionForPin".hashValue)!
+            case .longPress: return UILongPressGestureRecognizer.self
+            case .tap: return UITapGestureRecognizer.self
+            case .pinch: return UIPinchGestureRecognizer.self
+            case .pan: return UIPanGestureRecognizer.self
+            case .swipe: return UISwipeGestureRecognizer.self
+            case .rotation: return UIRotationGestureRecognizer.self
+            case .screenEdgePan: return UIScreenEdgePanGestureRecognizer.self
             }
         }
     }
     
+    /// Attaches a gesture recognizer to the view.
+    ///
+    /// Attaching a gesture recognizer to a view defines the scope of the represented gesture, causing it to receive touches hit-tested to that view and all of its subviews. The view establishes a **strong reference** to the gesture recognizer.
+    /// - Parameters:
+    ///   - gesture: gesture enum
+    ///   - action: action callback
+    @discardableResult
     @objc func addGesture(_ gesture: Gesture, action: ((UIGestureRecognizer)->())?) -> UIGestureRecognizer {
         isUserInteractionEnabled = true
-        objc_setAssociatedObject(self, gesture.actionForGestureKey, action, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        switch gesture {
-        case .longPress:
-            let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressHandler(gesture:)))
-            longPress.minimumPressDuration = 1
-            addGestureRecognizer(longPress)
-            return longPress
-        case .tap:
-            let tap = UITapGestureRecognizer(target: self, action: #selector(tapHandler(gesture:)))
-            addGestureRecognizer(tap)
-             return tap
-        case .pin:
-            let pin = UIPinchGestureRecognizer(target: self, action: #selector(pinHandler(gesture:)))
-            addGestureRecognizer(pin)
-            return pin
-            
-        }
+        
+        let ges = gesture.type.init(target: self, action: #selector(gestureRecognizerHandler(gesture:)))
+        addGestureRecognizer(ges)
+
+        let key = UnsafeRawPointer(Unmanaged.passUnretained(ges).toOpaque())
+        objc_setAssociatedObject(self, key, action, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+
+        return ges
     }
     
-    @objc private func longPressHandler(gesture: UILongPressGestureRecognizer) {
-        if let action = objc_getAssociatedObject(self, Gesture.longPress.actionForGestureKey) as? ((UIGestureRecognizer)->()) {
-            action(gesture)
-        }
-    }
-    
-    @objc private func tapHandler(gesture: UITapGestureRecognizer) {
-        if let action = objc_getAssociatedObject(self, Gesture.tap.actionForGestureKey) as? ((UIGestureRecognizer)->()) {
-            action(gesture)
-        }
-    }
-    @objc private func pinHandler(gesture: UIPinchGestureRecognizer) {
-        if let action = objc_getAssociatedObject(self, Gesture.pin.actionForGestureKey) as? ((UIGestureRecognizer)->()) {
+    @objc func gestureRecognizerHandler(gesture: UIGestureRecognizer) {
+        let key = UnsafeRawPointer(Unmanaged.passUnretained(gesture).toOpaque())
+        if let action = objc_getAssociatedObject(self, key) as? ((UIGestureRecognizer)->()) {
             action(gesture)
         }
     }

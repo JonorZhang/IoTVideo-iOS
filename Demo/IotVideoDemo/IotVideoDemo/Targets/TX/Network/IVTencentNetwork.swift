@@ -122,7 +122,7 @@ extension IVTencentNetwork {
             let hashedRequestPayload = (jsonPayload! as String).hashHex(by: .SHA256)
             let canonicalRequest = httpRequestMethod + "\n" + canonicalUri + "\n" + canonicalQueryString + "\n"
                        + canonicalHeaders + "\n" + signedHeaders + "\n" + hashedRequestPayload;
-//            print("第一步：", canonicalRequest)
+//            logDebug("第一步：", canonicalRequest)
             
             // ************* 步骤 2：拼接待签名字符串 *************
                         
@@ -137,7 +137,7 @@ extension IVTencentNetwork {
             let hashedCanonicalRequest = canonicalRequest.hashHex(by: .SHA256)
             let stringToSign = algorithm + "\n" + timestampStr + "\n" + credentialScope + "\n" + hashedCanonicalRequest
             
-//            print("第二步：", stringToSign)
+//            logDebug("第二步：", stringToSign)
             
             // ************* 步骤 3：计算签名 *************
             let secretDate = date.hmac(by: .SHA256, key: ("TC3" + secretKey).bytes)
@@ -145,12 +145,12 @@ extension IVTencentNetwork {
             let secretSigning = "tc3_request".hmac(by: .SHA256, key: secretService)
             let signature = stringToSign.hmac(by: .SHA256, key: secretSigning).hexString.lowercased()
             
-//            print("第三步：\n", signature)
+//            logDebug("第三步：\n", signature)
             
             let authorization = "TC3-HMAC-SHA256 " + "Credential=" + secretId + "/" + credentialScope + ", "
             + "SignedHeaders=" + signedHeaders + ", " + "Signature=" + signature
             
-//            print("第四步：\n", authorization)
+//            logDebug("第四步：\n", authorization)
 
             headerParams["Host"]           = hostStr
             headerParams["Authorization"]  = authorization
@@ -167,12 +167,12 @@ extension IVTencentNetwork {
             for headerParam in headerParams {
                 requestSerializer.setValue(headerParam.value, forHTTPHeaderField: headerParam.key)
                 
-                print(headerParam.key, "=" , headerParam.value)
+                logDebug(headerParam.key, "=" , headerParam.value)
             }
-            print("body = ",jsonPayload!)
+            logDebug("body = ",jsonPayload!)
             //print(requestSerializer.httpRequestHeaders, params)
         } catch  {
-            print(error)
+            logError(error)
             showError(error)
         }
     }

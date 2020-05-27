@@ -71,6 +71,12 @@ class IVMsgOtaVC: UIViewController, IVDeviceAccessable {
     
     //MARK: 查询更新信息
     @IBAction func searchNewVersion(_ sender: Any) {
+        guard let Action = jsonData["Action"] as? [String: AnyHashable],
+            let searchTextDic = Action["_otaVersion"] as? [String: AnyHashable] else {
+                showAlert(msg: "物模型为空")
+                return
+        }
+
         let hud = ivLoadingHud()
         
         //获取最新的查询服务器版本的json,此处为开发实时适配物模型的变更做的工作
@@ -79,7 +85,6 @@ class IVMsgOtaVC: UIViewController, IVDeviceAccessable {
         // Action._otaVersion 的 stVal 填空字符串即为查询可升级的最新固件版本号
         var searchTextJson = ""
         do {
-            let searchTextDic = (self.jsonData["Action"] as! [String: AnyHashable])["_otaVersion"] as! [String: AnyHashable]
             let searchTextData = try JSONSerialization.data(withJSONObject: searchTextDic, options: [])
             searchTextJson = String(data:searchTextData, encoding: .utf8) ?? ""
         } catch let error {

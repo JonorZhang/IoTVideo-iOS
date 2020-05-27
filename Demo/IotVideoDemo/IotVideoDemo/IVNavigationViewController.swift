@@ -32,7 +32,7 @@ class IVNavigationViewController: UINavigationController {
         if IoTVideo.sharedInstance.accessToken?.isEmpty ?? true {
             jumpToLoginView()
         } else {
-            print("ivToke:",IoTVideo.sharedInstance.accessToken!)
+            logInfo("ivToke:",IoTVideo.sharedInstance.accessToken!)
         }
         let window = (UIApplication.shared.delegate as! AppDelegate).window
         window?.addSubview(devToolsAssistant)

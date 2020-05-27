@@ -62,7 +62,9 @@
 		
 		<option value="//api/name/getDeviceList">- getDeviceList</option>
 		
-		<option value="//api/name/sendWifiName:wifiPwd:toDevice:completion:">- sendWifiName:wifiPwd:toDevice:completion:</option>
+		<option value="//api/name/sendWifiName:wifiPassword:language:token:extraInfo:toDevice:completion:">- sendWifiName:wifiPassword:language:token:extraInfo:toDevice:completion:</option>
+		
+		<option value="//api/name/sendWifiName:wifiPassword:token:toDevice:completion:">- sendWifiName:wifiPassword:token:toDevice:completion:</option>
 		
 	</optgroup>
 	
@@ -114,8 +116,8 @@
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/sendWifiName:wifiPwd:toDevice:completion:" title="sendWifiName:wifiPwd:toDevice:completion:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sendWifiName:wifiPwd:toDevice:completion:">&ndash;&nbsp;sendWifiName:wifiPwd:toDevice:completion:</a></code>
+	<a name="//api/name/sendWifiName:wifiPassword:token:toDevice:completion:" title="sendWifiName:wifiPassword:token:toDevice:completion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendWifiName:wifiPassword:token:toDevice:completion:">&ndash;&nbsp;sendWifiName:wifiPassword:token:toDevice:completion:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -125,12 +127,12 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>通过局域网发送配网信息</p>
+				<p>Wi-Fi名称</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)sendWifiName:(NSString *)<em>wifiName</em> wifiPwd:(NSString *)<em>wifiPwd</em> toDevice:(NSString *)<em>deviceId</em> completion:(void ( ^ ) ( BOOL success , NSError *_Nullable error ))<em>completionHandler</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)sendWifiName:(NSString *)<em>name</em> wifiPassword:(NSString *)<em>pwd</em> token:(NSString *)<em>token</em> toDevice:(NSString *)<em>deviceId</em> completion:(void ( ^ ) ( BOOL success , NSError *_Nullable error ))<em>completionHandler</em></code></div>
 
 		    
 			
@@ -139,18 +141,106 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>wifiName</code></th>
+						<th scope="row" class="argument-name"><code>name</code></th>
 						<td><p>Wi-Fi名称</p></td>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>wifiPwd</code></th>
+						<th scope="row" class="argument-name"><code>pwd</code></th>
 						<td><p>Wi-Fi密码</p></td>
 					</tr>
 				
 					<tr>
+						<th scope="row" class="argument-name"><code>token</code></th>
+						<td><p>配网token</p></td>
+					</tr>
+				
+					<tr>
 						<th scope="row" class="argument-name"><code>deviceId</code></th>
-						<td><p>设备ID</p></td>
+						<td><p>设备id</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionHandler</code></th>
+						<td><p>配网结果回调</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">IVLanNetConfig.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sendWifiName:wifiPassword:language:token:extraInfo:toDevice:completion:" title="sendWifiName:wifiPassword:language:token:extraInfo:toDevice:completion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sendWifiName:wifiPassword:language:token:extraInfo:toDevice:completion:">&ndash;&nbsp;sendWifiName:wifiPassword:language:token:extraInfo:toDevice:completion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Wi-Fi名称</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)sendWifiName:(NSString *)<em>name</em> wifiPassword:(NSString *)<em>pwd</em> language:(IVNetConfigLanguage)<em>language</em> token:(NSString *)<em>token</em> extraInfo:(nullable NSDictionary&lt;NSString*,NSString*&gt; *)<em>extraInfo</em> toDevice:(NSString *)<em>deviceId</em> completion:(void ( ^ ) ( BOOL success , NSError *_Nullable error ))<em>completionHandler</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>name</code></th>
+						<td><p>Wi-Fi名称</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>pwd</code></th>
+						<td><p>Wi-Fi密码</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>language</code></th>
+						<td><p>设备语言</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>token</code></th>
+						<td><p>配网token</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>extraInfo</code></th>
+						<td><p>额外信息</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>deviceId</code></th>
+						<td><p>设备id</p></td>
 					</tr>
 				
 					<tr>
@@ -237,7 +327,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 tencentcs. All rights reserved. Updated: 2020-05-13</p>
+						<p class="copyright">Copyright &copy; 2020 tencentcs. All rights reserved. Updated: 2020-05-27</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

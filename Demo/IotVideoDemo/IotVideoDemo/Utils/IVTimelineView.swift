@@ -361,8 +361,13 @@ class IVTimelineView: UIView {
         btn.setTitle(currentGroup.summaryString, for: .normal)
         btn.setTitleColor(.blue, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 12)
-        btn.addEvent { (_) in
-            self.calendarView.isHidden = false
+        btn.addEvent { [unowned self](_) in
+            self.calendarView.alpha = 0
+            self.calendarView.transform = CGAffineTransform(translationX: 0, y: 400)
+            UIView.animate(withDuration: 0.3, animations: {
+                self.calendarView.alpha = 1
+                self.calendarView.transform = .identity
+            })
             self.calendarView.currentDate = self.currentGroup.time.date
             if self.calendarView.markableDates.isEmpty {
                 self.loadMarkList(at: self.currentGroup.time)
@@ -396,7 +401,7 @@ class IVTimelineView: UIView {
     
     lazy var calendarView: IVCalendar = {
         let vcView = nextViewController?.view
-        let cal = IVCalendar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 300))
+        let cal = IVCalendar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 400))
         cal.center = vcView!.center
         cal.backgroundColor = .white
 //        cal.lowerValidDate = Date(timeIntervalSince1970: 1584240204)
@@ -775,7 +780,7 @@ extension IVTimelineView: UIScrollViewDelegate {
 extension IVTimelineView: IVCalendarDelegate {
     
     func calendar(_ calendar: IVCalendar, didSelect date: Date) {
-        calendar.isHidden = true
+        calendar.alpha = 0
         loadAndDisplayItems(at: IVTime(date: date))
     }
 }

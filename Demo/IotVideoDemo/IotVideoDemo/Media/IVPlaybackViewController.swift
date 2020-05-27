@@ -16,15 +16,15 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
     @IBOutlet weak var seekTimeLabel: UILabel!
     @IBOutlet weak var deviceRecordBtn: UIButton!
 
-    var playbackPlayer: IVPlaybackPlayer {
-        get { return player as! IVPlaybackPlayer }
+    var playbackPlayer: IVPlaybackPlayer? {
+        get { return player as? IVPlaybackPlayer }
         set { player = newValue }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        playbackPlayer = IVPlaybackPlayer(deviceId: device.deviceID)
         
+        playbackPlayer = IVPlaybackPlayer(deviceId: device.deviceID)
         timelineView?.delegate = self
         deviceRecordBtn.isSelected = UserDefaults.standard.bool(forKey: "deviceRecordBtn.isSelected")
     }
@@ -74,10 +74,11 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
     }
     
     override func playClicked(_ sender: UIButton) {
+        guard let playbackPlayer = playbackPlayer else { return }
         if playbackPlayer.playbackItem == nil {
             //加载数据后自动预选择第一段视频
             if let item = timelineView?.currentItem.rawValue as? IVPlaybackItem {
-                self.playbackPlayer.setPlaybackItem(item, seekToTime: item.startTime)
+                playbackPlayer.setPlaybackItem(item, seekToTime: item.startTime)
                 super.playClicked(sender)
             } else {
                 IVPopupView.showAlert(title: "当前日期无可播放文件", in: self.videoView)                
@@ -105,14 +106,15 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
     }
     
     func timelineView(_ timelineView: IVTimelineView, didSelect item: IVTimelineItem, at time: TimeInterval) {
+        guard let playbackPlayer = playbackPlayer else { return }
         let fmt = DateFormatter()
         fmt.dateFormat = "HH:mm:ss"
         let date = Date(timeIntervalSince1970: time)
         seekTimeLabel.text = fmt.string(from: date)
         seekTimeLabel.isHidden = false
         
-        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-            self.seekTimeLabel.isHidden = true
+        DispatchQueue.main.asyncAfter(deadline: .now()+1) {[weak self] in
+            self?.seekTimeLabel.isHidden = true
         }
         if let playbackItem = item.rawValue as? IVPlaybackItem {
             if playbackPlayer.status == .stoped {

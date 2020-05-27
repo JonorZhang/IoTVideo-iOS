@@ -9,6 +9,7 @@
 import UIKit
 import IoTVideo
 import SwiftyJSON
+import IVDevTools
 
 class IVLoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var tmpSecretIDTF: UITextField!
@@ -27,13 +28,10 @@ class IVLoginViewController: UIViewController, UITextFieldDelegate {
         window?.addSubview(devToolsAssistant)
         window?.bringSubviewToFront(devToolsAssistant)
         
-        #warning("调试使用，打包注释下面四行, 此秘钥为 内部开发使用")
-        let secretId  = "AKIDwmOmvryLcolStUw2vc4JI1hHfpkShJOS" //zyx
-        let secretKey = "zmJbfXBZlkkV1IMBk9OSGtIannUwCCwR" //zyx
-        //        let secretId  = "AKIDPaeT0JOMxTnwtnTncCbo8AwRfcIhaFPy" //user
-        //        let secretKey = "QdGcmkTwCLcVzGHH4gEhohLcDgyENq43" //user
-        tmpSecretIDTF.text  = secretId
-        tmpSecretKeyTF.text = secretKey
+        // 最终版本将会去掉这两行
+        tmpSecretKeyTF.text = IVConfigMgr.allConfigs.first(where: {$0.key == "IOT_TEST_SECRECT_KEY" && $0.enable})?.value
+        tmpSecretIDTF.text = IVConfigMgr.allConfigs.first(where: {$0.key == "IOT_TEST_SECRECT_ID" && $0.enable})?.value
+        
     }
     
     @IBAction func loginBtnClicked(_ sender: UIButton) {

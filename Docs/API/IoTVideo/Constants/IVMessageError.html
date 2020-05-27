@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>IV_QR_CODE_FUNCTION Constants Reference</title>
+	<title>IVMessageError Constants Reference</title>
 
 	<link rel="stylesheet" href="../css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
@@ -59,13 +59,13 @@
 		<div id="overview_contents" class="container">
 			<div id="content">
 				<main role="main">
-					<h1 class="title">IV_QR_CODE_FUNCTION Constants Reference</h1>
+					<h1 class="title">IVMessageError Constants Reference</h1>
 
 					
 					<div class="section section-specification"><table cellspacing="0"><tbody>
 						<tr>
 	<th>Declared in</th>
-	<td>IVQRCodeDef.h</td>
+	<td>IVMessageMgr.h</td>
 </tr>
 						</tbody></table></div>
 					
@@ -75,11 +75,11 @@
 					
 
                     
-                    <h3 class="subsubtitle method-title">IV_QR_CODE_FUNCTION</h3>
+                    <h3 class="subsubtitle method-title">IVMessageError</h3>
                     
 					
 					<div class="section section-overview">
-                        <p>二维码协议枚举</p>
+                        <p>消息管理错误码</p>
 					</div>
 					
 					
@@ -87,25 +87,25 @@
                         <!-- display enum values -->
                         
                         <h4 class="method-subtitle">Definition</h4>
-                        <code>typedef NS_ENUM(NSUInteger, IV_QR_CODE_FUNCTION ) {<br>
+                        <code>typedef NS_ENUM(NSUInteger, IVMessageError ) {<br>
                             
-                            &nbsp;&nbsp; <a href="">IV_QR_CODE_FUNCTION_RESERVE</a> = 0,<br>
+                            &nbsp;&nbsp; <a href="">IVMessageError_duplicate</a> = 21000,<br>
                             
-                            &nbsp;&nbsp; <a href="">IV_QR_CODE_FUNCTION_WIFI_ENC_TYPE</a> = 1,<br>
+                            &nbsp;&nbsp; <a href="">IVMessageError_sendFailed</a> = 21001,<br>
                             
-                            &nbsp;&nbsp; <a href="">IV_QR_CODE_FUNCTION_WIFI_SSID</a> = 2,<br>
+                            &nbsp;&nbsp; <a href="">IVMessageError_timeout</a> = 21002,<br>
                             
-                            &nbsp;&nbsp; <a href="">IV_QR_CODE_FUNCTION_WIFI_PASSWORD</a> = 3,<br>
+                            &nbsp;&nbsp; <a href="">IVMessageError_GetGdmDataErr</a> = 21003,<br>
                             
-                            &nbsp;&nbsp; <a href="">IV_QR_CODE_FUNCTION_APP_USER_ID</a> = 4,<br>
+                            &nbsp;&nbsp; <a href="">IVMessageError_RcvGdmDataErr</a> = 21004,<br>
                             
-                            &nbsp;&nbsp; <a href="">IV_QR_CODE_FUNCTION_NETSET_ID</a> = 5,<br>
+                            &nbsp;&nbsp; <a href="">IVMessageError_SendPassSrvErr</a> = 21005,<br>
                             
-                            &nbsp;&nbsp; <a href="">IV_QR_CODE_FUNCTION_TIMEZONE</a> = 6,<br>
+                            &nbsp;&nbsp; <a href="">IVMessageError_SendPassDevErr</a> = 21006,<br>
                             
-                            &nbsp;&nbsp; <a href="">IV_QR_CODE_FUNCTION_LANGUAGE</a> = 7,<br>
+                            &nbsp;&nbsp; <a href="">IVMessageError_NotFoundCallback</a> = 21007,<br>
                             
-                            &nbsp;&nbsp; <a href="">IV_QR_CODE_FUNCTION_SHARE_TOKEN</a> = 32,<br>
+                            &nbsp;&nbsp; <a href="">IVMessageError_ExceedsMaxLength</a> = 21008,<br>
                             
                             };</code>
                     
@@ -115,11 +115,11 @@
                         <h4 class="method-subtitle">Constants</h4>
                         <dl class="termdef">
                             
-                            <dt><a name="" title="IV_QR_CODE_FUNCTION_RESERVE"></a><code>IV_QR_CODE_FUNCTION_RESERVE</code></dt>
+                            <dt><a name="" title="IVMessageError_duplicate"></a><code>IVMessageError_duplicate</code></dt>
 <dd>
 
 
-<p>二维码协议枚举</p>
+<p>消息重复、消息正在发送</p>
 
 
 
@@ -127,16 +127,16 @@
 
     
 	<p>
-		Declared In <code class="declared-in-ref">IVQRCodeDef.h</code>.
+		Declared In <code class="declared-in-ref">IVMessageMgr.h</code>.
 	</p>
 	
 </dd>
                             
-                            <dt><a name="" title="IV_QR_CODE_FUNCTION_WIFI_ENC_TYPE"></a><code>IV_QR_CODE_FUNCTION_WIFI_ENC_TYPE</code></dt>
+                            <dt><a name="" title="IVMessageError_sendFailed"></a><code>IVMessageError_sendFailed</code></dt>
 <dd>
 
 
-<p>&lt;  保留</p>
+<p>消息发送失败</p>
 
 
 
@@ -144,16 +144,16 @@
 
     
 	<p>
-		Declared In <code class="declared-in-ref">IVQRCodeDef.h</code>.
+		Declared In <code class="declared-in-ref">IVMessageMgr.h</code>.
 	</p>
 	
 </dd>
                             
-                            <dt><a name="" title="IV_QR_CODE_FUNCTION_WIFI_SSID"></a><code>IV_QR_CODE_FUNCTION_WIFI_SSID</code></dt>
+                            <dt><a name="" title="IVMessageError_timeout"></a><code>IVMessageError_timeout</code></dt>
 <dd>
 
 
-<p>&lt;  WiFi加密类型,WPA加密类型=2 1个字节,默认为WPA加密类型</p>
+<p>消息响应超时</p>
 
 
 
@@ -161,16 +161,16 @@
 
     
 	<p>
-		Declared In <code class="declared-in-ref">IVQRCodeDef.h</code>.
+		Declared In <code class="declared-in-ref">IVMessageMgr.h</code>.
 	</p>
 	
 </dd>
                             
-                            <dt><a name="" title="IV_QR_CODE_FUNCTION_WIFI_PASSWORD"></a><code>IV_QR_CODE_FUNCTION_WIFI_PASSWORD</code></dt>
+                            <dt><a name="" title="IVMessageError_GetGdmDataErr"></a><code>IVMessageError_GetGdmDataErr</code></dt>
 <dd>
 
 
-<p>&lt;  WiFi名称 文本</p>
+<p>获取物模型失败</p>
 
 
 
@@ -178,16 +178,16 @@
 
     
 	<p>
-		Declared In <code class="declared-in-ref">IVQRCodeDef.h</code>.
+		Declared In <code class="declared-in-ref">IVMessageMgr.h</code>.
 	</p>
 	
 </dd>
                             
-                            <dt><a name="" title="IV_QR_CODE_FUNCTION_APP_USER_ID"></a><code>IV_QR_CODE_FUNCTION_APP_USER_ID</code></dt>
+                            <dt><a name="" title="IVMessageError_RcvGdmDataErr"></a><code>IVMessageError_RcvGdmDataErr</code></dt>
 <dd>
 
 
-<p>&lt;  WiFi密码 文本 没有密码就不传</p>
+<p>接收物模型失败</p>
 
 
 
@@ -195,16 +195,16 @@
 
     
 	<p>
-		Declared In <code class="declared-in-ref">IVQRCodeDef.h</code>.
+		Declared In <code class="declared-in-ref">IVMessageMgr.h</code>.
 	</p>
 	
 </dd>
                             
-                            <dt><a name="" title="IV_QR_CODE_FUNCTION_NETSET_ID"></a><code>IV_QR_CODE_FUNCTION_NETSET_ID</code></dt>
+                            <dt><a name="" title="IVMessageError_SendPassSrvErr"></a><code>IVMessageError_SendPassSrvErr</code></dt>
 <dd>
 
 
-<p>&lt;  用户id</p>
+<p>透传数据给服务器失败</p>
 
 
 
@@ -212,16 +212,16 @@
 
     
 	<p>
-		Declared In <code class="declared-in-ref">IVQRCodeDef.h</code>.
+		Declared In <code class="declared-in-ref">IVMessageMgr.h</code>.
 	</p>
 	
 </dd>
                             
-                            <dt><a name="" title="IV_QR_CODE_FUNCTION_TIMEZONE"></a><code>IV_QR_CODE_FUNCTION_TIMEZONE</code></dt>
+                            <dt><a name="" title="IVMessageError_SendPassDevErr"></a><code>IVMessageError_SendPassDevErr</code></dt>
 <dd>
 
 
-<p>&lt;  配网id</p>
+<p>透传数据给设备失败</p>
 
 
 
@@ -229,16 +229,16 @@
 
     
 	<p>
-		Declared In <code class="declared-in-ref">IVQRCodeDef.h</code>.
+		Declared In <code class="declared-in-ref">IVMessageMgr.h</code>.
 	</p>
 	
 </dd>
                             
-                            <dt><a name="" title="IV_QR_CODE_FUNCTION_LANGUAGE"></a><code>IV_QR_CODE_FUNCTION_LANGUAGE</code></dt>
+                            <dt><a name="" title="IVMessageError_NotFoundCallback"></a><code>IVMessageError_NotFoundCallback</code></dt>
 <dd>
 
 
-<p>&lt;  时区  分钟</p>
+<p>没有找到回调</p>
 
 
 
@@ -246,16 +246,16 @@
 
     
 	<p>
-		Declared In <code class="declared-in-ref">IVQRCodeDef.h</code>.
+		Declared In <code class="declared-in-ref">IVMessageMgr.h</code>.
 	</p>
 	
 </dd>
                             
-                            <dt><a name="" title="IV_QR_CODE_FUNCTION_SHARE_TOKEN"></a><code>IV_QR_CODE_FUNCTION_SHARE_TOKEN</code></dt>
+                            <dt><a name="" title="IVMessageError_ExceedsMaxLength"></a><code>IVMessageError_ExceedsMaxLength</code></dt>
 <dd>
 
 
-<p>&lt;  设置设备语言</p>
+<p>数据超过上限</p>
 
 
 
@@ -263,7 +263,7 @@
 
     
 	<p>
-		Declared In <code class="declared-in-ref">IVQRCodeDef.h</code>.
+		Declared In <code class="declared-in-ref">IVMessageMgr.h</code>.
 	</p>
 	
 </dd>
@@ -280,7 +280,7 @@
                     
                     <div class="method-subsection declared-in-section">
                         <h4 class="method-subtitle">Declared In</h4>
-                        <p><code class="declared-in-ref">IVQRCodeDef.h</code></p>
+                        <p><code class="declared-in-ref">IVMessageMgr.h</code></p>
                     </div>
                     
                     
@@ -292,7 +292,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 tencentcs. All rights reserved. Updated: 2020-05-13</p>
+						<p class="copyright">Copyright &copy; 2020 tencentcs. All rights reserved. Updated: 2020-05-27</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

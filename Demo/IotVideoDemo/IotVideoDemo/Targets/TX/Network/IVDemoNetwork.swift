@@ -161,7 +161,7 @@ extension IVDemoNetwork {
         let json = JSON(parseJSON: json!)
         if let errorCode = json["Response"]["Error"]["Code"].string {
             let errMsg = "\(errorCode) : \(json["Response"]["Error"]["Message"].stringValue)"
-            print(errMsg)
+            logError(errMsg)
             ivHud(errMsg)
             return nil
         }

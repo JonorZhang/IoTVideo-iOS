@@ -88,16 +88,15 @@ class IVDeviceListViewController: UITableViewController {
     
     /// 增加长按复制设备ID到剪切板
     func addLongPressGesture() {
-       let longGes = tableView.addGesture(.longPress) { (gesture) in
+        tableView.addGesture(.longPress) { [unowned self](gesture) in
             if gesture.state == .began {
                 let point = gesture.location(in: self.tableView)
                 let indexPath = self.tableView.indexPathForRow(at: point)
                 guard let cellIndex = indexPath?.row  else { return }
-                    UIPasteboard.general.string = userDeviceList[cellIndex].devId
+                UIPasteboard.general.string = userDeviceList[cellIndex].devId
                 ivHud("设备ID已复制")
             }
         }
-        self.tableView.addGestureRecognizer(longGes)
     }
     
     

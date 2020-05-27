@@ -28,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //测试服调试
 //        IoTVideo.sharedInstance.options[.hostType] = "0"
+        IoTVideo.sharedInstance.options[.appVersion] = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
+        IoTVideo.sharedInstance.options[.appPkgName] = Bundle.main.bundleIdentifier!
         
         IoTVideo.sharedInstance.setup(launchOptions: launchOptions)
         IoTVideo.sharedInstance.delegate = self
@@ -122,7 +124,7 @@ public extension UIApplication {
         do {
             try FileManager.default.removeItem(atPath: NSHomeDirectory()+"/Library/SplashBoard")
         } catch {
-            print("Failed to delete launch screen cache: \(error)")
+            logWarning("Failed to delete launch screen cache: \(error)")
         }
     }
 }

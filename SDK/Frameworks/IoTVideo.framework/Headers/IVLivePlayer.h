@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 创建播放器
 /// @param deviceId 设备ID
-- (instancetype)initWithDeviceId:(NSString *)deviceId;
+- (nullable instancetype)initWithDeviceId:(NSString *)deviceId;
 
 @end
 

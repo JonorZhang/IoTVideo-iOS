@@ -98,7 +98,7 @@ class IVCalendar: UIView {
         btn.setTitle("取消", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 17)
         btn.addEvent { (_) in
-            self.isHidden = true
+            self.alpha = 0
         }
         return btn
     }()

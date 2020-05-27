@@ -18,7 +18,8 @@ struct IVDevice {
     var version: String = ""
     var macAddr: String = ""
     var shareType: IVRole = .owner
-    
+    var online: Bool = false
+
     init(_ device: IVDeviceModel) {
         self.deviceID = device.devId ?? ""
         self.productID = ""
@@ -27,6 +28,7 @@ struct IVDevice {
         self.version = ""
         self.macAddr = ""
         self.shareType = device.shareType
+        self.online = device.online ?? false
     }
 
     init(_ device: IVLANDevice) {
@@ -37,6 +39,7 @@ struct IVDevice {
         self.version = device.version
         self.macAddr = device.macAddr
         self.shareType = .owner
+        self.online = true
     }
 }
 

@@ -20,6 +20,8 @@ typedef NS_ENUM(NSUInteger, IVAVConnType) {
     IVAVConnTypeMonitor  = 1,
     /// 录像回放
     IVAVConnTypePlayback = 2,
+    /// 数据传输
+    IVAVConnTypeTransmission  = 3,
 };
 
 /// 播放器状态
@@ -28,7 +30,7 @@ typedef NS_ENUM(NSUInteger, IVPlayerStatus) {
     IVPlayerStatusStoped,
     /// 准备中
     IVPlayerStatusPreparing,
-    /// 就绪
+    /// 就绪（通道建立完成）
     IVPlayerStatusReady,
     /// 加载中
     IVPlayerStatusLoading,
@@ -171,7 +173,7 @@ typedef struct _IVAudioPacket {
     uint64_t    pts; 
 } IVAudioPacket;
 
-// 流媒体信息头
+/// 流媒体信息头
 typedef struct _IVAVHeader {
     /*audio info*/
     IVAudioCodecType    audioType;         //!< 音频编码格式
@@ -187,5 +189,34 @@ typedef struct _IVAVHeader {
     uint32_t            videoWidth;        //!< 视频像素宽度
     uint32_t            videoHeight;       //!< 视频像素高度
 } IVAVHeader;
+
+/// 播放器错误码
+typedef NS_ENUM(NSUInteger, IVPlayerError) {
+    /// 播放器创建失败，超过最大同屏播放器个数
+    IVPlayerError_ExceedsMaxNumber         = 21020,
+    /// 播放器创建失败，请勿重复创建同一个设备播放器
+    IVPlayerError_Duplicate                = 21021,
+    /// 建立连接失败
+    IVPlayerError_ConnectFailed            = 21022,
+    /// 连接已断开
+    IVPlayerError_Disconnected             = 21023,
+    /// 方法选择器无响应、未实现协议方法
+    IVPlayerError_NoRespondsToSelector     = 21024,
+    /// 数据超出最大长度
+    IVPlayerError_ExceedsMaxLength         = 21025,
+    /// 参数错误
+    IVPlayerError_InvalidParameter         = 21026,
+    /// 录像列表为空
+    IVPlayerError_PlaybackListEmpty        = 21027,
+    /// 录像列表数据异常
+    IVPlayerError_PlaybackDataErr          = 21028,
+    /// 正在录制
+    IVPlayerError_RecorderIsRunning        = 21029,
+    /// 视频分辨率已改变
+    IVPlayerError_VideoResolutionChanged   = 21030,
+    /// 编码器暂不可用
+    IVPlayerError_EncoderNotAvailableNow   = 21031,
+};
+
 
 #endif /* IVAVDefine_h */

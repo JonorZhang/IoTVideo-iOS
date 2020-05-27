@@ -13,6 +13,7 @@
 #import "IVAVCodecable.h"
 #import "IVMessageMgr.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class IVPlayer;
@@ -98,6 +99,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)switchCamera;
 
 @end
+
+
+/// 最大同屏播放器个数
+#define kMaxNumberOfPlayers 4
 
 
 /// 核心播放器（抽象类）

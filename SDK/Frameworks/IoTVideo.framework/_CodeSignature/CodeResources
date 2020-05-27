@@ -6,19 +6,23 @@
 	<dict>
 		<key>Headers/IVAVCodecable.h</key>
 		<data>
-		0KmFXD9gonNh0uhy/DuPXD4fjJw=
+		/rA6VE0Qmn/UPm+Jbt5LYvJZWec=
 		</data>
 		<key>Headers/IVAVDefine.h</key>
 		<data>
-		KcEJtlAJ/mmyfNxy4ikFP6OFVbs=
+		DVD8X2g/WXaxKhUsPgyF9QI0ZbA=
+		</data>
+		<key>Headers/IVConnection.h</key>
+		<data>
+		VjeuFSUGO6Ihgb3rvgAYexZZRiY=
 		</data>
 		<key>Headers/IVLanNetConfig.h</key>
 		<data>
-		OGBMhA3cuC5f0byw2V9Z44xujho=
+		iNFXyBhSYj40Kes6MJMPMROZCqI=
 		</data>
 		<key>Headers/IVLivePlayer.h</key>
 		<data>
-		l9F7avaDnf07CtF9VHvmSe7Ukd8=
+		IkO+6+niwMs/oEJy3/Xoi0yaAdo=
 		</data>
 		<key>Headers/IVLog.h</key>
 		<data>
@@ -26,19 +30,19 @@
 		</data>
 		<key>Headers/IVMessageMgr.h</key>
 		<data>
-		7h8D7AtbHHjJ7FrG7yDeaWflTbQ=
+		QB7hLZu396WUJrbwyt6sxP7LYOM=
 		</data>
 		<key>Headers/IVMonitorPlayer.h</key>
 		<data>
-		4rlkEvwNtHoV0wdG8mg0HzkjWQ0=
+		ci9AeSdMeAGyjgTxxcQ4vgoytJY=
 		</data>
 		<key>Headers/IVNetConfig.h</key>
 		<data>
-		S2P5ZV/M3X//ej1pfNprqjkorJg=
+		rwjLsvJEcmjOnqmjjDjQiUwZvB0=
 		</data>
 		<key>Headers/IVNetworkSign.h</key>
 		<data>
-		JGJx91kZ37+1lrDHm/6XaYT9IOU=
+		h4T8W7csJa/ckUhCpY2oV+rZMqo=
 		</data>
 		<key>Headers/IVNetwork_p2p.h</key>
 		<data>
@@ -46,35 +50,35 @@
 		</data>
 		<key>Headers/IVPlaybackPlayer.h</key>
 		<data>
-		8TbPphBPkeYmyQq58o+F1A/4TgQ=
+		ewV/kPt3fPozP+pGO1z+I73JYck=
 		</data>
 		<key>Headers/IVPlayer.h</key>
 		<data>
-		3IMMx1kiyio9i0y6hKYUk4dJj8o=
-		</data>
-		<key>Headers/IVQRCodeDef.h</key>
-		<data>
-		EFStrAtFo/2QLgCMlv10oW6UWnU=
+		MdUPVuEXxkKGv58lamnFAenaj/U=
 		</data>
 		<key>Headers/IVQRCodeHelper.h</key>
 		<data>
-		3aj8VIImkxvJ0Fqi03ehQ0j9D1U=
+		nCVo16mt0ygJnQcnXojqIhCZpPg=
 		</data>
 		<key>Headers/IVQRCodeNetConfig.h</key>
 		<data>
-		5mR18Z4oH6tvdRnsYaqS7wVX9n4=
+		V+9ibdAMBXGca8spHnT8OukNXrU=
 		</data>
 		<key>Headers/IVQRCodeNetConfig.m</key>
 		<data>
-		jB2vkYMiNEo9M0nz6DmqsFMQtDo=
+		aDY/flfjt3vCukei7PvZQ+jPrJE=
+		</data>
+		<key>Headers/IVTransmission.h</key>
+		<data>
+		ZOlIJxlVxglFRwzrbymAtJjjRh4=
 		</data>
 		<key>Headers/IoTVideo.h</key>
 		<data>
-		EljsaU2ySTEYgS3t0+HU59noYi0=
+		n43/eD1v9xk64tTt9PzTRHS3PoA=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		cB6hGEXgw853pH4bYgPxkSGioqQ=
+		9Zq/H98bJFhhR+D3klgN+byeceM=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -87,44 +91,55 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			0KmFXD9gonNh0uhy/DuPXD4fjJw=
+			/rA6VE0Qmn/UPm+Jbt5LYvJZWec=
 			</data>
 			<key>hash2</key>
 			<data>
-			FUoXijtgabOtSxQ2Gr7bcJoj1uiT7TGTTOGhxIIbQHo=
+			biGkqVm0l5r0CSYVi5dp5wBmsC8TW1rTz3kl6D/owi0=
 			</data>
 		</dict>
 		<key>Headers/IVAVDefine.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			KcEJtlAJ/mmyfNxy4ikFP6OFVbs=
+			DVD8X2g/WXaxKhUsPgyF9QI0ZbA=
 			</data>
 			<key>hash2</key>
 			<data>
-			R5HFnFwVtF/iSXliueabZMJgXbMOi7ooI4Q5oTE2ei4=
+			RdkG9CKcAB6K7wFA9hI7+9GLTe8w8JaxGqmcI9WUhTE=
+			</data>
+		</dict>
+		<key>Headers/IVConnection.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			VjeuFSUGO6Ihgb3rvgAYexZZRiY=
+			</data>
+			<key>hash2</key>
+			<data>
+			XTsufWKv+wgVR3fW3gSe5qo6jfs3YUg9lUMfwDYPgH8=
 			</data>
 		</dict>
 		<key>Headers/IVLanNetConfig.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			OGBMhA3cuC5f0byw2V9Z44xujho=
+			iNFXyBhSYj40Kes6MJMPMROZCqI=
 			</data>
 			<key>hash2</key>
 			<data>
-			AxETdTMMuzhjn1boV3jOIs4BqIyg8R29ub1q7j0vA6I=
+			vB6hEULqhyH5c8vTIDJvsk+D/dsf7srpy4OrF0eCeCg=
 			</data>
 		</dict>
 		<key>Headers/IVLivePlayer.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			l9F7avaDnf07CtF9VHvmSe7Ukd8=
+			IkO+6+niwMs/oEJy3/Xoi0yaAdo=
 			</data>
 			<key>hash2</key>
 			<data>
-			EOdg735qZ6lSS9pGXTwDrQE5SF49xbANidTsV/s/mOY=
+			J1Dw9gti5u68Brlk8Olz8zCjVrjcOo1JtwW/Q9TBH3E=
 			</data>
 		</dict>
 		<key>Headers/IVLog.h</key>
@@ -142,44 +157,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			7h8D7AtbHHjJ7FrG7yDeaWflTbQ=
+			QB7hLZu396WUJrbwyt6sxP7LYOM=
 			</data>
 			<key>hash2</key>
 			<data>
-			Rkn52ANuHkgxoAf4/FW5u0vDXk2onut94gdQ7rSakLw=
+			XGwp/0jq2jSWFFkSwvKiZQlJUasu8NolECGeeQz8PVg=
 			</data>
 		</dict>
 		<key>Headers/IVMonitorPlayer.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			4rlkEvwNtHoV0wdG8mg0HzkjWQ0=
+			ci9AeSdMeAGyjgTxxcQ4vgoytJY=
 			</data>
 			<key>hash2</key>
 			<data>
-			/l+6eG76yOqNtks0/jNQ8JxDyBGF9yQHPJaeNCIoMuU=
+			jErr0D1xSrBuMUQbXbZciH0d3o1E9x3jxT8w61jpl+s=
 			</data>
 		</dict>
 		<key>Headers/IVNetConfig.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			S2P5ZV/M3X//ej1pfNprqjkorJg=
+			rwjLsvJEcmjOnqmjjDjQiUwZvB0=
 			</data>
 			<key>hash2</key>
 			<data>
-			X9NQ8a/X5HE1mlBw2oe/w4li1LNt3vTErw8jsg/3oh8=
+			xI/etgB2CFDjuK+beTKUw6o/ItgDRdYE9PwqcFSho5E=
 			</data>
 		</dict>
 		<key>Headers/IVNetworkSign.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			JGJx91kZ37+1lrDHm/6XaYT9IOU=
+			h4T8W7csJa/ckUhCpY2oV+rZMqo=
 			</data>
 			<key>hash2</key>
 			<data>
-			PojlO2gIv4S+NAuEhOM2zjR9/fjjlCKmTpscMLkDmHE=
+			rVZwJVmqtZoR9/5VIlqApoNhHCcojKpjt78M2OAriDo=
 			</data>
 		</dict>
 		<key>Headers/IVNetwork_p2p.h</key>
@@ -197,77 +212,77 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8TbPphBPkeYmyQq58o+F1A/4TgQ=
+			ewV/kPt3fPozP+pGO1z+I73JYck=
 			</data>
 			<key>hash2</key>
 			<data>
-			GuhPaHuUyPmjFRmkxGLpyKn9Y2iUhKxCznLhJGIk+0Y=
+			cz9OznyRP/3mp2nskfrt7t2K2bvtgU665ddZyYKDmoM=
 			</data>
 		</dict>
 		<key>Headers/IVPlayer.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			3IMMx1kiyio9i0y6hKYUk4dJj8o=
+			MdUPVuEXxkKGv58lamnFAenaj/U=
 			</data>
 			<key>hash2</key>
 			<data>
-			xjmo/LKhnrAKWofWYqS0J83ACxqA++8Nz51fGNhqvCg=
-			</data>
-		</dict>
-		<key>Headers/IVQRCodeDef.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			EFStrAtFo/2QLgCMlv10oW6UWnU=
-			</data>
-			<key>hash2</key>
-			<data>
-			tgOjHJMrA7MfF3nr0/9upUDlaXc1IgVN/sLgU3TNBb8=
+			1JDWZ7Ak3c1BaKRlrbt5Z+juJ9XOxHSlrruyJrnRXh0=
 			</data>
 		</dict>
 		<key>Headers/IVQRCodeHelper.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			3aj8VIImkxvJ0Fqi03ehQ0j9D1U=
+			nCVo16mt0ygJnQcnXojqIhCZpPg=
 			</data>
 			<key>hash2</key>
 			<data>
-			VNI+kMXjz9kUbd2Upsq0s/8tXQ0moJeVMh6lIkRLBAo=
+			Te5v/BMKj+jxiplqkRYuzCpG1SpH6I0IpPOAH6/s36I=
 			</data>
 		</dict>
 		<key>Headers/IVQRCodeNetConfig.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			5mR18Z4oH6tvdRnsYaqS7wVX9n4=
+			V+9ibdAMBXGca8spHnT8OukNXrU=
 			</data>
 			<key>hash2</key>
 			<data>
-			VXgmTdOSKR3IrRGI9eS+bWLPyEQjqo3Tmn1ZIOA071o=
+			SVWnRtikqsmBtw44t6MZ/UZ2MeRU9fW1GGefM9UH2yg=
 			</data>
 		</dict>
 		<key>Headers/IVQRCodeNetConfig.m</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			jB2vkYMiNEo9M0nz6DmqsFMQtDo=
+			aDY/flfjt3vCukei7PvZQ+jPrJE=
 			</data>
 			<key>hash2</key>
 			<data>
-			nrzCd0GINj6aoSHhWpzPORueqiqavT2rQ+7gGTAEa3w=
+			1LkHxq/iVCtjU5gpsLQq+cmEcMbEGaQQMlB+RIHwDkE=
+			</data>
+		</dict>
+		<key>Headers/IVTransmission.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ZOlIJxlVxglFRwzrbymAtJjjRh4=
+			</data>
+			<key>hash2</key>
+			<data>
+			em5tdTjXp+1Cd82/8deP1p3R98UTxuaAKnBhnJWy9rU=
 			</data>
 		</dict>
 		<key>Headers/IoTVideo.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			EljsaU2ySTEYgS3t0+HU59noYi0=
+			n43/eD1v9xk64tTt9PzTRHS3PoA=
 			</data>
 			<key>hash2</key>
 			<data>
-			metNajdAEkyHmXwEoz/1ylsjEiFmD2Ix88hRQ2EaE8I=
+			g09SNod7FXrh1k1FlWw9sNdBNR7L5iPzg4gISzCJcE4=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
