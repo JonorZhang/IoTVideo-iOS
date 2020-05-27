@@ -125,7 +125,7 @@ extension IVDeviceListViewController {
         
         let device = userDeviceList[indexPath.row]
         let isOnline = device.online ?? false
-        let titleColor = isOnline ? UIColor(rgb: 0x3D7AFF) : .black
+        let titleColor = isOnline ? UIColor(rgb: 0x3D7AFF) : .darkGray
         let subColor = isOnline ? UIColor(rgb: 0x3D7AFF) : .darkGray
         
         cell.deviceIdLabel.text = device.devId

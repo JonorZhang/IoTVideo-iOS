@@ -152,7 +152,7 @@ extension IVMultiMonitorViewController: UICollectionViewDelegateFlowLayout {
 class IVMultiMonitorCell: UICollectionViewCell {
     
     lazy var nameLabel = UILabel().then {
-        $0.textColor = .black
+        $0.textColor = .darkGray
         $0.textAlignment = .left
         $0.font = .systemFont(ofSize: 15)
         $0.numberOfLines = 0
