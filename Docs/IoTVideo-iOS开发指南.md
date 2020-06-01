@@ -604,21 +604,21 @@ public protocol IVConnectionDelegate : NSObjectProtocol {
 
 ```swift
 
-/// 连接类
-public protocol IVConnection : NSObjectProtocol {
-
+/// 通道连接（抽象类，不要直接实例化，请使用其派生类: IVLivePlayer / IVPlaybackPlayer / IVMonitorPlayer / IVTransmission）
+open class IVConnection : NSObject {
+    
     /// 开始连接
-    func connect()
+    open func connect() -> Bool
 
     /// 断开连接
-    func disconnect()
-
+    open func disconnect() -> Bool
+    
     /// 发送自定义数据
     ///
     /// 需要与设备建立专门的连接通道，适用于较大数据传输、实时性要求较高的场景，如多媒体数据传输。
     /// @param data 要发送的数据，data.length不能超过`MAX_PKG_BYTES`
     /// @return 发送是否成功
-    func send(_ data: Data) -> Bool
+    open func send(_ data: Data) -> Bool
 }
 ```
 

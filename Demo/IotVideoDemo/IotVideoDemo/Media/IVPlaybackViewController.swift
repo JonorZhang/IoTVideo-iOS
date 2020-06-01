@@ -62,9 +62,9 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
         IVMessageMgr.sharedInstance.sendData(toDevice: device.deviceID, data: data, withoutResponse: { [weak self]_, err in
             hud.hide()
             if let err = err {
-                IVPopupView.showAlert(message: err.localizedDescription, in: self?.videoView)
+                IVPopupView.showAlert(message: err.localizedDescription, in: self?.mediaView)
             } else {
-                IVPopupView.showAlert(message: "发送成功", in: self?.videoView)
+                IVPopupView.showAlert(message: "发送成功", in: self?.mediaView)
                 sender.isSelected = !sender.isSelected
                 UserDefaults.standard.set(sender.isSelected, forKey: "deviceRecordBtn.isSelected")
             }
@@ -81,7 +81,7 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
                 playbackPlayer.setPlaybackItem(item, seekToTime: item.startTime)
                 super.playClicked(sender)
             } else {
-                IVPopupView.showAlert(title: "当前日期无可播放文件", in: self.videoView)                
+                IVPopupView.showAlert(title: "当前日期无可播放文件", in: self.mediaView)                
             }
         } else {
             super.playClicked(sender)
@@ -117,7 +117,7 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
             self?.seekTimeLabel.isHidden = true
         }
         if let playbackItem = item.rawValue as? IVPlaybackItem {
-            if playbackPlayer.status == .stoped {
+            if playbackPlayer.status == .stopped {
                 playbackPlayer.setPlaybackItem(playbackItem, seekToTime: time)
                 playbackPlayer.play()
             } else {

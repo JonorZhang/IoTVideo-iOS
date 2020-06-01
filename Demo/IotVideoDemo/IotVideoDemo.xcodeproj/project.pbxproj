@@ -62,6 +62,7 @@
 		EA212CDB2479118F00E2BDD0 /* IVDeviceShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA212C802479118F00E2BDD0 /* IVDeviceShareViewController.swift */; };
 		EA212CDC2479118F00E2BDD0 /* IVDeviceMgr.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA212C812479118F00E2BDD0 /* IVDeviceMgr.storyboard */; };
 		EA212CDE2479118F00E2BDD0 /* IVLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA212C832479118F00E2BDD0 /* IVLoginViewController.swift */; };
+		EA2445672485023D00381140 /* IVImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2445642485023C00381140 /* IVImage.swift */; };
 		EA57B961247E3CA70098E48D /* timg-2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = EA57B95F247E3CA70098E48D /* timg-2.jpeg */; };
 		EA57B962247E3CA70098E48D /* timg.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = EA57B960247E3CA70098E48D /* timg.jpeg */; };
 		EA57B979247E941F0098E48D /* IVLiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA57B96E247E941F0098E48D /* IVLiveViewController.swift */; };
@@ -192,6 +193,7 @@
 		EA212C812479118F00E2BDD0 /* IVDeviceMgr.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IVDeviceMgr.storyboard; sourceTree = "<group>"; };
 		EA212C822479118F00E2BDD0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA212C832479118F00E2BDD0 /* IVLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLoginViewController.swift; sourceTree = "<group>"; };
+		EA2445642485023C00381140 /* IVImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVImage.swift; sourceTree = "<group>"; };
 		EA57B95F247E3CA70098E48D /* timg-2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "timg-2.jpeg"; sourceTree = "<group>"; };
 		EA57B960247E3CA70098E48D /* timg.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg.jpeg; sourceTree = "<group>"; };
 		EA57B96E247E941F0098E48D /* IVLiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVLiveViewController.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 		EA212C562479118F00E2BDD0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				EA2445642485023C00381140 /* IVImage.swift */,
 				EA212C572479118F00E2BDD0 /* IVWifiTool.swift */,
 				EA212C582479118F00E2BDD0 /* IVPopupView.swift */,
 				EA212C592479118F00E2BDD0 /* IVView.swift */,
@@ -678,6 +681,7 @@
 				EA57B97F247E941F0098E48D /* IJKMediaViewController.swift in Sources */,
 				EA212CA72479118F00E2BDD0 /* IVQRCodeAddDevice.swift in Sources */,
 				EA212CC52479118F00E2BDD0 /* IVLogger.swift in Sources */,
+				EA2445672485023D00381140 /* IVImage.swift in Sources */,
 				EA212CCC2479118F00E2BDD0 /* IVMsgOtaVC.swift in Sources */,
 				EA57B97A247E941F0098E48D /* IVPlaybackViewController.swift in Sources */,
 				EA212CBE2479118F00E2BDD0 /* IVTimer.swift in Sources */,
@@ -837,7 +841,7 @@
 				CODE_SIGN_ENTITLEMENTS = IotVideoDemo/IotVideoDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C3MLE46F3M;
@@ -883,7 +887,7 @@
 				CODE_SIGN_ENTITLEMENTS = IotVideoDemo/IotVideoDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C3MLE46F3M;
 				ENABLE_BITCODE = NO;

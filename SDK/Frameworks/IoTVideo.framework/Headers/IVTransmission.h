@@ -11,7 +11,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface IVTransmission : NSObject <IVConnection>
+@interface IVTransmission : IVConnection
+
+/// 初始化连接
+/// @param deviceId 设备ID
+- (nullable instancetype)initWithDeviceId:(NSString *)deviceId;
 
 @end
 

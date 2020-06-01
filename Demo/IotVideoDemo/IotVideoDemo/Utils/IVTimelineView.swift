@@ -362,15 +362,17 @@ class IVTimelineView: UIView {
         btn.setTitleColor(.blue, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 12)
         btn.addEvent { [unowned self](_) in
-            self.calendarView.alpha = 0
-            self.calendarView.transform = CGAffineTransform(translationX: 0, y: 400)
-            UIView.animate(withDuration: 0.3, animations: {
-                self.calendarView.alpha = 1
-                self.calendarView.transform = .identity
-            })
-            self.calendarView.currentDate = self.currentGroup.time.date
-            if self.calendarView.markableDates.isEmpty {
-                self.loadMarkList(at: self.currentGroup.time)
+            if self.calendarView.alpha < 0.01 {
+                self.calendarView.alpha = 0
+                self.calendarView.transform = CGAffineTransform(translationX: 0, y: 400)
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.calendarView.alpha = 1
+                    self.calendarView.transform = .identity
+                })
+                self.calendarView.currentDate = self.currentGroup.time.date
+                if self.calendarView.markableDates.isEmpty {
+                    self.loadMarkList(at: self.currentGroup.time)
+                }
             }
         }
         return btn

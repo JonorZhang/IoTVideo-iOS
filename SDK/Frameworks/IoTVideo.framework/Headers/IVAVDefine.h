@@ -8,38 +8,30 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#import "IVConnection.h"
 
 #ifndef IVAVDefine_h
 #define IVAVDefine_h
 
-/// 音视频连接类型
-typedef NS_ENUM(NSUInteger, IVAVConnType) {
-    /// 视频呼叫，双向音视频
-    IVAVConnTypeLive     = 0,
-    /// 监控，单向视频，双向音频（对讲）
-    IVAVConnTypeMonitor  = 1,
-    /// 录像回放
-    IVAVConnTypePlayback = 2,
-    /// 数据传输
-    IVAVConnTypeTransmission  = 3,
-};
 
 /// 播放器状态
-typedef NS_ENUM(NSUInteger, IVPlayerStatus) {
-    /// 停止
-    IVPlayerStatusStoped,
-    /// 准备中
-    IVPlayerStatusPreparing,
-    /// 就绪（通道建立完成）
-    IVPlayerStatusReady,
-    /// 加载中
-    IVPlayerStatusLoading,
-    /// 播放中
-    IVPlayerStatusPlaying,
-    /// 暂停
-    IVPlayerStatusPaused,
-    /// 快进中
-    IVPlayerStatusFastForward,
+typedef NS_ENUM(NSInteger, IVPlayerStatus) {
+    /// 停止中...
+    IVPlayerStatusStopping      = IVConnStatusDisconnecting,
+    /// 已停止
+    IVPlayerStatusStopped       = IVConnStatusDisconnected,
+    /// 准备中...
+    IVPlayerStatusPreparing     = IVConnStatusConnecting,
+    /// 已就绪（通道建立完成）
+    IVPlayerStatusReady         = IVConnStatusConnected,
+    /// 加载中...
+    IVPlayerStatusLoading       = 3,
+    /// 已播放
+    IVPlayerStatusPlaying       = 4,
+    /// 已暂停
+    IVPlayerStatusPaused        = 5,
+    /// 已快进
+    IVPlayerStatusFastForward   = 6,
 };
 
 /// 多媒体类型
@@ -192,30 +184,20 @@ typedef struct _IVAVHeader {
 
 /// 播放器错误码
 typedef NS_ENUM(NSUInteger, IVPlayerError) {
-    /// 播放器创建失败，超过最大同屏播放器个数
-    IVPlayerError_ExceedsMaxNumber         = 21020,
-    /// 播放器创建失败，请勿重复创建同一个设备播放器
-    IVPlayerError_Duplicate                = 21021,
-    /// 建立连接失败
-    IVPlayerError_ConnectFailed            = 21022,
-    /// 连接已断开
-    IVPlayerError_Disconnected             = 21023,
     /// 方法选择器无响应、未实现协议方法
-    IVPlayerError_NoRespondsToSelector     = 21024,
-    /// 数据超出最大长度
-    IVPlayerError_ExceedsMaxLength         = 21025,
+    IVPlayerError_NoRespondsToSelector     = 21030,
     /// 参数错误
-    IVPlayerError_InvalidParameter         = 21026,
+    IVPlayerError_InvalidParameter         = 21031,
     /// 录像列表为空
-    IVPlayerError_PlaybackListEmpty        = 21027,
+    IVPlayerError_PlaybackListEmpty        = 21032,
     /// 录像列表数据异常
-    IVPlayerError_PlaybackDataErr          = 21028,
+    IVPlayerError_PlaybackDataErr          = 21033,
     /// 正在录制
-    IVPlayerError_RecorderIsRunning        = 21029,
+    IVPlayerError_RecorderIsRunning        = 21034,
     /// 视频分辨率已改变
-    IVPlayerError_VideoResolutionChanged   = 21030,
+    IVPlayerError_VideoResolutionChanged   = 21035,
     /// 编码器暂不可用
-    IVPlayerError_EncoderNotAvailableNow   = 21031,
+    IVPlayerError_EncoderNotAvailableNow   = 21036,
 };
 
 

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cUD-OR-nhB">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -86,28 +87,13 @@
         <!--Monitor View Controller-->
         <scene sceneID="r3k-4J-bz6">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xwj-Oj-bXu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="IVMonitorViewController" id="Llj-NL-Z3i" customClass="IVMonitorViewController" customModule="IotVideoDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="i7K-fl-wSu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yue-Et-6Su">
-                                <rect key="frame" x="0.0" y="331.5" width="414" height="233"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="Yue-Et-6Su" secondAttribute="height" multiplier="16:9" id="Tsz-h6-NBE"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Tsz-h6-NBE"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="Tsz-h6-NBE"/>
-                                    </mask>
-                                </variation>
-                            </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="W2f-dv-hs2">
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="W2f-dv-hs2" userLabel="TopBar">
                                 <rect key="frame" x="0.0" y="44" width="414" height="31"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="device id" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZs-Es-IbZ">
@@ -120,6 +106,7 @@
                                     </label>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="YDP-tY-tYp">
                                         <rect key="frame" x="294" y="0.0" width="120" height="32"/>
+                                        <color key="backgroundColor" red="0.99019607843137258" green="1" blue="1" alpha="0.29992508561643838" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="GrP-ZT-G3Y"/>
                                         </constraints>
@@ -128,7 +115,6 @@
                                             <segment title="中"/>
                                             <segment title="高"/>
                                         </segments>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <action selector="definitionSegmentChanged:" destination="Llj-NL-Z3i" eventType="valueChanged" id="mRX-4v-CvS"/>
                                         </connections>
@@ -234,38 +220,16 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="mUi-hz-6rG" firstAttribute="bottom" secondItem="Yue-Et-6Su" secondAttribute="bottom" id="02T-3s-Yrq"/>
                             <constraint firstItem="vec-R3-xhg" firstAttribute="centerY" secondItem="i7K-fl-wSu" secondAttribute="centerY" id="4Ip-Qg-LpI"/>
-                            <constraint firstItem="Yue-Et-6Su" firstAttribute="centerY" secondItem="i7K-fl-wSu" secondAttribute="centerY" id="GE0-f8-Lv1"/>
-                            <constraint firstItem="JPs-3q-adm" firstAttribute="leading" secondItem="Yue-Et-6Su" secondAttribute="leading" id="Hrm-v2-6gB"/>
-                            <constraint firstItem="mUi-hz-6rG" firstAttribute="bottom" secondItem="Yue-Et-6Su" secondAttribute="bottom" id="Occ-ph-rKc"/>
-                            <constraint firstItem="Yue-Et-6Su" firstAttribute="leading" secondItem="mUi-hz-6rG" secondAttribute="leading" id="SLD-ct-cIY"/>
                             <constraint firstItem="W2f-dv-hs2" firstAttribute="leading" secondItem="mUi-hz-6rG" secondAttribute="leading" id="Xcu-aF-XH0"/>
-                            <constraint firstItem="JPs-3q-adm" firstAttribute="trailing" secondItem="Yue-Et-6Su" secondAttribute="trailing" id="Zlf-1x-y1y"/>
-                            <constraint firstItem="mUi-hz-6rG" firstAttribute="trailing" secondItem="Yue-Et-6Su" secondAttribute="trailing" id="Zpn-Sq-zVt"/>
-                            <constraint firstItem="Yue-Et-6Su" firstAttribute="centerX" secondItem="i7K-fl-wSu" secondAttribute="centerX" id="fD7-GK-teP"/>
                             <constraint firstItem="vec-R3-xhg" firstAttribute="centerX" secondItem="i7K-fl-wSu" secondAttribute="centerX" id="geo-9i-tQy"/>
                             <constraint firstItem="mUi-hz-6rG" firstAttribute="trailing" secondItem="W2f-dv-hs2" secondAttribute="trailing" id="jzh-Bd-7h0"/>
                             <constraint firstItem="JPs-3q-adm" firstAttribute="bottom" secondItem="mUi-hz-6rG" secondAttribute="bottom" id="kVl-SC-HPT"/>
+                            <constraint firstItem="JPs-3q-adm" firstAttribute="leading" secondItem="mUi-hz-6rG" secondAttribute="leading" id="mLa-xV-VsB"/>
                             <constraint firstItem="W2f-dv-hs2" firstAttribute="top" secondItem="mUi-hz-6rG" secondAttribute="top" id="uD1-RY-VSV"/>
+                            <constraint firstItem="JPs-3q-adm" firstAttribute="trailing" secondItem="mUi-hz-6rG" secondAttribute="trailing" id="wfg-Ep-tMi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mUi-hz-6rG"/>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="02T-3s-Yrq"/>
-                                <exclude reference="Occ-ph-rKc"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=compact-widthClass=compact">
-                            <mask key="constraints">
-                                <include reference="Occ-ph-rKc"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=compact-widthClass=regular">
-                            <mask key="constraints">
-                                <include reference="02T-3s-Yrq"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="JG2-dH-Wzj"/>
                     <connections>
@@ -278,10 +242,8 @@
                         <outlet property="screenshotBtn" destination="X67-Sw-G1N" id="OXX-UA-CdJ"/>
                         <outlet property="speakerBtn" destination="bTi-iR-ZKc" id="S10-qs-IOG"/>
                         <outlet property="userdataFiled" destination="ufz-FP-EeJ" id="hP4-nz-Y6K"/>
-                        <outlet property="videoView" destination="Yue-Et-6Su" id="cN1-Pp-0nl"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xwj-Oj-bXu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-4703" y="-2290"/>
         </scene>

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7ru-en-yQm">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,22 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4lk-66-NYl">
-                                <rect key="frame" x="0.0" y="300.66666666666669" width="375" height="210.66666666666669"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="4lk-66-NYl" secondAttribute="height" multiplier="16:9" id="m4J-vD-UZ3"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="m4J-vD-UZ3"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="m4J-vD-UZ3"/>
-                                    </mask>
-                                </variation>
-                            </view>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="wU6-L7-com">
                                 <rect key="frame" x="169" y="387.66666666666669" width="37" height="37"/>
                             </activityIndicatorView>
@@ -170,39 +155,27 @@
                             <constraint firstItem="P9I-8d-apS" firstAttribute="top" secondItem="wo3-qq-lZS" secondAttribute="bottom" id="AdY-9A-7GH"/>
                             <constraint firstItem="7sa-iq-6N0" firstAttribute="bottom" secondItem="P9I-8d-apS" secondAttribute="bottom" id="DYT-X1-fp2"/>
                             <constraint firstItem="wo3-qq-lZS" firstAttribute="top" secondItem="Ein-mh-Vfz" secondAttribute="bottom" constant="8" id="E9g-pb-0cz"/>
-                            <constraint firstItem="wU6-L7-com" firstAttribute="centerY" secondItem="4lk-66-NYl" secondAttribute="centerY" id="Ed1-Eq-y8g"/>
+                            <constraint firstItem="wU6-L7-com" firstAttribute="centerX" secondItem="qR5-QO-IK3" secondAttribute="centerX" id="GM5-fj-Dww"/>
                             <constraint firstItem="P9I-8d-apS" firstAttribute="leading" secondItem="7sa-iq-6N0" secondAttribute="leading" id="KbH-gX-lwK"/>
                             <constraint firstItem="Ein-mh-Vfz" firstAttribute="centerX" secondItem="qR5-QO-IK3" secondAttribute="centerX" id="MhX-2S-jVd"/>
-                            <constraint firstItem="4lk-66-NYl" firstAttribute="leading" secondItem="7sa-iq-6N0" secondAttribute="leading" id="NTO-ko-2y6"/>
                             <constraint firstItem="P9I-8d-apS" firstAttribute="trailing" secondItem="7sa-iq-6N0" secondAttribute="trailing" id="PGi-5d-4J5"/>
                             <constraint firstItem="bVN-xH-Yvz" firstAttribute="leading" secondItem="7sa-iq-6N0" secondAttribute="leading" constant="8" id="UdQ-DD-1X9"/>
                             <constraint firstItem="wo3-qq-lZS" firstAttribute="leading" secondItem="7sa-iq-6N0" secondAttribute="leading" id="YNY-1T-yQO"/>
+                            <constraint firstItem="wU6-L7-com" firstAttribute="centerY" secondItem="qR5-QO-IK3" secondAttribute="centerY" id="cCs-oc-JLI"/>
                             <constraint firstItem="7sa-iq-6N0" firstAttribute="bottom" secondItem="P9I-8d-apS" secondAttribute="bottom" id="cF9-hf-1PF"/>
-                            <constraint firstItem="4lk-66-NYl" firstAttribute="centerY" secondItem="qR5-QO-IK3" secondAttribute="centerY" id="hVh-cD-d7L"/>
-                            <constraint firstItem="wU6-L7-com" firstAttribute="centerX" secondItem="4lk-66-NYl" secondAttribute="centerX" id="jo9-OB-ZQU"/>
                             <constraint firstItem="7sa-iq-6N0" firstAttribute="trailing" secondItem="bVN-xH-Yvz" secondAttribute="trailing" constant="8" id="lak-4E-oBe"/>
-                            <constraint firstItem="7sa-iq-6N0" firstAttribute="bottom" secondItem="4lk-66-NYl" secondAttribute="bottom" id="qgE-AE-lF9"/>
-                            <constraint firstItem="4lk-66-NYl" firstAttribute="trailing" secondItem="7sa-iq-6N0" secondAttribute="trailing" id="vFc-bK-gJp"/>
                             <constraint firstItem="bVN-xH-Yvz" firstAttribute="top" secondItem="7sa-iq-6N0" secondAttribute="top" id="w5s-CZ-hYa"/>
                             <constraint firstItem="wo3-qq-lZS" firstAttribute="trailing" secondItem="7sa-iq-6N0" secondAttribute="trailing" id="xcE-U1-erm"/>
-                            <constraint firstItem="7sa-iq-6N0" firstAttribute="bottom" secondItem="4lk-66-NYl" secondAttribute="bottom" id="xqp-Bi-tSv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7sa-iq-6N0"/>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="DYT-X1-fp2"/>
-                                <exclude reference="xqp-Bi-tSv"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact">
                             <mask key="constraints">
                                 <include reference="DYT-X1-fp2"/>
-                                <include reference="xqp-Bi-tSv"/>
-                            </mask>
-                        </variation>
-                        <variation key="widthClass=compact">
-                            <mask key="constraints">
-                                <exclude reference="qgE-AE-lF9"/>
                             </mask>
                         </variation>
                     </view>
@@ -218,7 +191,6 @@
                         <outlet property="speakerBtn" destination="QXj-bd-TrE" id="RfA-tT-cN3"/>
                         <outlet property="timelineView" destination="P9I-8d-apS" id="EV4-Rj-Vr6"/>
                         <outlet property="userdataFiled" destination="DgV-WV-1uC" id="9xF-2W-Ywj"/>
-                        <outlet property="videoView" destination="4lk-66-NYl" id="Rec-eQ-nnA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D0V-2a-tYU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

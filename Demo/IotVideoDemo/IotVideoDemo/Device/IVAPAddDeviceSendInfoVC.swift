@@ -69,9 +69,10 @@ class IVAPAddDeviceSendInfoVC: UIViewController {
     
     
     @IBAction func goSysSetting(_ sender: Any) {
-        let settingUrl = URL(string: UIApplication.openSettingsURLString)!
-        if UIApplication.shared.canOpenURL(settingUrl) {
-            UIApplication.shared.openURL(settingUrl)
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(URL(string: "App-Prefs:")!, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(URL(string: "prefs:")!)
         }
     }
     

@@ -62,17 +62,11 @@
 		
 		<option value="//api/name/avheader">avheader</option>
 		
-		<option value="//api/name/channel">channel</option>
-		
-		<option value="//api/name/connType">connType</option>
-		
 		<option value="//api/name/customAudioRender">customAudioRender</option>
 		
 		<option value="//api/name/definition">definition</option>
 		
 		<option value="//api/name/delegate">delegate</option>
-		
-		<option value="//api/name/deviceId">deviceId</option>
 		
 		<option value="//api/name/isRecording">isRecording</option>
 		
@@ -106,8 +100,6 @@
 		
 		<option value="//api/name/prepare">- prepare</option>
 		
-		<option value="//api/name/sendUserData:">- sendUserData:</option>
-		
 		<option value="//api/name/startRecord:completionHandler:">- startRecord:completionHandler:</option>
 		
 		<option value="//api/name/stop">- stop</option>
@@ -137,7 +129,7 @@
 					<div class="section section-specification"><table cellspacing="0"><tbody>
 						<tr>
 	<th>Inherits from</th>
-	<td>NSObject</td>
+	<td><a href="../Classes/IVConnection.html">IVConnection</a> : NSObject</td>
 </tr><tr>
 	<th>Declared in</th>
 	<td>IVPlayer.h</td>
@@ -150,7 +142,7 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>核心播放器（抽象类）</p>
+						<p>核心播放器（抽象类，不要直接实例化，请使用其派生类: <a href="../Classes/IVLivePlayer.html">IVLivePlayer</a> / <a href="../Classes/IVPlaybackPlayer.html">IVPlaybackPlayer</a> / IVMonitorPlayer）</p>
 					</div>
 					
 					
@@ -183,129 +175,6 @@
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak, nullable) id&lt;IVPlayerDelegate&gt; delegate</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">IVPlayer.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/deviceId" title="deviceId"></a>
-	<h3 class="method-title"><code><a href="#//api/name/deviceId">&nbsp;&nbsp;deviceId</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>连接的设备ID</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSString *deviceId</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">IVPlayer.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/connType" title="connType"></a>
-	<h3 class="method-title"><code><a href="#//api/name/connType">&nbsp;&nbsp;connType</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>视频连接类型</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly) IVAVConnType connType</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">IVPlayer.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/channel" title="channel"></a>
-	<h3 class="method-title"><code><a href="#//api/name/channel">&nbsp;&nbsp;channel</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>连接通道，<code>prepare/</code>play<code></code>成功后该通道值才有效</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly) uint32_t channel</code></div>
 
 		    
 			
@@ -851,65 +720,6 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/sendUserData:" title="sendUserData:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sendUserData:">&ndash;&nbsp;sendUserData:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>数据发送接口，可用于发送控制指令等用户自定义数据。
-若设备有响应，将通过代理<code>-[</code>delegate<code> player: didReceiveUserData:]</code>返回</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (int)sendUserData:(NSData *)<em>data</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>要发送的数据</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>【0】成功，【非0】失败</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">IVPlayer.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/videoDecoder" title="videoDecoder"></a>
 	<h3 class="method-title"><code><a href="#//api/name/videoDecoder">&nbsp;&nbsp;videoDecoder</a></code>
 </h3>
@@ -1342,7 +1152,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 tencentcs. All rights reserved. Updated: 2020-05-27</p>
+						<p class="copyright">Copyright &copy; 2020 tencentcs. All rights reserved. Updated: 2020-06-01</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

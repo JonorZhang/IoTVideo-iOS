@@ -67,8 +67,8 @@ class IVMultiMonitorViewController: IVDeviceAccessableVC {
     @IBAction func splitViewClicked(_ sender: Any) {
         if selectMode {
             let newDat = collectionView.indexPathsForSelectedItems?.map({ allDevices[$0.item] }) ?? []
-            if newDat.count < 1 || newDat.count > kMaxNumberOfPlayers {
-                IVPopupView(title: newDat.isEmpty ? "请选择至少一台设备" : "最多选择\(kMaxNumberOfPlayers)台设备").show()
+            if newDat.count < 1 || newDat.count > MAX_CONNECTION_NUM {
+                IVPopupView(title: newDat.isEmpty ? "请选择至少一台设备" : "最多选择\(MAX_CONNECTION_NUM)台设备").show()
                 return
             }
 

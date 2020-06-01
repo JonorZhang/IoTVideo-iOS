@@ -163,7 +163,7 @@ extension IVTransmission {
 
 extension IVTransmissionViewController: IVConnectionDelegate {
     func connection(_ connection: IVConnection, didUpdate status: IVConnStatus) {
-        logInfo(status)
+        logInfo("IVConnStatus", status.rawValue)
         self.status = status
     }
     

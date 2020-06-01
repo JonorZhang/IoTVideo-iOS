@@ -10,11 +10,11 @@
 		</data>
 		<key>Headers/IVAVDefine.h</key>
 		<data>
-		DVD8X2g/WXaxKhUsPgyF9QI0ZbA=
+		OraHFoAHjfEF87utLsNedNsLuBo=
 		</data>
 		<key>Headers/IVConnection.h</key>
 		<data>
-		VjeuFSUGO6Ihgb3rvgAYexZZRiY=
+		8dwo8LCTQdvz5O+AksQpMicnX74=
 		</data>
 		<key>Headers/IVLanNetConfig.h</key>
 		<data>
@@ -54,7 +54,7 @@
 		</data>
 		<key>Headers/IVPlayer.h</key>
 		<data>
-		MdUPVuEXxkKGv58lamnFAenaj/U=
+		IZ1/JI4OD8kKB/gGQ7Y1Dtn+OcM=
 		</data>
 		<key>Headers/IVQRCodeHelper.h</key>
 		<data>
@@ -70,15 +70,15 @@
 		</data>
 		<key>Headers/IVTransmission.h</key>
 		<data>
-		ZOlIJxlVxglFRwzrbymAtJjjRh4=
+		KQXU/8aiVP2TpkiaCl/6wEEL3OI=
 		</data>
 		<key>Headers/IoTVideo.h</key>
 		<data>
-		LSatSqC/d1dUDhEDOGNTmm8Z3iU=
+		gLfuHdnzIlyWFj3D8u/rj9xKm4s=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		6zA/+tDiblsKW2BlaOBDSi780jA=
+		R7pGw6i/gykxiTndd8oxck/SQAs=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -102,22 +102,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			DVD8X2g/WXaxKhUsPgyF9QI0ZbA=
+			OraHFoAHjfEF87utLsNedNsLuBo=
 			</data>
 			<key>hash2</key>
 			<data>
-			RdkG9CKcAB6K7wFA9hI7+9GLTe8w8JaxGqmcI9WUhTE=
+			mQmz5D13FcvizOXfGRVEj36HMLIk0II5HfS7rf7bD6M=
 			</data>
 		</dict>
 		<key>Headers/IVConnection.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			VjeuFSUGO6Ihgb3rvgAYexZZRiY=
+			8dwo8LCTQdvz5O+AksQpMicnX74=
 			</data>
 			<key>hash2</key>
 			<data>
-			XTsufWKv+wgVR3fW3gSe5qo6jfs3YUg9lUMfwDYPgH8=
+			FNGTpLoqs53plJ9yoPiMyuiSm4uR1L2v37z1a2sI8lA=
 			</data>
 		</dict>
 		<key>Headers/IVLanNetConfig.h</key>
@@ -223,11 +223,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			MdUPVuEXxkKGv58lamnFAenaj/U=
+			IZ1/JI4OD8kKB/gGQ7Y1Dtn+OcM=
 			</data>
 			<key>hash2</key>
 			<data>
-			1JDWZ7Ak3c1BaKRlrbt5Z+juJ9XOxHSlrruyJrnRXh0=
+			CTEU8NKI4AzfTaLlYTa2PCP7+xSCyeFYZ/0iJvj9ceU=
 			</data>
 		</dict>
 		<key>Headers/IVQRCodeHelper.h</key>
@@ -267,22 +267,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ZOlIJxlVxglFRwzrbymAtJjjRh4=
+			KQXU/8aiVP2TpkiaCl/6wEEL3OI=
 			</data>
 			<key>hash2</key>
 			<data>
-			em5tdTjXp+1Cd82/8deP1p3R98UTxuaAKnBhnJWy9rU=
+			7PVlUlacO9GU0oauYo+cgCTBCFA7x1r+quo8/Ds0BOY=
 			</data>
 		</dict>
 		<key>Headers/IoTVideo.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			LSatSqC/d1dUDhEDOGNTmm8Z3iU=
+			gLfuHdnzIlyWFj3D8u/rj9xKm4s=
 			</data>
 			<key>hash2</key>
 			<data>
-			NqZbGftqIn60ey5MZxF8VowmtSskqy/YZ32f71eLk8A=
+			cY9g7icozmYz3a6ysBvRU6L0INgF0rBsq3dt+qdvptk=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

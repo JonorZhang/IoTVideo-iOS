@@ -12,7 +12,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "IVAVCodecable.h"
 #import "IVMessageMgr.h"
-
+#import "IVConnection.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /// 播放器代理协议
-@protocol IVPlayerDelegate <NSObject>
+@protocol IVPlayerDelegate <IVConnectionDelegate>
 
 /// 播放器状态回调
 /// @param player 播放器实例
@@ -51,11 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param player  播放器实例
 /// @param avHeader 音视频头信息
 - (void)player:(IVPlayer *)player didReceiveAVHeader:(IVAVHeader)avHeader;
-
-/// 用户数据回调
-/// @param player 播放器实例
-/// @param userData 用户数据
-- (void)player:(IVPlayer *)player didReceiveUserData:(NSData *)userData;
 
 @end
 
@@ -101,24 +96,11 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-/// 最大同屏播放器个数
-#define kMaxNumberOfPlayers 4
-
-
-/// 核心播放器（抽象类）
-@interface IVPlayer : NSObject
+/// 核心播放器（抽象类，不要直接实例化，请使用其派生类: IVLivePlayer / IVPlaybackPlayer / IVMonitorPlayer）
+@interface IVPlayer : IVConnection
 
 /// 播放器代理
 @property (nonatomic, weak, nullable) id<IVPlayerDelegate> delegate;
-
-/// 连接的设备ID
-@property (nonatomic, strong, readonly) NSString *deviceId;
-
-/// 视频连接类型
-@property (nonatomic, assign, readonly) IVAVConnType connType;
-
-/// 连接通道，`prepare/play`成功后该通道值才有效
-@property (nonatomic, assign, readonly) uint32_t channel;
 
 /// 播放器状态
 @property (nonatomic, assign, readonly) IVPlayerStatus status;
@@ -163,15 +145,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 是否正在录像
 @property (nonatomic, assign, readonly) BOOL isRecording;
-
-
-#pragma mark - 发送数据
-
-/// 数据发送接口，可用于发送控制指令等用户自定义数据。
-/// 若设备有响应，将通过代理`-[delegate player: didReceiveUserData:]`返回
-/// @param data 要发送的数据
-/// @return 【0】成功，【非0】失败
-- (int)sendUserData:(NSData *)data;
 
 
 #pragma mark - 高级功能【可选】
