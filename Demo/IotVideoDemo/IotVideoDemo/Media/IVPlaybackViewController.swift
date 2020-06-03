@@ -26,7 +26,7 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
         
         playbackPlayer = IVPlaybackPlayer(deviceId: device.deviceID)
         timelineView?.delegate = self
-        deviceRecordBtn.isSelected = UserDefaults.standard.bool(forKey: "deviceRecordBtn.isSelected")
+        deviceRecordBtn.isSelected = UserDefaults.standard.bool(forKey: "\(device.deviceID).isSelected")
     }
         
     /// 获取回放列表
@@ -61,12 +61,13 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
         let hud = ivLoadingHud()
         IVMessageMgr.sharedInstance.sendData(toDevice: device.deviceID, data: data, withoutResponse: { [weak self]_, err in
             hud.hide()
+            guard let `self` = self else { return }
             if let err = err {
-                IVPopupView.showAlert(message: err.localizedDescription, in: self?.mediaView)
+                IVPopupView.showAlert(message: err.localizedDescription, in: self.mediaView)
             } else {
-                IVPopupView.showAlert(message: "发送成功", in: self?.mediaView)
+                IVPopupView.showAlert(message: "发送成功", in: self.mediaView)
                 sender.isSelected = !sender.isSelected
-                UserDefaults.standard.set(sender.isSelected, forKey: "deviceRecordBtn.isSelected")
+                UserDefaults.standard.set(sender.isSelected, forKey: "\(self.device.deviceID).isSelected")
             }
             
             sender.isEnabled = true

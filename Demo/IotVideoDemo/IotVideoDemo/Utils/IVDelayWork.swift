@@ -54,4 +54,21 @@ class IVDelayWork: Any {
             }
         }
     }
+    
+    // 等待（不超过deadline）条件（condition）成立之后执行任务（work）
+    public static func async(wait condition: @escaping (_ canceled: inout Bool) -> Bool,
+                             deadline: DispatchTime = DispatchTime.distantFuture,
+                             execute work: @escaping (_ success: Bool) -> Void) {
+        DispatchQueue.global().async {
+            var canceled = false
+            var succ = condition(&canceled)
+            while !succ, .now() < deadline {
+                succ = condition(&canceled)
+                if canceled { break }
+                usleep(100000) // 100ms
+            }
+            DispatchQueue.main.async { work(succ) }
+        }
+    }
 }
+

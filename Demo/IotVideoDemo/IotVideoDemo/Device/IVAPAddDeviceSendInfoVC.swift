@@ -19,11 +19,21 @@ class IVAPAddDeviceSendInfoVC: UIViewController {
     @IBOutlet weak var currentAPLabel: UILabel!
     @IBOutlet weak var helpView: UIView!
     @IBOutlet weak var sendBtn: UIButton!
-    
+        
     var hud: MBProgressHUD?
     var preInfo: APPreInfo!
-    var device: IVLANDevice! {
+    var device: IVLANDevice? = nil {
         didSet {
+            guard let device = self.device else {
+                sendBtn.isEnabled = false
+                helpView.isHidden = false
+                deviceInfoLabel.isHidden = true
+                return
+            }
+            sendBtn.isEnabled = true
+            helpView.isHidden = true
+            
+            deviceInfoLabel.isHidden = false
             deviceInfoLabel.text = """
             DeviceId: \(device.deviceID)
             
@@ -33,40 +43,37 @@ class IVAPAddDeviceSendInfoVC: UIViewController {
             """
         }
     }
-    var apInfoGet = false {
-        didSet {
-            if apInfoGet {
-                if let dev = IVNetConfig.lan.getDeviceList().first {
-                    device = dev
-                    sendBtn.isEnabled = true
-                    deviceInfoLabel.isHidden = false
-                    helpView.isHidden = true
-                } else {
-                    sendBtn.isEnabled = false
-                    deviceInfoLabel.isHidden = true
-                    helpView.isHidden = false
-                }
-            } else {
-                sendBtn.isEnabled = false
-                deviceInfoLabel.isHidden = true
-                helpView.isHidden = false
-            }
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        currentAPLabel.addObserver(self, forKeyPath: "text", options: .new, context: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(getWifiSSIDInfo), name: UIApplication.didBecomeActiveNotification, object: nil)
-        getWifiSSIDInfo()
-    }
-    
-    @objc func getWifiSSIDInfo() {
+        NotificationCenter.default.addObserver(self, selector: #selector(waitForAPConnection), name: UIApplication.didBecomeActiveNotification, object: nil)
         currentAPLabel.text = IVWifiTool.currentSSID
     }
     
+    @objc func waitForAPConnection() {
+        let hud = ivLoadingHud("等待连接AP", isMask: true)
+        IVDelayWork.async(wait: { [weak self](canceled: inout Bool) -> Bool in
+            guard let `self` = self else {
+                canceled = true
+                return false
+            }
+            let ssid = IVWifiTool.currentSSID
+            let conn = ssid?.uppercased().hasPrefix("IOT") ?? false
+            let apDev = conn ? IVNetConfig.lan.getDeviceList().first(where: { IVWifiTool.isSameNetwork($0.ipAddr, IVWifiTool.ipAddr) }) : nil
+            logDebug("等待连接AP:", conn, apDev as Any)
+            guard let dev = apDev else { return false }
+            DispatchQueue.main.async {[weak self] in
+                self?.device = dev
+                self?.currentAPLabel.text = ssid
+            }
+            return true
+        }, deadline: .now() + 8) { succ in
+            hud.hide()
+            ivHud(succ ? "已连接AP" : "未连接AP");
+        }
+    }
     
     @IBAction func goSysSetting(_ sender: Any) {
         if #available(iOS 10.0, *) {
@@ -78,7 +85,7 @@ class IVAPAddDeviceSendInfoVC: UIViewController {
     
     @IBAction func sendAction(_ sender: Any) {
         let hud = ivLoadingHud("正在发送配网信息",isMask: true)
-        IVNetConfig.lan.sendWifiName(preInfo.ssid, wifiPassword: preInfo.pwd, language: .CN, token: preInfo.token, extraInfo: nil, toDevice: self.device.deviceID) { (success, error) in
+        IVNetConfig.lan.sendWifiName(preInfo.ssid, wifiPassword: preInfo.pwd, language: .CN, token: preInfo.token, extraInfo: nil, toDevice: self.device!.deviceID) { (success, error) in
             logDebug(success, error ?? "")
             hud.hide()
             if success {
@@ -94,15 +101,7 @@ class IVAPAddDeviceSendInfoVC: UIViewController {
             }
         }
     }
-    
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if let ap = change?[NSKeyValueChangeKey.newKey] as? String, ap.uppercased().hasPrefix("IOT") {
-            apInfoGet = true
-        } else {
-            apInfoGet = false
-        }
-    }
-    
+        
     func registerDeviceNetConfig() {
         self.hud = ivLoadingHud("等待设备上线", isMask: true)
         IVNetConfig.registerDeviceOnlineCallback { (devId, error) in
@@ -130,14 +129,5 @@ class IVAPAddDeviceSendInfoVC: UIViewController {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
     
 }

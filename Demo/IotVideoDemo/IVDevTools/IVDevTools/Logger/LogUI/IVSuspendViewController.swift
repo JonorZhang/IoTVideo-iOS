@@ -113,7 +113,8 @@ class IVSuspendViewController: UIViewController {
     func scheduleRefreshText() {
         DispatchQueue.global().async { [weak self] in
             guard let fh = try? FileHandle.init(forReadingFrom: IVFileLogger.shared.currLogFileURL) else { return }
-            var offset = max(0, UInt64(Int64(fh.seekToEndOfFile() - 2000)))
+            let end = fh.seekToEndOfFile()
+            var offset = (end > 2000) ? end - 2000 : 0
             fh.seek(toFileOffset: offset)
             
             while let `self` = self, !self.canceled {
@@ -160,4 +161,5 @@ class IVSuspendViewController: UIViewController {
         return String(data: data, encoding: .ascii)
     }
 }
+
 

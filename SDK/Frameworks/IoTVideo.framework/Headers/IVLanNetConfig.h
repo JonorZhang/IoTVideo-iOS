@@ -14,16 +14,20 @@ NS_ASSUME_NONNULL_BEGIN
 /// 局域网设备模型
 @interface IVLANDevice : NSObject
 /// device id
-@property (nonatomic, strong) NSString *deviceID;
+@property (nonatomic, copy) NSString *deviceID;
 /// 产品ID
-@property (nonatomic, strong) NSString *productID;
+@property (nonatomic, copy) NSString *productID;
 /// 序列号
-@property (nonatomic, strong) NSString *serialNumber;
+@property (nonatomic, copy) NSString *serialNumber;
 /// 设备版本
-@property (nonatomic, strong) NSString *version;
+@property (nonatomic, copy) NSString *version;
+/// ip地址
+@property (nonatomic, copy) NSString *ipAddr;
 /// MAC地址
-@property (nonatomic, strong) NSString *macAddr;
+@property (nonatomic, copy) NSString *macAddr;
 
+
+@property (nonatomic, copy) NSString *reserve;
 @end
 
 /// 局域网配网类
