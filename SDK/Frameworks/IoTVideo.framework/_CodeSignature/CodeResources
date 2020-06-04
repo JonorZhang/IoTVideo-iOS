@@ -40,13 +40,17 @@
 		<data>
 		GuC8ZRGcpjg03gZ46Rm9p+e1PBg=
 		</data>
+		<key>Headers/IVNetworkHelper.h</key>
+		<data>
+		7u253Bm3ty4+bWn7IMpcSykanDY=
+		</data>
 		<key>Headers/IVNetworkSign.h</key>
 		<data>
 		h4T8W7csJa/ckUhCpY2oV+rZMqo=
 		</data>
 		<key>Headers/IVNetwork_p2p.h</key>
 		<data>
-		IFAQDHe+cy8VU9JzHGEVSLDbnzQ=
+		4Uc6GsUZlI21kmOhwM0OhL5wbmg=
 		</data>
 		<key>Headers/IVPlaybackPlayer.h</key>
 		<data>
@@ -186,6 +190,17 @@
 			j8jWuRmhr6Fbf/vHe7ziVEKRils0rvaRaXs0CteAD5U=
 			</data>
 		</dict>
+		<key>Headers/IVNetworkHelper.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7u253Bm3ty4+bWn7IMpcSykanDY=
+			</data>
+			<key>hash2</key>
+			<data>
+			nVMk24u7dgHqaSY6ZercAeMXnWmHH8c9E/nM20DJV4M=
+			</data>
+		</dict>
 		<key>Headers/IVNetworkSign.h</key>
 		<dict>
 			<key>hash</key>
@@ -201,11 +216,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			IFAQDHe+cy8VU9JzHGEVSLDbnzQ=
+			4Uc6GsUZlI21kmOhwM0OhL5wbmg=
 			</data>
 			<key>hash2</key>
 			<data>
-			jKa2ew5h2bt4kfm275CGt64KkcveAXjbHMRVcYhI/0c=
+			fXvXtZQ4DoAe5yFwz7aMEoMCRyuKMyz7lyYUw/DwOJs=
 			</data>
 		</dict>
 		<key>Headers/IVPlaybackPlayer.h</key>

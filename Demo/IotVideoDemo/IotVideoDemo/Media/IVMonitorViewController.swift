@@ -64,6 +64,11 @@ class IVMultiMonitorViewController: IVDeviceAccessableVC {
         collectionView.scrollToItem(at: idxPath, at: .bottom, animated: false)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        UIDevice.setOrientation(.portrait)
+    }
+    
     @IBAction func splitViewClicked(_ sender: Any) {
         if selectMode {
             let newDat = collectionView.indexPathsForSelectedItems?.map({ allDevices[$0.item] }) ?? []

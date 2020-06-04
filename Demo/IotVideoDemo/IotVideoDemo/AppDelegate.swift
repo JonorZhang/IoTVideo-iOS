@@ -107,6 +107,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: IoTVideoDelegate {
     func didUpdate(_ linkStatus: IVLinkStatus) {
         logInfo("linkStatus: \(linkStatus.rawValue)")
+        let linkDesc: [IVLinkStatus : String] = [.online : "在线",
+                                                 .offline : "离线",
+                                                 .tokenFailed : "Token校验失败",
+                                                 .kickOff : "账号被踢飞"]
+        let stStr = linkDesc[linkStatus] ?? ""
+        IVPopupView.showAlert(title: "SDK状态", message: "linkStatus: \(stStr)")
         if linkStatus == .kickOff {
             IVNotiPost(.logout(by: .kickOff))
         }

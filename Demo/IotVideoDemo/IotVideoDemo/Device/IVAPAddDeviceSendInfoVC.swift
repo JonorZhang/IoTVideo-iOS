@@ -46,10 +46,8 @@ class IVAPAddDeviceSendInfoVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-        NotificationCenter.default.addObserver(self, selector: #selector(waitForAPConnection), name: UIApplication.didBecomeActiveNotification, object: nil)
         currentAPLabel.text = IVWifiTool.currentSSID
+        NotificationCenter.default.addObserver(self, selector: #selector(waitForAPConnection), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     @objc func waitForAPConnection() {
@@ -62,11 +60,16 @@ class IVAPAddDeviceSendInfoVC: UIViewController {
             let ssid = IVWifiTool.currentSSID
             let conn = ssid?.uppercased().hasPrefix("IOT") ?? false
             let apDev = conn ? IVNetConfig.lan.getDeviceList().first(where: { IVWifiTool.isSameNetwork($0.ipAddr, IVWifiTool.ipAddr) }) : nil
+
             logDebug("等待连接AP:", conn, apDev as Any)
+            DispatchQueue.main.async {[weak self] in
+                self?.currentAPLabel.text = ssid
+            }
+            
             guard let dev = apDev else { return false }
+
             DispatchQueue.main.async {[weak self] in
                 self?.device = dev
-                self?.currentAPLabel.text = ssid
             }
             return true
         }, deadline: .now() + 8) { succ in

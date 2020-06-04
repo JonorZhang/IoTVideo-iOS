@@ -201,6 +201,87 @@ class IVPopupView: UIView {
     @objc init(title: String = "", message: String = "", input placeholder: [String]? = nil, image: UIImage? = nil, url: URL? = nil, checkString: String? = nil, actions: [IVPopupAction] = [.confirm()]) {
         super.init(frame: .zero)
         
+        setupUI(title: title, message: message, input: placeholder, image: nil, url: nil, checkString: nil, actions: actions)
+        layoutUI(UIApplication.shared.statusBarOrientation)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        logVerbose()
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    
+    // MARK: - 公开方法
+    @objc static func showAlert(title: String = "", message: String = "", in view: UIView? = nil, duration: TimeInterval = 1.5) {
+        DispatchQueue.main.async {
+            IVPopupView(title: title, message: message, actions: []).show(in: view, duration: duration)
+        }
+    }
+
+    @objc static func showConfirm(title: String = "", message: String = "", in view: UIView? = nil) {
+        DispatchQueue.main.async {
+            IVPopupView(title: title, message: message).show(in: view)
+        }
+    }
+
+    @available(swift 10)
+    @objc func show(_ duration: TimeInterval = 99999) {
+        show(in: UIApplication.shared.windows.first, duration: duration)
+    }
+    
+    @objc func show(in view: UIView? = nil, duration: TimeInterval = 99999) {
+        DispatchQueue.main.async {
+            let view = view ?? UIApplication.shared.windows.first ?? AppDelegate.shared.window!
+            view.addSubview(self)
+            self.snp.makeConstraints { (make) in
+                make.top.left.bottom.right.equalTo(view)
+            }
+            self.transfromAnimation(true)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                self.dismiss()
+            }
+        }
+    }
+
+    @objc func dismiss(_ completion: (() -> Void)? = nil) {
+        transfromAnimation(false) { [weak self] _ in
+            self?.removeFromSuperview()
+            completion?()
+        }
+    }
+    
+    // MARK: - 私有方法
+    
+    private func transfromAnimation(_ show: Bool, completion: ((Bool) -> Void)? = nil) {
+        if show {
+            self.contentView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            self.contentView.alpha = 0
+            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 1.0, options: [.curveEaseOut], animations: {
+                self.contentView.transform = CGAffineTransform.identity
+                self.contentView.alpha = 1
+            }, completion: completion)
+
+        } else {
+            UIView.animate(withDuration: 0.1, animations: {
+                self.contentView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                self.contentView.alpha = 0
+            }, completion: completion)
+        }
+    }
+
+    func setupUI(title: String = "", message: String = "", input placeholder: [String]? = nil, image: UIImage? = nil, url: URL? = nil, checkString: String? = nil, actions: [IVPopupAction] = [.confirm()]) {
+        if !Thread.isMainThread {
+            DispatchQueue.main.sync {
+                setupUI(title: title, message: message, input: placeholder, image: nil, url: nil, checkString: nil, actions: actions)
+            }
+            return
+        }
+        
         backgroundColor = UIColor(white: 0, alpha: 0.3)
         
         NotificationCenter.default.addObserver(forName: UIApplication.willChangeStatusBarOrientationNotification, object: nil, queue: nil) { [weak self](noti) in
@@ -285,78 +366,16 @@ class IVPopupView: UIView {
         if topContainer.subviews.count > 0 { contentView.addSubview(topContainer) }
         if contentView.subviews.count > 0 { addSubview(contentView) }
 
-        layoutUI(UIApplication.shared.statusBarOrientation)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        logVerbose()
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    // MARK: - 公开方法
-    @objc static func showAlert(title: String = "", message: String = "", in view: UIView? = nil, duration: TimeInterval = 1.5) {
-        DispatchQueue.main.async {
-            IVPopupView(title: title, message: message, actions: []).show(in: view, duration: duration)
-        }
-    }
-
-    @objc static func showConfirm(title: String = "", message: String = "", in view: UIView? = nil) {
-        DispatchQueue.main.async {
-            IVPopupView(title: title, message: message).show(in: view)
-        }
-    }
-
-    @available(swift 10)
-    @objc func show(_ duration: TimeInterval = 99999) {
-        show(in: UIApplication.shared.windows.first, duration: duration)
-    }
-    
-    @objc func show(in view: UIView? = nil, duration: TimeInterval = 99999) {
-        DispatchQueue.main.async {
-            let view = view ?? UIApplication.shared.windows.first ?? AppDelegate.shared.window!
-            view.addSubview(self)
-            self.snp.makeConstraints { (make) in
-                make.top.left.bottom.right.equalTo(view)
-            }
-            self.transfromAnimation(true)
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-                self.dismiss()
-            }
-        }
-    }
-
-    @objc func dismiss(_ completion: (() -> Void)? = nil) {
-        transfromAnimation(false) { [weak self] _ in
-            self?.removeFromSuperview()
-            completion?()
-        }
-    }
-    
-    // MARK: - 私有方法
-    
-    private func transfromAnimation(_ show: Bool, completion: ((Bool) -> Void)? = nil) {
-        if show {
-            self.contentView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            self.contentView.alpha = 0
-            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 1.0, options: [.curveEaseOut], animations: {
-                self.contentView.transform = CGAffineTransform.identity
-                self.contentView.alpha = 1
-            }, completion: completion)
-
-        } else {
-            UIView.animate(withDuration: 0.1, animations: {
-                self.contentView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-                self.contentView.alpha = 0
-            }, completion: completion)
-        }
-    }
-
     private func layoutUI(_ orientation: UIInterfaceOrientation) {
+        if !Thread.isMainThread {
+            DispatchQueue.main.sync {
+                layoutUI(orientation)
+            }
+            return
+        }
+        
         if let _ = contentView.superview {
             contentView.snp.remakeConstraints { make in
                 make.width.equalTo(self).multipliedBy(orientation.isPortrait ? 0.8 : 0.5)
