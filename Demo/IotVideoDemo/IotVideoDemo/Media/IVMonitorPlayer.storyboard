@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cUD-OR-nhB">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -87,7 +86,6 @@
         <!--Monitor View Controller-->
         <scene sceneID="r3k-4J-bz6">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xwj-Oj-bXu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="IVMonitorViewController" id="Llj-NL-Z3i" customClass="IVMonitorViewController" customModule="IotVideoDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="i7K-fl-wSu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -244,6 +242,7 @@
                         <outlet property="userdataFiled" destination="ufz-FP-EeJ" id="hP4-nz-Y6K"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xwj-Oj-bXu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-4703" y="-2290"/>
         </scene>

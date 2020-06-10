@@ -82,6 +82,7 @@ class IVFileLogger: NSObject {
                 > lang:     \(Locale.preferredLanguages.first ?? "?")
                 > IDFV:     \(dev.identifierForVendor?.uuidString ?? "?")
                 ----------------------------------------------------------------------------------------
+                \(IVLogger.isXcodeRunning ? "正在使用Xcode Debug，日志输出到控制台！" : "")
                 \n\n
                 """
     }

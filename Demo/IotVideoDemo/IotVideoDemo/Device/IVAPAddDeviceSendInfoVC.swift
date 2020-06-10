@@ -60,22 +60,24 @@ class IVAPAddDeviceSendInfoVC: UIViewController {
             let ssid = IVWifiTool.currentSSID
             let conn = ssid?.uppercased().hasPrefix("IOT") ?? false
             let apDev = conn ? IVNetConfig.lan.getDeviceList().first(where: { IVWifiTool.isSameNetwork($0.ipAddr, IVWifiTool.ipAddr) }) : nil
-
-            logDebug("等待连接AP:", conn, apDev as Any)
+            
             DispatchQueue.main.async {[weak self] in
+                hud.label.text = conn ? "扫描AP设备" : "等待连接AP"
                 self?.currentAPLabel.text = ssid
+                logDebug(hud.label.text as Any, apDev as Any)
             }
             
             guard let dev = apDev else { return false }
-
+            
             DispatchQueue.main.async {[weak self] in
                 self?.device = dev
             }
             return true
-        }, deadline: .now() + 8) { succ in
+        }, execute: { [weak self](succ) in
             hud.hide()
-            ivHud(succ ? "已连接AP" : "未连接AP");
-        }
+            logDebug(succ ? "已连接AP设备 \(self?.device as Any)" : "未连接AP设备")
+            ivHud(succ ? "已连接AP设备" : "未连接AP设备");
+        }, deadline: .now() + 8, interval: 0.5)
     }
     
     @IBAction func goSysSetting(_ sender: Any) {
@@ -107,16 +109,17 @@ class IVAPAddDeviceSendInfoVC: UIViewController {
         
     func registerDeviceNetConfig() {
         self.hud = ivLoadingHud("等待设备上线", isMask: true)
-        IVNetConfig.registerDeviceOnlineCallback { (devId, error) in
+        IVNetConfig.registerDeviceOnlineCallback { [weak self](devId, error) in
+            guard let `self` = self else { return }
             let err: NSError = error as NSError
             self.hud?.hide()
             if err.code == 0 || err.code == 8023 {
                 let hud = ivLoadingHud("正在绑定设备", isMask: true)
-                IVDemoNetwork.addDevice(devId!, responseHandler: { (data, error) in
+                IVDemoNetwork.addDevice(devId!, responseHandler: { [weak self](data, error) in
                     hud.hide()
-                    guard let succ = data as? Bool, error == nil else {return}
+                    guard let `self` = self, let succ = data as? Bool else { return }
                     
-                    IVPopupView(title: "添加结果", message: succ ? "成功" : "失败", input: nil, actions: [.iKnow({ (_) in
+                    IVPopupView(title: "添加结果", message: succ ? "成功" : "失败", actions: [.iKnow({ (_) in
                         if succ {
                             self.navigationController?.popToRootViewController(animated: true)
                             IVNotiPost(.deviceListChange(by: .add))

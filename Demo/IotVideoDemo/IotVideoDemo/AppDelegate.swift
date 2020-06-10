@@ -33,9 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         IoTVideo.sharedInstance.setup(launchOptions: launchOptions)
         IoTVideo.sharedInstance.delegate = self
-    #if DEBUG
         IoTVideo.sharedInstance.logLevel = IVLogLevel(rawValue: logLevel) ?? .DEBUG
-    #endif
 
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "完成"

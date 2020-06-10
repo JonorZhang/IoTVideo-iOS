@@ -49,6 +49,7 @@ class IVSuspendViewController: UIViewController {
         btn.setTitleColor(.cyan, for: .selected)
     }
     
+    
     lazy var textView: UITextView = {
         let textView = UITextView()
         textView.isEditable = false
@@ -109,19 +110,31 @@ class IVSuspendViewController: UIViewController {
     @objc func closeBtnClicked(_ btn: UIButton) {
         IVDevToolsAssistant.shared.minimize()
     }
-    
+        
     func scheduleRefreshText() {
         DispatchQueue.global().async { [weak self] in
-            guard let fh = try? FileHandle.init(forReadingFrom: IVFileLogger.shared.currLogFileURL) else { return }
+            guard let fh = try? FileHandle.init(forReadingFrom: IVFileLogger.shared.currLogFileURL) else {
+                print("IVSuspendViewController open forReading failed")
+                IVFileLogger.shared.insertText("IVSuspendViewController open forReading failed")
+                return
+            }
+            DispatchQueue.main.async { self?.textView.text = nil }
+
             let end = fh.seekToEndOfFile()
-            var offset = (end > 2000) ? end - 2000 : 0
-            fh.seek(toFileOffset: offset)
+            fh.seek(toFileOffset: (end > 2000) ? end - 2000 : 0)
             
-            while let `self` = self, !self.canceled {
+            print("IVSuspendViewController start refresh \(end) \(fh.offsetInFile)")
+
+            while let `self` = self {
+                if self.canceled {
+                    print("IVSuspendViewController cancel refresh")
+                    break
+                }
+                
                 if self.refreshEnable == true {
+                    fflush(stdout)
                     let data = fh.readDataToEndOfFile()
-                    offset = fh.seekToEndOfFile()
-                    
+                                                                                
                     DispatchQueue.main.async {
                         if !self.textView.isDragging, data.count > 0 {
                             if let text = self.stringFromData(data) {
@@ -138,7 +151,7 @@ class IVSuspendViewController: UIViewController {
             print("IVSuspendViewController stop refresh")
         }
     }
-    
+
     func insertText(_ text: String) {
         DispatchQueue.main.async {
             self.textView.insertText(text)

@@ -12,7 +12,7 @@ import SwiftyJSON
 
 
 class IVNavigationViewController: UINavigationController {
-
+        
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -57,7 +57,7 @@ class IVNavigationViewController: UINavigationController {
     }
     
     func addLogoutObserver() {
-        NotificationCenter.default.addObserver(forName: .ivLogout, object: nil, queue: nil) { (_) in
+        NotificationCenter.default.addObserver(forName: .ivLogout, object: nil, queue: .main) { (_) in
             self.jumpToLoginView()
         }
     }
