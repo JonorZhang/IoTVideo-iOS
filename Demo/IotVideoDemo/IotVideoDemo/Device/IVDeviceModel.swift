@@ -10,7 +10,7 @@ import UIKit
 import IoTVideo
 
 // 来自设备
-struct IVDevice {
+class IVDevice: NSObject {
     var deviceID: String = ""
     var productID: String = ""
     var deviceName: String = ""
@@ -19,7 +19,9 @@ struct IVDevice {
     var macAddr: String = ""
     var shareType: IVRole = .owner
     var online: Bool = false
-
+    var ipAddr: String = ""
+    var sourceNum: Int = 1 // 源个数
+    
     init(_ device: IVDeviceModel) {
         self.deviceID = device.devId ?? ""
         self.productID = ""
@@ -29,6 +31,7 @@ struct IVDevice {
         self.macAddr = ""
         self.shareType = device.shareType
         self.online = device.online ?? false
+        self.ipAddr = ""
     }
 
     init(_ device: IVLANDevice) {
@@ -40,6 +43,7 @@ struct IVDevice {
         self.macAddr = device.macAddr
         self.shareType = .owner
         self.online = true
+        self.ipAddr = device.ipAddr
     }
 }
 
@@ -85,7 +89,7 @@ class IVDeviceModel: Codable {
 }
 
 
-var userDeviceList: [IVDeviceModel] = []
+var userDeviceList: [IVDevice] = []
 
 //用户角色
 enum IVRole: String, Codable {
@@ -95,7 +99,7 @@ enum IVRole: String, Codable {
 
 
 
-protocol IVDeviceAccessable where Self: UIViewController {
+@objc protocol IVDeviceAccessable where Self: UIViewController {
     var device: IVDevice! { get set }
 }
 
@@ -116,11 +120,11 @@ struct IVCSMarkItem: Codable {
 }
 
 class IVDeviceAccessableTVC : UITableViewController, IVDeviceAccessable {
-    var device: IVDevice!
-    var deviceList: [IVDevice] {
-        let userDevs = userDeviceList.map { IVDevice($0) }
-        return userDevs.isEmpty ? [device] : userDevs
-    }
+     @objc var device: IVDevice!
+//    var deviceList: [IVDevice] {
+//        let userDevs = userDeviceList.map { IVDevice($0) }
+//        return userDevs.isEmpty ? [IVDevice(device)] : userDevs
+//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let dstVC = segue.destination as? IVDeviceAccessable {
@@ -130,7 +134,7 @@ class IVDeviceAccessableTVC : UITableViewController, IVDeviceAccessable {
 }
 
 class IVDeviceAccessableVC : UIViewController, IVDeviceAccessable {
-    var device: IVDevice!
+     @objc var device: IVDevice!
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let dstVC = segue.destination as? IVDeviceAccessable {

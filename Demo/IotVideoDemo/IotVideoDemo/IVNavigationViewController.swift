@@ -17,7 +17,8 @@ class IVNavigationViewController: UINavigationController {
         super.viewDidLoad()
 
         IVMessageMgr.sharedInstance.delegate = self
-        
+        interactivePopGestureRecognizer?.isEnabled = true
+
         let accessToken = UserDefaults.standard.string(forKey: demo_accessToken)
         let accessId = UserDefaults.standard.string(forKey: demo_accessId)
         if let accessToken = accessToken, let accessId = accessId, !accessToken.isEmpty, !accessId.isEmpty {
@@ -66,15 +67,15 @@ class IVNavigationViewController: UINavigationController {
 extension IVNavigationViewController: IVMessageDelegate {
     func didReceiveEvent(_ event: String, topic: String) {
         logInfo("事件通知 \(topic) \n \(event)")
-        ivHud("事件通知 \(topic) \n \(event)")
-        
+        view.makeToast("事件通知 \(topic) \n \(event)", duration: 2, position: .top)
+
         IVNotiPost(.receiveEvent(IVReceiveEvent(event: event, topic: topic)))
     }
     
     func didUpdateProperty(_ json: String, path: String, deviceId: String) {
         logInfo("属性更新 devid:\(deviceId) path:\(path) json:\(json)")
-        ivHud("属性更新 devid:\(deviceId) path:\(path) json:\(json)")
-                
+        view.makeToast("属性更新 devid:\(deviceId) path:\(path) json:\(json)", duration: 1.5, position: .bottom)
+
         IVNotiPost(.updateProperty(IVUpdateProperty(deviceId: deviceId, path: path, json: json)))
     }
 }

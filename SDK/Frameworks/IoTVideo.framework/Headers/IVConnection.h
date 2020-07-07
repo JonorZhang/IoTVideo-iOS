@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// 最大连接个数
-#define MAX_CONNECTION_NUM 4
+#define MAX_CONNECTION_NUM 16
 
 /// 单个数据包允许最大字节数
 #define MAX_PKG_BYTES 64000
@@ -50,20 +50,30 @@ typedef NS_ENUM(NSUInteger, IVConnError) {
     IVConnError_ConnectFailed     = 21022,
     /// 连接已断开/连接失败
     IVConnError_Disconnected      = 21023,
-    /// 数据超出最大长度
+    /// 超出最大数据长度
     IVConnError_ExceedsMaxLength  = 21024,
+    /// 当前连接暂不可用
+    IVConnError_NotAvailableNow   = 21025,
 };
 
 
 @class IVConnection;
 
+
 /// 连接代理
 @protocol IVConnectionDelegate <NSObject>
+
+@optional
 
 /// 状态更新
 /// @param connection 连接实例
 /// @param status 状态
 - (void)connection:(IVConnection *)connection didUpdateStatus:(IVConnStatus)status;
+
+/// 数据接收速率
+/// @param connection 连接实例
+/// @param speed 接收速率(字节/秒)
+- (void)connection:(IVConnection *)connection didUpdateSpeed:(uint32_t)speed;
 
 /// 收到错误
 /// @param connection 连接实例
@@ -77,6 +87,7 @@ typedef NS_ENUM(NSUInteger, IVConnError) {
 
 @end
 
+
 /// 通道连接（抽象类，不要直接实例化，请使用其派生类: IVLivePlayer / IVPlaybackPlayer / IVMonitorPlayer / IVTransmission）
 @interface IVConnection: NSObject
 
@@ -86,7 +97,10 @@ typedef NS_ENUM(NSUInteger, IVConnError) {
 /// 设备ID
 @property (nonatomic, strong, readonly) NSString *deviceId;
 
-/// 通道ID，连接成功该值才有效
+/// 源ID（一个设备 可以对应 多个源）
+@property (nonatomic, assign, readonly) uint16_t sourceId;
+
+/// 通道ID，连接成功该值才有效（一个设备+一个源 对应 唯一通道）
 @property (nonatomic, assign, readonly) uint32_t channel;
 
 /// 连接类型

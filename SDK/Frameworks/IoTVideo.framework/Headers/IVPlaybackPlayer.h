@@ -43,11 +43,23 @@ typedef void (^PlaybackListCallback)(IVPlaybackPage *_Nullable page, NSError *_N
 /// @param deviceId 设备ID
 - (nullable instancetype)initWithDeviceId:(NSString *)deviceId;
 
+/// 创建空播放器
+/// @param deviceId 设备ID
+/// @param sourceId 源ID
+- (nullable instancetype)initWithDeviceId:(NSString *)deviceId sourceId:(uint16_t)sourceId;
+
 /// 创建播放器同时设置回放参数
 /// @param deviceId 设备ID
 /// @param item 播放的文件(可跨文件)
 /// @param time 指定播放起始时间点（秒），取值范围`playbackItem.startTime >= time <= playbackItem.endTime`
-- (nullable instancetype)initWithDeviceId:(NSString *)deviceId playbackItem:(IVPlaybackItem *)item seekToTime:(NSTimeInterval)time;;
+- (nullable instancetype)initWithDeviceId:(NSString *)deviceId playbackItem:(IVPlaybackItem *)item seekToTime:(NSTimeInterval)time;
+
+/// 创建播放器同时设置回放参数
+/// @param deviceId 设备ID
+/// @param sourceId 源ID
+/// @param item 播放的文件(可跨文件)
+/// @param time 指定播放起始时间点（秒），取值范围`playbackItem.startTime >= time <= playbackItem.endTime`
+- (nullable instancetype)initWithDeviceId:(NSString *)deviceId sourceId:(uint16_t)sourceId playbackItem:(IVPlaybackItem *)item seekToTime:(NSTimeInterval)time;
 
 /// 获取一页回放文件列表
 /// 请根据实际情况合理设置查询时间范围和分页，时间跨度太大可能会增加设备查询时间（一般建议设置为三天以内, 即当天、前一天和后一天）

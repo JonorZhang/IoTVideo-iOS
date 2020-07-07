@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 播放器代理协议
 @protocol IVPlayerDelegate <IVConnectionDelegate>
 
+@optional
+
 /// 播放器状态回调
 /// @param player 播放器实例
 /// @param status 状态值

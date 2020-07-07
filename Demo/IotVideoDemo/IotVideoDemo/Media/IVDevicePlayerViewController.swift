@@ -11,8 +11,8 @@ import IoTVideo
 import Photos
 import Then
 
-let minVScale: CGFloat = 1.0
-let maxVScale: CGFloat = 3.0
+private let minVScale: CGFloat = 1.0
+private let maxVScale: CGFloat = 3.0
 
 class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
     @IBOutlet weak var playBtn: UIButton!
@@ -30,6 +30,7 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
     // IVLivePlayer
     @IBOutlet weak var cameraBtn: UIButton?
     
+    var sourceID: Int = 0
     var device: IVDevice!
     var player: IVPlayer?
     var mediaView: UIView? { player?.videoView }
@@ -57,7 +58,7 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
         
         NotificationCenter.default.addObserver(self, selector: #selector(stopIfNeed), name: UIApplication.didEnterBackgroundNotification, object: nil)
                 
-        deviceIdLabel?.text = device.deviceID
+        deviceIdLabel?.text = device.deviceID + "_\(sourceID)"
         
         player.delegate = self
         if let mediaView = mediaView {
@@ -66,13 +67,15 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
             view.insertSubview(mediaView, at: 0)
             
             // 添加手势
-            mediaView.addGesture(.pinch) {[unowned self] in
-                self.pinchGestureHandler($0) }
-            mediaView.addGesture(.pan) {[unowned self] in
-                self.panGestureHandler($0) }
-            mediaView.addGesture(.tap) {[unowned self] in
-                self.doubleTapGestureHandler($0) }.do({
-                    ($0 as! UITapGestureRecognizer).numberOfTapsRequired = 2 })
+            mediaView.addPinchGesture {[unowned self] in
+                self.pinchGestureHandler($0)
+            }
+            mediaView.addPanGesture {[unowned self] in
+                self.panGestureHandler($0)
+            }
+            mediaView.addTapGesture(numberOfTapsRequired: 2) {[unowned self] in
+                self.doubleTapGestureHandler($0)
+            }
         }
     }
         
@@ -166,7 +169,7 @@ private extension IVDevicePlayerViewController {
         if reset { mediaView.center = view.center }
     }
     
-    private func adjustVideoViewFrame() {
+    func adjustVideoViewFrame() {
         guard let mediaView = mediaView else { return }
         
         if mediaView.frame.width <= self.view.frame.width {
@@ -319,7 +322,7 @@ extension IVDevicePlayerViewController {
                     IVPopupView.showAlert(message: "截图失败", in: self?.view)
                     return
                 }
-                DispatchQueue.main.sync {
+                DispatchQueue.main.async {
                     guard let `self` = self else { return }
                     let imgW: CGFloat = 150
                     let imgH = imgW / image.size.width * image.size.height

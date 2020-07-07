@@ -34,9 +34,33 @@ typedef NS_ENUM(NSUInteger, IVNetConfigLanguage) {
     IVNetConfigLanguageNL = 20, /**< 荷兰语*/
 };
 
+/// 设备上线通知完整模型
+@interface IVDeviceOnline : NSObject
+/// device id
+@property (nonatomic, copy) NSString *deviceID;
+/// errorCode
+/// @code
+/// | errorCode | 解释
+/// | --------- | -----------------------------------
+/// | 0         | 成功
+/// | 8022      | 设备和用户已经绑定
+/// | 8023      | 设备已经绑定其他用户
+/// | 8024      | 设备的客户ID与用户的客户ID不一致
+/// | 8027      | 设备上传的token校验失败
+/// | 8028      | 设备上传的json解析失败
+@property (nonatomic, assign) NSInteger errorCode;
+/// 时间戳
+@property (nonatomic, assign) NSTimeInterval time;
+/// 配网token
+@property (nonatomic, copy) NSString *token;
+/// 设备uuid
+@property (nonatomic, copy) NSString *uuid;
+/// 预留
+@property (nonatomic, copy) NSString *reserve;
+@end
 
 typedef void(^IVDeviceOnlineCallback)(NSString * _Nullable deviceId, NSError *error);
-
+typedef void(^IVDeviceOnlineFullCallback)(IVDeviceOnline *deviceOnline);
 /// 配网管理
 @interface IVNetConfig : NSObject
 
@@ -69,6 +93,8 @@ typedef void(^IVDeviceOnlineCallback)(NSString * _Nullable deviceId, NSError *er
 /// | 8028      | 设备上传的json解析失败
 /// @endcode
 + (void)registerDeviceOnlineCallback:(IVDeviceOnlineCallback)onlineCallback;
+
++ (void)registerDeviceOnlineFullCallback:(IVDeviceOnlineFullCallback)onlineCallback;
 
 /// 销毁监听block
 + (void)unregisterDeviceOnline;

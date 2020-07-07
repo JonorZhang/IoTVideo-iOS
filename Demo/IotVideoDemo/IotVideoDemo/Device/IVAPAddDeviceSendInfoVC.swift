@@ -59,6 +59,10 @@ class IVAPAddDeviceSendInfoVC: UIViewController {
             }
             let ssid = IVWifiTool.currentSSID
             let conn = ssid?.uppercased().hasPrefix("IOT") ?? false
+            
+            
+            print("设备ip: \(IVNetConfig.lan.getDeviceList().first?.ipAddr ?? "0")")
+            
             let apDev = conn ? IVNetConfig.lan.getDeviceList().first(where: { IVWifiTool.isSameNetwork($0.ipAddr, IVWifiTool.ipAddr) }) : nil
             
             DispatchQueue.main.async {[weak self] in
@@ -77,7 +81,7 @@ class IVAPAddDeviceSendInfoVC: UIViewController {
             hud.hide()
             logDebug(succ ? "已连接AP设备 \(self?.device as Any)" : "未连接AP设备")
             ivHud(succ ? "已连接AP设备" : "未连接AP设备");
-        }, deadline: .now() + 8, interval: 0.5)
+        }, deadline: .now() + 60, interval: 0.5)
     }
     
     @IBAction func goSysSetting(_ sender: Any) {

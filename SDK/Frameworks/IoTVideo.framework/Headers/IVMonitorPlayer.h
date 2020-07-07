@@ -18,6 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param deviceId 设备ID
 - (nullable instancetype)initWithDeviceId:(NSString *)deviceId;
 
+/// 创建播放器
+/// @param deviceId 设备ID
+/// @param sourceId 源ID
+- (nullable instancetype)initWithDeviceId:(NSString *)deviceId sourceId:(uint16_t)sourceId;
+
 @end
 
 NS_ASSUME_NONNULL_END

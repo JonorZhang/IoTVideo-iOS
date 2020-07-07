@@ -8,12 +8,10 @@
 
 import UIKit
 
-let kScreenWidth:  CGFloat = UIScreen.main.bounds.width
-let kScreenHeight: CGFloat = UIScreen.main.bounds.height
 
-let margin: CGFloat = 10.0
-let paddingLeft: CGFloat = 20.0
-let itemWidth: CGFloat = (kScreenWidth - paddingLeft * 2 - margin * 6) / 7.0
+private let margin: CGFloat = 10.0
+private let paddingLeft: CGFloat = 20.0
+private let itemWidth: CGFloat = (kScreenWidth - paddingLeft * 2 - margin * 6) / 7.0
 
 protocol IVCalendarDelegate: class {
     func calendar(_ calendar: IVCalendar, didSelect date: Date)
@@ -21,7 +19,7 @@ protocol IVCalendarDelegate: class {
 
 class IVCalendar: UIView {
     // MARK: - Property
-    
+
     weak var delegate: IVCalendarDelegate?
     
     // 需要标记的日期数组
@@ -53,7 +51,7 @@ class IVCalendar: UIView {
 
     // MARK: - UI
     
-    private lazy var headerView: UIView = {
+    private lazy var monitorTopBar: UIView = {
         let headV = UIView(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: 74))
         headV.backgroundColor = UIColor(rgb: 0x0075fe)
         return headV
@@ -104,7 +102,7 @@ class IVCalendar: UIView {
     }()
     
     private lazy var weekView: UIView = {
-        let originY: CGFloat = self.headerView.bounds.height - 13.0 - 15.0
+        let originY: CGFloat = self.monitorTopBar.bounds.height - 13.0 - 15.0
         let weekView = UIView(frame: CGRect(x: paddingLeft, y: originY, width: kScreenWidth - paddingLeft * 2, height: 15))
         weekView.backgroundColor = UIColor.clear
         
@@ -130,7 +128,7 @@ class IVCalendar: UIView {
         layout.minimumLineSpacing = margin
         layout.minimumInteritemSpacing = margin
         
-        let tempRect = CGRect(x: paddingLeft, y: self.headerView.frame.maxY, width: kScreenWidth - paddingLeft * 2, height: 244)
+        let tempRect = CGRect(x: paddingLeft, y: self.monitorTopBar.frame.maxY, width: kScreenWidth - paddingLeft * 2, height: 244)
         let colV = UICollectionView(frame: tempRect, collectionViewLayout: layout)
         colV.backgroundColor = UIColor.white
         colV.dataSource = self
@@ -148,12 +146,12 @@ class IVCalendar: UIView {
         //init
         _initCalendarInfo()
         
-        self.addSubview(headerView)
-        headerView.addSubview(dateLabel)
-        headerView.addSubview(lastMonthButton)
-        headerView.addSubview(nextMonthButton)
-        headerView.addSubview(cancelButton)
-        headerView.addSubview(weekView)
+        self.addSubview(monitorTopBar)
+        monitorTopBar.addSubview(dateLabel)
+        monitorTopBar.addSubview(lastMonthButton)
+        monitorTopBar.addSubview(nextMonthButton)
+        monitorTopBar.addSubview(cancelButton)
+        monitorTopBar.addSubview(weekView)
         
         self.addSubview(collectionView)
         

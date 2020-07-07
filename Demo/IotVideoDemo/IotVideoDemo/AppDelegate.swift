@@ -26,15 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerLogger()
         registerRemoteNotification()
         
-        //测试服调试
-//        IoTVideo.sharedInstance.options[.hostType] = "0"
-        IoTVideo.sharedInstance.options[.appVersion] = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
-        IoTVideo.sharedInstance.options[.appPkgName] = Bundle.main.bundleIdentifier!
+        setupIoTVideo(launchOptions)
         
-        IoTVideo.sharedInstance.setup(launchOptions: launchOptions)
-        IoTVideo.sharedInstance.delegate = self
-        IoTVideo.sharedInstance.logLevel = IVLogLevel(rawValue: logLevel) ?? .DEBUG
-
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "完成"
 //        UIApplication.shared.clearLaunchScreenCache()
@@ -102,25 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-extension AppDelegate: IoTVideoDelegate {
-    func didUpdate(_ linkStatus: IVLinkStatus) {
-        logInfo("linkStatus: \(linkStatus.rawValue)")
-        let linkDesc: [IVLinkStatus : String] = [.online : "在线",
-                                                 .offline : "离线",
-                                                 .tokenFailed : "Token校验失败",
-                                                 .kickOff : "账号被踢飞"]
-        let stStr = linkDesc[linkStatus] ?? ""
-        IVPopupView.showAlert(title: "SDK状态", message: "linkStatus: \(stStr)")
-        if linkStatus == .kickOff {
-            IVNotiPost(.logout(by: .kickOff))
-        }
-    }
-    
-    func didOutputLogMessage(_ message: String, level: IVLogLevel, file: String, func: String, line: Int32) {
-        let lv = Level(rawValue: Int(level.rawValue))!
-        IVLogger.log(lv, path: file, function: `func`, line: Int(line), message: message)
-    }
-}
+
 
 public extension UIApplication {
     /// 修改LaunchScreen.storyboard 启动异常时调用 清除启动图缓存

@@ -291,7 +291,11 @@ class IVPopupView: UIView {
                 self.layoutUI(orientation)
             }
         }
-                
+         
+        NotificationCenter.default.addObserver(forName: UIApplication.keyboardWillChangeFrameNotification, object: nil, queue: nil) { [weak self](noti) in
+            self?.keyboardWillShowOrHide(userInfo: noti.userInfo!)
+        }
+
         if !title.isEmpty {
             titleLabel.text = title
             stackViewV.addArrangedSubview(titleLabel)
@@ -416,6 +420,29 @@ class IVPopupView: UIView {
 }
 
 private extension IVPopupView {
+    
+    func keyboardWillShowOrHide(userInfo: [AnyHashable: Any]) {
+        let beginFrame = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        let endFrame   = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        // 得到键盘弹出所需时间
+        let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! NSNumber
+        
+        let willShow = (endFrame.minY < beginFrame.minY)
+        
+        UIView.animate(withDuration: TimeInterval(truncating: duration)) {
+            self.contentView.snp.remakeConstraints { make in
+                make.width.equalTo(self).multipliedBy(UIApplication.shared.statusBarOrientation.isPortrait ? 0.8 : 0.5)
+                if willShow {
+                    make.centerX.equalTo(self)
+                    make.bottom.equalTo(self).offset(-endFrame.height)
+                } else {
+                    make.center.equalTo(self)
+                }
+            }
+            self.layoutIfNeeded()
+        }
+    }
+    
     func dictFromScriptMessage(_ message: WKScriptMessage) -> [AnyHashable : Any]? {
         if let dict = message.body as? [AnyHashable : Any] {
             return dict
@@ -501,6 +528,7 @@ extension IVPopupView: WKNavigationDelegate, WKScriptMessageHandler {
 }
 
 extension IVPopupView: UITextFieldDelegate {
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

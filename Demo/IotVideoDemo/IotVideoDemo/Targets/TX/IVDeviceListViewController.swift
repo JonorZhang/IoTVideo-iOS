@@ -39,7 +39,8 @@ class IVDeviceListViewController: UITableViewController {
             }
             
             DispatchQueue.main.async {
-                userDeviceList = data as? [IVDeviceModel] ?? []
+                let list = data as? [IVDeviceModel] ?? []
+                userDeviceList = list.map{ IVDevice($0) }
                 self.addDeviceView?.isHidden = !userDeviceList.isEmpty
                 self.tableView.reloadData()
                 hud.hide()
@@ -66,7 +67,7 @@ class IVDeviceListViewController: UITableViewController {
             guard let `self` = self else { return }
             guard let propertyModel = noti.userInfo?[IVNotiBody] as? IVUpdateProperty else { return }
             
-            if let dev = userDeviceList.first(where: { $0.devId == propertyModel.deviceId }),
+            if let dev = userDeviceList.first(where: { $0.deviceID == propertyModel.deviceId }),
                 let online = JSON(parseJSON: propertyModel.json).ivValue("stVal", property: "_online", path: propertyModel.path) {
                 dev.online = online.boolValue
                 self.tableView.reloadData()
@@ -88,12 +89,12 @@ class IVDeviceListViewController: UITableViewController {
     
     /// 增加长按复制设备ID到剪切板
     func addLongPressGesture() {
-        tableView.addGesture(.longPress) { [unowned self](gesture) in
+        tableView.addLongPressGesture { [unowned self](gesture) in
             if gesture.state == .began {
                 let point = gesture.location(in: self.tableView)
                 let indexPath = self.tableView.indexPathForRow(at: point)
                 guard let cellIndex = indexPath?.row  else { return }
-                UIPasteboard.general.string = userDeviceList[cellIndex].devId
+                UIPasteboard.general.string = userDeviceList[cellIndex].deviceID
                 ivHud("设备ID已复制")
             }
         }
@@ -104,8 +105,7 @@ class IVDeviceListViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let dstVC = segue.destination as? IVDeviceAccessable,
             let selectedRow = tableView.indexPathForSelectedRow?.row {
-            let dev = userDeviceList[selectedRow]
-            dstVC.device = IVDevice(dev)
+            dstVC.device = userDeviceList[selectedRow]
         }
     }
     
@@ -124,11 +124,11 @@ extension IVDeviceListViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "IVDeviceCell", for: indexPath) as! IVDeviceCell
         
         let device = userDeviceList[indexPath.row]
-        let isOnline = device.online ?? false
+        let isOnline = device.online
         let titleColor = isOnline ? UIColor(rgb: 0x3D7AFF) : .darkGray
         let subColor = isOnline ? UIColor(rgb: 0x3D7AFF) : .darkGray
         
-        cell.deviceIdLabel.text = device.devId
+        cell.deviceIdLabel.text = device.deviceID
         cell.deviceIdLabel.textColor = titleColor
         cell.deviceNameLabel.text = device.deviceName
         cell.deviceNameLabel.textColor = titleColor

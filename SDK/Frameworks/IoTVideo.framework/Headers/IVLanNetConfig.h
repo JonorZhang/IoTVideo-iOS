@@ -25,8 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *ipAddr;
 /// MAC地址
 @property (nonatomic, copy) NSString *macAddr;
-
-
+/// 预留
 @property (nonatomic, copy) NSString *reserve;
 @end
 

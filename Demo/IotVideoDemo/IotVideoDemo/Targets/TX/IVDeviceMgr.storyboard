@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="52x-gR-gVR">
-                            <rect key="frame" x="0.0" y="664" width="414" height="0.0"/>
+                            <rect key="frame" x="0.0" y="764" width="414" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         </view>
@@ -235,6 +235,46 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="其他" id="jKS-Se-Zx9">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="9qM-dU-hMw">
+                                        <rect key="frame" x="0.0" y="692" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9qM-dU-hMw" id="EHf-G9-zTM">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="视频源个数(测试)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AkX-OB-Jz6">
+                                                    <rect key="frame" x="20" y="11" width="334" height="22"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="1" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lLq-z6-SrS">
+                                                    <rect key="frame" x="354" y="5" width="40" height="34"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="40" id="hlD-tY-RPk"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="O5N-qB-h4z" id="Wjd-XQ-SSc"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="lLq-z6-SrS" secondAttribute="bottom" constant="5" id="1wc-sH-7GW"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="lLq-z6-SrS" secondAttribute="trailing" id="2dT-vJ-huo"/>
+                                                <constraint firstItem="AkX-OB-Jz6" firstAttribute="leading" secondItem="EHf-G9-zTM" secondAttribute="leadingMargin" id="3kY-HS-GMn"/>
+                                                <constraint firstItem="lLq-z6-SrS" firstAttribute="leading" secondItem="AkX-OB-Jz6" secondAttribute="trailing" id="8al-h1-Rzs"/>
+                                                <constraint firstItem="AkX-OB-Jz6" firstAttribute="bottom" secondItem="EHf-G9-zTM" secondAttribute="bottomMargin" id="Pln-vC-URX"/>
+                                                <constraint firstItem="lLq-z6-SrS" firstAttribute="top" secondItem="EHf-G9-zTM" secondAttribute="top" constant="5" id="ktb-CJ-rzz"/>
+                                                <constraint firstItem="AkX-OB-Jz6" firstAttribute="top" secondItem="EHf-G9-zTM" secondAttribute="topMargin" id="ngS-zW-Q5F"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="O5N-qB-h4z" id="AUT-hJ-Kqw"/>
@@ -242,10 +282,13 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="设备管理" id="WH5-Bh-wIh"/>
+                    <connections>
+                        <outlet property="devSrcNumTF" destination="lLq-z6-SrS" id="NvI-Kf-Qvc"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0bW-WC-QpC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2699" y="-2196"/>
+            <point key="canvasLocation" x="-2700" y="-2196.4285714285711"/>
         </scene>
         <!--IVMonitorPlayer-->
         <scene sceneID="dTm-d2-rtv">

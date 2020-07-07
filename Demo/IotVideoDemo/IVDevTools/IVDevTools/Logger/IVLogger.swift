@@ -121,6 +121,7 @@ fileprivate class Log: NSObject {
     private static var eventObserver: ((IVLogger.Type) -> Void)? = nil
     
     @objc public static func register(_ eventObserver: ((IVLogger.Type) -> Void)? = nil) {
+        IVFileLogger.shared.autoLoggingStandardOutput()
         self.eventObserver = eventObserver
         registerCrashHandler { (crashLog) in
             log(.fatal, message: crashLog)

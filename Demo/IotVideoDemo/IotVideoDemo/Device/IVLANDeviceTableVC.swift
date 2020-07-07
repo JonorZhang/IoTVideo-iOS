@@ -43,7 +43,7 @@ class IVLANDeviceTableVC: UITableViewController {
         let dstVC = UIStoryboard(name: "IVDeviceMgr", bundle: .main).instantiateInitialViewController() as! IVDeviceAccessable
         dstVC.device = IVDevice(dev)
 
-        if userDeviceList.contains(where: { $0.devId == dev.deviceID }) {
+        if userDeviceList.contains(where: { $0.deviceID == dev.deviceID }) {
             self.navigationController?.pushViewController(dstVC, animated: true)
         } else {
             let alert = UIAlertController(title: nil, message: "您未拥有该设备，您希望如何操作？", preferredStyle: .alert)
@@ -60,7 +60,6 @@ class IVLANDeviceTableVC: UITableViewController {
             
             let forseBind = UIAlertAction(title: "强制绑定（踢掉原主人）", style: .default) { (_) in
                 let hud = ivLoadingHud()
-                
                 IVDemoNetwork.addDevice(dev.deviceID, forceBind: true, responseHandler: { (data, error) in
                     hud.hide()
                     if data == nil { return }

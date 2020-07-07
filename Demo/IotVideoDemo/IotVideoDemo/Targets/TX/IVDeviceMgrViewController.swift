@@ -8,11 +8,25 @@
 
 import UIKit
 
-class IVDeviceMgrViewController: UITableViewController, IVDeviceAccessable {
+class IVDeviceMgrViewController: UITableViewController, IVDeviceAccessable, UITextFieldDelegate {
     var device: IVDevice!
+    @IBOutlet weak var devSrcNumTF: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let index = userDeviceList.firstIndex(where: { $0.deviceID == device.deviceID }) {
+            device = userDeviceList[index]
+        }
+        devSrcNumTF.text = "\(device.sourceNum)"
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        device.sourceNum = Int(textField.text ?? textField.placeholder!) ?? 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -37,7 +51,7 @@ class IVDeviceMgrViewController: UITableViewController, IVDeviceAccessable {
                         return
                     }
                     
-                    userDeviceList.removeAll(where: {$0.devId == self.device.deviceID})
+                    userDeviceList.removeAll(where: {$0.deviceID == self.device.deviceID})
                     IVNotiPost(.deviceListChange(by: .delete))
                     self.navigationController?.popToRootViewController(animated: true)
                 }

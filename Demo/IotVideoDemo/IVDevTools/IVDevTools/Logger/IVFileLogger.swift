@@ -23,7 +23,6 @@ class IVFileLogger: NSObject {
     
     private override init() {
         super.init()
-        autoLoggingStandardOutput()
     }
     
     weak var delegate: IVFileLoggerDelegate?
