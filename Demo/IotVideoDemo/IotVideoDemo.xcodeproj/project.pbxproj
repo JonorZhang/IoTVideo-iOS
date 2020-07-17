@@ -869,7 +869,7 @@
 				CODE_SIGN_ENTITLEMENTS = IotVideoDemo/IotVideoDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C3MLE46F3M;
@@ -902,6 +902,7 @@
 					"$(PROJECT_DIR)/IotVideoDemo/Targets/YS/Frameworks/P2PLib/x264/lib",
 				);
 				MARKETING_VERSION = 1.0.1;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -D IoTVideo";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tencentcs.IotVideoDemo;
 				PRODUCT_NAME = IotVideoDemo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -921,7 +922,7 @@
 				CODE_SIGN_ENTITLEMENTS = IotVideoDemo/IotVideoDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C3MLE46F3M;
 				ENABLE_BITCODE = NO;
@@ -949,6 +950,7 @@
 					"$(PROJECT_DIR)/IotVideoDemo/Targets/YS/Frameworks/P2PLib/x264/lib",
 				);
 				MARKETING_VERSION = 1.0.1;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -D IoTVideo";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tencentcs.IotVideoDemo;
 				PRODUCT_NAME = IotVideoDemo;
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -7,8 +7,9 @@
 //
 
 import UIKit
+#if IoTVideo
 import MBProgressHUD
-
+#endif
 
 func safe_main_async(_ execute: @escaping () -> Void) {
     if Thread.isMainThread {

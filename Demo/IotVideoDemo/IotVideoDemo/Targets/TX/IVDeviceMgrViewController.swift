@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IoTVideo.IVConnection
 
 class IVDeviceMgrViewController: UITableViewController, IVDeviceAccessable, UITextFieldDelegate {
     var device: IVDevice!
@@ -17,6 +18,9 @@ class IVDeviceMgrViewController: UITableViewController, IVDeviceAccessable, UITe
         if let index = userDeviceList.firstIndex(where: { $0.deviceID == device.deviceID }) {
             device = userDeviceList[index]
         }
+        if let num = UserDefaults.standard.value(forKey: "\(device.deviceID)sourceNum") as? Int {
+            device.sourceNum = num
+        }
         devSrcNumTF.text = "\(device.sourceNum)"
     }
     
@@ -26,7 +30,12 @@ class IVDeviceMgrViewController: UITableViewController, IVDeviceAccessable, UITe
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        device.sourceNum = Int(textField.text ?? textField.placeholder!) ?? 1
+        var num = Int(textField.text ?? textField.placeholder!) ?? 1
+        if num < 1 { num = 1 }
+        if num > MAX_CONNECTION_NUM { num = Int(MAX_CONNECTION_NUM) }
+        textField.text = "\(num)"
+        device.sourceNum = num
+        UserDefaults.standard.set(num, forKey: "\(device.deviceID)sourceNum")
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

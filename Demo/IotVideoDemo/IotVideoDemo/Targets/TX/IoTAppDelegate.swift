@@ -10,10 +10,14 @@ import Foundation
 import IoTVideo
 import IVDevTools
 
+
 extension AppDelegate {
     func setupIoTVideo(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?)  {
-        IoTVideo.sharedInstance.options[.appVersion] = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
-        IoTVideo.sharedInstance.options[.appPkgName] = Bundle.main.bundleIdentifier!
+        IoTVideo.sharedInstance.options = [
+            .hostType : using_test_host ? "0" : "1",
+            .appVersion: Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String,
+            .appPkgName : Bundle.main.bundleIdentifier!,
+        ]
         
         IoTVideo.sharedInstance.setup(launchOptions: launchOptions)
         IoTVideo.sharedInstance.delegate = self

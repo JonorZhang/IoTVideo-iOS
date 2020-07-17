@@ -564,6 +564,14 @@ extension IVPopupAction {
     @objc static func accept(_ handler: ((IVPopupView)->Void)? = nil) -> IVPopupAction {
         return IVPopupAction(title: "接受", style: .default, handler: handler)
     }
+
+    @objc static func `continue`(_ handler: ((IVPopupView)->Void)? = nil) -> IVPopupAction {
+        return IVPopupAction(title: "继续", style: .default, handler: handler)
+    }
+
+    @objc static func quit(_ handler: ((IVPopupView)->Void)? = nil) -> IVPopupAction {
+        return IVPopupAction(title: "退出", style: .default, handler: handler)
+    }
 }
 
 extension IVPopupView {

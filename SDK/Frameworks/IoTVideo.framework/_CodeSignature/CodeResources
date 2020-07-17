@@ -14,7 +14,7 @@
 		</data>
 		<key>Headers/IVConnection.h</key>
 		<data>
-		ORG/DPruUlKC88tvz7GCMFwFiWw=
+		+UXXb8hFTopuDXU2TIVeYEN17n4=
 		</data>
 		<key>Headers/IVLanNetConfig.h</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Headers/IVMessageMgr.h</key>
 		<data>
-		QB7hLZu396WUJrbwyt6sxP7LYOM=
+		VvJX8SDE6ntGzkoWqY3elC16cS8=
 		</data>
 		<key>Headers/IVMonitorPlayer.h</key>
 		<data>
@@ -58,7 +58,7 @@
 		</data>
 		<key>Headers/IVPlayer.h</key>
 		<data>
-		LKQAxd3sEJq41XNviGZWIJlddUI=
+		apU1Cv3lUCyquIl3f/GQ8TL4WaQ=
 		</data>
 		<key>Headers/IVQRCodeHelper.h</key>
 		<data>
@@ -82,11 +82,11 @@
 		</data>
 		<key>Headers/IoTVideo.h</key>
 		<data>
-		JHfwFo60qDnkCyRRQ86nIiIJEIQ=
+		mVdp+XbNty2vgEQtd9vdTP7JQ3E=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		7JwINpu7M6DBOxiFq5isrzX+/tI=
+		CV50ZeL+bx2pmU5u32Pb94kS7mU=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -121,11 +121,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ORG/DPruUlKC88tvz7GCMFwFiWw=
+			+UXXb8hFTopuDXU2TIVeYEN17n4=
 			</data>
 			<key>hash2</key>
 			<data>
-			NDqQW3CGuPyCpM0cnB7mVzTosB5uwxr1uEvmEeCnmEU=
+			1DNMbEq/X3R//6vklIJnM0WYSD0aG/nybpX5yrrEZbI=
 			</data>
 		</dict>
 		<key>Headers/IVLanNetConfig.h</key>
@@ -165,11 +165,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			QB7hLZu396WUJrbwyt6sxP7LYOM=
+			VvJX8SDE6ntGzkoWqY3elC16cS8=
 			</data>
 			<key>hash2</key>
 			<data>
-			XGwp/0jq2jSWFFkSwvKiZQlJUasu8NolECGeeQz8PVg=
+			Sna3IOkTWLsNCoMpMCv60d6zYNafoLjOK5xtCZ3mcgI=
 			</data>
 		</dict>
 		<key>Headers/IVMonitorPlayer.h</key>
@@ -242,11 +242,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			LKQAxd3sEJq41XNviGZWIJlddUI=
+			apU1Cv3lUCyquIl3f/GQ8TL4WaQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			YSrrF8CCxzV6Ka0YxV18Lod24B5XlHAKBozBMOVTm/g=
+			ektBcxCjY5wCPkzwb/+4h9Sg4u4M5F+jdJsvfmN5FGc=
 			</data>
 		</dict>
 		<key>Headers/IVQRCodeHelper.h</key>
@@ -308,11 +308,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JHfwFo60qDnkCyRRQ86nIiIJEIQ=
+			mVdp+XbNty2vgEQtd9vdTP7JQ3E=
 			</data>
 			<key>hash2</key>
 			<data>
-			6mh7rD8KuiSlZ5o1Ph8mBjVVWBcXiSj/Uf80THpPrL0=
+			eyRDVuRzAiLBkUAZl9YiHfR3vRUzGpIk4c7tYIcjUZc=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

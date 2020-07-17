@@ -388,22 +388,27 @@ extension IVDevicePlayerViewController: UITextFieldDelegate {
 // MARK: - 播放器代理
 extension IVDevicePlayerViewController: IVPlayerDelegate {
     func connection(_ connection: IVConnection, didUpdate status: IVConnStatus) {
-        logInfo(connection.deviceId, connection.channel, "connection status:\(status.rawValue)")
+        logInfo(device.deviceID + "_\(sourceID)", "connection status:\(status.rawValue)")
+    }
+    
+    func connection(_ connection: IVConnection, didUpdateSpeed speed: UInt32) {
+        logDebug(device.deviceID + "_\(sourceID)", String(format: "%.2f KB/s", Float(speed)/1024))
     }
     
     func connection(_ connection: IVConnection, didReceiveError error: Error) {
-        logError(connection.deviceId, connection.channel, error)
+        logError(device.deviceID + "_\(sourceID)", error)
         IVPopupView.showConfirm(title: "通道错误", message: error.localizedDescription, in: self.view)
     }
     
     func connection(_ connection: IVConnection, didReceive data: Data) {
-        logInfo(connection.deviceId, connection.channel, data.count)
+        logInfo(device.deviceID + "_\(sourceID)", data.count)
     }
 
     func player(_ player: IVPlayer, didUpdate status: IVPlayerStatus) {
         let animating = (status == .preparing || status == .loading)
         animating ? activityIndicatorView.startAnimating() : activityIndicatorView.stopAnimating()
         
+        playBtn.isEnabled = (status != .preparing && status != .stopping)
         playBtn.isSelected = (status == .playing)
         speakerBtn?.isSelected = player.mute
         
@@ -421,11 +426,11 @@ extension IVDevicePlayerViewController: IVPlayerDelegate {
     }
     
     func player(_ player: IVPlayer, didUpdatePTS PTS: TimeInterval) {
-        logVerbose("PTS: ", PTS)
+        logVerbose(device.deviceID + "_\(sourceID)", "PTS: ", PTS)
     }
     
     func player(_ player: IVPlayer, didReceiveError error: Error) {
-        logError(player.deviceId, player.channel, error)
+        logError(device.deviceID + "_\(sourceID)", error)
         IVPopupView.showConfirm(title: "播放器错误", message: error.localizedDescription, in: self.view)
     }
     

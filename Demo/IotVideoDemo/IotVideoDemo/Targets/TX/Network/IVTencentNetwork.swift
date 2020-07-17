@@ -21,7 +21,15 @@ public typealias IVTencentNetworkResponseHandler = ((_ json: String?, _ error: N
 public class IVTencentNetwork: AFHTTPSessionManager {
 //    private var host = "http://cvm.tencentcloudapi.com"
 //    private var host = "http://14.22.4.147:80/"
-    private var host = "https://iotvideo.tencentcloudapi.com/"
+    private var host: String = {
+        if using_test_host {
+            return "https://test-iotvideotencentcloudapi.cloudlinks.cn:20443"
+        } else {
+            return "https://iotvideo.tencentcloudapi.com/"
+        }
+    }()
+    
+    
     var secretId  = ""
     var secretKey = ""
     var token = ""

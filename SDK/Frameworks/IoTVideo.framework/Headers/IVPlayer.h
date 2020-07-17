@@ -44,9 +44,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param PTS 时间戳
 - (void)player:(IVPlayer *)player didUpdatePTS:(NSTimeInterval)PTS;
 
+/// 观众人数变更
+/// @param player 播放器实例
+/// @param audience 观众人数
+- (void)player:(IVPlayer *)player didUpdateAudience:(NSInteger)audience;
+
 /// 播放错误回调
 /// @param player 播放器实例
-/// @param error 错误实例
+/// @param error 错误实例, 见`IVPlayerError`
 - (void)player:(IVPlayer *)player didReceiveError:(NSError *)error;
 
 /// 音视频头信息回调
@@ -119,6 +124,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// 静音，  默认NO（即允许播放声音）
 @property (nonatomic, assign, readwrite) BOOL mute;
 
+/// 免提， 默认YES, 有外设时无效
+/// YES：没有外设时外放声音
+/// NO： 没有外设时听筒处播放声音
+@property (nonatomic, assign, readwrite) BOOL handsFree;
 
 #pragma mark - 播放控制
 

@@ -32,6 +32,11 @@ typedef void(^IVMsgDataCallback)(NSData * _Nullable data, NSError * _Nullable er
 /// @param deviceId 设备ID
 - (void)didUpdateProperty:(NSString *)json path:(NSString *)path deviceId:(NSString *)deviceId;
 
+/// 接收到设备发起的透传数据
+/// @param data 数据
+/// @param deviceId 设备ID
+- (void)didReceivePassthroughData:(NSData *)data deviceId:(NSString *)deviceId;
+
 @end
 
 

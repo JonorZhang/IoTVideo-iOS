@@ -22,13 +22,39 @@ class IVMonitorViewController: IVDevicePlayerViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        definitionSegment.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "definitionSegment.selectedSegmentIndex")
+
         monitorPlayer = IVMonitorPlayer(deviceId: device.deviceID, sourceId: UInt16(self.sourceID))
         monitorPlayer?.definition = IVVideoDefinition(rawValue: IVVideoDefinition.RawValue(definitionSegment.selectedSegmentIndex)) ?? .high
     }
     
     @IBAction func definitionSegmentChanged(_ sender: UISegmentedControl) {
-        monitorPlayer?.definition = IVVideoDefinition(rawValue: IVVideoDefinition.RawValue(sender.selectedSegmentIndex)) ?? .high
+        UserDefaults.standard.set(definitionSegment.selectedSegmentIndex, forKey: "definitionSegment.selectedSegmentIndex")
+        let defn = IVVideoDefinition(rawValue: IVVideoDefinition.RawValue(sender.selectedSegmentIndex)) ?? .high
+        definitionSegment?.isEnabled = false
+        monitorPlayer?.setVideoDefinition(defn)
+    }
+        
+    override func player(_ player: IVPlayer, didUpdate status: IVPlayerStatus) {
+        super.player(player, didUpdate: status)
+                
+        definitionSegment?.isEnabled = (status != .preparing && status != .stopping)
+    }
+}
+
+extension IVMonitorPlayer {
+    func setVideoDefinition(_ defn: IVVideoDefinition) {
+        definition = defn
+
+        #warning("当前设备SDK版本（4200）未处理监控时切换清晰度，但发起play时可以指定清晰度。 暂行方案：先stop再play")
+//        IVMessageMgr.sharedInstance.readProperty(ofDevice: deviceId, path: "ProConst._versionInfo.sdkVer") { [weak self] (json, error) in
+//            if let revision = json?.split(separator: ".").last, (Int(revision) ?? 0) <= 4200 {
+                self.stop()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                    self?.play()
+                }
+//            }
+//        }
     }
 }
 
@@ -38,8 +64,8 @@ class IVMultiMonitorViewController: IVDeviceAccessableVC {
     
     @IBOutlet weak var collectionView: UICollectionView!
 
-    var selectMode: Bool = false
-    
+    private var selectMode: Bool = false
+
     lazy var allDevsSrcs: [(srcId: Int, dev: IVDevice)] = {
         var alldevices = userDeviceList
         if !alldevices.contains(where: { $0.deviceID == device.deviceID }) {
@@ -52,12 +78,13 @@ class IVMultiMonitorViewController: IVDeviceAccessableVC {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.allowsMultipleSelection = true
+        collectionView.collectionViewLayout.invalidateLayout()
+        self.automaticallyAdjustsScrollViewInsets = false
         splitViewBtn.isEnabled = (allDevsSrcs.count > 1)
     }
 
@@ -93,10 +120,14 @@ class IVMultiMonitorViewController: IVDeviceAccessableVC {
 
             dataSource = seldevsrcs.sorted(by: { $0.srcId < $1.srcId })
             splitViewBtn.title = "分屏"
+        
+            let ori: UIDeviceOrientation = dataSource.count > 3 ? .landscapeLeft : .portrait
+            UIDevice.setOrientation(ori)
         } else {
             dataSource = allDevsSrcs
             splitViewBtn.title = "✅"
         }
+        
         selectMode.toggle()
         collectionView.reloadData()
         collectionView.collectionViewLayout.invalidateLayout()
@@ -140,9 +171,11 @@ extension IVMultiMonitorViewController: UICollectionViewDelegateFlowLayout {
             let splitCols = (dataSource.count < 4 ? 1 : 2)
             let roundNum = round(CGFloat(dataSource.count) / CGFloat(splitCols))
             if collectionView.bounds.height > collectionView.bounds.width {
-                return CGSize(width: collectionView.bounds.width / CGFloat(splitCols)  - 0.5, height: collectionView.bounds.height / roundNum  - 0.5)
+                return CGSize(width: collectionView.bounds.width / CGFloat(splitCols) - (dataSource.count > 3 ? 1 : 0),
+                              height: collectionView.bounds.height / roundNum - (dataSource.count > 1 ? 1 : 0))
             } else {
-                return CGSize(width: collectionView.bounds.width / roundNum  - 0.5, height: collectionView.bounds.height / CGFloat(splitCols)  - 0.5)
+                return CGSize(width: collectionView.bounds.width / roundNum - (dataSource.count > 1 ? 1 : 0),
+                              height: collectionView.bounds.height / CGFloat(splitCols) - (dataSource.count > 3 ? 1 : 0))
             }
         }
     }
@@ -152,11 +185,11 @@ extension IVMultiMonitorViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0.5
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0.5
+        return 0
     }
 }
 
