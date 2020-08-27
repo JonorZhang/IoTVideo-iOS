@@ -28,6 +28,11 @@ class IVMonitorViewController: IVDevicePlayerViewController {
         monitorPlayer?.definition = IVVideoDefinition(rawValue: IVVideoDefinition.RawValue(definitionSegment.selectedSegmentIndex)) ?? .high
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        monitorPlayer?.play()
+    }
+    
     @IBAction func definitionSegmentChanged(_ sender: UISegmentedControl) {
         UserDefaults.standard.set(definitionSegment.selectedSegmentIndex, forKey: "definitionSegment.selectedSegmentIndex")
         let defn = IVVideoDefinition(rawValue: IVVideoDefinition.RawValue(sender.selectedSegmentIndex)) ?? .high
@@ -212,7 +217,7 @@ class IVMultiMonitorCell: UICollectionViewCell {
                 vc.view!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
                 vc.view!.frame = self.contentView.bounds
                 self.contentView.addSubview(vc.view)
-                vc.monitorPlayer?.play()
+//                vc.monitorPlayer?.play()
             }
         }
     }

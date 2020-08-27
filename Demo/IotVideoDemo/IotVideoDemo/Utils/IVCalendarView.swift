@@ -1,5 +1,5 @@
 //
-//  IVCalendar.swift
+//  IVCalendarView.swift
 //  IotVideoDemo
 //
 //  Created by JonorZhang on 2020/4/14.
@@ -11,36 +11,36 @@ import UIKit
 
 private let margin: CGFloat = 10.0
 private let paddingLeft: CGFloat = 20.0
-private let itemWidth: CGFloat = (kScreenWidth - paddingLeft * 2 - margin * 6) / 7.0
 
-protocol IVCalendarDelegate: class {
-    func calendar(_ calendar: IVCalendar, didSelect date: Date)
-}
-
-class IVCalendar: UIView {
+class IVCalendarView: UIView {
     // MARK: - Property
-
-    weak var delegate: IVCalendarDelegate?
     
     // 需要标记的日期数组
-    var markableDates: [(ti: Int, mark: Bool)] = [] {
+    public var markableDates: [(ti: Int, mark: Bool)] = [] {
         didSet {
             DispatchQueue.main.async {[weak self] in
+                CATransaction.setDisableActions(true)
                 self?.collectionView.reloadData()
+                CATransaction.commit()
             }
         }
     }
     
     // 当前选中日期
-    var currentDate = Date() {
+    public var currentDate = Date() {
         didSet { referenceDate = currentDate }
     }
+
+    /// 点击选择日期回调
+    public var selectedDateCallback: ((_ date: Date) -> Void)?
 
     // 参考日期
     private var referenceDate = Date() {
         didSet {
             DispatchQueue.main.async {[weak self] in
+                CATransaction.setDisableActions(true)
                 self?.collectionView.reloadData()
+                CATransaction.commit()
             }
         }
     }
@@ -51,14 +51,14 @@ class IVCalendar: UIView {
 
     // MARK: - UI
     
-    private lazy var monitorTopBar: UIView = {
-        let headV = UIView(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: 74))
+    private lazy var headerBar: UIView = {
+        let headV = UIView()
         headV.backgroundColor = UIColor(rgb: 0x0075fe)
         return headV
     }()
     
     private lazy var dateLabel: UILabel = {
-        let dateLb = UILabel(frame: CGRect(x: (self.bounds.width-100)/2, y: 5, width: 100, height: 30))
+        let dateLb = UILabel()
         dateLb.textAlignment = .center
         dateLb.textColor = .white
         dateLb.font = .systemFont(ofSize: 17)
@@ -66,69 +66,70 @@ class IVCalendar: UIView {
     }()
 
     private lazy var lastMonthButton: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 0, y: 5, width: 44, height: 30))
-        btn.frame.origin.x = dateLabel.frame.minX - 44 - 8
+        let btn = UIButton()
         btn.setTitle("<", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 17)
         btn.addEvent { (_) in
             self.referenceDate = self.lastMonth(self.referenceDate)
             self._initCalendarInfo()
+            CATransaction.setDisableActions(true)
             self.collectionView.reloadData()
+            CATransaction.commit()
         }
         return btn
     }()
 
     private lazy var nextMonthButton: UIButton = {
-        let btn = UIButton(frame: CGRect(x: 0, y: 5, width: 44, height: 30))
-        btn.frame.origin.x = dateLabel.frame.maxX + 8
+        let btn = UIButton()
         btn.setTitle(">", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 17)
         btn.addEvent { (_) in
             self.referenceDate = self.nextMonth(self.referenceDate)
             self._initCalendarInfo()
+            CATransaction.setDisableActions(true)
             self.collectionView.reloadData()
+            CATransaction.commit()
         }
         return btn
     }()
-    
-    private lazy var cancelButton: UIButton = {
-        let btn = UIButton(frame: CGRect(x: self.bounds.width-44-8, y: 5, width: 44, height: 30))
-        btn.setTitle("取消", for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 17)
+
+    private lazy var todyButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("今天", for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 15)
         btn.addEvent { (_) in
-            self.alpha = 0
+            self.currentDate = Date()
+            self._initCalendarInfo()
+            CATransaction.setDisableActions(true)
+            self.collectionView.reloadData()
+            CATransaction.commit()
         }
         return btn
     }()
-    
-    private lazy var weekView: UIView = {
-        let originY: CGFloat = self.monitorTopBar.bounds.height - 13.0 - 15.0
-        let weekView = UIView(frame: CGRect(x: paddingLeft, y: originY, width: kScreenWidth - paddingLeft * 2, height: 15))
-        weekView.backgroundColor = UIColor.clear
-        
-        //week
+
+    private lazy var weekView: UIStackView = {
+        let weekView = UIStackView()
+        weekView.axis = .horizontal
+        weekView.alignment = .center
+        weekView.distribution = .fillEqually
         var weekArray = ["日", "一", "二", "三", "四", "五", "六"]
-        var originX: CGFloat = 0.0
         for weekStr in weekArray {
             let week = UILabel()
-            week.frame = CGRect(x: originX, y: 0, width: itemWidth, height: 15)
             week.text = weekStr
             week.textColor = UIColor.white
             week.font = UIFont.boldSystemFont(ofSize: 15)
             week.textAlignment = .center
-            weekView.addSubview(week)
-            originX = week.frame.maxX + margin
+            weekView.addArrangedSubview(week)
         }
         return weekView
     }()
     
-    lazy var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         layout.minimumLineSpacing = margin
         layout.minimumInteritemSpacing = margin
         
-        let tempRect = CGRect(x: paddingLeft, y: self.monitorTopBar.frame.maxY, width: kScreenWidth - paddingLeft * 2, height: 244)
+        let tempRect = CGRect(x: paddingLeft, y: self.headerBar.frame.maxY, width: kScreenWidth - paddingLeft * 2, height: 244)
         let colV = UICollectionView(frame: tempRect, collectionViewLayout: layout)
         colV.backgroundColor = UIColor.white
         colV.dataSource = self
@@ -137,6 +138,35 @@ class IVCalendar: UIView {
         return colV
     }()
     
+    private lazy var footerBar: UIView = {
+        let headV = UIView()
+//        headV.backgroundColor = UIColor(rgb: 0x0075fe)
+        return headV
+    }()
+
+    private lazy var cancelButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("取消", for: .normal)
+        btn.setTitleColor(UIColor.gray, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 17)
+        btn.addEvent { (_) in
+            self.alpha = 0
+        }
+        return btn
+    }()
+
+    private lazy var confirmButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("确定", for: .normal)
+        btn.setTitleColor(UIColor(rgb: 0x0075fe), for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 17)
+        btn.addEvent { (_) in
+            self.alpha = 0
+            self.selectedDateCallback?(self.currentDate)
+        }
+        return btn
+    }()
+
     
     // MARK: - init
 
@@ -145,16 +175,9 @@ class IVCalendar: UIView {
         backgroundColor = .white
         //init
         _initCalendarInfo()
-        
-        self.addSubview(monitorTopBar)
-        monitorTopBar.addSubview(dateLabel)
-        monitorTopBar.addSubview(lastMonthButton)
-        monitorTopBar.addSubview(nextMonthButton)
-        monitorTopBar.addSubview(cancelButton)
-        monitorTopBar.addSubview(weekView)
-        
-        self.addSubview(collectionView)
-        
+     
+        prepareView()
+        prepareLayout()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -173,16 +196,85 @@ class IVCalendar: UIView {
         
         //是否当月
         self.isCurrentMonth = Calendar.current.isDate(referenceDate, equalTo: Date(), toGranularity: .month)
-        
-        //重置日历高度
-        let days = self.currentMonthTotalDays + self.firstDayIsWeekInMonth
-        let rowCount: Int = (days / 7) + 1
-        let kitHeight: CGFloat = itemWidth * CGFloat(rowCount) + CGFloat(rowCount) * margin
-        collectionView.frame.size.height = kitHeight
     }
+    
+    private func prepareView() {
+        addSubview(headerBar)
+        headerBar.addSubview(dateLabel)
+        headerBar.addSubview(lastMonthButton)
+        headerBar.addSubview(nextMonthButton)
+        headerBar.addSubview(todyButton)
+        headerBar.addSubview(weekView)
+        
+        addSubview(collectionView)
+
+        addSubview(footerBar)
+        footerBar.addSubview(cancelButton)
+        footerBar.addSubview(confirmButton)
+    }
+    
+    private func prepareLayout() {
+        headerBar.snp.makeConstraints { (make) in
+            make.top.left.right.equalToSuperview()
+            make.height.equalTo(40 + 40)
+        }
+        
+        dateLabel.snp.makeConstraints { (make) in
+            make.top.centerX.equalToSuperview()
+            make.width.equalTo(140)
+            make.height.equalTo(40)
+        }
+        
+        lastMonthButton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(dateLabel)
+            make.height.width.equalTo(40)
+            make.right.equalTo(dateLabel.snp.left)
+        }
+        
+        nextMonthButton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(dateLabel)
+            make.height.width.equalTo(40)
+            make.left.equalTo(dateLabel.snp.right)
+        }
+
+        todyButton.snp.makeConstraints { (make) in
+            make.centerY.equalTo(dateLabel)
+            make.height.width.equalTo(40)
+            make.right.equalToSuperview().offset(-8)
+        }
+
+        weekView.snp.makeConstraints { (make) in
+            make.top.equalTo(dateLabel.snp.bottom)
+            make.left.equalTo(headerBar.snp.leftMargin)
+            make.right.equalTo(headerBar.snp.rightMargin)
+            make.bottom.equalToSuperview()
+        }
+
+        collectionView.snp.makeConstraints { (make) in
+            make.top.equalTo(headerBar.snp.bottom)
+            make.left.equalTo(headerBar.snp.leftMargin)
+            make.right.equalTo(headerBar.snp.rightMargin)
+            make.bottom.equalTo(footerBar.snp.top)
+        }
+        
+        footerBar.snp.makeConstraints { (make) in
+            make.bottom.left.right.equalToSuperview()
+            make.height.equalTo(44)
+        }
+
+        cancelButton.snp.makeConstraints { (make) in
+            make.top.left.bottom.equalToSuperview()
+            make.right.equalTo(confirmButton.snp.left)
+            make.width.equalTo(confirmButton)
+        }
+        
+        confirmButton.snp.makeConstraints { (make) in
+            make.top.right.bottom.equalToSuperview()
+        }
+    }    
 }
 
-private extension IVCalendar {
+private extension IVCalendarView {
 
     func stringFromDate(date: Date, format: String) -> String {
         let fmt = DateFormatter()
@@ -229,7 +321,7 @@ private extension IVCalendar {
     }
 }
 
-extension IVCalendar: UICollectionViewDataSource {
+extension IVCalendarView: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -249,14 +341,14 @@ extension IVCalendar: UICollectionViewDataSource {
             let date = dateOfDay(day, from: referenceDate)
             
             cell.dayLabel.text = "\(day)"
-            let mark = markableDates.first(where: { $0.ti == Int(date.timeIntervalSince1970) })?.mark ?? false
+            let mark = markableDates.first(where: { Calendar.current.isDate(Date(timeIntervalSince1970: Double($0.ti)), inSameDayAs: date) })?.mark ?? false
             cell.markLayer.isHidden = !mark
             
             if Int(date.timeIntervalSince1970) < (markableDates.first?.ti ?? 0) || date > Date() {
                 cell.dayLabel.textColor = .lightGray
-                if Int(date.timeIntervalSince1970) < (markableDates.first?.ti ?? 0) {
-                    cell.subLabel.text = "过期"
-                }
+//                if Int(date.timeIntervalSince1970) < (markableDates.first?.ti ?? 0) {
+//                    cell.subLabel.text = "过期"
+//                }
             }
 
             if Calendar.current.isDate(date, inSameDayAs: currentDate) {
@@ -269,14 +361,21 @@ extension IVCalendar: UICollectionViewDataSource {
     }
 }
 
-extension IVCalendar: UICollectionViewDelegate {
+extension IVCalendarView: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let days = self.currentMonthTotalDays + self.firstDayIsWeekInMonth
+        let rowCount: Int = (days / 7) + 1
+        let W = (collectionView.bounds.width - paddingLeft * 2 - margin * 6) / 7.0
+        let H = (collectionView.bounds.height - margin * 6) / CGFloat(rowCount)
+        return CGSize(width: W, height: H)
+    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! IVCalendarCell
         if cell.dayLabel.textColor == .lightGray { return }
         
         let day = indexPath.row - firstWeekInMonth(date: referenceDate) + 1
-        let selectDate = dateOfDay(day, from: referenceDate)
-        delegate?.calendar(self, didSelect: selectDate)
+        currentDate = dateOfDay(day, from: referenceDate)
     }
 }
 
@@ -293,8 +392,7 @@ class IVCalendarCell: UICollectionViewCell {
     
     lazy var dayLabel: UILabel = {
         let W: CGFloat = 32.0
-        let padding = (itemWidth - W) / 2.0
-        let lb = UILabel(frame: CGRect(x: padding, y: padding, width: W, height: W))
+        let lb = UILabel(frame: CGRect(x: 0, y: 0, width: W, height: W))
         lb.layer.cornerRadius = W / 2
         lb.layer.masksToBounds = true
         lb.textAlignment = .center

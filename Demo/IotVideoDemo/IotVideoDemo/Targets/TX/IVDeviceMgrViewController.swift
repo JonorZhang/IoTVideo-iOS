@@ -32,7 +32,7 @@ class IVDeviceMgrViewController: UITableViewController, IVDeviceAccessable, UITe
     func textFieldDidEndEditing(_ textField: UITextField) {
         var num = Int(textField.text ?? textField.placeholder!) ?? 1
         if num < 1 { num = 1 }
-        if num > MAX_CONNECTION_NUM { num = Int(MAX_CONNECTION_NUM) }
+        if num > 99 { num = 99 }
         textField.text = "\(num)"
         device.sourceNum = num
         UserDefaults.standard.set(num, forKey: "\(device.deviceID)sourceNum")

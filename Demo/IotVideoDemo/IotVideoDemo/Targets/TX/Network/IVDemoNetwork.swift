@@ -63,7 +63,7 @@ struct IVDemoNetwork {
             }
             
             var newUserDeviceList: [IVDeviceModel] = []
-            if let data = json["Response"]["Data"].array {
+            if let data = json["Response"]["Data"].array, !data.isEmpty {
                 for device in data {
                     let deviceModel = IVDeviceModel(devId: device["Tid"].stringValue,
                                                     deviceName: device["DeviceName"].stringValue,

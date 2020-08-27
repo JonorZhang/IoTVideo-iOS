@@ -48,7 +48,7 @@ func logInfo(path: String = #file, function: String = #function, line: Int = #li
     IVLogger.log(.info, path: path, function: function, line: line, message: message(items))
 }
 
-func logDebug(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
+func logDebug(path: String = #file, function: String = #function, line: Int = #line, _ items: Any?...) {
     IVLogger.log(.debug, path: path, function: function, line: line, message: message(items))
 }
 

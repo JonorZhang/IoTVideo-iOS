@@ -57,11 +57,11 @@ typedef NS_ENUM(NSUInteger, IVVideoCodecType) {
 };
 
 /// 视频像素格式
-typedef NS_ENUM(NSUInteger, IVPixelFormatType) {
+typedef NS_ENUM(OSType, IVPixelFormatType) {
     /// YUV420P
-    IVPixelFormatTypeYUV420P = 0,
+    IVPixelFormatTypeYUV420P = kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange,
     /// 32BGRA
-    IVPixelFormatType32BGRA  = 1,
+    IVPixelFormatType32BGRA  = kCVPixelFormatType_32BGRA,
 };
 
 /// 视频清晰度
@@ -84,7 +84,7 @@ typedef NS_ENUM(NSUInteger, IVAudioCodecType) {
     IVAudioCodecTypeG726   = 3,
     /// AAC
     IVAudioCodecTypeAAC    = 4,
-    /// AMR
+    /// AMR-NB: 固定采样率8K
     IVAudioCodecTypeAMR    = 5,
     /// ADPCMA
     IVAudioCodecTypeADPCMA = 6,
@@ -126,10 +126,9 @@ typedef NS_ENUM(NSUInteger, IVCameraPosition) {
 typedef struct _IVVideoFrame {
     // For YUV: [0]Y [1]U [2]V,
     // For RGBA: [0]BGRA
-    
     IVPixelFormatType type;
-    uint8_t    *data[3];
-    uint32_t    linesize[3];
+    uint8_t    *data[3]; //!< [IN][OUT] 缓冲区地址，为兼容RGB和YUV像素格式，data[i]建议使用连续空间
+    uint32_t    linesize[3]; //!< [IN] data最大容量,  [OUT] data有效长度
     uint32_t    width;
     uint32_t    height;
     uint64_t    pts;
@@ -150,8 +149,8 @@ typedef struct _IVAudioFrame {
 /// 视频数据包
 typedef struct _IVVideoPacket {
     IVVideoCodecType type;
-    uint8_t    *data;
-    int         size;
+    uint8_t    *data; //!< [IN][OUT] 缓冲区地址
+    int         size; //!< [IN] data最大容量,  [OUT] data有效长度
     bool        keyFrame;
     uint64_t    dts;
     uint64_t    pts;
@@ -160,8 +159,8 @@ typedef struct _IVVideoPacket {
 /// 音频数据包
 typedef struct _IVAudioPacket {
     IVAudioCodecType type;
-    uint8_t    *data;
-    int         size;
+    uint8_t    *data; //!< [IN][OUT] 缓冲区地址
+    int         size; //!< [IN] data最大容量,  [OUT] data有效长度
     uint64_t    pts; 
 } IVAudioPacket;
 
@@ -176,7 +175,7 @@ typedef struct _IVAVHeader {
     uint32_t            sampleNumPerFrame; //!< 每帧数据里的采样数
     
     /*video info*/
-    IVVideoCodecType    videoType;         //!< 视频类型(h264/h265)
+    IVVideoCodecType    videoType;         //!< 视频编码格式
     uint8_t             videoFrameRate;    //!< 视频帧率
     uint32_t            videoWidth;        //!< 视频像素宽度
     uint32_t            videoHeight;       //!< 视频像素高度

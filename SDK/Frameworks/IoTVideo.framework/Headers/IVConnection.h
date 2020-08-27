@@ -42,45 +42,19 @@ typedef NS_ENUM(NSInteger, IVConnStatus) {
 
 /// 连接错误
 typedef NS_ENUM(NSUInteger, IVConnError) {
-
     /// APP端超过最大通道个数, 见`MAX_CONNECTION_NUM`
     IVConnError_ExceedsMaxNumber  = 21020,
     /// 重复的连接通道, 已存在相同`deviceId + sourceId`
     IVConnError_Duplicate         = 21021,
-    /// 建立连接失败, `userInfo[reasonCode]`为`IVConnectFailedReason`
+    /// 建立连接失败
     IVConnError_ConnectFailed     = 21022,
-    /// 连接已断开/连接失败, `userInfo[reasonCode]`为`IVConnectFailedReason`
+    /// 连接已断开/连接失败
     IVConnError_Disconnected      = 21023,
     /// 超出最大数据长度, 见`MAX_PKG_BYTES`
     IVConnError_ExceedsMaxLength  = 21024,
-    /// 当前连接暂不可用, `userInfo[reasonCode]`为`IVLinkStatus`
+    /// 当前连接暂不可用
     IVConnError_NotAvailableNow   = 21025,
 };
-
-/// 建立连接失败子类型
-typedef NS_ENUM(NSUInteger, IVConnectFailedReason) {
-    /// 普通挂断消息
-    IVConnectFailed_hangup = 20002,
-    /// 消息发送超时
-    IVConnectFailed_send_timeout = 20003,
-    /// 服务器未分配转发地址
-    IVConnectFailed_no_srv_addr = 20004,
-    /// 握手超时
-    IVConnectFailed_handshake_timeout = 20005,
-    /// 设备端token校验失败
-    IVConnectFailed_token_error = 20006,
-    /// 设备端通道数已满
-    IVConnectFailed_all_chn_busy = 20007,
-    /// 超时断开
-    IVConnectFailed_timeout_disconnect = 20008,
-    /// 未找到目的id
-    IVConnectFailed_no_find_dst_id = 20009,
-    /// token校验出错
-    IVConnectFailed_check_token_error = 20010,
-    /// 设备已经禁用
-    IVConnectFailed_dev_is_disable = 20011,
-};
-
 
 @class IVConnection;
 
@@ -102,7 +76,7 @@ typedef NS_ENUM(NSUInteger, IVConnectFailedReason) {
 
 /// 收到错误
 /// @param connection 连接实例
-/// @param error 错误, 见`IVConnError` / [`IVConnectFailedReason`、`IVLinkStatus`]
+/// @param error 错误, 见`IVConnError` / [`IVError`、`IVLinkStatus`]
 - (void)connection:(IVConnection *)connection didReceiveError:(NSError *)error;
 
 /// 收到数据
@@ -143,6 +117,7 @@ typedef NS_ENUM(NSUInteger, IVConnectFailedReason) {
 /// 发送自定义数据
 ///
 /// 需要与设备建立专门的连接通道，适用于较大数据传输、实时性要求较高的场景，如多媒体数据传输。
+/// 接收到设备端发来的数据见`-[IVConnectionDelegate connection:didReceiveData:]`
 /// @param data 要发送的数据，data.length不能超过`MAX_PKG_BYTES`
 /// @return 发送是否成功
 - (BOOL)sendData:(NSData *)data;

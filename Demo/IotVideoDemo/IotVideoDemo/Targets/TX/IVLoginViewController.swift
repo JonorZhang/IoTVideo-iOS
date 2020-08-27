@@ -20,7 +20,7 @@ class IVLoginViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = (using_test_host ? "登录（测试服）" : "登录（正式服）")
+        self.title = (using_test_web_host ? "登录（测试服）" : "登录（正式服）")
     }
     
     override func viewDidAppear(_ animated: Bool) {

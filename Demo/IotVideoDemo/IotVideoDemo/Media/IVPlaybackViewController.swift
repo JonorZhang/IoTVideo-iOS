@@ -32,20 +32,15 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
     /// 获取回放列表
     func loadPlaybackItems(timeRange: IVTime, completionHandler: @escaping ([IVPlaybackItem]?) -> Void) {
         seekTimeLabel.isHidden = true
-        let hud = ivLoadingHud()
-
         // ⚠️如果时间跨度太大请合理使用分页功能，否则可能影响查询速度
-        IVPlaybackPlayer.getPlaybackList(ofDevice: device.deviceID, pageIndex: 0, countPerPage: 10000, startTime: timeRange.start, endTime: timeRange.end) { (page, err) in
+        IVPlaybackPlayer.getPlaybackList(ofDevice: device.deviceID, pageIndex: 0, countPerPage: 900, startTime: timeRange.start, endTime: timeRange.end) { (page, err) in
             guard let items = page?.items else {
                 completionHandler(nil)
-                hud.hide()
                 logError(err as Any)
                 return
             }
-            logInfo(items)
-                                    
+            
             completionHandler(items)
-            hud.hide()
         }
     }
     
@@ -77,8 +72,8 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
     override func playClicked(_ sender: UIButton) {
         guard let playbackPlayer = playbackPlayer else { return }
         if playbackPlayer.playbackItem == nil {
-            //加载数据后自动预选择第一段视频
-            if let item = timelineView?.currentItem.rawValue as? IVPlaybackItem {
+            //加载数据后自动预选择一段视频
+            if let item = timelineView?.viewModel.anyRawItem?.rawValue as? IVPlaybackItem {
                 playbackPlayer.setPlaybackItem(item, seekToTime: item.startTime)
                 super.playClicked(sender)
             } else {
@@ -100,7 +95,6 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
             let timelineItems = playbackItems?.compactMap({ IVTimelineItem(start: $0.startTime,
                                                                           end: $0.endTime,
                                                                           type: $0.type,
-                                                                          color: .random,
                                                                           rawValue: $0) })
             completionHandler(timelineItems)
         }
@@ -117,6 +111,7 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now()+1) {[weak self] in
             self?.seekTimeLabel.isHidden = true
         }
+
         if let playbackItem = item.rawValue as? IVPlaybackItem {
             if playbackPlayer.status == .stopped {
                 playbackPlayer.setPlaybackItem(playbackItem, seekToTime: time)
@@ -124,12 +119,13 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
             } else {
                 playbackPlayer.seek(toTime: time, playbackItem: playbackItem)
             }
-            activityIndicatorView.startAnimating()
         }
+
+        activityIndicatorView.startAnimating()
     }
     
     override func player(_ player: IVPlayer, didUpdatePTS PTS: TimeInterval) {
         super.player(player, didUpdatePTS: PTS)
-        timelineView?.currentPTS = PTS
+        timelineView?.viewModel.update(pts: PTS)
     }
 }

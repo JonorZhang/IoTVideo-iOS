@@ -14,27 +14,27 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		mvqL7AnUXmE+fcoqlxO/oFlzl1c=
+		frWDR49k939GaRayP3zyNRaF2+c=
 		</data>
 		<key>Modules/IVNetwork.swiftmodule/Project/arm.swiftsourceinfo</key>
 		<data>
-		lNNHa4oku4BrkvJOCxbLoWGyFS0=
+		DwN5jFYKFvyZ6h/73VbVdsxg7ww=
 		</data>
 		<key>Modules/IVNetwork.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
-		TWUnWfNDk2drfZT6D0wtc+1Alhk=
+		f/crhlpOUocieGq17ujLo5OHnRc=
 		</data>
 		<key>Modules/IVNetwork.swiftmodule/Project/arm64.swiftsourceinfo</key>
 		<data>
-		TWUnWfNDk2drfZT6D0wtc+1Alhk=
+		f/crhlpOUocieGq17ujLo5OHnRc=
 		</data>
 		<key>Modules/IVNetwork.swiftmodule/Project/armv7-apple-ios.swiftsourceinfo</key>
 		<data>
-		lNNHa4oku4BrkvJOCxbLoWGyFS0=
+		DwN5jFYKFvyZ6h/73VbVdsxg7ww=
 		</data>
 		<key>Modules/IVNetwork.swiftmodule/Project/armv7.swiftsourceinfo</key>
 		<data>
-		lNNHa4oku4BrkvJOCxbLoWGyFS0=
+		DwN5jFYKFvyZ6h/73VbVdsxg7ww=
 		</data>
 		<key>Modules/IVNetwork.swiftmodule/arm.swiftdoc</key>
 		<data>
@@ -109,55 +109,55 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			lNNHa4oku4BrkvJOCxbLoWGyFS0=
+			DwN5jFYKFvyZ6h/73VbVdsxg7ww=
 			</data>
 			<key>hash2</key>
 			<data>
-			maJSoAonENeo1X55Q325+Ng2/MTavrn4bTtgRH5pEJo=
+			iN3YqbARFMNRTCR0iNzg/m0J48TvHgpyDTOP5RZ/rX4=
 			</data>
 		</dict>
 		<key>Modules/IVNetwork.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			TWUnWfNDk2drfZT6D0wtc+1Alhk=
+			f/crhlpOUocieGq17ujLo5OHnRc=
 			</data>
 			<key>hash2</key>
 			<data>
-			/MbXZ84C9GpJrrnzVVVmq86ZK/2Thfn+no06/WnWY6o=
+			C0vKi87OX2DeReuQcXBaYgEmnuSQ0R1ff/to8X3iSzU=
 			</data>
 		</dict>
 		<key>Modules/IVNetwork.swiftmodule/Project/arm64.swiftsourceinfo</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			TWUnWfNDk2drfZT6D0wtc+1Alhk=
+			f/crhlpOUocieGq17ujLo5OHnRc=
 			</data>
 			<key>hash2</key>
 			<data>
-			/MbXZ84C9GpJrrnzVVVmq86ZK/2Thfn+no06/WnWY6o=
+			C0vKi87OX2DeReuQcXBaYgEmnuSQ0R1ff/to8X3iSzU=
 			</data>
 		</dict>
 		<key>Modules/IVNetwork.swiftmodule/Project/armv7-apple-ios.swiftsourceinfo</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			lNNHa4oku4BrkvJOCxbLoWGyFS0=
+			DwN5jFYKFvyZ6h/73VbVdsxg7ww=
 			</data>
 			<key>hash2</key>
 			<data>
-			maJSoAonENeo1X55Q325+Ng2/MTavrn4bTtgRH5pEJo=
+			iN3YqbARFMNRTCR0iNzg/m0J48TvHgpyDTOP5RZ/rX4=
 			</data>
 		</dict>
 		<key>Modules/IVNetwork.swiftmodule/Project/armv7.swiftsourceinfo</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			lNNHa4oku4BrkvJOCxbLoWGyFS0=
+			DwN5jFYKFvyZ6h/73VbVdsxg7ww=
 			</data>
 			<key>hash2</key>
 			<data>
-			maJSoAonENeo1X55Q325+Ng2/MTavrn4bTtgRH5pEJo=
+			iN3YqbARFMNRTCR0iNzg/m0J48TvHgpyDTOP5RZ/rX4=
 			</data>
 		</dict>
 		<key>Modules/IVNetwork.swiftmodule/arm.swiftdoc</key>

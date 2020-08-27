@@ -17,7 +17,7 @@
 
 
 - (UIImage *)createQRCodeWithWifiName:(NSString *)name wifiPassword:(NSString *)pwd token:(NSString *)token {
-    return [self createQRCodeWithWifiName:name wifiPassword:pwd language:IVNetConfigLanguageCN token:token extraInfo:nil QRSize:CGSizeMake(1024, 1024)];
+    return [self createQRCodeWithWifiName:name wifiPassword:pwd language:IVLanguageCodeCN token:token extraInfo:nil QRSize:CGSizeMake(1024, 1024)];
 }
 
 - (UIImage *)createQRCodeWithWifiName:(NSString *)name wifiPassword:(NSString *)pwd language:(IVNetConfigLanguage)language token:(NSString *)token extraInfo:(NSDictionary<NSString *,NSString *> *)extraInfo QRSize:(CGSize)size {

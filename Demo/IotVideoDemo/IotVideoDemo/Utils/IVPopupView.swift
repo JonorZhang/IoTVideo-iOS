@@ -434,7 +434,7 @@ private extension IVPopupView {
                 make.width.equalTo(self).multipliedBy(UIApplication.shared.statusBarOrientation.isPortrait ? 0.8 : 0.5)
                 if willShow {
                     make.centerX.equalTo(self)
-                    make.bottom.equalTo(self).offset(-endFrame.height)
+                    make.bottom.equalTo(self).offset(-endFrame.height - 10)
                 } else {
                     make.center.equalTo(self)
                 }

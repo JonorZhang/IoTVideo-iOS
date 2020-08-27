@@ -14,11 +14,15 @@ import IVDevTools
 extension AppDelegate {
     func setupIoTVideo(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?)  {
         IoTVideo.sharedInstance.options = [
-            .hostType : using_test_host ? "0" : "1",
             .appVersion: Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String,
             .appPkgName : Bundle.main.bundleIdentifier!,
         ]
-        
+        if let hostWeb = IVConfigMgr.allConfigs.first(where: { $0.enable && $0.key == IVOptionKey.hostWeb.rawValue })?.value {
+            IoTVideo.sharedInstance.options[.hostWeb] = hostWeb
+        }
+        if let hostP2P = IVConfigMgr.allConfigs.first(where: { $0.enable && $0.key == IVOptionKey.hostP2P.rawValue })?.value {
+            IoTVideo.sharedInstance.options[.hostP2P] = hostP2P
+        }
         IoTVideo.sharedInstance.setup(launchOptions: launchOptions)
         IoTVideo.sharedInstance.delegate = self
         IoTVideo.sharedInstance.logLevel = IVLogLevel(rawValue: logLevel) ?? .DEBUG

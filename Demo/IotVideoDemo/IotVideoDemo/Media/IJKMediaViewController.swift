@@ -125,9 +125,7 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
         
         if mediaPlayer.duration > 0, let csItem = csItem {
             let newPTS = Int64(mediaPlayer.currentPlaybackTime + Double(csItem.starttime / 1000) + 0.5)
-            timelineView?.currentPTS = Double(newPTS)
-        } else {
-            timelineView?.currentPTS = 0
+            timelineView?.viewModel.update(pts: TimeInterval(newPTS))
         }
     }
     
@@ -146,7 +144,7 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
         sender.isSelected = !sender.isSelected
         if sender.isSelected {
             if csItem == nil {
-                if let item = timelineView?.currentItem.rawValue as? IVCSPlaybackItem {
+                if let item = timelineView?.viewModel.nextRawItem?.rawValue as? IVCSPlaybackItem {
                     prepareToPlay(item)
                 } else {
                     sender.isSelected = !sender.isSelected
@@ -170,7 +168,7 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
 
         NotificationCenter.default.addObserver(forName: .IJKMPMoviePlayerPlaybackDidFinish, object: nil, queue: nil) { [weak self] (noti) in
             guard let `self` = self else { return }
-            if self.autoPlayNextMedia, let nextCSItem = self.timelineView?.nextItem?.rawValue as? IVCSPlaybackItem {
+            if self.autoPlayNextMedia, let nextCSItem = self.timelineView?.viewModel.nextRawItem?.rawValue as? IVCSPlaybackItem {
                 self.prepareToPlay(nextCSItem)
                 self.mediaPlayer?.play()
             }
@@ -209,7 +207,6 @@ extension IJKMediaViewController: IVTimelineViewDelegate {
             let timelineItems = playbackList?.compactMap({ IVTimelineItem(start: TimeInterval($0.starttime / 1000),
                                                                           end: TimeInterval($0.endtime / 1000),
                                                                           type: "",
-                                                                          color: .random,
                                                                           rawValue: $0) })
             completionHandler(timelineItems)
         }

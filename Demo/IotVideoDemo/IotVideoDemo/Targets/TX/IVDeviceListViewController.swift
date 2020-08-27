@@ -17,7 +17,7 @@ class IVDeviceListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = using_test_host ? "设备列表(测试服)" : "用户设备列表"
+        self.title = using_test_web_host ? "设备列表(测试服)" : "用户设备列表"
         loadDeviceList()
         addRefreshControl()
         addObserverForDeviceOnline()
