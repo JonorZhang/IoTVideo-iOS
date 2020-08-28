@@ -41,7 +41,7 @@ enum IVTimeMark: Int, Comparable {
     }
 }
 
-protocol IVTiming: Equatable {
+protocol IVTiming: Comparable {
     var start: TimeInterval { get }
     var end: TimeInterval { get }
     var duration: TimeInterval { get }
@@ -53,8 +53,16 @@ extension IVTiming {
         return abs(lhs.start - rhs.start) < 0.0001 && abs(lhs.end - rhs.end) < 0.0001
     }
     
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        return lhs.end < rhs.start
+    }
+
+    static func > (lhs: Self, rhs: Self) -> Bool {
+        return lhs.start > rhs.end
+    }
+    
     func contains(_ ti: TimeInterval) -> Bool {
-        return abs(start - ti) < 0.0001 && abs(end - ti) < 0.0001
+        return ti > start - 0.0001 && ti < end + 0.0001
     }
     
     func after(days: UInt) -> IVTime {

@@ -212,20 +212,22 @@ extension IJKMediaViewController: IVTimelineViewDelegate {
         }
     }
     
-    func timelineView(_ timelineView: IVTimelineView, didSelect item: IVTimelineItem, at time: TimeInterval) {
+    func timelineView(_ timelineView: IVTimelineView, didSelect item: IVTimelineItem?, at time: TimeInterval) {
+        DispatchQueue.main.asyncAfter(deadline: .now()+1) {[weak self] in
+            self?.seekTimeLabel.isHidden = true
+        }
+        if let playbackItem = item?.rawValue as? IVCSPlaybackItem {
+            seek(toTime: time, playbackItem: playbackItem)
+            activityIndicatorView.startAnimating()
+        }
+        refreshProgressSlider()
+    }
+    
+    func timelineView(_ timelineView: IVTimelineView, didScrollTo time: TimeInterval) {
         let fmt = DateFormatter()
         fmt.dateFormat = "HH:mm:ss"
         let date = Date(timeIntervalSince1970: time)
         seekTimeLabel.text = fmt.string(from: date)
         seekTimeLabel.isHidden = false
-        
-        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-            self.seekTimeLabel.isHidden = true
-        }
-        if let playbackItem = item.rawValue as? IVCSPlaybackItem {
-            seek(toTime: time, playbackItem: playbackItem)
-            activityIndicatorView.startAnimating()
-        }
-        refreshProgressSlider()
     }
 }

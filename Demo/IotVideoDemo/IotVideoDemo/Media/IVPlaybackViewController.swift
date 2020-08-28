@@ -100,19 +100,12 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
         }
     }
     
-    func timelineView(_ timelineView: IVTimelineView, didSelect item: IVTimelineItem, at time: TimeInterval) {
-        guard let playbackPlayer = playbackPlayer else { return }
-        let fmt = DateFormatter()
-        fmt.dateFormat = "HH:mm:ss"
-        let date = Date(timeIntervalSince1970: time)
-        seekTimeLabel.text = fmt.string(from: date)
-        seekTimeLabel.isHidden = false
-        
+    func timelineView(_ timelineView: IVTimelineView, didSelect item: IVTimelineItem?, at time: TimeInterval) {
         DispatchQueue.main.asyncAfter(deadline: .now()+1) {[weak self] in
             self?.seekTimeLabel.isHidden = true
         }
-
-        if let playbackItem = item.rawValue as? IVPlaybackItem {
+        guard let playbackPlayer = playbackPlayer else { return }
+        if let playbackItem = item?.rawValue as? IVPlaybackItem {
             if playbackPlayer.status == .stopped {
                 playbackPlayer.setPlaybackItem(playbackItem, seekToTime: time)
                 playbackPlayer.play()
@@ -122,6 +115,14 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
         }
 
         activityIndicatorView.startAnimating()
+    }
+    
+    func timelineView(_ timelineView: IVTimelineView, didScrollTo time: TimeInterval) {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "HH:mm:ss"
+        let date = Date(timeIntervalSince1970: time)
+        seekTimeLabel.text = fmt.string(from: date)
+        seekTimeLabel.isHidden = false
     }
     
     override func player(_ player: IVPlayer, didUpdatePTS PTS: TimeInterval) {

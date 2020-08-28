@@ -10,12 +10,18 @@ import UIKit
 import SnapKit
 
 protocol IVTimelineViewDelegate: class {
-    /// 滚动或者点击时间轴片段
+    /// （滚动中）到达某时刻
+    /// - Parameters:
+    ///   - timelineView: 时间轴对象
+    ///   - time: 时间值（UTC时间，不是偏移量）
+    func timelineView(_ timelineView: IVTimelineView, didScrollTo time: TimeInterval)
+
+    /// （滚动停止）选中某时刻
     /// - Parameters:
     ///   - timelineView: 时间轴对象
     ///   - item: 时间片段
     ///   - time: 时间值（UTC时间，不是偏移量）
-    func timelineView(_ timelineView: IVTimelineView, didSelect item: IVTimelineItem, at time: TimeInterval)
+    func timelineView(_ timelineView: IVTimelineView, didSelect item: IVTimelineItem?, at time: TimeInterval)
     
     /// 数据源
     /// - Parameters:
@@ -119,6 +125,9 @@ class IVTimelineView: UIControl {
         col.addGestureRecognizer(pinchGesture)
         return col
     }()
+
+    private var headerBtn: UIButton?
+    private var footerBtn: UIButton?
     
     /// 缩放手势
     private lazy var pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(pinchGestureHandler(_:)))
@@ -151,8 +160,7 @@ class IVTimelineView: UIControl {
         if viewModel.current.isPlaceholder {
             loadAndDisplaySection(at: viewModel.current.time)
         } else {
-//            timeCollView.collectionViewLayout.invalidateLayout()
-            scrollToTime(viewModel.pts, force: true)
+            scrollToTime(viewModel.pts, force: true, animated: false)
         }
     }
     
@@ -178,7 +186,9 @@ private extension IVTimelineView {
             } else if pts > sectionTime.end {
                 self?.loadAndDisplaySection(at: sectionTime.after(days: 1))
             } else {
-                self?.scrollToTime(pts, force: false)
+                DispatchQueue.main.async {
+                    self?.scrollToTime(pts, force: false, animated: true)
+                }
             }
         }
         
@@ -238,7 +248,7 @@ private extension IVTimelineView {
                             if self.viewModel.current.time == time {
                                 self.timeCollView.reloadData()
                                 if let destItem = isBackward ? self.viewModel.current.items.last(where: { $0.isValid }) : self.viewModel.current.items.first(where: { $0.isValid }) {
-                                    self.scrollToTime(destItem.start, force: true)
+                                    self.scrollToTime(destItem.start, force: true, animated: true)
                                 } else {
                                     self.timeCollView.contentOffset.x = isBackward ? self.timeCollView.contentSize.width-self.timeCollView.frame.width : 0
                                 }
@@ -266,7 +276,7 @@ private extension IVTimelineView {
                 self.timeCollView.contentOffset.x = isBackward ? self.timeCollView.contentSize.width-self.timeCollView.frame.width : 0
                 if !self.viewModel.current.isPlaceholder,
                     let destItem = isBackward ? self.viewModel.current.items.last(where: { $0.isValid }) : self.viewModel.current.items.first(where: { $0.isValid }) {
-                    self.scrollToTime(destItem.start, force: true)
+                    self.scrollToTime(destItem.start, force: true, animated: true)
                 }
 
                 self.timeCollView.transform = CGAffineTransform(translationX: isBackward ? -100 : 100, y: 0)
@@ -303,7 +313,7 @@ private extension IVTimelineView {
             !scaleLabel.isHidden
     }
     
-    func scrollToTime(_ time: TimeInterval, force: Bool = false) {
+    func scrollToTime(_ time: TimeInterval, force: Bool, animated: Bool) {
         if !force {
             if self.isInteracting {
                 self.enableAutoScroll(after: 2)
@@ -316,11 +326,9 @@ private extension IVTimelineView {
         }
         let time = min(max(time, viewModel.current.start), viewModel.current.end)
         viewModel.update(pts: time, needsScroll: false)
-        DispatchQueue.main.async {
-            let offset = CGFloat(time - self.viewModel.current.start) * CGFloat(self.viewModel.scale)
-            let point = CGPoint(x: offset, y: self.timeCollView.contentOffset.y)
-            self.timeCollView.setContentOffset(point, animated: true)
-        }
+        let offsetX = CGFloat(time - viewModel.current.start) * CGFloat(viewModel.scale)
+        let point = CGPoint(x: offsetX, y: timeCollView.contentOffset.y)
+        self.timeCollView.setContentOffset(point, animated: animated)
     }
     
     @objc func pinchGestureHandler(_ pinch: UIPinchGestureRecognizer) {
@@ -329,11 +337,9 @@ private extension IVTimelineView {
             let oldScale = viewModel.scale
             
             if viewModel.update(scale: oldScale * Double(pinch.scale)) {
-                let offsetX = timeCollView.contentOffset.x
                 CATransaction.setDisableActions(true)
                 timeCollView.reloadData()
-                let pinchScale = viewModel.scale / oldScale
-                timeCollView.contentOffset.x = offsetX * CGFloat(pinchScale)
+                scrollToTime(viewModel.pts, force: true, animated: false)
                 CATransaction.commit()
                 scaleLabel.isHidden = false
                 scaleLabel.text = viewModel.scale > 0.1 ? "\(Int(viewModel.scale * 100))%" : String(format: "%.1f%%", viewModel.scale * 100)
@@ -346,36 +352,6 @@ private extension IVTimelineView {
         pinch.scale = 1
     }
     
-    private func didScrollHandler() {
-        guard !viewModel.current.items.isEmpty else {
-            return
-        }
-        
-        for cell in timeCollView.visibleCells {
-            guard let cell = cell as? IVTimelineCell else {
-                continue
-            }
-            let newRect = timeCollView.convert(cell.frame, to: self)
-            let indRect = indicatorLine.frame
-            
-            guard newRect.contains(CGPoint(x: indRect.midX, y: indRect.midY)) else {
-                continue
-            }
-            
-            var seekTime = Double(timeCollView.contentOffset.x) / self.viewModel.scale + viewModel.current.start
-            seekTime = min(max(seekTime, viewModel.current.start), viewModel.current.end)
-            
-            viewModel.update(pts: seekTime, needsScroll: false)
-            
-            guard cell.isValid, let item = viewModel.currentRawItem else {
-                return
-            }
-            logDebug("selected item \(item) at \(seekTime)")
-            
-            delegate?.timelineView(self, didSelect: item, at: seekTime)
-            return
-        }
-    }
 }
 
 extension IVTimelineView: UICollectionViewDataSource {
@@ -397,20 +373,27 @@ extension IVTimelineView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerfooter = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kind, for: indexPath) as! IVTimelineHeaderFooter
+        let fmt = DateFormatter()
+        fmt.dateFormat = "MM/dd"
+        
         if kind == UICollectionView.elementKindSectionHeader {
+            headerBtn = headerfooter.btn
             let prevDay = self.viewModel.current.before(days: 1)
-            headerfooter.btn.setTitle("<<<前一天<<<", for: .normal)
-            headerfooter.btn.addEvent { (_) in
+            headerBtn?.setTitle("\(fmt.string(from: prevDay.date))   ☜=((・∀・*)☜=", for: .normal)
+            headerBtn?.setTitle("╰(￣▽￣)╭", for: .selected)
+            headerBtn?.addEvent { (_) in
                 self.loadAndDisplaySection(at: prevDay)
             }
         } else {
+            footerBtn = headerfooter.btn
             if viewModel.current.time == .today {
-                headerfooter.btn.setTitle("没有更多了", for: .normal)
-                headerfooter.btn.addEvent { _ in }
+                footerBtn?.setTitle("(＞﹏＜)||", for: .normal)
+                footerBtn?.addEvent { _ in }
             } else {
                 let nextDay = self.viewModel.current.after(days: 1)
-                headerfooter.btn.setTitle(">>>后一天>>>", for: .normal)
-                headerfooter.btn.addEvent { (_) in
+                footerBtn?.setTitle("=☞(*・∀・))=☞   \(fmt.string(from: nextDay.date))", for: .normal)
+                footerBtn?.setTitle("╰(￣▽￣)╭", for: .selected)
+                footerBtn?.addEvent { (_) in
                     self.loadAndDisplaySection(at: nextDay)
                 }
             }
@@ -425,7 +408,7 @@ extension IVTimelineView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = viewModel.current.items[indexPath.item]
         if !item.isValid { return }
-        scrollToTime(item.start, force: true)
+        scrollToTime(item.start, force: true, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -457,31 +440,69 @@ extension IVTimelineView: UICollectionViewDelegateFlowLayout {
     }
     
     // MARK: UIScrollViewDelegate
-
+    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-         scaleLabel.isHidden = true
-     }
+        scaleLabel.isHidden = true
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView.isDecelerating { return }
+        
+        if scrollView.contentOffset.x < -60 {
+            let prevDay = viewModel.current.before(days: 1)
+            loadAndDisplaySection(at: prevDay)
+        } else if viewModel.current.time != .today,
+            scrollView.contentOffset.x - scrollView.contentSize.width > -(scrollView.frame.width-60) {
+            let nextDay = viewModel.current.after(days: 1)
+            loadAndDisplaySection(at: nextDay)
+        }
+        
+        if decelerate { return }
+        
+        scrollHandler(didEnd: true)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        scrollHandler(didEnd: true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        headerBtn?.isSelected = (scrollView.isDragging && scrollView.contentOffset.x < -60)
+        footerBtn?.isSelected = (scrollView.isDragging && viewModel.current.time < .today && scrollView.contentOffset.x - scrollView.contentSize.width > -(scrollView.frame.width-60))
+        
+        scrollHandler(didEnd: false)
+    }
+    
+    private func scrollHandler(didEnd: Bool) {
+        guard !viewModel.current.items.isEmpty else {
+            return
+        }
+        
+        for cell in timeCollView.visibleCells {
+            guard let cell = cell as? IVTimelineCell else {
+                continue
+            }
+            let newRect = timeCollView.convert(cell.frame, to: self)
+            let indRect = indicatorLine.frame
+            
+            guard newRect.contains(CGPoint(x: indRect.midX, y: indRect.midY)) else {
+                continue
+            }
+            
+            var seekTime = Double(timeCollView.contentOffset.x) / self.viewModel.scale + viewModel.current.start
+            seekTime = min(max(seekTime, viewModel.current.start), viewModel.current.end)
+            
+            viewModel.update(pts: seekTime, needsScroll: false)
+            delegate?.timelineView(self, didScrollTo: seekTime)
 
-     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-         if scrollView.isDecelerating { return }
-         
-         if scrollView.contentOffset.x < -60 {
-             let prevDay = self.viewModel.current.before(days: 1)
-             self.loadAndDisplaySection(at: prevDay)
-         } else if viewModel.current.time != .today,
-             scrollView.contentOffset.x - scrollView.contentSize.width > -(scrollView.frame.width-60) {
-             let nextDay = self.viewModel.current.after(days: 1)
-             self.loadAndDisplaySection(at: nextDay)
-         }
-
-         if decelerate { return }
-
-         didScrollHandler()
-     }
-     
-     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-         didScrollHandler()
-     }
+            if didEnd {
+                let item = viewModel.currentRawItem
+                logDebug("selected item \(String(describing: item)) at \(seekTime)")
+                delegate?.timelineView(self, didSelect: item, at: seekTime)
+            }
+            return
+        }
+    }
 }
 
 
