@@ -134,9 +134,9 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Vh0-Me-Hsl">
                                         <rect key="frame" x="150" y="0.0" width="256" height="44"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="user data" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="ufz-FP-EeJ">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="user data" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="ufz-FP-EeJ">
                                                 <rect key="frame" x="0.0" y="0.0" width="80" height="44"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="80" id="4SJ-oP-yCR"/>
                                                 </constraints>

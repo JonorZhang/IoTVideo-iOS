@@ -112,9 +112,8 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
             } else {
                 playbackPlayer.seek(toTime: time, playbackItem: playbackItem)
             }
+            activityIndicatorView.startAnimating()
         }
-
-        activityIndicatorView.startAnimating()
     }
     
     func timelineView(_ timelineView: IVTimelineView, didScrollTo time: TimeInterval) {

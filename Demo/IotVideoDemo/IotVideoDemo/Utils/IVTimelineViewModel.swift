@@ -107,7 +107,7 @@ struct IVTime: IVTiming, Hashable {
         let ymd = Calendar.current.dateComponents([.year, .month, .day], from: date)
         let date = Calendar.current.date(from: ymd)!
         let t0 = date.timeIntervalSince1970
-        let t1 = t0 + (86400 - 1)
+        let t1 = t0 + 86400
         self.init(start: t0, end: t1)
     }
         
@@ -123,13 +123,13 @@ struct IVTimelineItem: IVTiming, CustomStringConvertible {
     var color: UIColor {
         switch type {
         case "padding", "placeholder":
-            return .white
+            return UIColor(white: 0.98, alpha: 1)
         case "manual":
             return .orange
         case "alarm":
             return .red
         case "allday":
-            return .blue
+            return UIColor(rgb: 0x91B1EF)
         default:
             return .green
         }
@@ -202,8 +202,8 @@ struct IVTimelineSection: IVTiming {
     mutating func reload(toFit scale: Double) {
         // minimum: 1pix or 1sec
         let minDuration = max(1/scale, 1.0)
-        // maximum: 100pix or 2hour
-        let maxDuration = min(100/scale, 2*60*60)
+        // maximum: 200pix or 4hour
+        let maxDuration = min(200/scale, 4*60*60)
   
         // 0. 临时缓存
         var items = rawItems
@@ -374,13 +374,13 @@ class IVTimelineViewModel {
         }
         
         self.scale = min(max(scale, minimumScale), maximumScale)
-        logDebug("update(scale:\(self.scale))")
+//        logVerbose("update(scale:\(self.scale))")
         current.reload(toFit: self.scale)
         return true
     }
 
     func update(pts: TimeInterval, needsScroll: Bool = true) {
-        logDebug("update(pts:\(pts), needsScroll:\(needsScroll))")
+//        logVerbose("update(pts:\(pts), needsScroll:\(needsScroll))")
         self.pts = pts
         if needsScroll {
             scrollToTimeIfNeed?(pts, current.time)

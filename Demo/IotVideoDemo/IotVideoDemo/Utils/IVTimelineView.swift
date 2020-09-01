@@ -266,14 +266,20 @@ private extension IVTimelineView {
     func loadAndDisplaySection(at time: IVTime) {
         DispatchQueue.main.async {[weak self] in
             guard let `self` = self else { return }
-            if self.viewModel.current.time != time || self.viewModel.current.isPlaceholder {
-                let isBackward = time.start < self.viewModel.current.start
+            let isSameTime = (self.viewModel.current.time == time)
+            let isBackward = time.start < self.viewModel.current.start
 
+            if !isSameTime || self.viewModel.current.isPlaceholder {
+                self.viewModel.loadSection(for: time)
+                if isSameTime && self.viewModel.current.isPlaceholder {
+                    return // 还是placeholder就不需要刷新
+                }
+                
                 self.datelineView.selectedDate = time.date
 
-                self.viewModel.loadSection(for: time)
                 self.timeCollView.reloadData()
                 self.timeCollView.contentOffset.x = isBackward ? self.timeCollView.contentSize.width-self.timeCollView.frame.width : 0
+                
                 if !self.viewModel.current.isPlaceholder,
                     let destItem = isBackward ? self.viewModel.current.items.last(where: { $0.isValid }) : self.viewModel.current.items.first(where: { $0.isValid }) {
                     self.scrollToTime(destItem.start, force: true, animated: true)
@@ -532,14 +538,17 @@ class IVTimelineCell: UICollectionViewCell {
     private func FontSize(of mark: IVTimeMark) -> CGFloat {
         var fontSize: CGFloat
         if mark.rawValue >= IVTimeMark.hour.rawValue {
-            fontSize = CGFloat(CGFloat(mark.rawValue) * CGFloat(scale) / 800) * 20
-            fontSize = fontSize < 14 ? 14 : (fontSize > 20 ? 20 : fontSize)
+//            fontSize = CGFloat(CGFloat(mark.rawValue) * CGFloat(scale) / 800) * 20
+//            fontSize = fontSize < 14 ? 14 : (fontSize > 20 ? 20 : fontSize)
+            return 17
         } else if mark.rawValue >= IVTimeMark.min1.rawValue  {
-            fontSize = CGFloat(CGFloat(mark.rawValue) * CGFloat(scale) / 800) * 17
-            fontSize = fontSize < 12 ? 12 : (fontSize > 17 ? 17 : fontSize)
+//            fontSize = CGFloat(CGFloat(mark.rawValue) * CGFloat(scale) / 800) * 17
+//            fontSize = fontSize < 12 ? 12 : (fontSize > 17 ? 17 : fontSize)
+            return 17
         } else {
-            fontSize = CGFloat(CGFloat(mark.rawValue) * CGFloat(scale) / 800) * 15
-            fontSize = fontSize < 8 ? 8 : (fontSize > 15 ? 15 : fontSize)
+//            fontSize = CGFloat(CGFloat(mark.rawValue) * CGFloat(scale) / 800) * 15
+//            fontSize = fontSize < 8 ? 8 : (fontSize > 15 ? 15 : fontSize)
+            return 12
         }
         return fontSize
     }
@@ -602,44 +611,53 @@ class IVTimelineCell: UICollectionViewCell {
     }
     
     // === 刻度\文字 ===
-    private func drawTimelineMark(_ ctx: CGContext?, mark: IVTimeMark) {
-        let markHeight = MarkHeight(of: mark)
-        var offset = TimeOffset(of: mark)
-        
-        let color = StrokeColor(of: mark)
-        let fontSize = FontSize(of: mark)
-        
-        let fmt = DateFormatter()
-        fmt.dateFormat = DateFormat(of: mark)
+    private func drawTimelineMark(_ ctx: CGContext?) {
+        let miniMark = timeMarks.last!
+        var offset = TimeOffset(of: miniMark)
 
-        let labelWidth = LabelWidth(of: mark)
-        let showText = CGFloat(mark.rawValue) * CGFloat(scale) > labelWidth
-        
         ctx?.setLineWidth(1)
-        ctx?.setStrokeColor(color.cgColor)
-        
+
         while offset <= time.duration {
-            if mark.upperMark == nil || Int(time.start + offset) % mark.upperMark!.rawValue != 0 {
-                ctx?.move(to: CGPoint(x: scale * offset, y: 0))
-                ctx?.addLine(to: CGPoint(x: scale * offset, y: markHeight))
+            
+            for mark in timeMarks {
                 
-                if showText, mark >= .sec10 {
-                    for divisor in IVTimeMark.divisors {
-                        if Int(time.start + offset) % divisor == 0 {
-                            addTextLayer(frame: CGRect(x: CGFloat(scale * offset)-labelWidth/2, y: bounds.height-20, width: labelWidth, height: 20),
-                                         text: fmt.string(from: Date(timeIntervalSince1970: time.start + offset)),
-                                         color: color,
-                                         fontSize: fontSize)
-                            break
+                if Int(time.start + offset) % mark.rawValue == 0 {
+                    
+                    let markHeight = MarkHeight(of: mark)
+                    
+                    let color = StrokeColor(of: mark)
+                    let fontSize = FontSize(of: mark)
+                    
+                    let fmt = DateFormatter()
+                    fmt.dateFormat = DateFormat(of: mark)
+
+                    let labelWidth = LabelWidth(of: mark)
+                    let showText = CGFloat(mark.rawValue) * CGFloat(scale) > labelWidth
+                    
+                    let offX = min(max(CGFloat(scale * offset), self.bounds.minX), self.bounds.maxX)
+
+                    ctx?.setStrokeColor(color.cgColor)
+                    ctx?.move(to: CGPoint(x: Double(offX), y: 0))
+                    ctx?.addLine(to: CGPoint(x: Double(offX), y: markHeight))
+
+                    if showText, mark >= .sec10 {
+                        for divisor in IVTimeMark.divisors {
+                            if Int(round(time.start + Double(offX))) % divisor == 0 {
+                                addTextLayer(frame: CGRect(x: offX-labelWidth/2, y: bounds.height-20, width: labelWidth, height: 20),
+                                             text: fmt.string(from: Date(timeIntervalSince1970: time.start + offset)),
+                                             color: color,
+                                             fontSize: fontSize)
+                                break
+                            }
                         }
                     }
+
+                    ctx?.strokePath()
+                    break
                 }
             }
-            
-            offset += Double(mark.rawValue)
+            offset += Double(miniMark.rawValue)
         }
-        
-        ctx?.strokePath()
     }
     
     let loadingAnim = UIActivityIndicatorView(style: .gray)
@@ -667,9 +685,8 @@ class IVTimelineCell: UICollectionViewCell {
         let rect = CGRect(x: 0, y: bounds.height / 3, width: bounds.width, height: bounds.height / 3)
         ctx?.fill(rect)
         
-        timeMarks.forEach { (mark) in
-            drawTimelineMark(ctx, mark: mark)
-        }
+        // 刻度
+        drawTimelineMark(ctx)
     }
 }
 
