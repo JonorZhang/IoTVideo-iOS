@@ -26,5 +26,10 @@
 /// 编码
 - (BOOL)encodeVideoFrame:(IVVideoFrame *)inFrame outPacket:(IVVideoPacket *)outPacket;
 
+
+@optional
+/// 设置相关参数
+- (void)setupWithVideoType:(IVVideoCodecType)videoType size:(CGSize)videoSize pixFmt:(IVPixelFormatType)pixFmt frameRate:(int)frameRate;
+
 @end
 

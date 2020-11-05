@@ -13,16 +13,18 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NSString * IVOptionKey NS_STRING_ENUM;
 
 /**
- Web服务器域名， 不指定时默认为内置正式服
-    @li "TEST" 内置测试服
-    @li "xxxx" 自定义web服务器域名
+Web服务器域名配置：
+    @li 不指定时默认为内置正式服
+    @li "TEST": 内置测试服
+    @li "xxxx": 自定义web服务器域名
  */
 FOUNDATION_EXPORT IVOptionKey const IVOptionKeyHostWeb;
 
 /**
- P2P服务器域名，不指定时默认为内置正式服
-    @li "TEST" 内置测试服
-    @li "xxxx" 自定义P2P服务器域名
+ P2P服务器域名:
+    @li 不指定时默认为内置正式服
+    @li "TEST": 内置测试服
+    @li "xxxx": 自定义P2P服务器域名
  */
 FOUNDATION_EXPORT IVOptionKey const IVOptionKeyHostP2P;
 
@@ -57,9 +59,15 @@ FOUNDATION_EXPORT IVOptionKey const IVOptionKeyAppToken;
 FOUNDATION_EXPORT IVOptionKey const IVOptionKeyAppDevType;
 
 /**
+ APP PushID
+ */
+FOUNDATION_EXPORT IVOptionKey const IVOptionKeyPushID;
+
+/**
  第三方ID前缀 保留
  */
 FOUNDATION_EXPORT NSString *  const IVThirdIDPrefix;
+
 
 
 /// SDK与服务器的连接状态

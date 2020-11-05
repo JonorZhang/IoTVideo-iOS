@@ -33,7 +33,9 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
     func loadPlaybackItems(timeRange: IVTime, completionHandler: @escaping ([IVPlaybackItem]?) -> Void) {
         seekTimeLabel.isHidden = true
         // ⚠️如果时间跨度太大请合理使用分页功能，否则可能影响查询速度
-        IVPlaybackPlayer.getPlaybackList(ofDevice: device.deviceID, pageIndex: 0, countPerPage: 900, startTime: timeRange.start, endTime: timeRange.end) { (page, err) in
+//        IVPlaybackPlayer.getPlaybackList(ofDevice: device.deviceID, pageIndex: 0, countPerPage: 10000, startTime: timeRange.start, endTime: timeRange.end) { (page, err) in
+        // filterType: `IVTimelineItem.type`
+        IVPlaybackPlayer.getPlaybackListV2(ofDevice: device.deviceID, pageIndex: 0, countPerPage: 10000, startTime: timeRange.start, endTime: timeRange.end, filterType: nil) { (page, err) in
             guard let items = page?.items else {
                 completionHandler(nil)
                 logError(err as Any)
@@ -89,7 +91,7 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
     func timelineView(_ timelineView: IVTimelineView, markListForCalendarAt time: IVTime, completionHandler: @escaping ([IVCSMarkItem]?) -> Void) {
         completionHandler([])
     }
-    
+        
     func timelineView(_ timelineView: IVTimelineView, itemsForTimelineAt timeRange: IVTime, completionHandler: @escaping ([IVTimelineItem]?) -> Void) {
         loadPlaybackItems(timeRange: timeRange) { (playbackItems) in
             let timelineItems = playbackItems?.compactMap({ IVTimelineItem(start: $0.startTime,
@@ -100,7 +102,7 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
         }
     }
     
-    func timelineView(_ timelineView: IVTimelineView, didSelect item: IVTimelineItem?, at time: TimeInterval) {
+    func timelineView(_ timelineView: IVTimelineView, didSelectItem item: IVTimelineItem?, at time: TimeInterval) {
         DispatchQueue.main.asyncAfter(deadline: .now()+1) {[weak self] in
             self?.seekTimeLabel.isHidden = true
         }
@@ -116,10 +118,18 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
         }
     }
     
+    func timelineView(_ timelineView: IVTimelineView, didSelectDateAt time: IVTime) {
+        logInfo("select at date \(Date(timeIntervalSince1970: time.start))")
+    }
+
+    func timelineView(_ timelineView: IVTimelineView, didSelectRangeAt time: IVTime) {
+        
+    }
+
     func timelineView(_ timelineView: IVTimelineView, didScrollTo time: TimeInterval) {
         let fmt = DateFormatter()
         fmt.dateFormat = "HH:mm:ss"
-        let date = Date(timeIntervalSince1970: time)
+        let date = Date(timeIntervalSince1970: round(time))
         seekTimeLabel.text = fmt.string(from: date)
         seekTimeLabel.isHidden = false
     }

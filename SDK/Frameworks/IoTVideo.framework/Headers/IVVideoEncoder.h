@@ -17,10 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithVideoType:(IVVideoCodecType)videoType size:(CGSize)videoSize pixFmt:(IVPixelFormatType)pixFmt frameRate:(int)frameRate NS_DESIGNATED_INITIALIZER;
 
-/// 重置视频编码器
-- (void)setupWithVideoType:(IVVideoCodecType)videoType size:(CGSize)videoSize pixFmt:(IVPixelFormatType)pixFmt frameRate:(int)frameRate;
-
-
 /// 可用的视频编码器
 /// 开发者可以修改此属性以支持更多格式
 /// - KeyType          IVVideoCodecType

@@ -62,20 +62,40 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
 
         // 方式1. 默认使用内置采集器、编解码器、渲染器、录制器，[可选]修改某些参数；
         // 方式2. 自定义采集器、编解码器、渲染器、录制器。
+        
         // ----- 高级设置 开始 ----------
+         
+        var cfgkvs: [String : String] = [:]
+        for cfg in device.avconfig.split(separator: " ") {
+            let kv = cfg.split(separator: ":")
+            if kv.count > 1 {
+                cfgkvs[String(kv[0])] = String(kv[1])
+            } else {
+                logError("非法配置: \(cfg)")
+            }
+        }
+
         if let player = player as? IVPlayerTalkable {
-            // player.audioEncoder.audioType = .AMR // 默认AAC
+            if let ae = cfgkvs["-aenc"]?.lowercased(), ae == "amr" {
+                player.audioEncoder.audioType = .AMR // 默认AAC
+            }
+            if let ar = cfgkvs["-ar"], let ari = UInt32(ar) {
+                player.audioCapture.sampleRate = ari // 默认8000
+            }
             // player.audioEncoder = MyAudioEncoder() // 自定义audioEncoder
-            player.audioCapture.sampleRate = 16000 // 默认8000
         }
         if let player = player as? IVPlayerVideoable {
             // player.videoEncoder.videoType = .H264 // 默认H264
             player.videoCapture.definition = .mid // 默认low
+            if let vr = cfgkvs["-vr"], let vri = Int32(vr) {
+                player.videoCapture.frameRate = vri // 默认16
+            }
         }
         // player.videoRender = MyVideoRender() // 自定义videoRender
         // player.audioDecoder = MyAudioDecoder() // 自定义audioDecoder
         // ....
         // ✅更多内置采集器、编解码器、渲染器、录制器详见见<IoTVideo/IVAVUtils.h>及其协议。
+        
         // ----- 高级设置 结束 ----------
         
         player.delegate = self
@@ -86,13 +106,13 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
             view.insertSubview(mediaView, at: 0)
             
             // 添加手势
-            mediaView.addPinchGesture {[unowned self] in
+            view.addPinchGesture {[unowned self] in
                 self.pinchGestureHandler($0)
             }
-            mediaView.addPanGesture {[unowned self] in
+            view.addPanGesture {[unowned self] in
                 self.panGestureHandler($0)
             }
-            mediaView.addTapGesture(numberOfTapsRequired: 2) {[unowned self] in
+            view.addTapGesture(numberOfTapsRequired: 2) {[unowned self] in
                 self.doubleTapGestureHandler($0)
             }
         }
@@ -106,6 +126,10 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         player?.stop()
         UIApplication.shared.isIdleTimerDisabled = false //允许锁屏
     }
@@ -188,21 +212,27 @@ private extension IVDevicePlayerViewController {
         if reset { mediaView.center = view.center }
     }
     
-    func adjustVideoViewFrame() {
+    func adjustMediaViewPosition() {
         guard let mediaView = mediaView else { return }
-        
         if mediaView.frame.width <= self.view.frame.width {
             mediaView.center.x = self.view.center.x
         } else {
-            if mediaView.frame.minX > 0 { mediaView.frame.origin.x = 0 }
-            if mediaView.frame.maxX < self.view.frame.maxX { mediaView.frame.origin.x = self.view.frame.maxX - mediaView.frame.width }
+            if mediaView.frame.minX > 0 {
+                mediaView.frame.origin.x = 0
+            }
+            if mediaView.frame.maxX < self.view.frame.maxX {
+                mediaView.frame.origin.x = self.view.frame.maxX - mediaView.frame.width
+            }
         }
-        
         if mediaView.frame.height <= self.view.frame.height {
             mediaView.center.y = self.view.center.y
         } else {
-            if mediaView.frame.minY > 0 { mediaView.frame.origin.y = 0 }
-            if mediaView.frame.maxY < self.view.frame.maxY { mediaView.frame.origin.y = self.view.frame.maxY - mediaView.frame.height }
+            if mediaView.frame.minY > 0 {
+                mediaView.frame.origin.y = 0
+            }
+            if mediaView.frame.maxY < self.view.frame.maxY {
+                mediaView.frame.origin.y = self.view.frame.maxY - mediaView.frame.height
+            }
         }
     }
 }
@@ -232,7 +262,7 @@ extension IVDevicePlayerViewController {
                     let H = mediaView.frame.height * rate
                     mediaView.frame = CGRect(x: X, y: Y, width: W, height: H)
                     
-                    self.adjustVideoViewFrame()
+                    self.adjustMediaViewPosition()
                     
                     self.vscale = newScale
                     logInfo("dtap", self.vscale, mediaView.frame)
@@ -252,9 +282,7 @@ extension IVDevicePlayerViewController {
             let translation = pan.translation(in: mediaView)
             mediaView.center.x += translation.x
             mediaView.center.y += translation.y
-            
-            self.adjustVideoViewFrame()
-            
+            self.adjustMediaViewPosition()
             pan.setTranslation(.zero, in: mediaView)
         case .ended:
             logInfo("pan ended", self.vscale, mediaView.frame)
@@ -270,27 +298,38 @@ extension IVDevicePlayerViewController {
         switch pinch.state {
         case .began:
             let loc = pinch.location(in: mediaView)
-            focus = (loc.x / mediaView.frame.width, loc.y / mediaView.frame.height)
-            logInfo("pinch", focus, self.vscale, mediaView.frame)
-            break
+            let locX = min(max(loc.x, 0), mediaView.frame.width)
+            let locY = min(max(loc.y, 0), mediaView.frame.height)
+            focus = (sx: locX / mediaView.frame.width - 0.5, sy: locY / mediaView.frame.height - 0.5)
+
         case .changed:
-            var newScale = self.vscale * pinch.scale
-            newScale = max(minVScale, min(maxVScale, newScale))
-            
-            if abs(newScale - self.vscale) > 0.001 {
-                let foucsPoint = CGPoint(x: focus.sx * mediaView.frame.width, y: focus.sy * mediaView.frame.height)
-                let loc = pinch.location(in: mediaView)
-                let X = mediaView.frame.origin.x + (loc.x - foucsPoint.x)
-                let Y = mediaView.frame.origin.y + (loc.y - foucsPoint.y)
-                let W = mediaView.frame.width * newScale / self.vscale
-                let H = mediaView.frame.height * newScale / self.vscale
-                mediaView.frame = CGRect(x: X, y: Y, width: W, height: H)
+            if pinch.scale < 1.0 && self.vscale <= minVScale { return }
+            if pinch.scale > 1.0 && self.vscale >= maxVScale { return }
                 
-                self.vscale = newScale
+            var pinchScale = pinch.scale
+            if pinchScale * self.vscale > maxVScale {
+                pinchScale = maxVScale / self.vscale
+            } else if pinchScale * self.vscale < minVScale {
+                pinchScale = minVScale / self.vscale
             }
+            self.vscale = pinchScale * self.vscale
+            // 缩放
+            let loc0 = CGPoint(x: focus.sx * mediaView.frame.width, y: focus.sy * mediaView.frame.height)
+            mediaView.transform = mediaView.transform.scaledBy(x: pinchScale, y: pinchScale)
+            // 移动
+            let loc1 = CGPoint(x: focus.sx * mediaView.frame.width, y: focus.sy * mediaView.frame.height)
+            let offX = (loc0.x - loc1.x) / mediaView.transform.a
+            let offY = (loc0.y - loc1.y) / mediaView.transform.d
+            mediaView.transform = mediaView.transform.translatedBy(x: offX, y: offY)
+
         case .ended:
-            self.adjustVideoViewFrame()
-            logInfo("pinch", self.vscale, mediaView.frame)
+            let oldFrame = mediaView.frame
+            mediaView.transform = .identity
+            mediaView.frame = oldFrame
+            UIView.animate(withDuration: 0.3) {
+                self.adjustMediaViewPosition()
+            }
+            
         default:
             break
         }
@@ -437,7 +476,7 @@ extension IVDevicePlayerViewController: IVPlayerDelegate {
     func connection(_ connection: IVConnection, didReceive data: Data) {
         logInfo(device.deviceID + "_\(sourceID)", data.count)
     }
-
+    
     func player(_ player: IVPlayer, didUpdate status: IVPlayerStatus) {
         let animating = (status == .preparing || status == .loading)
         animating ? activityIndicatorView.startAnimating() : activityIndicatorView.stopAnimating()
@@ -463,6 +502,11 @@ extension IVDevicePlayerViewController: IVPlayerDelegate {
 //        logVerbose(device.deviceID + "_\(sourceID)", "PTS:", PTS)
     }
     
+    func player(_ player: IVPlayer, didUpdateAudience audience: Int) {
+        logInfo(device.deviceID + "_\(sourceID)", audience)
+        IVPopupView.showAlert(title: "观众人数变更", message: "当前观看人数：\(audience)", in: self.view, duration: 1.5)
+    }
+
     func player(_ player: IVPlayer, didReceiveError error: Error) {
         let err = error as NSError
         let code = err.userInfo["ReasonCode"] ?? err.code

@@ -32,4 +32,9 @@
 /// 编码
 - (BOOL)encodeAudioFrame:(IVAudioFrame *)inFrame outPacket:(IVAudioPacket *)outPacket;
 
+
+@optional
+/// 设置相关参数
+- (void)setupWithAudioType:(IVAudioCodecType)audioType sampleRate:(uint32_t)sampleRate audioMode:(IVAudioSoundMode)audioMode bitWidth:(uint8_t)bitWidth;
+
 @end

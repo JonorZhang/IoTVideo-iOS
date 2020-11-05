@@ -87,7 +87,8 @@ typedef NS_ENUM(NSUInteger, IVConnError) {
 @end
 
 
-/// 通道连接（抽象类，不要直接实例化，请使用其派生类: IVLivePlayer / IVPlaybackPlayer / IVMonitorPlayer / IVTransmission）
+/// 通道连接
+/// @note IVConnection为抽象基类，请勿直接实例化，应使用其派生类:IVLivePlayer、IVPlaybackPlayer、IVMonitorPlayer和IVTransmission
 @interface IVConnection: NSObject
 
 /// 连接代理
@@ -109,10 +110,11 @@ typedef NS_ENUM(NSUInteger, IVConnError) {
 @property (nonatomic, assign, readonly) IVConnStatus connStatus;
 
 /// 开始连接
-- (BOOL)connect;
+/// 该方法较耗时, 建议在子线程执行
+- (void)connect;
 
 /// 断开连接
-- (BOOL)disconnect;
+- (void)disconnect;
 
 /// 发送自定义数据
 ///

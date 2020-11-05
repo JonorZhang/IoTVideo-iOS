@@ -41,24 +41,23 @@ enum IVTimeMark: Int, Comparable {
     }
 }
 
-protocol IVTiming: Comparable {
+protocol IVTiming: Comparable, CustomStringConvertible {
     var start: TimeInterval { get }
     var end: TimeInterval { get }
     var duration: TimeInterval { get }
 }
 
 extension IVTiming {
-    
     static func == (lhs: Self, rhs: Self) -> Bool {
         return abs(lhs.start - rhs.start) < 0.0001 && abs(lhs.end - rhs.end) < 0.0001
     }
     
     static func < (lhs: Self, rhs: Self) -> Bool {
-        return lhs.end < rhs.start
+        return lhs.end - 0.0001 < rhs.start
     }
 
     static func > (lhs: Self, rhs: Self) -> Bool {
-        return lhs.start > rhs.end
+        return lhs.start > rhs.end - 0.0001
     }
     
     func contains(_ ti: TimeInterval) -> Bool {
@@ -90,6 +89,10 @@ extension IVTiming {
     var dateString: String {
         return string(dateFormat: "yyyy-MM-dd")
     }
+    
+    var description: String {
+        return String(format: "%.3lf-%.3lf=%.3f", start, end, duration)
+    }
 }
 
 struct IVTime: IVTiming, Hashable {
@@ -110,11 +113,11 @@ struct IVTime: IVTiming, Hashable {
         let t1 = t0 + 86400
         self.init(start: t0, end: t1)
     }
-        
+
     static let today = IVTime(date: Date())
 }
 
-struct IVTimelineItem: IVTiming, CustomStringConvertible {
+struct IVTimelineItem: IVTiming {
     var start: TimeInterval
     var end: TimeInterval
     var duration: TimeInterval
@@ -156,10 +159,6 @@ struct IVTimelineItem: IVTiming, CustomStringConvertible {
     static func placeholder(start: TimeInterval, end: TimeInterval) -> IVTimelineItem {
         return IVTimelineItem(start: start, end: end, type: "placeholder", rawValue: nil)
     }
-    
-    var description: String {
-        return String(format: "%.3lf-%.3lf=%.3f.%@", start, end, duration, type)
-    }
 }
 
 struct IVTimelineSection: IVTiming {
@@ -179,7 +178,7 @@ struct IVTimelineSection: IVTiming {
         self.time = time
         // 过滤小于1秒的文件
         self.rawItems = rawItems.filter({ $0.duration >= 1.0 })
-        self.reload(toFit: scale)
+        self.redraw(toFit: scale)
     }
             
     var isPlaceholder: Bool { rawItems.first?.isPlaceholder ?? true }
@@ -199,7 +198,7 @@ struct IVTimelineSection: IVTiming {
     /// 更新块大小
     /// - Parameter scale: 时间轴缩放比例（每秒占多少像素点(pix/sec)）
     fileprivate
-    mutating func reload(toFit scale: Double) {
+    mutating func redraw(toFit scale: Double) {
         // minimum: 1pix or 1sec
         let minDuration = max(1/scale, 1.0)
         // maximum: 200pix or 4hour
@@ -315,6 +314,18 @@ struct IVTimelineSection: IVTiming {
     }
 }
 
+/// 时间轴状态
+enum IVTimelineState {
+    /// 自动跟踪
+    case tracking
+    /// 手动拖动
+    case dragging
+    /// 手动缩放
+    case zooming
+    /// 选择时段
+    case selecting
+}
+
 class IVTimelineViewModel {
     /// 所有数据源
     private(set) var sections: [IVTimelineSection] = []
@@ -324,11 +335,6 @@ class IVTimelineViewModel {
      
     /// 时间戳
     private(set) var pts: TimeInterval
-    
-    /// 当前/下一个文件
-    var anyRawItem: IVTimelineItem? {
-        return currentRawItem ?? nextRawItem
-    }
     
     /// 当前文件
     var currentRawItem: IVTimelineItem? {
@@ -348,6 +354,24 @@ class IVTimelineViewModel {
         return nil
     }
     
+    /// 给定时间范围的第一个文件
+    func nextRawItem(greaterThan gt: TimeInterval, lessThan lt: TimeInterval) -> IVTimelineItem? {
+        if let nextIdx = current.rawItems.firstIndex(where: { $0.start > gt && $0.start < lt}) {
+            return current.rawItems[nextIdx]
+        } else {
+            if let nextSection = sections.first(where: { $0.time == current.after(days: 1) }),
+               let nextItem = nextSection.rawItems.first, nextItem.start > gt && nextItem.start < lt {
+                return nextItem
+            }
+        }
+        return nil
+    }
+
+    /// 当前/下一个文件
+    var anyRawItem: IVTimelineItem? {
+        return currentRawItem ?? nextRawItem
+    }
+    
     /// (放大)时间轴最大比例（最大每秒占多少像素点(pix/sec)）
     let maximumScale = 5.0
     
@@ -356,7 +380,10 @@ class IVTimelineViewModel {
     
     /// 时间轴缩放比例（每秒占多少像素点(pix/sec)）
     private(set)
-    var scale: Double = 0.1
+    var scale: Double = 0.034
+
+    /// 时间轴渲染状态
+    public var state: IVObservable<IVTimelineState> = .init(.tracking)
 
     /// 构造方法
     init(time: IVTime) {
@@ -375,14 +402,14 @@ class IVTimelineViewModel {
         
         self.scale = min(max(scale, minimumScale), maximumScale)
 //        logVerbose("update(scale:\(self.scale))")
-        current.reload(toFit: self.scale)
+        current.redraw(toFit: self.scale)
         return true
     }
 
     func update(pts: TimeInterval, needsScroll: Bool = true) {
 //        logVerbose("update(pts:\(pts), needsScroll:\(needsScroll))")
         self.pts = pts
-        if needsScroll {
+        if needsScroll, state.value != .selecting {
             scrollToTimeIfNeed?(pts, current.time)
         }
     }
@@ -420,7 +447,7 @@ class IVTimelineViewModel {
                 }
             }
             
-            current.reload(toFit: self.scale)
+            current.redraw(toFit: self.scale)
         }
     }
 }

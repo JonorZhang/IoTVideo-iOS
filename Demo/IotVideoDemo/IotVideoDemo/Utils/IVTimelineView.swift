@@ -21,8 +21,20 @@ protocol IVTimelineViewDelegate: class {
     ///   - timelineView: 时间轴对象
     ///   - item: 时间片段
     ///   - time: 时间值（UTC时间，不是偏移量）
-    func timelineView(_ timelineView: IVTimelineView, didSelect item: IVTimelineItem?, at time: TimeInterval)
+    func timelineView(_ timelineView: IVTimelineView, didSelectItem item: IVTimelineItem?, at time: TimeInterval)
     
+    /// 点击选中某日期
+    /// - Parameters:
+    ///   - timelineView: 时间轴对象
+    ///   - time: 日期所在的时间片段
+    func timelineView(_ timelineView: IVTimelineView, didSelectDateAt time: IVTime)
+
+    /// 选择模式下选中某时间范围
+    /// - Parameters:
+    ///   - timelineView: 时间轴对象
+    ///   - time: 选择的时间范围
+    func timelineView(_ timelineView: IVTimelineView, didSelectRangeAt time: IVTime)
+
     /// 数据源
     /// - Parameters:
     ///   - timelineView: 时间轴对象
@@ -47,65 +59,36 @@ class IVTimelineView: UIControl {
        
     /// 视图模型
     var viewModel: IVTimelineViewModel = IVTimelineViewModel(time: .today)
-                    
+       
     private var autoScrollEnable = true
     
     private var loadingTimes: [IVTime] = []
     
     // MARK: UI
 
-    lazy var indicatorLine: UIView = {
+    private let indicatorLine: UIView = {
         let ind = UIView()
-        ind.backgroundColor  = UIColor.red
+        ind.backgroundColor = UIColor.red
         return ind
     }()
-
-    lazy var scaleLabel: UILabel = {
-        let lb = UILabel(frame: CGRect(x: (timeCollView.bounds.width-40)/2, y: (timeCollView.bounds.height-40)/2, width: 40, height: 40))
-        lb.autoresizingMask = [.flexibleTopMargin, .flexibleBottomMargin, .flexibleLeftMargin, .flexibleRightMargin]
-        lb.backgroundColor = UIColor(white: 0.8, alpha: 0.8)
-        lb.textColor = .black
-        lb.textAlignment = .center
-        lb.font = .systemFont(ofSize: 12)
-        lb.layer.cornerRadius = 20
-        lb.layer.masksToBounds = true
-        lb.isHidden = true
-        self.addSubview(lb)
-        return lb
-    }()
+        
+    private var selectView = IVTimelineSelectView().then {
+        $0.isHidden = true
+    }
     
-    lazy var calendarBtn: UIButton = {
+    private let calendarBtn: UIButton = {
         let btn = UIButton()
-        btn.setTitle("📅", for: .normal)
-        btn.backgroundColor = UIColor(white: 0.98, alpha: 1)
-        btn.addEvent { [unowned self](_) in
-            let superview = self.nextViewController?.view
-            superview?.addSubview(self.calendarView)
-            self.calendarView.snp.remakeConstraints { (make) in
-                make.height.equalTo(400)
-                make.width.equalTo(375)
-                make.centerX.equalToSuperview()
-                make.bottom.equalTo(superview!.snp.bottomMargin)
-            }
-            
-            if self.calendarView.alpha < 0.01 {
-                self.calendarView.alpha = 0
-                self.calendarView.transform = CGAffineTransform(translationX: 0, y: 400)
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.calendarView.alpha = 1
-                    self.calendarView.transform = .identity
-                })
-                self.calendarView.currentDate = self.viewModel.current.date
-                if self.calendarView.markableDates.isEmpty {
-                    self.loadMarkList(at: self.viewModel.current.time)
-                }
-            }
+        if let img = UIImage(named: "calender_icon") {
+            btn.setImage(img, for: .normal)
+        } else {
+            btn.setTitle("📅", for: .normal)
         }
+        btn.backgroundColor = UIColor(white: 0.98, alpha: 1)
         return btn
     }()
     
     /// 日期容器视图
-    let datelineView = IVDatelineView()
+    private let datelineView = IVDatelineView()
     
     /// 时间轴容器视图
     lazy var timeCollView: UICollectionView = {
@@ -126,9 +109,13 @@ class IVTimelineView: UIControl {
         return col
     }()
 
+    let loadingAnim = UIActivityIndicatorView(style: .gray)
+
     private var headerBtn: UIButton?
     private var footerBtn: UIButton?
     
+    private var isManuallyOperation = false
+
     /// 缩放手势
     private lazy var pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(pinchGestureHandler(_:)))
     
@@ -157,16 +144,25 @@ class IVTimelineView: UIControl {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        updateLayout()
+        layoutIfNeeded()
+        
+        calendarBtn.isHidden = gIsLandscape
+        datelineView.isHidden = gIsLandscape
+        if gIsLandscape { calendarView.alpha = 0 }
+            
+        self.timeCollView.reloadData()
         if viewModel.current.isPlaceholder {
             loadAndDisplaySection(at: viewModel.current.time)
         } else {
             scrollToTime(viewModel.pts, force: true, animated: false)
-        }
+        }        
     }
     
     override var isTracking: Bool {
         return !autoScrollEnable || isInteracting || datelineView.isTracking || timeCollView.isTracking
     }
+    
 }
 
 private extension IVTimelineView {
@@ -177,18 +173,70 @@ private extension IVTimelineView {
         addSubview(calendarBtn)
         addSubview(timeCollView)
         addSubview(indicatorLine)
+        addSubview(loadingAnim)
+        addSubview(selectView)
     }
     
     private func prepareEvent() {
+        
+        calendarBtn.addEvent { [unowned self](_) in
+            let superview = self.nextViewController?.view
+            superview?.addSubview(self.calendarView)
+            self.calendarView.snp.remakeConstraints { (make) in
+                make.height.equalTo(400)
+                make.width.equalTo(375)
+                make.centerX.equalToSuperview()
+                make.bottom.equalTo(superview!.snp.bottomMargin)
+            }
+            
+            if self.calendarView.alpha < 0.01 {
+                self.calendarView.alpha = 0
+                self.calendarView.transform = CGAffineTransform(translationX: 0, y: 400)
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.calendarView.alpha = 1
+                    self.calendarView.transform = .identity
+                })
+                self.calendarView.currentDate = self.viewModel.current.date
+                if self.calendarView.markableDates.isEmpty {
+                    self.loadMarkList(at: self.viewModel.current.time)
+                }
+            }
+        }
+
+        selectView.didChangeValue = { [unowned self] (leftView, rightView)in
+            
+            let leftDiff  = indicatorLine.frame.midX - leftView.frame.maxX
+            let rightDiff = indicatorLine.frame.midX - rightView.frame.minX
+
+            var leftTime  = Double(timeCollView.contentOffset.x - leftDiff)  / self.viewModel.scale + viewModel.current.start
+            var rightTime = Double(timeCollView.contentOffset.x + rightDiff) / self.viewModel.scale + viewModel.current.start
+
+            leftTime = min(max(leftTime, viewModel.current.start), viewModel.current.end)
+            rightTime = min(max(rightTime, viewModel.current.start), viewModel.current.end)
+
+            delegate?.timelineView(self, didSelectRangeAt: IVTime(start: leftTime, end: rightTime))
+        }
+        
         viewModel.scrollToTimeIfNeed = { [weak self] pts, sectionTime in
+            guard let `self` = self else { return }
+            if self.isManuallyOperation { return }
             if pts < sectionTime.start {
-                self?.loadAndDisplaySection(at: sectionTime.before(days: 1))
+                self.loadAndDisplaySection(at: sectionTime.before(days: UInt(sectionTime.start - pts) / 86400 + 1))
             } else if pts > sectionTime.end {
-                self?.loadAndDisplaySection(at: sectionTime.after(days: 1))
+                self.loadAndDisplaySection(at: sectionTime.after(days: UInt(pts - sectionTime.end) / 86400 + 1))
             } else {
                 DispatchQueue.main.async {
-                    self?.scrollToTime(pts, force: false, animated: true)
+                    self.scrollToTime(pts, force: false, animated: true)
                 }
+            }
+        }
+        
+        viewModel.state.observe { [weak self](state, _) in
+            guard let `self` = self else { return }
+            self.selectView.isHidden = (state == .selecting)
+            if state == .selecting {
+                self.delegate?.timelineView(self, didSelectRangeAt: IVTime(start: self.viewModel.current.start,
+                                                                           end: self.viewModel.current.end))
             }
         }
         
@@ -205,12 +253,12 @@ private extension IVTimelineView {
     private func prepareLayout() {
         calendarBtn.snp.makeConstraints { (make) in
             make.top.right.equalToSuperview()
-            make.width.height.equalTo(40)
+            make.width.height.equalTo(35)
         }
 
         datelineView.snp.makeConstraints { (make) in
             make.top.left.equalToSuperview()
-            make.height.equalTo(40)
+            make.height.equalTo(35)
             make.right.equalToSuperview()
         }
 
@@ -223,10 +271,30 @@ private extension IVTimelineView {
         indicatorLine.snp.makeConstraints { (make) in
             make.center.equalTo(timeCollView)
             make.width.equalTo(1)
-            make.height.equalTo(timeCollView)
+            make.height.equalTo(timeCollView).offset(6)
+        }
+        
+        loadingAnim.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+        }
+        
+        selectView.snp.makeConstraints { (make) in
+            make.edges.equalTo(timeCollView)
         }
     }
     
+    
+    private func updateLayout() {
+        timeCollView.snp.remakeConstraints { (make) in
+            if gIsLandscape {
+                make.top.equalToSuperview()
+            } else {
+                make.top.equalTo(datelineView.snp.bottom)
+            }
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+    }
     /// 预加载数据
     func preloadSectionIfNeed(at time: IVTime, isBackward: Bool) {
         DispatchQueue.main.async {[weak self] in
@@ -235,13 +303,15 @@ private extension IVTimelineView {
             if !self.viewModel.sections.contains(where: { time == $0.time }),
                 !self.loadingTimes.contains(time) {
                 self.loadingTimes.append(time)
-                
+                self.loadingAnim.startAnimating()
+
                 self.delegate?.timelineView(self, itemsForTimelineAt: time) {(items) in
                     DispatchQueue.main.async {[weak self] in
                         guard let `self` = self else { return }
                         self.loadingTimes.removeAll(where: { $0 == time})
+                        self.loadingAnim.stopAnimating()
                         if let items = items {
-                            logInfo("下载成功 \(time.dateString) \(items)")
+//                            logInfo("下载成功 \(time.dateString) \(items)")
                             
                             self.viewModel.insertSection(items: items, for: time)
                             
@@ -268,15 +338,21 @@ private extension IVTimelineView {
             guard let `self` = self else { return }
             let isSameTime = (self.viewModel.current.time == time)
             let isBackward = time.start < self.viewModel.current.start
+            
+            // 通知外部点击的日期
+            self.delegate?.timelineView(self, didSelectDateAt: time)
 
             if !isSameTime || self.viewModel.current.isPlaceholder {
                 self.viewModel.loadSection(for: time)
-                if isSameTime && self.viewModel.current.isPlaceholder {
-                    return // 还是placeholder就不需要刷新
-                }
                 
+                if self.viewModel.current.isPlaceholder {
+                    // 是placeholder就下载
+                    self.preloadSectionIfNeed(at: time, isBackward: isBackward)
+                    if isSameTime { return } // 相同日期
+                }
+                                
                 self.datelineView.selectedDate = time.date
-
+                
                 self.timeCollView.reloadData()
                 self.timeCollView.contentOffset.x = isBackward ? self.timeCollView.contentSize.width-self.timeCollView.frame.width : 0
                 
@@ -284,24 +360,19 @@ private extension IVTimelineView {
                     let destItem = isBackward ? self.viewModel.current.items.last(where: { $0.isValid }) : self.viewModel.current.items.first(where: { $0.isValid }) {
                     self.scrollToTime(destItem.start, force: true, animated: true)
                 }
-
+                
                 self.timeCollView.transform = CGAffineTransform(translationX: isBackward ? -100 : 100, y: 0)
                 UIView.animate(withDuration: 0.3) {
                     self.timeCollView.transform = .identity
                 }
-
-                if self.viewModel.current.isPlaceholder {
-                    self.preloadSectionIfNeed(at: time, isBackward: isBackward)
-                }
             }
         }
-    }
+    } 
         
     func loadMarkList(at time: IVTime) {
         self.delegate?.timelineView(self, markListForCalendarAt: time, completionHandler: { [weak self](markList) in
-            if let markList = markList {
-                self?.calendarView.markableDates = markList.map({ ($0.dateTime, $0.playable) })
-            }
+            guard let markList = markList else { return }
+            self?.calendarView.markableDates = markList.map { TimeInterval($0) }
         })
     }
  
@@ -315,10 +386,9 @@ private extension IVTimelineView {
     var isInteracting: Bool {
         return timeCollView.isDragging ||
             timeCollView.isTracking ||
-            timeCollView.isDecelerating ||
-            !scaleLabel.isHidden
+            timeCollView.isDecelerating
     }
-    
+        
     func scrollToTime(_ time: TimeInterval, force: Bool, animated: Bool) {
         if !force {
             if self.isInteracting {
@@ -340,19 +410,17 @@ private extension IVTimelineView {
     @objc func pinchGestureHandler(_ pinch: UIPinchGestureRecognizer) {
         switch pinch.state {
         case .changed:
+            isManuallyOperation = true
             let oldScale = viewModel.scale
-            
             if viewModel.update(scale: oldScale * Double(pinch.scale)) {
                 CATransaction.setDisableActions(true)
                 timeCollView.reloadData()
                 scrollToTime(viewModel.pts, force: true, animated: false)
                 CATransaction.commit()
-                scaleLabel.isHidden = false
-                scaleLabel.text = viewModel.scale > 0.1 ? "\(Int(viewModel.scale * 100))%" : String(format: "%.1f%%", viewModel.scale * 100)
             }
         default:
-            IVDelayWork.asyncAfter(1, key: "scaleLabel.isHidden") {[weak self] in
-                self?.scaleLabel.isHidden = true
+            IVDelayWork.asyncAfter(1, key: "isManuallyScroll-did-end") {[weak self] in
+                self?.isManuallyOperation = false
             }
         }
         pinch.scale = 1
@@ -373,7 +441,7 @@ extension IVTimelineView: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IVTimelineCell", for: indexPath) as! IVTimelineCell
         let item = viewModel.current.items[indexPath.item]
         let time = IVTime(start: item.start, end: item.end)
-        cell.update(time: time, color: item.color, isValid: item.isValid, isLoading: item.isPlaceholder, scale: viewModel.scale)
+        cell.update(time: time, color: item.color, isValid: item.isValid, scale: viewModel.scale)
         return cell
     }
     
@@ -404,6 +472,7 @@ extension IVTimelineView: UICollectionViewDataSource {
                 }
             }
         }
+        headerfooter.setNeedsDisplay()
         return headerfooter
     }
 }
@@ -448,7 +517,7 @@ extension IVTimelineView: UICollectionViewDelegateFlowLayout {
     // MARK: UIScrollViewDelegate
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        scaleLabel.isHidden = true
+        isManuallyOperation = true
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -464,23 +533,22 @@ extension IVTimelineView: UICollectionViewDelegateFlowLayout {
         }
         
         if decelerate { return }
-        
-        scrollHandler(didEnd: true)
+        scrollhandler(didEnd: true)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        scrollHandler(didEnd: true)
+        scrollhandler(didEnd: true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         headerBtn?.isSelected = (scrollView.isDragging && scrollView.contentOffset.x < -60)
         footerBtn?.isSelected = (scrollView.isDragging && viewModel.current.time < .today && scrollView.contentOffset.x - scrollView.contentSize.width > -(scrollView.frame.width-60))
         
-        scrollHandler(didEnd: false)
+        scrollhandler(didEnd: false)
     }
     
-    private func scrollHandler(didEnd: Bool) {
-        guard !viewModel.current.items.isEmpty else {
+    private func scrollhandler(didEnd: Bool) {
+        guard isManuallyOperation, !viewModel.current.items.isEmpty else {
             return
         }
         
@@ -502,11 +570,29 @@ extension IVTimelineView: UICollectionViewDelegateFlowLayout {
             delegate?.timelineView(self, didScrollTo: seekTime)
 
             if didEnd {
-                let item = viewModel.currentRawItem
-                logDebug("selected item \(String(describing: item)) at \(seekTime)")
-                delegate?.timelineView(self, didSelect: item, at: seekTime)
+                IVDelayWork.asyncAfter(1, key: "isManuallyScroll-did-end") {[weak self] in
+                    self?.isManuallyOperation = false
+                }
+
+                if let item = viewModel.currentRawItem {
+                    logDebug("selected curr-item \(String(describing: item)) at \(seekTime)")
+                    delegate?.timelineView(self, didSelectItem: item, at: seekTime)
+                } else if let item = viewModel.nextRawItem, item.start < viewModel.current.end {
+                    IVDelayWork.asyncAfter(1, key: "selected next-item") {[weak self] in
+                        guard let `self` = self else { return }
+                        logDebug("selected next-item \(String(describing: item)) at \(seekTime)")
+                        self.scrollToTime(item.start, force: true, animated: true)
+                        self.delegate?.timelineView(self, didSelectItem: item, at: item.start)
+                    }
+                }
+            } else {
+                IVDelayWork.cancelTask(withKey: "selected next-item")
             }
             return
+        }
+        
+        IVDelayWork.asyncAfter(1, key: "isManuallyScroll-did-end") {[weak self] in
+            self?.isManuallyOperation = false
         }
     }
 }
@@ -521,38 +607,18 @@ class IVTimelineCell: UICollectionViewCell {
     private(set) var isValid: Bool = false
     private(set) var scale = 1.0
         
-    func update(time: IVTime, color: UIColor, isValid: Bool, isLoading: Bool, scale: Double) {
+    func update(time: IVTime, color: UIColor, isValid: Bool, scale: Double) {
         self.time = time
         self.color = color
         self.isValid = isValid
         self.scale  = scale
-        removeAllTextLayer()
         timeMarks = IVTimeMark.all.filter { scale * Double($0.rawValue) >= 4.8 } // 距离大于 4.8 pt
-        isLoading ? self.loadingAnim.startAnimating() : self.loadingAnim.stopAnimating()
         setNeedsDisplay()
     }
             
     /// === 时间刻度 ===
     private var timeMarks: [IVTimeMark] = [.hour]
-       
-    private func FontSize(of mark: IVTimeMark) -> CGFloat {
-        var fontSize: CGFloat
-        if mark.rawValue >= IVTimeMark.hour.rawValue {
-//            fontSize = CGFloat(CGFloat(mark.rawValue) * CGFloat(scale) / 800) * 20
-//            fontSize = fontSize < 14 ? 14 : (fontSize > 20 ? 20 : fontSize)
-            return 17
-        } else if mark.rawValue >= IVTimeMark.min1.rawValue  {
-//            fontSize = CGFloat(CGFloat(mark.rawValue) * CGFloat(scale) / 800) * 17
-//            fontSize = fontSize < 12 ? 12 : (fontSize > 17 ? 17 : fontSize)
-            return 17
-        } else {
-//            fontSize = CGFloat(CGFloat(mark.rawValue) * CGFloat(scale) / 800) * 15
-//            fontSize = fontSize < 8 ? 8 : (fontSize > 15 ? 15 : fontSize)
-            return 12
-        }
-        return fontSize
-    }
-    
+           
     private func TimeOffset(of mark: IVTimeMark) -> TimeInterval {
         let remain: TimeInterval = time.start - floor(time.start) // 小数点后的余数
         let mod: TimeInterval = TimeInterval(Int(time.start) % mark.rawValue) + remain // 小数点前整数
@@ -563,96 +629,73 @@ class IVTimelineCell: UICollectionViewCell {
     private func DateFormat(of mark: IVTimeMark) -> String {
         return mark < .min1 ? "ss" : "HH:mm"
     }
-    
-    private func LabelWidth(of mark: IVTimeMark) -> CGFloat {
-        let text = DateFormat(of: mark) as NSString
-        let width = text.boundingRect(with: CGSize(width: 100, height: 20),
-                                      options: .usesFontLeading,
-                                      attributes: [.font : UIFont.systemFont(ofSize: FontSize(of: mark))],
-                                      context: nil).width
-        return max(width, 30)
-        //        return FontSize(of: mark) * CGFloat(DateFormat(of: mark).count)
-    }
-
-    private func MarkHeight(of mark: IVTimeMark) -> Double {
-        switch mark {
-        case .hour4, .hour2, .hour: return 20
-        case .min30: return 18
-        case .min10: return 16
-        case .min5, .min1: return 14
-        case .sec30: return 12
-        case .sec10: return 10
-        case .sec5, .sec1: return 8
-        }
-    }
-    
+        
     private func StrokeColor(of mark: IVTimeMark) -> UIColor {
         let alpha = ((CGFloat(mark.rawValue) * CGFloat(scale) - 2) / 200) + 0.2
         let color = UIColor(white: 0, alpha: alpha)
         return color
     }
-    
-    private func removeAllTextLayer() {
-        layer.sublayers?.forEach({
-            if $0.name == "textLayer" { $0.removeFromSuperlayer() }
-        })
-    }
-    
-    private func addTextLayer(frame: CGRect, text: String, color: UIColor, fontSize: CGFloat) {
-        let timeLayer = CATextLayer()
-        timeLayer.frame = frame
-        timeLayer.string = text
-        timeLayer.alignmentMode = .center
-        timeLayer.foregroundColor = color.cgColor
-        timeLayer.fontSize = fontSize
-        timeLayer.contentsScale = UIScreen.main.scale
-        timeLayer.name = "textLayer"
-        layer.addSublayer(timeLayer)
-    }
-    
+        
     // === 刻度\文字 ===
     private func drawTimelineMark(_ ctx: CGContext?) {
         let miniMark = timeMarks.last!
-        var offset = TimeOffset(of: miniMark)
+        let miniStep = CGFloat(miniMark.rawValue) * CGFloat(scale)
+        var offset   = TimeOffset(of: miniMark)
+        let offsetW  = CGFloat(offset * scale)
+        let halfLabelW = LabelWidth(of: timeMarks.first!) / 2
+        let halfLabelT = Double(halfLabelW) / scale
+        let multiple = ceil((offsetW + halfLabelW) / miniStep)
+        offset  = offset - Double(multiple * miniStep) / scale
+             
+        let style = NSMutableParagraphStyle()
+        style.alignment = .center
+           
+        while offset <= time.duration + halfLabelT {
+            let offX = CGFloat(scale * offset) // min(max(CGFloat(scale * offset), self.bounds.minX - miniStep), self.bounds.maxX + miniStep)
 
-        ctx?.setLineWidth(1)
-
-        while offset <= time.duration {
-            
             for mark in timeMarks {
-                
-                if Int(time.start + offset) % mark.rawValue == 0 {
-                    
-                    let markHeight = MarkHeight(of: mark)
-                    
+//                print("markline \(time) \(miniMark.rawValue)    \(mark.rawValue)    \(offset)   \(time.start + offset)")
+                if (Int(time.start + offset) % mark.rawValue == 0) {
+//                    print("markline -")
+
+                    // 刻度/文字颜色
                     let color = StrokeColor(of: mark)
-                    let fontSize = FontSize(of: mark)
                     
+                    // === 1.画刻度 ===
+                    let markHeight = MarkHeight(of: mark)
+                    ctx?.setLineWidth(mark >= .hour ? 2 : 1)
+                    ctx?.setStrokeColor(color.cgColor)
+                    ctx?.move(to:    CGPoint(x: offX, y: verticalInset))
+                    ctx?.addLine(to: CGPoint(x: offX, y: verticalInset + CGFloat(markHeight)))
+                    ctx?.strokePath()
+
+                    // === 2.画文字 ===
+                    let fontSize = FontSize(of: mark)
+
                     let fmt = DateFormatter()
                     fmt.dateFormat = DateFormat(of: mark)
 
                     let labelWidth = LabelWidth(of: mark)
                     let showText = CGFloat(mark.rawValue) * CGFloat(scale) > labelWidth
-                    
-                    let offX = min(max(CGFloat(scale * offset), self.bounds.minX), self.bounds.maxX)
-
-                    ctx?.setStrokeColor(color.cgColor)
-                    ctx?.move(to: CGPoint(x: Double(offX), y: 0))
-                    ctx?.addLine(to: CGPoint(x: Double(offX), y: markHeight))
 
                     if showText, mark >= .sec10 {
                         for divisor in IVTimeMark.divisors {
                             if Int(round(time.start + Double(offX))) % divisor == 0 {
-                                addTextLayer(frame: CGRect(x: offX-labelWidth/2, y: bounds.height-20, width: labelWidth, height: 20),
-                                             text: fmt.string(from: Date(timeIntervalSince1970: time.start + offset)),
-                                             color: color,
-                                             fontSize: fontSize)
+                                let font = UIFont.systemFont(ofSize: fontSize)
+                                let string = NSAttributedString(string: fmt.string(from: Date(timeIntervalSince1970: time.start + offset)),
+                                                                attributes: [.font : font,
+                                                                             .foregroundColor : color,
+                                                                             .paragraphStyle : style])
+                                string.draw(in: CGRect(x: offX-labelWidth/2,
+                                                       y: bounds.height-20-verticalInset,
+                                                       width: labelWidth,
+                                                       height: 20))
                                 break
                             }
                         }
                     }
-
-                    ctx?.strokePath()
+                
+                    // === 3.该时间点绘制完毕 ===
                     break
                 }
             }
@@ -660,16 +703,10 @@ class IVTimelineCell: UICollectionViewCell {
         }
     }
     
-    let loadingAnim = UIActivityIndicatorView(style: .gray)
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
-        contentView.addSubview(loadingAnim)
-        loadingAnim.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-        }
-        print(self.classForCoder, "alloc")
+//        print(self.classForCoder, "alloc")
     }
     
     required init?(coder: NSCoder) {
@@ -678,13 +715,9 @@ class IVTimelineCell: UICollectionViewCell {
     
     override func draw(_ rect: CGRect) {
         let ctx = UIGraphicsGetCurrentContext()
-        ctx?.clear(rect)
-
         // 颜色块
         ctx?.setFillColor(color.cgColor)
-        let rect = CGRect(x: 0, y: bounds.height / 3, width: bounds.width, height: bounds.height / 3)
-        ctx?.fill(rect)
-        
+        ctx?.fill(rect.insetBy(dx: 0, dy: verticalInset))
         // 刻度
         drawTimelineMark(ctx)
     }
@@ -708,6 +741,144 @@ class IVTimelineHeaderFooter: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func draw(_ rect: CGRect) {
+        let ctx = UIGraphicsGetCurrentContext()
+        // 背景色
+        ctx?.setFillColor(UIColor(white: 0.98, alpha: 1).cgColor)
+        ctx?.fill(rect)
+        // 绘制00:00
+        let mark = IVTimeMark.hour4
+        let font = UIFont.systemFont(ofSize: FontSize(of: mark))
+        let style = NSMutableParagraphStyle()
+        style.alignment = .center
+        let string = NSAttributedString(string: "00:00",
+                                        attributes: [.font : font,
+                                                     .foregroundColor : UIColor.black,
+                                                     .paragraphStyle : style])
+        let isHeader = (reuseIdentifier == UICollectionView.elementKindSectionHeader)
+        let labelWidth = LabelWidth(of: mark)
+        let offX = isHeader ? bounds.width : 0
+        string.draw(in: CGRect(x: offX-labelWidth/2,
+                               y: bounds.height-20-verticalInset,
+                               width: labelWidth,
+                               height: 20))
+        // 绘制｜
+        let markHeight = MarkHeight(of: mark)
+        ctx?.setLineWidth(2)
+        ctx?.setStrokeColor(UIColor.black.cgColor)
+        ctx?.move(to: CGPoint(x: offX, y: verticalInset))
+        ctx?.addLine(to: CGPoint(x: offX, y: verticalInset + CGFloat(markHeight)))
+        ctx?.strokePath()
+    }
 }
 
+private let verticalInset: CGFloat = 10.0
 
+private func FontSize(of mark: IVTimeMark) -> CGFloat {
+    if mark.rawValue >= IVTimeMark.min1.rawValue  {
+        return 17
+    }
+    return 12
+}
+
+private func DateFormat(of mark: IVTimeMark) -> String {
+    return mark < .min1 ? "ss" : "HH:mm"
+}
+
+private func LabelWidth(of mark: IVTimeMark) -> CGFloat {
+    let text = DateFormat(of: mark) as NSString
+    let width = text.boundingRect(with: CGSize(width: 100, height: 20),
+                                  options: .usesFontLeading,
+                                  attributes: [.font : UIFont.systemFont(ofSize: FontSize(of: mark))],
+                                  context: nil).width
+    return max(width, 30)
+}
+
+private func MarkHeight(of mark: IVTimeMark) -> Double {
+    switch mark {
+    case .hour4, .hour2, .hour: return 20
+    case .min30: return 18
+    case .min10: return 16
+    case .min5, .min1: return 14
+    case .sec30: return 12
+    case .sec10: return 10
+    case .sec5, .sec1: return 8
+    }
+}
+
+fileprivate class IVTimelineSelectView: UIView {
+    let selectIndLeft = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+        $0.image = UIImage(named: "iot_select_indicator")
+    }
+
+    let selectIndRight = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+        $0.image = UIImage(named: "iot_select_indicator")
+    }
+    
+    var didChangeValue: ((_ leftView: UIView, _ rightView: UIView) -> Void)?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        backgroundColor = .clear
+        
+        addSubview(selectIndLeft)
+        addSubview(selectIndRight)
+        
+        selectIndLeft.addPanGesture { [unowned self](pan) in
+            if let pan = pan as? UIPanGestureRecognizer, let panView = pan.view {
+                panView.frame.origin.x += pan.translation(in: self).x
+                if panView.frame.origin.x < 0 {
+                    panView.frame.origin.x = 0
+                } else if panView.frame.maxX > self.selectIndRight.frame.minX {
+                    panView.frame.origin.x = self.selectIndRight.frame.minX - 35
+                }
+                self.setNeedsDisplay()
+                pan.setTranslation(.zero, in: self)
+                self.didChangeValue?(self.selectIndLeft, self.selectIndRight)
+            }
+        }
+
+        selectIndRight.addPanGesture { [unowned self](pan) in
+            if let pan = pan as? UIPanGestureRecognizer, let panView = pan.view {
+                panView.frame.origin.x += pan.translation(in: self).x
+                if panView.frame.origin.x < self.selectIndLeft.frame.maxX {
+                    panView.frame.origin.x = self.selectIndLeft.frame.maxX
+                } else if panView.frame.origin.x > self.bounds.width - 35 {
+                    panView.frame.origin.x = self.bounds.width - 35
+                }
+                self.setNeedsDisplay()
+                pan.setTranslation(.zero, in: self)
+                self.didChangeValue?(self.selectIndLeft, self.selectIndRight)
+            }
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+            
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        selectIndLeft.frame  = CGRect(x: 0, y: verticalInset, width: 35, height: bounds.height - 2 * verticalInset)
+        selectIndRight.frame = CGRect(x: bounds.width - 35, y: verticalInset, width: 35, height: bounds.height - 2 * verticalInset)
+    }
+        
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        let ctx = UIGraphicsGetCurrentContext()
+        ctx?.clear(bounds)
+        
+        ctx?.setLineJoin(.round)
+        ctx?.setLineWidth(2)
+        ctx?.setStrokeColor(UIColor(rgb: 0x4A90E2).cgColor)
+        ctx?.stroke(CGRect(x: selectIndLeft.frame.midX,
+                           y: verticalInset + 1,
+                           width: selectIndRight.frame.midX - selectIndLeft.frame.midX,
+                           height: bounds.height - 2 * (verticalInset + 1)))
+    }
+}

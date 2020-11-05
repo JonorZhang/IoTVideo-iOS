@@ -26,11 +26,11 @@ typedef NS_ENUM(NSInteger, IVPlayerStatus) {
     IVPlayerStatusReady         = IVConnStatusConnected,
     /// 加载中...
     IVPlayerStatusLoading       = 3,
-    /// 已播放
+    /// 播放中...
     IVPlayerStatusPlaying       = 4,
     /// 已暂停
     IVPlayerStatusPaused        = 5,
-    /// 已快进
+    /// 快进中...
     IVPlayerStatusFastForward   = 6,
 };
 
@@ -197,6 +197,8 @@ typedef NS_ENUM(NSUInteger, IVPlayerError) {
     IVPlayerError_VideoResolutionChanged   = 21035,
     /// 编码器暂不可用
     IVPlayerError_EncoderNotAvailableNow   = 21036,
+    /// 不支持的录像列表版本
+    IVPlayerError_PlaybackListVerErr       = 21037,
 };
 
 

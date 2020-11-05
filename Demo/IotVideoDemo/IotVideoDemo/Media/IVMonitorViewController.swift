@@ -36,8 +36,15 @@ class IVMonitorViewController: IVDevicePlayerViewController {
     @IBAction func definitionSegmentChanged(_ sender: UISegmentedControl) {
         UserDefaults.standard.set(definitionSegment.selectedSegmentIndex, forKey: "definitionSegment.selectedSegmentIndex")
         let defn = IVVideoDefinition(rawValue: IVVideoDefinition.RawValue(sender.selectedSegmentIndex)) ?? .high
-        definitionSegment?.isEnabled = false
-        monitorPlayer?.setVideoDefinition(defn)
+        if device.sdkVer.isEmpty {
+            IVMessageMgr.sharedInstance.readProperty(ofDevice: device.deviceID, path: "ProConst._versionInfo.sdkVer") { [weak self](json, err) in
+                guard let json = json, err == nil else { return }
+                self?.device.sdkVer = json
+                self?.monitorPlayer?.setVideoDefinition(defn, sdkVer: json)
+            }
+        } else {
+            monitorPlayer?.setVideoDefinition(defn, sdkVer: device.sdkVer)
+        }
     }
         
     override func player(_ player: IVPlayer, didUpdate status: IVPlayerStatus) {
@@ -48,18 +55,18 @@ class IVMonitorViewController: IVDevicePlayerViewController {
 }
 
 extension IVMonitorPlayer {
-    func setVideoDefinition(_ defn: IVVideoDefinition) {
-        definition = defn
-
-        #warning("当前设备SDK版本（4200）未处理监控时切换清晰度，但发起play时可以指定清晰度。 暂行方案：先stop再play")
-//        IVMessageMgr.sharedInstance.readProperty(ofDevice: deviceId, path: "ProConst._versionInfo.sdkVer") { [weak self] (json, error) in
-//            if let revision = json?.split(separator: ".").last, (Int(revision) ?? 0) <= 4200 {
-                self.stop()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                    self?.play()
-                }
-//            }
-//        }
+    
+    func setVideoDefinition(_ defn: IVVideoDefinition, sdkVer: String) {
+        // 切换清晰度
+        self.definition = defn
+        
+        // ⚠️如果设备端sdkVer版本小于`16.18.4718`需要额外执行stop()再play()
+        if sdkVer < "16.18.4718" {
+            self.stop()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                self?.play() // 延时是为了防止play先到达设备
+            }
+        }
     }
 }
 

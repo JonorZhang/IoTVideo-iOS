@@ -166,7 +166,6 @@ IVMessageMgr.sharedInstance.takeAction(ofDevice: deviceId, path: actionPath, jso
 }
 ```
 
-
 > 详见[【消息管理】](#消息管理)
 
 
@@ -195,7 +194,6 @@ IVMessageMgr.sharedInstance.takeAction(ofDevice: deviceId, path: actionPath, jso
 - IoTVideo.framework (静态库)   // 核心库     
   - 依赖FFmpeg库 (必须)
 - IVVAS.framework (静态库)      // 增值服务库
-- IVNetwork.framework (静态库)  // 网络库
 
 可选库：
 
@@ -223,7 +221,7 @@ IVMessageMgr.sharedInstance.takeAction(ofDevice: deviceId, path: actionPath, jso
   - libbz2.tbd
   - libiconv.tbd
 
-![](https://note.youdao.com/yws/api/group/108650997/file/900729043?method=download&inline=true&version=1&shareToken=8EEC2178C08E464184C1A09B6363FEE3)
+![](https://note.youdao.com/yws/api/group/108650997/file/905721786?method=download&inline=true&version=1&shareToken=40D9119DB53148FFAB19556DACCC79EE)
 
 
 
@@ -466,6 +464,7 @@ PlaybackPlayer是基于IVPlayer派生的回放播放器，主要增加以下功�
 ## 使用示例
 
 ##### 1.创建播放器实例
+
 *⚠️ 注意：如果是多源设备(NVR)，创建播放器时应指定源ID，例如"2"*
 
 ```swift
@@ -626,25 +625,25 @@ xxxxPlayer.play()
 更多信息见SDK中的如下路径的内置实现及其协议：
 
 - 内置实现
-	- <IoTVideo/IVAudioDecoder.h> // AudioDecode
-	- <IoTVideo/IVAudioEncoder.h> // AudioEncode
-	- <IoTVideo/IVVideoDecoder.h> // VideoDecode
-	- <IoTVideo/IVVideoEncoder.h> // VideoEncode
-	- <IoTVideo/IVVideoCapture.h> // VideoCapture
-	- <IoTVideo/IVAVRecorder.h>   // AudioRecorder + VideoRecorder
-	- <IoTVideo/IVVideoRender.h>  // VideoRender
-	- <IoTVideo/IVAudioUnit.h>    // AudioRender + AudioCapture
+  - <IoTVideo/IVAudioDecoder.h> // AudioDecode
+  - <IoTVideo/IVAudioEncoder.h> // AudioEncode
+  - <IoTVideo/IVVideoDecoder.h> // VideoDecode
+  - <IoTVideo/IVVideoEncoder.h> // VideoEncode
+  - <IoTVideo/IVVideoCapture.h> // VideoCapture
+  - <IoTVideo/IVAVRecorder.h>   // AudioRecorder + VideoRecorder
+  - <IoTVideo/IVVideoRender.h>  // VideoRender
+  - <IoTVideo/IVAudioUnit.h>    // AudioRender + AudioCapture
 
 - 相关协议
-	- <IoTVideo/IVAVRecordable.h  >
-	- <IoTVideo/IVAudioEncodable.h>
-	- <IoTVideo/IVVideoDecodable.h>
-	- <IoTVideo/IVAudioCapturable.h>
-	- <IoTVideo/IVAudioRenderable.h>
-	- <IoTVideo/IVVideoEncodable.h>
-	- <IoTVideo/IVAudioDecodable.h >
-	- <IoTVideo/IVVideoCapturable.h>
-	- <IoTVideo/IVVideoRenderable.h>
+  - <IoTVideo/IVAVRecordable.h  >
+  - <IoTVideo/IVAudioEncodable.h>
+  - <IoTVideo/IVVideoDecodable.h>
+  - <IoTVideo/IVAudioCapturable.h>
+  - <IoTVideo/IVAudioRenderable.h>
+  - <IoTVideo/IVVideoEncodable.h>
+  - <IoTVideo/IVAudioDecodable.h >
+  - <IoTVideo/IVVideoCapturable.h>
+  - <IoTVideo/IVVideoRenderable.h>
 
 
 ##### 自定义数据传输
@@ -729,7 +728,9 @@ class MyViewController: UIViewController, IVMessageDelegate {
 }
 ```
 
-##### 3.读取属性
+##### 2.读取属性
+
+`path`为空字符串`""`则表示获取完整物模型
 
 ```swift
 import IoTVideo.IVMessageMgr
@@ -744,7 +745,7 @@ IVMessageMgr.sharedInstance.readProperty(ofDevice: deviceId, path: path) { (json
 }
 ```
 
-##### 4.设置属性
+##### 3.设置属性
 
 ```swift
 import IoTVideo.IVMessageMgr
@@ -756,25 +757,142 @@ let path = "ProWritable._logLevel"
 // 模型参数的字符串
 let json = "{\"setVal\":0}"
 
+// 或
+let path = "ProWritable._logLevel.setVal"
+let json = "0" //代表整型
+let json = "\"value\"" // 代表字符串
+
 IVMessageMgr.sharedInstance.writeProperty(ofDevice: deviceId, path: path, json: json) { (json, error) in
     // do something here    
 }
 ```
 
-##### 5.执行动作
+##### 4.执行动作
 
 ```swift
 import IoTVideo.IVMessageMgr
 
-// 设备ID的字符串
 let deviceId = dev.deviceId
-// 模型路径的字符串
 let path = "Action.cameraOn"
-// 模型参数的字符串
 let json = "{\"ctlVal\":1}"
 
 IVMessageMgr.sharedInstance.takeAction(ofDevice: deviceId, path: path, json: json) { (json, error) in
     // do something here    
+}
+```
+
+#### 5. 用户自定义属性
+
+
+##### 5.1 新增用户自定义属性
+
+ - 禁止使用"\_"开头，"_"为内置物模型使用（使用了会报错：8605）
+ - 重复新增会直接覆盖已经存在的自定义用户物模型
+
+```swift
+import IoTVideo.IVMessageMgr
+
+let deviceId = dev.deviceId
+// 新增的用户属性
+let subPath = "userPro1" 
+let path = "ProUser." + subPath
+let json = "{\"key\":\"value\"}"
+
+IVMessageMgr.sharedInstance.addProperty(ofDevice: deviceId, path: path, json: json) { (json, error) in
+    // do something here
+}
+```
+
+##### 5.2 删除用户自定义属性
+
+```swift
+import IoTVideo.IVMessageMgr
+
+let deviceId = dev.deviceId
+let path = "ProUser.userPro1"
+
+IVMessageMgr.sharedInstance.deleteProperty(ofDevice: deviceId, path: path) { (json, error) in
+    // do something here
+}
+```
+
+##### 5.3 修改用户物模型
+
+与 3.设置属性 同一个API，注意 `path` 和 `json` 的细微差别
+|        修改值        | 内容 | 可用示例 |
+| :----------------: | :--------: | :--------: |
+ProWritable  | 读写属性 | `path = ProWritable.xxx json = "{\"setVal\":\"value\"}"` <br> 或字符串：`path = Prowritable.xxx.setVal json = "\"value\""` <br> 
+ProUser | 自定义用户属性| `path = ProWritable.xxx.val json = "{\"key\":\"value\"}"`
+ProUser | 内 置 用 户 属性| `path = "ProUser._buildIn.val.xxx" json = "value" `
+
+```swift
+import IoTVideo.IVMessageMgr
+
+let deviceId = dev.deviceId
+
+// 1、用户自定义的ProUser属性 实例: 
+// "testProUser":{"t":1600048390,"val":{"testKey":"testValue"}}
+
+// path 必须拼接为 ProUser.xxx.val 
+let path = "ProUser.testProUser.val" 
+let json = "{\"testKey\":\"newTestValue\"}"
+
+IVMessageMgr.sharedInstance.writeProperty(ofDevice: deviceId, path: path, json: json) { (json, error) in
+    // do something here    
+}
+
+// 2、系统内置的ProUser属性 实例：
+// "_buildIn":{"t":1599731880,"val":{"almEvtPushEna":0,"nickName":"testName"}
+
+// path必须拼接为 ProUser._buildIn.val._xxx 
+let path = "ProUser._buildIn.val.nickName"
+let json = "\"newNickName\""
+
+IVMessageMgr.sharedInstance.writeProperty(ofDevice: deviceId, path: path, json: json) { (json, error) in
+    // do something here    
+}
+```
+
+## 设备管理  IVDeviceMgr
+#### 1、查询设备固件版本号
+不通过物模型查询最新版本号，当设备离线时也可用
+```swift
+/// 查询设备新固件版本信息
+/// @param deviceid 设备id
+/// @param responseHandler 回调
+open class func queryDeviceNewVersionWidthDevieId(_ deviceId: String, responseHandler: @escaping IVNetworkResponseHandler)
+
+/// 查询设备新固件版本信息
+/// @param deviceid 设备id
+/// @param currentVersion 当前版本号 nil: 默认为当前版本号 当针对特定版本的升级时为必填
+/// @param language 语言 nil：默认系统语言
+/// @param responseHandler 回调
+open class func queryDeviceNewVersionWidthDevieId(_ deviceid: String, currentVersion: String?, language: String?, responseHandler: @escaping
+IVNetworkResponseHandler)
+```
+
+示例
+```swift
+import IoTVideo.IVDeviceMgr
+
+IVDeviceMgr.queryDeviceNewVersionWidthDevieId("xxxx") { (json, error) in
+    // do something here    
+}
+
+
+IVDeviceMgr.queryDeviceNewVersionWidthDevieId("xxxx", currentVersion:"1.0.0", language:"en") { (json, error) in
+    // do something here    
+}
+
+json: 示例
+{
+"code": 0,
+"msg": "Success",
+"data": {
+	"downUrl": "xxxxxxxxx", 
+	"version": "xxxxxxxxx", //版本号
+	"upgDescs": "xxxxxxxxx" //升级描述
+    }
 }
 ```
 
@@ -838,411 +956,253 @@ open func sendData(toServer url: String, data: Data?, timeout: TimeInterval, com
 ```
 
 # 增值服务
+
 使用前提，设备已开通云存
+
+#### 视频相关
 - 查询存在云存的日期信息
-- 获取云存回放m3u8列表
-
-
+- 获取回放文件列表
+- 获取回放 m3u8 播放地址
+####  事件相关
+- 获取事件列表
+- 删除事件（可批量）
 ##### 1.查询存在云存的日期信息
+
 ```swift
-/// 获取云存视频信息
+/// 获取云存视频可播放日期信息
 /// - 用于终端用户在云存页面中对云存服务时间内的日期进行标注，区分出是否有云存视频文件。
 /// @param deviceId 设备id
 /// @param timezone 相对于0时区的秒数，例如东八区28800
 /// @param responseHandler 回调
-- (void)getVideoListWithDeviceId:(NSString *)deviceId timezone:(NSInteger)timezone responseHandler:(IVNetworkResponseHandler _Nullable)responseHandler;
+- (void)getVideoDateListWithDeviceId:(NSString *)deviceId timezone:(NSInteger)timezone responseHandler:(IVNetworkResponseHandler _Nullable)responseHandler;
+```
+返回结果：json 示例
+```
+{
+    "code":0,
+    "msg":"Success",
+    "data":{
+        "list":[
+            1600653494
+        ]
+    }
+}
 ```
 
-##### 2.获取云存回放m3u8列表
-```swift
-/// 获取云存回放m3u8列表
-///- 终端用户获取云存储的m3u8列表进行回放，同时根据返回的列表对时间轴进行渲染。
+##### 2. 获取回放文件列表
+```objc
+/// 获取回放文件列表
+/// - 获取云存列表，用于对时间轴渲染
 /// @param deviceId 设备id
-/// @param timezone  相对于0时区的秒数，例如东八区28800
-/// @param startTime  时间戳，回放开始时间
-/// @param endTime 时间戳，回放结束时间
+/// @param startTime 开始UTC时间,单位秒
+/// @param endTime 结束UTC时间,单位秒 超过一天只返回一天
 /// @param responseHandler 回调
-- (void)getVideoPlaybackListWithDeviceId:(NSString *)deviceId timezone:(NSInteger)timezone startTime:(NSTimeInterval)startTime endTime:(NSTimeInterval)endTime responseHandler:(IVNetworkResponseHandler _Nullable)responseHandler;
+- (void)getVideoPlayListWithDeviceId:(NSString *)deviceId startTime:(NSTimeInterval)startTime endTime:(NSTimeInterval)endTime responseHandler:(IVNetworkResponseHandler _Nullable)responseHandler;
 ```
-示例请参考：demo 内`IJKMediaViewController.swift`
+返回结果：json 示例
+```swift
+{
+    "msg":"Success",
+    "code":0,
+    "data":{
+        "list":[
+            {
+                "start":1601285768,
+                "end":1601285776
+            },
+            {
+                "start":1601285780,
+                "end":1601285800
+            }
+        ]
+    },
+}
+```
+##### 3.获取回放 m3u8 播放地址
+
+```swift
+/// 获取回放 m3u8 播放地址
+/// @param deviceId 设备id
+/// @param startTime 开始UTC时间,单位秒
+/// @param endTime 结束UTC时间,单位秒 填 0 则默认播放到最新为止
+/// @param responseHandler 回调
+/// json： endflag boolean 播放结束标记， 表示此次播放是否把需要播放的文件播完，没有则需以返回的 endtime 为基准再次请求。false 表示未播放完，true 表示播放完成
+- (void)getVideoPlayAddressWithDeviceId:(NSString *)deviceId startTime:(NSTimeInterval)startTime endTiem:(NSTimeInterval)endTime responseHandler:(IVNetworkResponseHandler _Nullable)responseHandler;
+```
+返回结果：json 示例
+```swift
+{
+    "code":0,
+    "msg":"Success",
+    "data":{
+        "endTime":1601289368,
+        "endflag":true,
+        "startTime":1601285768,
+        "url":"http://lcb.iotvideo.tencentcs.com/timeshift/live/00000101000e00fc000000000000000007000000b2860100/timeshift.m3u8?starttime=20200928173608&endtime=20200928183608"
+    }
+}
+```
+对应data 结构：
+参数名称|类型   |描述
+--------|-------|-----
+url     |string |m3u8文件地址
+startTime|int64 |此处播放m3u8文件播放开始时间
+endTime |int64  |此次m3u8文件播放结束时间
+endflag |boolean|播放结束标记， 表示此次请求结果的m3u8能否把需要播放的时间内的文件播完，<br> 不能则需以返回的 `endtime` 为基准再次请求。<br>`false` 表示未播放完，`true` 表示播放完成
+
+
+##### 4.获取事件列表
+```swift
+/// 获取事件列表
+/// @param deviceId 设备id
+/// @param startTime 事件告警开始UTC时间,单位秒
+/// @param endTime 事件告警结束UTC时间，当为0时，默认当天的23点59分59秒
+/// @param pageNum 分页查询，第几页
+/// @param pageSize 分页查询，单页数量
+/// @param responseHandler 回调 json
+- (void)getEventListWithDeviceId:(NSString *)deviceId startTime:(NSTimeInterval)startTime endTime:(NSTimeInterval)endTime pageNum:(NSInteger)pageNum pageSize:(NSInteger)pageSize responseHandler:(IVNetworkResponseHandler _Nullable)responseHandler;
+```
+返回结果：json 示例
+```
+{
+    "requestId":"xxxxxx",
+    "code":0,
+    "msg":"Success",
+    "data":{
+        "imgUrlPrefix":"xxxxx",
+        "thumbUrlSuffix":"&xxxx",
+        "list":[
+            {
+                "alarmId":"xxxx",
+                "firstAlarmType":1,
+                "alarmType":1,
+                "startTime":1600653494,
+                "endTime":1600653495,
+                "imgUrlSuffix":"xxxxx"
+            }
+        ]
+    }
+}
+
+// 图片下载地址为 imgUrl = imgUrlPrefix + imgUrlSuffix
+// 缩略图下载地址为 thumbUrl = imgUrlPrefix + imgUrlSuffix + thumbUrlSuffix
+```
+对应 json 结构：
+
+参数名称      |类型    |描述
+--------------|--------|-----
+alarmId       |string  |事件id
+firstAlarmType|int64   |告警触发时的告警类型
+alarmType     |int64   |告警有效时间内触发过的告警类型
+startTime     |int64   |告警触发时间, utc时间，单位秒
+endTime       |int64   |告警结束时间, utc时间，单位秒
+imgUrlPrefix  |string  |告警图片下载地址前缀缀
+imgUrlSuffix  |string  |告警图片下载地址后缀
+thumbUrlSuffix|string  |告警图片缩略图下载地址后缀
+##### 5. 事件删除
+```swift
+/// 事件删除
+/// @param deviceId 设备id
+/// @param eventIds 事件 id 数组
+/// @param responseHandler 回调
+- (void)deleteEventsWithDeviceId:(NSString *)deviceId eventIds:(NSArray<NSString *> *)eventIds responseHandler:(IVNetworkResponseHandler _Nullable)responseHandler;
+```
+
+具体使用示例请参考：demo 内`IJKMediaViewController.swift`
 
 # 错误码
 
+- 公共错误码
+
+| 错误码区间分布 | 错误描述           |
+| :------------: | ------------------ |
+|  8000 - 8499   | Asrv错误           |
+|  8500 - 8699   | Csrv错误(对接Asrv) |
+|  8799 - 9999   | 预留错误           |
+| 10000 - 10999  | 通用错误           |
+| 11000 - 11999  | 产品/设备相关错误  |
+| 12000 - 12999  | 用户相关错误       |
+| 13000 - 13999  | 客户相关错误       |
+| 14000 - 14999  | 云存相关错误       |
+| 15000 - 15999  | UPG相关错误        |
+| 16000 - 16999  | 帮助中心错误       |
+| 17000 - 17999  | 第三方调用错误     |
+| 20000 - 20999  | P2P错误            |
+| 21000 - 21999  | iOS SDK错误        |
+| 22000 - 22999  | Android SDK错误    |
+| 23000 - 23999  | PC SDK错误         |
+| 24000 - 24999  | DEV SDK错误        |
+
+
+- 连接错误码
+
+|         IVConnError          | 错误码 | 错误描述                             |
+| :--------------------------: | :----: | ------------------------------------ |
+| IVConnError_ExceedsMaxNumber | 21020  | 连接通道已达上限(MAX_CONNECTION_NUM) |
+|    IVConnError_Duplicate     | 21021  | 连接通道已存在                       |
+|  IVConnError_ConnectFailed   | 21022  | 建立连接失败                         |
+|   IVConnError_Disconnected   | 21023  | 连接已断开/未连接                    |
+| IVConnError_ExceedsMaxLength | 21024  | 数据长度超出上限(MAX_PKG_BYTES)      |
+| IVConnError_NotAvailableNow  | 21025  | 当前连接暂不可用/SDK离线             |
+
 - 播放器错误码
 
-```swift
-public enum IVPlayerError : UInt {
-
-    /// 方法选择器无响应、未实现协议方法
-    case noRespondsToSelector = 21030
-
-    /// 参数错误
-    case invalidParameter = 21031
-
-    /// 录像列表为空
-    case playbackListEmpty = 21032
-
-    /// 录像列表数据异常
-    case playbackDataErr = 21033
-
-    /// 正在录制
-    case recorderIsRunning = 21034
-
-    /// 视频分辨率已改变
-    case videoResolutionChanged = 21035
-
-    /// 编码器暂不可用
-    case encoderNotAvailableNow = 21036
-}
-```
+|            IVPlayerError             | 错误码 | 错误描述                         |
+| :----------------------------------: | :----: | -------------------------------- |
+|  IVPlayerError_NoRespondsToSelector  | 21030  | 方法选择器无响应、未实现协议方法 |
+|    IVPlayerError_InvalidParameter    | 21031  | 参数错误                         |
+|   IVPlayerError_PlaybackListEmpty    | 21032  | 录像列表为空                     |
+|    IVPlayerError_PlaybackDataErr     | 21033  | 录像列表数据异常                 |
+|   IVPlayerError_RecorderIsRunning    | 21034  | 正在录制                         |
+| IVPlayerError_VideoResolutionChanged | 21035  | 视频分辨率已改变                 |
+| IVPlayerError_EncoderNotAvailableNow | 21036  | 编码器暂不可用                   |
+|   IVPlayerError_PlaybackListVerErr   | 21037  | 不支持的录像列表版本             |
 
 -  消息管理错误码
 
-```swift
-public enum IVMessageError : UInt {
-
-    /// 消息重复、消息正在发送
-    case duplicate = 21000
-
-    /// 消息发送失败
-    case sendFailed = 21001
-
-    /// 消息响应超时
-    case timeout = 21002
-
-    /// 获取物模型失败
-    case getGdmDataErr = 21003
-
-    /// 接收物模型失败
-    case rcvGdmDataErr = 21004
-
-    /// 透传数据给服务器失败
-    case sendPassSrvErr = 21005
-
-    /// 透传数据给设备失败
-    case sendPassDevErr = 21006
-
-    /// 没有找到回调
-    case notFoundCallback = 21007
-
-    /// 数据超过上限
-    case exceedsMaxLength = 21008
-}
-```
-
-- 公共错误码
-
-```swift
-public enum IVError : UInt {
-
-    
-    //!< 成功
-    case error_none = 0
-
-    
-    //!< 接入服务器返回的错误码
-    //!< 目标离线
-    case aSrv_dst_offline = 8000
-
-    //!< 没有找到目标所在的接入服务器
-    case aSrv_dst_notfound_asrv = 8001
-
-    //!< 目标不存在
-    case aSrv_dst_notexsit = 8002
-
-    //!< 非法关系链
-    case aSrv_dst_error_relation = 8003
-
-    //!< 校验帧失败
-    case aSrv_data_chkfrm_fail = 8004
-
-    //!< 终端上传的json,加载到物模型失败
-    case aSrv_data_loadjson_fail = 8005
-
-    //!< 终端上传的json,修改物模型相关的时间戳失败
-    case aSrv_data_modifytick_fail = 8006
-
-    //!< 接入服务器与中心服务器通信超时
-    case aSrv_tocsrv_timeout = 8007
-
-    //!< url地址解析失败
-    case aSrv_url_parse_fail = 8008
-
-    //!<  中心服务器响应错误的数据
-    case aSrv_csrv_reply_err = 8009
-
-    //!< 接入服务器转发消息到其他接入服务器超时
-    case aSrv_forward_toASrv_timeout = 8010
-
-    //!< 接入服务器转发消息到其他接入服务器失败
-    case aSrv_forward_toASrv_fail = 8011
-
-    //!< 接入服务器转发消息到设备超时
-    case aSrv_forward_toTerm_timeout = 8012
-
-    //!< 接入服务器转发消息到设备失败
-    case aSrv_forward_toTerm_fail = 8013
-
-    //!< 接入服务器处理收到的数据帧失败
-    case aSrv_handle_fail = 8014
-
-    //!< 接入服务器没有从数据帧中解析出目标ID
-    case aSrv_dstid_parse_faild = 8015
-
-    //!< 接入服务器发现目标ID是个用户
-    case aSrv_dstid_isuser = 8016
-
-    //!< 接入服务器计算leaf失败
-    case aSrv_calc_leaf_fail = 8017
-
-    //!< 接入服务器设置物模型的timeval值失败
-    case aSrv_set_timeval_leafval_fail = 8018
-
-    //!< 接入服务器计算转发json失败
-    case aSrv_calc_forward_json_fail = 8019
-
-    //!< 临时订阅帧没有解析出设备ID
-    case aSrv_tmpsubs_parse_fail = 8020
-
-    //!< 中心服务器发来的ctl帧，trgtype不对
-    case aSrv_csrvctrl_trgtype_error = 8021
-
-    //!< 这对设备和用户已经绑定
-    case aSrv_binderror_dev_usr_has_bind = 8022
-
-    //!< 设备已经绑定其他用户
-    case aSrv_binderror_dev_has_bind_other = 8023
-
-    //!< 配网失败,设备的客户ID与用户的客户ID不一致
-    case aSrv_binderror_customer_diffrent = 8024
-
-    //!< json字符串处理失败
-    case aSrv_unformat_jsstr_fail = 8025
-
-    //!< 配网时生成token失败
-    case aSrv_netcfg_maketoken_fail = 8026
-
-    //!< 配网时校验token失败
-    case aSrv_netcfg_verifytoken_fail = 8027
-
-    case aSrv_parse_json_fail = 8028
-
-    //!< 接入服务器没有读取到物模型信息
-    case aSrv_read_gdm_fail = 8029
-
-    //!< 禁止APP设置
-    case aSrv_gdm_ctrl_forbidden = 8030
-
-    //!< 生成腾讯签名失败
-    case aSrv_generate_tx_sign_fail = 8031
-
-    //!< 消息SRC终端被禁用(RDB标识禁用)
-    case aSrv_src_term_disable = 8032
-
-    //!< 消息DST终端被禁用(RDB标识禁用)
-    case aSrv_dst_term_disable = 8033
-
-    //!< 接入服务器设置物模型的origin值失败
-    case aSrv_set_origin_leafval_fail = 8034
-
-    //!< 终端类型信息校验失败
-    case aSrv_termtype_error = 8035
-
-    //!< 数据与物模型匹配失败
-    case aSrv_gdm_match_fail = 8036
-
-    //!< 上传的leaf_path路径无效
-    case aSrv_gdmpath_error = 8037
-
-    //!< 重组action消息失败
-    case aSrv_rebuild_actioncmd_fail = 8038
-
-    
-    //!< 中心服务器返回的错误码
-    //!< 帧类型错误
-    case ac_frm_type_err = 8501
-
-    //!< 帧长度错误
-    case ac_frm_len_err = 8502
-
-    //!< bson数据与bson哈希值不匹配
-    case ac_frm_bson_hashval_err = 8503
-
-    //!< 无效的GdmType
-    case ac_GdmType_err = 8504
-
-    //!< GACFRM_Bson_UploadReq帧上传的不是一个设备id
-    case ac_UploadReq_termid_is_not_dev_err = 8505
-
-    //!< MsgBody_GdmBsonDat结构体中leaf字符串的结束符错误
-    case ac_MsgBody_GdmBsonDat_Leaf_length_err = 8506
-
-    //!< MsgBody_GdmJsonDat结构体中leaf字符串的结束符错误
-    case ac_MsgBody_GdmJsonDat_Leaf_length_err = 8507
-
-    //!< 获取GdmDefBson错误
-    case ac_MsgBody_GetGdmDefBson_err = 8508
-
-    //!< MsgBody_GdmJsonDat结构体中json字符串的结束符错误
-    case ac_MsgBody_GdmJsonDat_length_err = 8509
-
-    //!< MsgBody_GdmDat结构体中leaf_path无效
-    case ac_MsgBody_GdmDat_Leaf_path_err = 8510
-
-    //!< MsgBody_GdmDat结构体中数据无效
-    case ac_MsgBody_GdmDat_content_err = 8511
-
-    //!< 中心服务器中不存在该终端的物模型
-    case ac_csrv_no_term_GdmDat_err = 8512
-
-    //!< 中心服务器中找不到该终端
-    case ac_csrv_no_term_err = 8513
-
-    //!< 中心服务器中没有与该终端对应的productID
-    case ac_csrv_no_term_productID_err = 8514
-
-    //!< 中心服务器获取json格式物模型错误
-    case ac_MsgBody_GetGdmDefJson_err = 8515
-
-    
-    //!< 初始化请求帧，olinf 参数不正确
-    case ac_TermOnlineReq_olinf_parm_err = 8520
-
-    //!< 初始化请求帧,置上了opt_with_data_fp，但是没有置上opt_with_termid
-    case ac_TermOnlineReq_opt_with_fp_but_no_with_termid = 8521
-
-    
-    //!< GACFRM_Dat_UploadReq reqfrm->dat_type是0，但是没有置上opt_with_termid
-    case ac_Dat_UploadReq_dat_type_json_but_no_opt_with_termid_err = 8531
-
-    //!< GACFRM_Dat_UploadReq reqfrm->dat_type是0，但是没有置上opt_with_termid
-    case ac_Dat_UploadReq_dat_type_err = 8532
-
-    
-    //!< 其它类型错误
-    case ac_other_err = 8600
-
-    
-    //!< 中心服务器load_bson失败
-    case ac_centerInner_load_bson_err = 8601
-
-    //!< 中心服务器load_json失败
-    case ac_centerInner_load_json_err = 8602
-
-    //!< 中心服务器get_bson_raw失败
-    case ac_centerInner_get_bson_raw_err = 8603
-
-    
-    //!< 中心服务器user哈希表插入失败
-    case ac_centerInner_insert_user_fail = 8610
-
-    //!< 中心服务器dev哈希表插入失败
-    case ac_centerInner_insert_dev_fail = 8611
-
-    case ac_centerInner_find_login_user_err = 8612
-
-    case ac_centerInner_login_user_utcinitchgd_lower_err = 8613
-
-    case ac_centerInner_login_dev_utcinitchgd_lower_err = 8614
-
-    
-    case ac_centerInner_processDevLastWord_err = 8620
-
-    case ac_MsgBody_LastWords_topic_is_not_valide_err = 8621
-
-    case ac_MsgBody_LastWords_json_is_not_valide_err = 8622
-
-    case ac_MsgBody_LastWords_not_with_livetime_err = 8623
-
-    case ac_MsgBody_LastWords_not_with_topic_err = 8624
-
-    case ac_MsgBody_LastWords_not_with_json_err = 8625
-
-    case ac_MsgBody_LastWords_action_is_err = 8626
-
-    //!< 中心服务器未查到遗言
-    case ac_MsgBody_LastWords_query_is_none = 8627
-
-    
-    case aSrv_centerInner_other_err = 8700
-
-    //!< GACFRM_TempSubscription帧上传的不是一个用户id
-    case aSrv_TempSubscription_termid_is_not_usr_err = 8800
-
-    //!< GACFRM_RdbTermListReq帧既不获取在线信息也不获取离线信息，从业务上来说这是无意义的
-    case aSrv_RdbTermListReq_neither_get_online_nor_get_offline_err = 8900
-
-    case aSrv_AllTermInitReq_other_err = 9000
-
-    
-    //!< 终端使用
-    //!< 消息发送给对方超时
-    case term_msg_send_peer_timeout = 20001
-
-    //calling相关
-    //!< 普通挂断消息
-    case term_msg_calling_hangup = 20002
-
-    //!< calling消息发送超时
-    case term_msg_calling_send_timeout = 20003
-
-    //!< 服务器未分配转发地址
-    case term_msg_calling_no_srv_addr = 20004
-
-    //!< 握手超时
-    case term_msg_calling_handshake_timeout = 20005
-
-    //!< 设备端token校验失败
-    case term_msg_calling_token_error = 20006
-
-    //!< 监控通道数满
-    case term_msg_calling_all_chn_busy = 20007
-
-    //!< 超时断开
-    case term_msg_calling_timeout_disconnect = 20008
-
-    //!< 未找到目的id
-    case term_msg_calling_no_find_dst_id = 20009
-
-    //!< token校验出错
-    case term_msg_calling_check_token_error = 20010
-
-    //!< 设备已经禁用
-    case term_msg_calling_dev_is_disable = 20011
-
-    
-    //物模型
-    //!< 设备正在处理中
-    case term_msg_gdm_handle_processing = 20100
-
-    //!< 设备端校验叶子路径非法
-    case term_msg_gdm_handle_leaf_path_error = 20101
-
-    //!< 设备端解析JSON出错
-    case term_msg_gdm_handle_parse_json_fail = 20102
-
-    //!< 设备处理ACtion失败
-    case term_msg_gdm_handle_fail = 20103
-
-    //!< 设备未注册相应的ACtion回调函数
-    case term_msg_gdm_handle_no_cb_registered = 20104
-
-    //!< 设备不允许通过局域网修改内置可写对象
-    case term_msg_gdm_handle_buildin_prowritable_error = 20105
-
-    
-    //
-    case term_alloc_fail = 20200
-
-    case term_param_invalid = 20201
-
-    case term_term_unit_no_init = 20202
-
-    
-    //!< 在线消息handle错误，有可能是过期丢弃了
-    case term_msg_onlinemsg_handle_invalid = 20213
-
-    //!< 已回应handle值，不需重复发送
-    case term_msg_onlinemsg_handle_repeat = 20214
-}
-```
+|         IVMessageError          | 错误码 | 错误描述                        |
+| :-----------------------------: | :----: | ------------------------------- |
+|    IVMessageError_duplicate     | 21000  | 消息重复/正在发送               |
+|    IVMessageError_sendFailed    | 21001  | 消息发送失败                    |
+|     IVMessageError_timeout      | 21002  | 消息响应超时                    |
+|  IVMessageError_GetGdmDataErr   | 21003  | 获取物模型失败                  |
+|  IVMessageError_RcvGdmDataErr   | 21004  | 接收物模型失败                  |
+|  IVMessageError_SendPassSrvErr  | 21005  | 透传数据给服务器失败            |
+|  IVMessageError_SendPassDevErr  | 21006  | 透传数据给设备失败              |
+| IVMessageError_NotFoundCallback | 21007  | 没有找到回调/已超时             |
+| IVMessageError_ExceedsMaxLength | 21008  | 消息长度超出上限(MAX_DATA_SIZE) |
+
+- P2P错误码
+
+|                     TermErr                      | 错误码 | 错误描述                             |
+| :----------------------------------------------: | :----: | ------------------------------------ |
+|          TermErr_msg_send_peer_timeout           | 20001  | 消息发送给对方超时                   |
+|            TermErr_msg_calling_hangup            | 20002  | 普通挂断消息                         |
+|         TermErr_msg_calling_send_timeout         | 20003  | calling消息发送超时                  |
+|         TermErr_msg_calling_no_srv_addr          | 20004  | 服务器未分配转发地址                 |
+|      TermErr_msg_calling_handshake_timeout       | 20005  | 握手超时                             |
+|         TermErr_msg_calling_token_error          | 20006  | 设备端token校验失败                  |
+|         TermErr_msg_calling_all_chn_busy         | 20007  | 监控通道数满                         |
+|      TermErr_msg_calling_timeout_disconnect      | 20008  | 超时断开                             |
+|        TermErr_msg_calling_no_find_dst_id        | 20009  | 未找到目的id                         |
+|      TermErr_msg_calling_check_token_error       | 20010  | token校验出错                        |
+|        TermErr_msg_calling_dev_is_disable        | 20011  | 设备已经禁用                         |
+|        TermErr_msg_calling_duplicate_call        | 20012  | 重复呼叫                             |
+|        TermErr_msg_gdm_handle_processing         | 20100  | 设备正在处理中                       |
+|      TermErr_msg_gdm_handle_leaf_path_error      | 20101  | 设备端校验叶子路径非法               |
+|      TermErr_msg_gdm_handle_parse_json_fail      | 20102  | 设备端解析JSON出错                   |
+|           TermErr_msg_gdm_handle_fail            | 20103  | 设备处理ACtion失败                   |
+|     TermErr_msg_gdm_handle_no_cb_registered      | 20104  | 设备未注册相应的ACtion回调函数       |
+| TermErr_msg_gdm_handle_buildin_prowritable_error | 20105  | 设备不允许通过局域网修改内置可写对象 |
+
+
+- 常见服务器错误码
+
+|              ASrvErr              | 错误码 | 错误描述                         |
+| :-------------------------------: | :----: | -------------------------------- |
+|         ASrv_dst_offline          |  8000  | 目标离线                         |
+|         ASrv_dst_notexsit         |  8002  | 目标不存在                       |
+|      ASrv_dst_error_relation      |  8003  | 非法关系链                       |
+|  ASrv_binderror_dev_usr_has_bind  |  8022  | 设备已经绑定此用户               |
+| ASrv_binderror_dev_has_bind_other |  8023  | 设备已经绑定其他用户             |
+| ASrv_binderror_customer_diffrent  |  8024  | 设备的客户ID与用户的客户ID不一致 |

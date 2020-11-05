@@ -8,7 +8,7 @@
 
 #import "IVQRCodeNetConfig.h"
 #import "IVQRCodeHelper.h"
-#import "IVCommUtils.h"
+#import "IVUtils_internal.h"
 #import "iot_video_link_def.h"
 #import "IVNetConfig_internal.h"
 

@@ -16,9 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithAudioType:(IVAudioCodecType)audioType sampleRate:(uint32_t)sampleRate audioMode:(IVAudioSoundMode)audioMode bitWidth:(uint8_t)bitWidth NS_DESIGNATED_INITIALIZER;
 
-/// 重置参数
-- (void)setupWithAudioType:(IVAudioCodecType)audioType sampleRate:(uint32_t)sampleRate audioMode:(IVAudioSoundMode)audioMode bitWidth:(uint8_t)bitWidth;
-
 /// 可用的音频编码器
 /// 开发者可以修改此属性以支持更多格式
 /// - KeyType          IVAudioCodecType

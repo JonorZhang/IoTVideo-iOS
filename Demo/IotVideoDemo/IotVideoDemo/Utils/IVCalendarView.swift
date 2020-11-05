@@ -16,7 +16,7 @@ class IVCalendarView: UIView {
     // MARK: - Property
     
     // 需要标记的日期数组
-    public var markableDates: [(ti: Int, mark: Bool)] = [] {
+    public var markableDates: [TimeInterval] = [] {
         didSet {
             DispatchQueue.main.async {[weak self] in
                 CATransaction.setDisableActions(true)
@@ -67,8 +67,12 @@ class IVCalendarView: UIView {
 
     private lazy var lastMonthButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("<", for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 17)
+        if let img = UIImage(named: "iot_arrow_left") {
+            btn.setImage(img, for: .normal)
+        } else {
+            btn.setTitle("<", for: .normal)
+            btn.titleLabel?.font = .systemFont(ofSize: 17)
+        }
         btn.addEvent { (_) in
             self.referenceDate = self.lastMonth(self.referenceDate)
             self._initCalendarInfo()
@@ -81,8 +85,12 @@ class IVCalendarView: UIView {
 
     private lazy var nextMonthButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle(">", for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 17)
+        if let img = UIImage(named: "iot_arrow_right") {
+            btn.setImage(img, for: .normal)
+        } else {
+            btn.setTitle(">", for: .normal)
+            btn.titleLabel?.font = .systemFont(ofSize: 17)
+        }
         btn.addEvent { (_) in
             self.referenceDate = self.nextMonth(self.referenceDate)
             self._initCalendarInfo()
@@ -341,12 +349,12 @@ extension IVCalendarView: UICollectionViewDataSource {
             let date = dateOfDay(day, from: referenceDate)
             
             cell.dayLabel.text = "\(day)"
-            let mark = markableDates.first(where: { Calendar.current.isDate(Date(timeIntervalSince1970: Double($0.ti)), inSameDayAs: date) })?.mark ?? false
+            let mark = markableDates.contains(where: { Calendar.current.isDate(Date(timeIntervalSince1970: Double($0)), inSameDayAs: date) })
             cell.markLayer.isHidden = !mark
             
-            if Int(date.timeIntervalSince1970) < (markableDates.first?.ti ?? 0) || date > Date() {
+            if /*date.timeIntervalSince1970 < (markableDates.first ?? 0) ||*/ date > Date() {
                 cell.dayLabel.textColor = .lightGray
-//                if Int(date.timeIntervalSince1970) < (markableDates.first?.ti ?? 0) {
+//                if Int(date.timeIntervalSince1970) < (markableDates.first ?? 0) {
 //                    cell.subLabel.text = "过期"
 //                }
             }

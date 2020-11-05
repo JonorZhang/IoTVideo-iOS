@@ -115,7 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /// 核心播放器
-/// @note IVPlayer为抽象类，不要直接实例化，请使用其派生类: IVLivePlayer / IVPlaybackPlayer / IVMonitorPlayer
+/// @note IVPlayer为抽象基类，请勿直接实例化，应使用其派生类:IVLivePlayer、IVPlaybackPlayer和IVMonitorPlayer
 @interface IVPlayer : IVConnection <IVAudioRenderDataSource, IVVideoRenderDataSource>
 
 /// 播放器代理
@@ -133,7 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 当前播放时间戳（秒）
 @property (nonatomic, assign, readonly) NSTimeInterval pts;
 
-/// 视频清晰度
+/// 视频清晰度, set方法内部会触发发送切换分辨率指令给设备
 @property (nonatomic, assign, readwrite) IVVideoDefinition definition;
 
 /// 静音，  默认NO（即允许播放声音）
