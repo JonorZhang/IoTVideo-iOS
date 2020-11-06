@@ -102,6 +102,7 @@
 		EABF65F924B46E3000DC56E1 /* IVMonitorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABF653124B46E3000DC56E1 /* IVMonitorViewController.swift */; };
 		EABF65FA24B46E3000DC56E1 /* IJKMediaPlayer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EABF653224B46E3000DC56E1 /* IJKMediaPlayer.storyboard */; };
 		EABF65FB24B46E3000DC56E1 /* IVTransmission.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EABF653324B46E3000DC56E1 /* IVTransmission.storyboard */; };
+		EADB60D2255509F40015189F /* IVAnonymousLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADB60CF255509F40015189F /* IVAnonymousLoginViewController.swift */; };
 		EAE34C71241B1C1800865A8A /* IVNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE34C37241B1C1800865A8A /* IVNavigationViewController.swift */; };
 		EAF055FE23CC237300432559 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAF055BB23CC237300432559 /* Assets.xcassets */; };
 		EAF0560C23CC237300432559 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAF055CB23CC237300432559 /* LaunchScreen.storyboard */; };
@@ -239,6 +240,7 @@
 		EABF653124B46E3000DC56E1 /* IVMonitorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVMonitorViewController.swift; sourceTree = "<group>"; };
 		EABF653224B46E3000DC56E1 /* IJKMediaPlayer.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IJKMediaPlayer.storyboard; sourceTree = "<group>"; };
 		EABF653324B46E3000DC56E1 /* IVTransmission.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IVTransmission.storyboard; sourceTree = "<group>"; };
+		EADB60CF255509F40015189F /* IVAnonymousLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVAnonymousLoginViewController.swift; sourceTree = "<group>"; };
 		EAE34C37241B1C1800865A8A /* IVNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVNavigationViewController.swift; sourceTree = "<group>"; };
 		EAF055AD23CC233200432559 /* IVDevTools.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IVDevTools.xcodeproj; path = IVDevTools/IVDevTools.xcodeproj; sourceTree = "<group>"; };
 		EAF055B923CC237300432559 /* IotVideoDemo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IotVideoDemo-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -431,6 +433,7 @@
 		EABF636724B46E2F00DC56E1 /* TX */ = {
 			isa = PBXGroup;
 			children = (
+				EADB60CF255509F40015189F /* IVAnonymousLoginViewController.swift */,
 				EABF636824B46E2F00DC56E1 /* IVCloudStorages.storyboard */,
 				EABF636924B46E2F00DC56E1 /* IVDeviceListViewController.swift */,
 				EABF636A24B46E2F00DC56E1 /* IVAccountViewController.swift */,
@@ -719,6 +722,7 @@
 				EABF654C24B46E3000DC56E1 /* IVCrypto.swift in Sources */,
 				EABF653424B46E3000DC56E1 /* IVWifiTool.swift in Sources */,
 				EA6C0CB624F77F5A0048CD02 /* IVDatelineView.swift in Sources */,
+				EADB60D2255509F40015189F /* IVAnonymousLoginViewController.swift in Sources */,
 				EABF653A24B46E3000DC56E1 /* IVDevice.swift in Sources */,
 				EABF656224B46E3000DC56E1 /* IoTAppDelegate.swift in Sources */,
 				EABF654D24B46E3000DC56E1 /* IVToast.swift in Sources */,
