@@ -27,8 +27,6 @@ public class IVConfigMgr: NSObject {
 //        直接修改默认值： PS 只给 IoTVideoDemo使用， 其他项目请还原
 //        return []
         
-//        1157493686468 腾讯测试
-        
         return [            
             Config(name: "TEST_P2P", key: "IOT_HOST_P2P", value: "TEST", enable: false),
             Config(name: "TEST_WEB", key: "IOT_HOST_WEB", value: "TEST", enable: false)

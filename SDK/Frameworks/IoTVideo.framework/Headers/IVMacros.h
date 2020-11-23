@@ -11,6 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
+// usage: @weakify(target)
 #ifndef weakify
     #if DEBUG
         #if __has_feature(objc_arc)
@@ -27,7 +28,7 @@
     #endif
 #endif
 
-
+// usage: @strongify(target)
 #ifndef strongify
     #if DEBUG
         #if __has_feature(objc_arc)
@@ -45,42 +46,42 @@
 #endif
 
 
-#define dispatch_main_async_safe(block, ...)\
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) == 0) {\
-        block(__VA_ARGS__);\
-    } else {\
-        dispatch_async(dispatch_get_main_queue(), ^{\
-            block(__VA_ARGS__);\
-        });\
+NS_INLINE
+void dispatch_async_safe(dispatch_queue_t queue, dispatch_block_t block) {
+    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {
+        block();
+    } else {
+        dispatch_async(queue, ^{
+            block();
+        });
     }
+}
 
-
-#define dispatch_main_async_safe_weakSelf(block, ...)\
-    @weakify(self)\
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) == 0) {\
-        @strongify(self)\
-        block(__VA_ARGS__);\
-    } else {\
-        dispatch_async(dispatch_get_main_queue(), ^{\
-            @strongify(self)\
-            block(__VA_ARGS__);\
-        });\
+NS_INLINE
+void dispatch_sync_safe(dispatch_queue_t queue, DISPATCH_NOESCAPE dispatch_block_t block) {
+    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {
+        block();
+    } else {
+        dispatch_sync(queue, ^{
+            block();
+        });
     }
+}
+
+NS_INLINE
+void dispatch_main_async_safe(dispatch_block_t block) {
+    dispatch_async_safe(dispatch_get_main_queue(), block);
+}
+
+NS_INLINE
+void dispatch_main_sync_safe(DISPATCH_NOESCAPE dispatch_block_t block) {
+    dispatch_sync_safe(dispatch_get_main_queue(), block);
+}
 
 
-#define dispatch_main_sync_safe(block, ...)\
-    if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) == 0) {\
-        block(__VA_ARGS__);\
-    } else {\
-        dispatch_sync(dispatch_get_main_queue(), ^{\
-            block(__VA_ARGS__);\
-        });\
-    }
+#define exec_safe(block, ...) if (block) { block(__VA_ARGS__); };
 
-#define block_exec_safe(block, ...) if (block) { block(__VA_ARGS__); };
-
-#define block_exec_safe_main(block, ...) if (block) { dispatch_main_async_safe(block, __VA_ARGS__); };
-
-#define block_exec_safe_main_weakSelf(block, ...) if (block) { dispatch_main_async_safe_weakSelf(block, __VA_ARGS__); };
+#define exec_main_async_safe(block, ...) if (block) { dispatch_async_safe(dispatch_get_main_queue(), ^{block(__VA_ARGS__);}); }
+#define exec_main_sync_safe(block, ...) if (block) { dispatch_sync_safe(dispatch_get_main_queue(), ^{block(__VA_ARGS__);}); }
 
 #endif /* IVMacros_h */

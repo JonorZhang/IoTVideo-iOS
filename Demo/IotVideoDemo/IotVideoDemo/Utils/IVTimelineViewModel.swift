@@ -174,6 +174,9 @@ struct IVTimelineSection: IVTiming {
     // 合成的回放文件（用于时间轴渲染）
     private(set) var items: [IVTimelineItem] = []
 
+    // 时间轴缩放比例（每秒占多少像素点(pix/sec)）
+    private(set) var scale: Double = 1
+    
     init(_ time: IVTime, rawItems: [IVTimelineItem], scale: Double) {
         self.time = time
         // 过滤小于1秒的文件
@@ -306,6 +309,7 @@ struct IVTimelineSection: IVTiming {
             }
         }
         
+        self.scale = scale
         self.items = items
     }
 
@@ -402,7 +406,11 @@ class IVTimelineViewModel {
         
         self.scale = min(max(scale, minimumScale), maximumScale)
 //        logVerbose("update(scale:\(self.scale))")
-        current.redraw(toFit: self.scale)
+        let scalerate = self.scale / current.scale
+        if scalerate >= 2.0 || scalerate <= 0.5 {
+            logDebug(String(format: "scale: %f %f", self.scale, current.scale))
+            current.redraw(toFit: self.scale)
+        }
         return true
     }
 

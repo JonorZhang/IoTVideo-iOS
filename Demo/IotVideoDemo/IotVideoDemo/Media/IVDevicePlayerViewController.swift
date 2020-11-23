@@ -469,8 +469,11 @@ extension IVDevicePlayerViewController: IVPlayerDelegate {
     func connection(_ connection: IVConnection, didReceiveError error: Error) {
         let err = error as NSError
         let code = err.userInfo["ReasonCode"] ?? err.code
-        logError(device.deviceID + "_\(sourceID)", err)
-        IVPopupView.showConfirm(title: "通道错误(\(code))", message: error.localizedDescription, in: self.view)
+//        logError(device.deviceID + "_\(sourceID)", err)
+        DispatchQueue.main.async {[weak self] in
+            guard let `self` = self else { return }
+            IVPopupView.showConfirm(title: "通道错误(\(code))", message: error.localizedDescription, in: self.view)
+        }
     }
     
     func connection(_ connection: IVConnection, didReceive data: Data) {
@@ -479,22 +482,25 @@ extension IVDevicePlayerViewController: IVPlayerDelegate {
     
     func player(_ player: IVPlayer, didUpdate status: IVPlayerStatus) {
         let animating = (status == .preparing || status == .loading)
-        animating ? activityIndicatorView.startAnimating() : activityIndicatorView.stopAnimating()
-        
-        playBtn.isEnabled = (status != .preparing && status != .stopping)
-        playBtn.isSelected = (status == .playing)
-        speakerBtn?.isSelected = player.mute
-        
-        if let player = player as? IVPlayerTalkable {
-            micBtn?.isSelected = !player.isTalking
-        }
-        
-        if let player = player as? IVLivePlayer {
-            cameraBtn?.isSelected = !player.isCameraOpening
-        }
-        
-        for ctrl in [recordBtn, screenshotBtn, speakerBtn, micBtn, cameraBtn, userdataFiled] {
-            ctrl?.isEnabled = (status == .playing)
+        DispatchQueue.main.async {[weak self] in
+            guard let `self` = self else { return }
+            animating ? self.activityIndicatorView.startAnimating() : self.activityIndicatorView.stopAnimating()
+            
+            self.playBtn.isEnabled = (status != .preparing && status != .stopping)
+            self.playBtn.isSelected = (status == .playing)
+            self.speakerBtn?.isSelected = player.mute
+            
+            if let player = player as? IVPlayerTalkable {
+                self.micBtn?.isSelected = !player.isTalking
+            }
+            
+            if let player = player as? IVLivePlayer {
+                self.cameraBtn?.isSelected = !player.isCameraOpening
+            }
+            
+            for ctrl in [self.recordBtn, self.screenshotBtn, self.speakerBtn, self.micBtn, self.cameraBtn, self.userdataFiled] {
+                ctrl?.isEnabled = (status == .playing)
+            }
         }
     }
     
@@ -502,19 +508,31 @@ extension IVDevicePlayerViewController: IVPlayerDelegate {
 //        logVerbose(device.deviceID + "_\(sourceID)", "PTS:", PTS)
     }
     
+    func player(_ player: IVPlayer, didFinishPlaybackFile startTime: TimeInterval) {
+        logVerbose(device.deviceID + "_\(sourceID)", "didFinishPlaybackFile:", startTime)
+    }
+    
     func player(_ player: IVPlayer, didUpdateAudience audience: Int) {
         logInfo(device.deviceID + "_\(sourceID)", audience)
-        IVPopupView.showAlert(title: "观众人数变更", message: "当前观看人数：\(audience)", in: self.view, duration: 1.5)
+        DispatchQueue.main.async {[weak self] in
+            guard let `self` = self else { return }
+            IVPopupView.showAlert(title: "观众人数变更", message: "当前观看人数：\(audience)", in: self.view, duration: 1.5)
+        }
     }
 
     func player(_ player: IVPlayer, didReceiveError error: Error) {
         let err = error as NSError
         let code = err.userInfo["ReasonCode"] ?? err.code
-        logError(device.deviceID + "_\(sourceID)", error)
-        IVPopupView.showConfirm(title: "播放器错误(\(code))", message: error.localizedDescription, in: self.view)
+//        logError(device.deviceID + "_\(sourceID)", error)
+        DispatchQueue.main.async {[weak self] in
+            guard let `self` = self else { return }
+            IVPopupView.showConfirm(title: "播放器错误(\(code))", message: error.localizedDescription, in: self.view)
+        }
     }
     
     func player(_ player: IVPlayer, didReceive avHeader: IVAVHeader) {
-        resizeVideoView(avHeader, reset: true)
+        DispatchQueue.main.async {
+            self.resizeVideoView(avHeader, reset: true)
+        }
     }
 }

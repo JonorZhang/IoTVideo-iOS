@@ -25,5 +25,8 @@ extern NSString *convertDataToHexStr(NSData *data);
 /// @return The start time of the date since 00:00:00 UTC on 1 January 1970.
 extern NSInteger startTimeOfDate(NSInteger time);
 
-#endif /* IVUtils_h */
 
+/// 获取SDK运行环境
+extern NSString *getSDKEnvironment(void);
+
+#endif /* IVUtils_h */

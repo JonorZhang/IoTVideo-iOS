@@ -38,7 +38,9 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
         IVPlaybackPlayer.getPlaybackListV2(ofDevice: device.deviceID, pageIndex: 0, countPerPage: 10000, startTime: timeRange.start, endTime: timeRange.end, filterType: nil) { (page, err) in
             guard let items = page?.items else {
                 completionHandler(nil)
-                logError(err as Any)
+                if let err = err as NSError? {
+                    IVPopupView.showConfirm(title: err.localizedDescription, message: "\(err.userInfo["debugInfo"] ?? "")" , in: self.mediaView)
+                }
                 return
             }
             

@@ -142,6 +142,10 @@ class IVTimelineView: UIControl {
         prepareLayout()
     }
     
+    deinit {
+        logDebug("timeline view deinit")
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         updateLayout()
@@ -160,7 +164,10 @@ class IVTimelineView: UIControl {
     }
     
     override var isTracking: Bool {
-        return !autoScrollEnable || isInteracting || datelineView.isTracking || timeCollView.isTracking
+        return !autoScrollEnable ||
+            isInteracting ||
+            datelineView.isTracking ||
+            timeCollView.isTracking
     }
     
 }
@@ -204,7 +211,7 @@ private extension IVTimelineView {
         }
 
         selectView.didChangeValue = { [unowned self] (leftView, rightView)in
-            
+
             let leftDiff  = indicatorLine.frame.midX - leftView.frame.maxX
             let rightDiff = indicatorLine.frame.midX - rightView.frame.minX
 
@@ -240,13 +247,13 @@ private extension IVTimelineView {
             }
         }
         
-        datelineView.selectedDateCallback = { date in
-            self.loadAndDisplaySection(at: IVTime(date: date))
+        datelineView.selectedDateCallback = { [weak self] date in
+            self?.loadAndDisplaySection(at: IVTime(date: date))
         }
         
-        calendarView.selectedDateCallback = { date in
-            self.calendarView.alpha = 0
-            self.loadAndDisplaySection(at: IVTime(date: date))
+        calendarView.selectedDateCallback = { [weak self] date in
+            self?.calendarView.alpha = 0
+            self?.loadAndDisplaySection(at: IVTime(date: date))
         }
     }
     
@@ -289,6 +296,7 @@ private extension IVTimelineView {
             if gIsLandscape {
                 make.top.equalToSuperview()
             } else {
+                // FIXME: 加这句导致timelineview释放不了？
                 make.top.equalTo(datelineView.snp.bottom)
             }
             make.left.right.equalToSuperview()
@@ -413,10 +421,10 @@ private extension IVTimelineView {
             isManuallyOperation = true
             let oldScale = viewModel.scale
             if viewModel.update(scale: oldScale * Double(pinch.scale)) {
-                CATransaction.setDisableActions(true)
+//                CATransaction.setDisableActions(true)
                 timeCollView.reloadData()
                 scrollToTime(viewModel.pts, force: true, animated: false)
-                CATransaction.commit()
+//                CATransaction.commit()
             }
         default:
             IVDelayWork.asyncAfter(1, key: "isManuallyScroll-did-end") {[weak self] in
@@ -488,8 +496,9 @@ extension IVTimelineView: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let item = viewModel.current.items[indexPath.item]
-        let floorStart = floor(Double(UIScreen.main.scale) * item.start * viewModel.scale) / Double(UIScreen.main.scale)
-        let floorEnd = floor(Double(UIScreen.main.scale) * item.end * viewModel.scale) / Double(UIScreen.main.scale)
+        let fscale = Double(UIScreen.main.scale) * viewModel.scale
+        let floorStart = floor(fscale * item.start) / Double(UIScreen.main.scale)
+        let floorEnd = floor(fscale * item.end) / Double(UIScreen.main.scale)
         let newItemW = CGFloat(floorEnd - floorStart)
         return CGSize(width: newItemW, height: collectionView.bounds.height)
     }
@@ -626,6 +635,12 @@ class IVTimelineCell: UICollectionViewCell {
         return offset
     }
     
+    private lazy var dateFormater = IVTimeMark.all.reduce(into: [IVTimeMark : DateFormatter]()) { (dict, mark) in
+        let fmt = DateFormatter()
+        fmt.dateFormat = DateFormat(of: mark)
+        dict[mark] = fmt
+    }
+    
     private func DateFormat(of mark: IVTimeMark) -> String {
         return mark < .min1 ? "ss" : "HH:mm"
     }
@@ -672,8 +687,7 @@ class IVTimelineCell: UICollectionViewCell {
                     // === 2.画文字 ===
                     let fontSize = FontSize(of: mark)
 
-                    let fmt = DateFormatter()
-                    fmt.dateFormat = DateFormat(of: mark)
+                    let fmt = dateFormater[mark]!
 
                     let labelWidth = LabelWidth(of: mark)
                     let showText = CGFloat(mark.rawValue) * CGFloat(scale) > labelWidth
@@ -786,13 +800,18 @@ private func DateFormat(of mark: IVTimeMark) -> String {
     return mark < .min1 ? "ss" : "HH:mm"
 }
 
+private var _widthCaches: [IVTimeMark : CGFloat] = [:]
 private func LabelWidth(of mark: IVTimeMark) -> CGFloat {
+    if let width = _widthCaches[mark] {
+        return width
+    }
     let text = DateFormat(of: mark) as NSString
-    let width = text.boundingRect(with: CGSize(width: 100, height: 20),
+    let width = max(30, text.boundingRect(with: CGSize(width: 100, height: 20),
                                   options: .usesFontLeading,
                                   attributes: [.font : UIFont.systemFont(ofSize: FontSize(of: mark))],
-                                  context: nil).width
-    return max(width, 30)
+                                  context: nil).width)
+    _widthCaches[mark] = width
+    return width
 }
 
 private func MarkHeight(of mark: IVTimeMark) -> Double {

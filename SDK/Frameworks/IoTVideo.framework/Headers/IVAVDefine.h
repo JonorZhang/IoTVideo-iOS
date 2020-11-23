@@ -131,7 +131,7 @@ typedef struct _IVVideoFrame {
     uint32_t    linesize[3]; //!< [IN] data最大容量,  [OUT] data有效长度
     uint32_t    width;
     uint32_t    height;
-    uint64_t    pts;
+    uint64_t    pts;    //!< 时间戳(us)，may be 0。
     
     // 摄像头采集输出时有效
     CVImageBufferRef imgBuf;
@@ -143,7 +143,7 @@ typedef struct _IVAudioFrame {
     IVAudioFormat type; //!< 音频采样格式
     uint8_t    *data;   //!< [IN][OUT] 缓冲区地址
     uint32_t    size;   //!< [IN] data最大容量,  [OUT] data有效长度
-    uint64_t    pts;    //!< 时间戳，may be 0。
+    uint64_t    pts;    //!< 时间戳(us)，may be 0。
 } IVAudioFrame;
 
 /// 视频数据包

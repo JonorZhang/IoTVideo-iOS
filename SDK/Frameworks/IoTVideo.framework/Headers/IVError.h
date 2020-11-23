@@ -47,7 +47,7 @@ typedef NS_ENUM(NSUInteger, IVTermErr) {
     //!< 终端使用
     IVTermErr_msg_send_peer_timeout          = 20001, //!< 消息发送给对方超时
     //calling相关
-    IVTermErr_msg_calling_hangup             = 20002, //!< 普通挂断消息
+    IVTermErr_msg_calling_hangup             = 20002, //!< 普通挂断，即设备端主动断开
     IVTermErr_msg_calling_send_timeout       = 20003, //!< calling消息发送超时
     IVTermErr_msg_calling_no_srv_addr        = 20004, //!< 服务器未分配转发地址
     IVTermErr_msg_calling_handshake_timeout  = 20005, //!< 握手超时
@@ -81,8 +81,10 @@ typedef NS_ENUM(NSUInteger, IVASrvErr) {
 
 
 extern NSString *IVErrorDescribe(NSUInteger errorCode);
-extern NSString *IVErrorDescribe2(NSUInteger errorCode, const char *fmt, ...);
+
 extern NSError  *IVErrorMake(id target, NSUInteger errorCode, const char *fmt, ...);
-extern NSError  *IVErrorMake2(id target, NSUInteger errorCode, NSUInteger reasonCode, NSString *reasonDesc, const char *fmt, ...);
+extern NSError  *IVErrorMake2(id target, NSUInteger errorCode, NSUInteger reasonCode, const char *fmt, ...);
+extern NSError  *IVErrorMake3(id target, NSUInteger errorCode, NSUInteger reasonCode, const char *reasonDesc, const char *fmt, ...);
+
 
 #endif /* IVError_h */

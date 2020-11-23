@@ -35,6 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param PTS 时间戳
 - (void)player:(IVPlayer *)player didUpdatePTS:(NSTimeInterval)PTS;
 
+/// SD卡回放文件播放结束
+/// @param player 播放器实例
+/// @param startTime 当前播放结束的文件的开始时间
+- (void)player:(IVPlayer *)player didFinishPlaybackFile:(NSTimeInterval)startTime;
+
 /// 观众人数变更
 /// @param player 播放器实例
 /// @param audience 观众人数

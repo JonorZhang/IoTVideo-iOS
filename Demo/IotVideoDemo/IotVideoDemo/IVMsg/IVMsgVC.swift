@@ -313,9 +313,9 @@ extension IVMsgVC {
         
         let alertContr = UIAlertController(title: "内置用户物模型", message: nil, preferredStyle: .actionSheet)
         
-        alertContr.addAction(UIAlertAction(title: "almEvtPushEna", style: .default){
+        alertContr.addAction(UIAlertAction(title: "almEvtNoDisturb", style: .default){
             clickHandler in
-            self.editBuildInUserPro(path:"ProUser._buildIn.val.almEvtPushEna" , json: buildInPro["almEvtPushEna"] as? String ?? "0")
+            self.editBuildInUserPro(path:"ProUser._buildIn.val.almEvtNoDisturb" , json: buildInPro["almEvtNoDisturb"] as? String ?? "0")
         })
         
         // 字符串需写成 "\"value"\" 形式

@@ -38,7 +38,7 @@ class IVMonitorViewController: IVDevicePlayerViewController {
         let defn = IVVideoDefinition(rawValue: IVVideoDefinition.RawValue(sender.selectedSegmentIndex)) ?? .high
         if device.sdkVer.isEmpty {
             IVMessageMgr.sharedInstance.readProperty(ofDevice: device.deviceID, path: "ProConst._versionInfo.sdkVer") { [weak self](json, err) in
-                guard let json = json, err == nil else { return }
+                guard let json = json?.replacingOccurrences(of: "\"", with: ""), err == nil else { return }
                 self?.device.sdkVer = json
                 self?.monitorPlayer?.setVideoDefinition(defn, sdkVer: json)
             }
@@ -49,8 +49,10 @@ class IVMonitorViewController: IVDevicePlayerViewController {
         
     override func player(_ player: IVPlayer, didUpdate status: IVPlayerStatus) {
         super.player(player, didUpdate: status)
-                
-        definitionSegment?.isEnabled = (status != .preparing && status != .stopping)
+        DispatchQueue.main.async {[weak self] in
+            guard let `self` = self else { return }
+            self.definitionSegment?.isEnabled = (status != .preparing && status != .stopping)
+        }
     }
 }
 

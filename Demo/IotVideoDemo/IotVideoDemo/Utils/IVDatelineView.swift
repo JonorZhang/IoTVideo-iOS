@@ -12,7 +12,7 @@ class IVDatelineView: UIControl {
     /// 当前选择日期
     public var selectedDate: Date = Date() {
         didSet {
-            selectDate(selectedDate)
+            didSelectDate(selectedDate)
         }
     }
     
@@ -53,22 +53,25 @@ class IVDatelineView: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        logDebug("IVDatelineView deinit")
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         dateCollView.reloadData()
-        selectDate(selectedDate)
+        didSelectDate(selectedDate)
     }
         
     override var isTracking: Bool {
         return dateCollView.isTracking
     }
 
-    private func selectDate(_ date: Date) {
+    private func didSelectDate(_ date: Date) {
         dateCollView.indexPathsForSelectedItems?.forEach({ (item) in
             dateCollView.deselectItem(at: item, animated: false)
         })
         dateCollView.selectItem(at: indexPathOfDate(date), animated: true, scrollPosition: .centeredHorizontally)
-        
     }
     
     private func indexPathOfDate(_ date: Date) -> IndexPath {

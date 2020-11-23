@@ -43,8 +43,7 @@ extension AppDelegate: IoTVideoDelegate {
         }
     }
     
-    func didOutputLogMessage(_ message: String, level: IVLogLevel, file: String, func: String, line: Int32) {
-        let lv = Level(rawValue: Int(level.rawValue))!
-        IVLogger.log(lv, path: file, function: `func`, line: Int(line), message: message)
-    }
+    func didOutputPrettyLogMessage(_ message: String) {
+        IVLogger.logMessage(message)
+    }    
 }

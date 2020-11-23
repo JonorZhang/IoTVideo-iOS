@@ -104,7 +104,7 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
     }
 
     func getEventList(at time: IVTime) {
-        IVVAS.shared.getEventList(withDeviceId: device.deviceID, startTime: time.start, endTime: time.end, pageSize: 50, filterTypeMask: 0) { (json, error) in
+        IVVAS.shared.getEventList(withDeviceId: device.deviceID, startTime: time.start, endTime: time.end, pageSize: 50, filterTypeMask: nil, validCloudStorage: false) { (json, error) in
             logInfo("event list: \(json ?? "") , error: \(String(describing: error))")
             guard let json = json, error == nil else {
                 logError("\(String(describing: error))")
@@ -161,6 +161,7 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
     
     private func prepareToPlay(_ item: IVCSPlaybackItem) {
         logDebug("prepareToPlay", item.start)
+        self.timer.fireDate = .distantFuture
 
         getPlayUrl(item) { (url) in
             guard let url = url else { return }
@@ -183,7 +184,7 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
                 self.videoView.addSubview(newMediaPlayer.view)
                 newMediaPlayer.prepareToPlay()
                 
-                self.timer.fire()
+                self.timer.fireDate = .distantPast
                 self.activityIndicatorView.startAnimating()
                 
                 let oldview = oldMediaPlayer?.view
@@ -340,7 +341,7 @@ extension IJKMediaViewController: UITableViewDelegate, UITableViewDataSource {
         fmt.dateFormat = "HH:mm:ss"
         let date = Date(timeIntervalSince1970: TimeInterval(event.startTime))
         cell?.textLabel?.text = "\(fmt.string(from: date))"
-        cell?.detailTextLabel?.text = "type: \(event.alarmType)"
+        cell?.detailTextLabel?.text = "type: \(event.firstAlarmType)"
         return cell!
     }
     

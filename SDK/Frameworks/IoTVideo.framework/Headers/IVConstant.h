@@ -78,9 +78,12 @@ typedef NS_ENUM(NSUInteger, IVLinkStatus) {
     IVLinkStatusOffline         = 2,
     /// accessToken校验失败
     IVLinkStatusTokenFailed     = 3,
-    /// 账号被踢飞, 在别处登陆
+    /// 账号被踢飞/在别处登陆
     IVLinkStatusKickOff         = 6,
 };
+
+extern const NSString *linkStatusDesc(IVLinkStatus status);
+
 
 /// 语言码
 typedef NS_ENUM(NSUInteger, IVLanguageCode) {
@@ -108,6 +111,6 @@ typedef NS_ENUM(NSUInteger, IVLanguageCode) {
 };
 
 /// 当前手机系统使用的语言码
-IVLanguageCode getSystemLanguageCode(void);
+extern IVLanguageCode getSystemLanguageCode(void);
 
 NS_ASSUME_NONNULL_END

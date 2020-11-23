@@ -17,9 +17,9 @@ target 'IotVideoDemo' do
   pod 'Then',                   '~> 2.4.0'
 end
 
-target 'IoTVideo' do
-  project './SDK/IoTVideo/IoTVideo.xcodeproj'
-end
+#target 'IoTVideo' do
+#  project './SDK/IoTVideo/IoTVideo.xcodeproj'
+#end
 
 target 'IVNetwork' do
   project './SDK/IVNetwork/IVNetwork.xcodeproj'

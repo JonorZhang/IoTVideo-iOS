@@ -69,7 +69,7 @@ func ivLoadingHud(_ msg: String? = nil, inView view: UIView? = nil,  isMask mask
         hud.backgroundView.color = UIColor(white: 0, alpha: 0.4)
         hud.isUserInteractionEnabled = true
     } else {
-        hud.isUserInteractionEnabled = true
+        hud.isUserInteractionEnabled = false
     }
     hud.removeFromSuperViewOnHide = true
     return hud
