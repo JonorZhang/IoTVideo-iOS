@@ -882,6 +882,9 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C3MLE46F3M;
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				"EXCLUDED_SOURCE_FILE_NAMES[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -917,6 +920,8 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = x86_64;
 			};
 			name = Debug;
 		};
@@ -933,6 +938,9 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C3MLE46F3M;
 				ENABLE_BITCODE = NO;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				"EXCLUDED_SOURCE_FILE_NAMES[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -963,6 +971,8 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/IotVideoDemo/IotVideoDemo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "";
+				"VALID_ARCHS[sdk=iphonesimulator*]" = x86_64;
 			};
 			name = Release;
 		};
