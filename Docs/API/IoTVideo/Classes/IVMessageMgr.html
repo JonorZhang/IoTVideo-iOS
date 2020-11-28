@@ -82,6 +82,10 @@
 		
 		<option value="//api/name/readPropertyOfDevice:path:timeout:completionHandler:">- readPropertyOfDevice:path:timeout:completionHandler:</option>
 		
+		<option value="//api/name/registerRemoteNotificationsWithPushId:appId:completionHandler:">- registerRemoteNotificationsWithPushId:appId:completionHandler:</option>
+		
+		<option value="//api/name/registerRemoteNotificationsWithPushId:language:timeZone:appVersion:appId:completionHandler:">- registerRemoteNotificationsWithPushId:language:timeZone:appVersion:appId:completionHandler:</option>
+		
 		<option value="//api/name/sendDataToDevice:data:timeout:expectResponse:completionHandler:">- sendDataToDevice:data:timeout:expectResponse:completionHandler:</option>
 		
 		<option value="//api/name/sendDataToDevice:data:timeout:multiRspHandler:">- sendDataToDevice:data:timeout:multiRspHandler:</option>
@@ -97,6 +101,8 @@
 		<option value="//api/name/takeActionOfDevice:path:json:completionHandler:">- takeActionOfDevice:path:json:completionHandler:</option>
 		
 		<option value="//api/name/takeActionOfDevice:path:json:timeout:completionHandler:">- takeActionOfDevice:path:json:timeout:completionHandler:</option>
+		
+		<option value="//api/name/unregisterRemoteNotification:">- unregisterRemoteNotification:</option>
 		
 		<option value="//api/name/writePropertyOfDevice:path:json:completionHandler:">- writePropertyOfDevice:path:json:completionHandler:</option>
 		
@@ -1377,6 +1383,178 @@
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/registerRemoteNotificationsWithPushId:appId:completionHandler:" title="registerRemoteNotificationsWithPushId:appId:completionHandler:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerRemoteNotificationsWithPushId:appId:completionHandler:">&ndash;&nbsp;registerRemoteNotificationsWithPushId:appId:completionHandler:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>注册SDK离线推送</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)registerRemoteNotificationsWithPushId:(NSString *)<em>pushId</em> appId:(NSString *)<em>appId</em> completionHandler:(nullable IVMsgJSONCallback)<em>completionHandler</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>pushId</code></th>
+						<td><p>推送ID 如极光推送的<code>registrationID</code></p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>appId</code></th>
+						<td><p>从官网获取 的 appId</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">IVMessageMgr.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/registerRemoteNotificationsWithPushId:language:timeZone:appVersion:appId:completionHandler:" title="registerRemoteNotificationsWithPushId:language:timeZone:appVersion:appId:completionHandler:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerRemoteNotificationsWithPushId:language:timeZone:appVersion:appId:completionHandler:">&ndash;&nbsp;registerRemoteNotificationsWithPushId:language:timeZone:appVersion:appId:completionHandler:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>注册SDK离线推送</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)registerRemoteNotificationsWithPushId:(NSString *)<em>pushId</em> language:(nullable NSString *)<em>language</em> timeZone:(NSInteger)<em>zone</em> appVersion:(nullable NSString *)<em>appVersion</em> appId:(NSString *)<em>appId</em> completionHandler:(nullable IVMsgJSONCallback)<em>completionHandler</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>pushId</code></th>
+						<td><p>推送ID 如极光推送的<code>registrationID</code></p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>language</code></th>
+						<td><p>推送语言（默认中文zh_cn）</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>zone</code></th>
+						<td><p>时区秒 （默认设备当前时区）</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>appVersion</code></th>
+						<td><p>app版本号</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>appId</code></th>
+						<td><p>从官网获取 的 appId</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">IVMessageMgr.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/unregisterRemoteNotification:" title="unregisterRemoteNotification:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/unregisterRemoteNotification:">&ndash;&nbsp;unregisterRemoteNotification:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>反注册SDK离线推送</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)unregisterRemoteNotification:(nullable IVMsgJSONCallback)<em>completionHandler</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">IVMessageMgr.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -1392,7 +1570,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2020 tencentcs. All rights reserved. Updated: 2020-11-04</p>
+						<p class="copyright">Copyright &copy; 2020 tencentcs. All rights reserved. Updated: 2020-11-28</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

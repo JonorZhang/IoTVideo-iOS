@@ -133,19 +133,19 @@ fileprivate class Log: NSObject {
 
     @objc public static func logMessage(_ message: String?) {
         guard let message = message else { return }
-//#if DEBUG
-//        if IVLogger.isXcodeRunning {
+#if DEBUG
+        if IVLogger.isXcodeRunning {
             print(message)
-//        } else {
-//            serialQueue.async {
-//                IVFileLogger.shared.insertText(message)
-//            }
-//        }
-//#else
-//        serialQueue.async {
-//            IVFileLogger.shared.insertText(message)
-//        }
-//#endif
+        } else {
+            serialQueue.async {
+                IVFileLogger.shared.insertText(message)
+            }
+        }
+#else
+        serialQueue.async {
+            IVFileLogger.shared.insertText(message)
+        }
+#endif
     }
     
     @objc public static var isXcodeRunning: Bool = {

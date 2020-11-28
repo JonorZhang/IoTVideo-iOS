@@ -21,8 +21,9 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
     @IBOutlet weak var screenshotBtn: UIButton!
     @IBOutlet weak var userdataFiled: UITextField!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    @IBOutlet weak var deviceIdLabel: UILabel?
-    
+    @IBOutlet weak var audienceLabel: UILabel?
+    @IBOutlet weak var speedLabel: UILabel?
+
     // IVPlayerTalkable
     @IBOutlet weak var speakerBtn: UIButton?
     @IBOutlet weak var micBtn: UIButton?
@@ -57,8 +58,8 @@ class IVDevicePlayerViewController: UIViewController, IVDeviceAccessable {
         UIApplication.shared.isIdleTimerDisabled = true //禁止锁屏
         
         NotificationCenter.default.addObserver(self, selector: #selector(stopIfNeed), name: UIApplication.didEnterBackgroundNotification, object: nil)
-                
-        deviceIdLabel?.text = device.deviceID + "_\(sourceID)"
+             
+//        deviceIdLabel?.text = device.deviceID + "_\(sourceID)"
 
         // 方式1. 默认使用内置采集器、编解码器、渲染器、录制器，[可选]修改某些参数；
         // 方式2. 自定义采集器、编解码器、渲染器、录制器。
@@ -463,13 +464,16 @@ extension IVDevicePlayerViewController: IVPlayerDelegate {
     }
     
     func connection(_ connection: IVConnection, didUpdateSpeed speed: UInt32) {
-        logVerbose(device.deviceID + "_\(sourceID)", String(format: "%.2f KB/s", Float(speed)/1024))
+        DispatchQueue.main.async {[weak self] in
+            guard let `self` = self else { return }
+            self.speedLabel?.text = String(format: "%.2fKB/s", Float(speed)/1024)
+            logDebug(self.speedLabel?.text)
+        }
     }
     
     func connection(_ connection: IVConnection, didReceiveError error: Error) {
         let err = error as NSError
         let code = err.userInfo["ReasonCode"] ?? err.code
-//        logError(device.deviceID + "_\(sourceID)", err)
         DispatchQueue.main.async {[weak self] in
             guard let `self` = self else { return }
             IVPopupView.showConfirm(title: "通道错误(\(code))", message: error.localizedDescription, in: self.view)
@@ -516,7 +520,7 @@ extension IVDevicePlayerViewController: IVPlayerDelegate {
         logInfo(device.deviceID + "_\(sourceID)", audience)
         DispatchQueue.main.async {[weak self] in
             guard let `self` = self else { return }
-            IVPopupView.showAlert(title: "观众人数变更", message: "当前观看人数：\(audience)", in: self.view, duration: 1.5)
+            self.audienceLabel?.text = "\(audience)人观看"
         }
     }
 

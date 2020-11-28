@@ -59,18 +59,20 @@ class IVTimelineView: UIControl {
        
     /// 视图模型
     var viewModel: IVTimelineViewModel = IVTimelineViewModel(time: .today)
-       
+    
+    var selectedDateColor: UIColor = .lightGray {
+        didSet {
+            datelineView.selectedColor = selectedDateColor
+        }
+    }
+    
     private var autoScrollEnable = true
     
     private var loadingTimes: [IVTime] = []
     
     // MARK: UI
 
-    private let indicatorLine: UIView = {
-        let ind = UIView()
-        ind.backgroundColor = UIColor.red
-        return ind
-    }()
+    private let indicatorLine = IVIndicatorLine()
         
     private var selectView = IVTimelineSelectView().then {
         $0.isHidden = true
@@ -179,9 +181,9 @@ private extension IVTimelineView {
         addSubview(datelineView)
         addSubview(calendarBtn)
         addSubview(timeCollView)
-        addSubview(indicatorLine)
         addSubview(loadingAnim)
         addSubview(selectView)
+        addSubview(indicatorLine)
     }
     
     private func prepareEvent() {
@@ -259,13 +261,14 @@ private extension IVTimelineView {
     
     private func prepareLayout() {
         calendarBtn.snp.makeConstraints { (make) in
-            make.top.right.equalToSuperview()
-            make.width.height.equalTo(35)
+            make.top.equalToSuperview().offset(3)
+            make.right.equalToSuperview()
+            make.width.height.equalTo(38)
         }
 
         datelineView.snp.makeConstraints { (make) in
             make.top.left.equalToSuperview()
-            make.height.equalTo(35)
+            make.height.equalTo(46)
             make.right.equalToSuperview()
         }
 
@@ -276,9 +279,9 @@ private extension IVTimelineView {
         }
 
         indicatorLine.snp.makeConstraints { (make) in
-            make.center.equalTo(timeCollView)
-            make.width.equalTo(1)
-            make.height.equalTo(timeCollView).offset(6)
+            make.bottom.centerX.equalTo(timeCollView)
+            make.width.equalTo(8)
+            make.top.equalTo(timeCollView).offset(-6)
         }
         
         loadingAnim.snp.makeConstraints { (make) in
@@ -584,12 +587,12 @@ extension IVTimelineView: UICollectionViewDelegateFlowLayout {
                 }
 
                 if let item = viewModel.currentRawItem {
-                    logDebug("selected curr-item \(String(describing: item)) at \(seekTime)")
+                    logDebug("selected curr_item \(String(describing: item)) at \(seekTime)")
                     delegate?.timelineView(self, didSelectItem: item, at: seekTime)
                 } else if let item = viewModel.nextRawItem, item.start < viewModel.current.end {
-                    IVDelayWork.asyncAfter(1, key: "selected next-item") {[weak self] in
+                    IVDelayWork.asyncAfter(1, key: "selected next_item") {[weak self] in
                         guard let `self` = self else { return }
-                        logDebug("selected next-item \(String(describing: item)) at \(seekTime)")
+                        logDebug("selected next_item \(String(describing: item)) at \(seekTime)")
                         self.scrollToTime(item.start, force: true, animated: true)
                         self.delegate?.timelineView(self, didSelectItem: item, at: item.start)
                     }
@@ -787,7 +790,7 @@ class IVTimelineHeaderFooter: UICollectionReusableView {
     }
 }
 
-private let verticalInset: CGFloat = 10.0
+private let verticalInset: CGFloat = 0
 
 private func FontSize(of mark: IVTimeMark) -> CGFloat {
     if mark.rawValue >= IVTimeMark.min1.rawValue  {
@@ -829,12 +832,12 @@ private func MarkHeight(of mark: IVTimeMark) -> Double {
 fileprivate class IVTimelineSelectView: UIView {
     let selectIndLeft = UIImageView().then {
         $0.contentMode = .scaleAspectFit
-        $0.image = UIImage(named: "iot_select_indicator")
+        $0.image = UIImage(named: "iot_select_indicator_left")
     }
 
     let selectIndRight = UIImageView().then {
         $0.contentMode = .scaleAspectFit
-        $0.image = UIImage(named: "iot_select_indicator")
+        $0.image = UIImage(named: "iot_select_indicator_right")
     }
     
     var didChangeValue: ((_ leftView: UIView, _ rightView: UIView) -> Void)?
@@ -893,11 +896,37 @@ fileprivate class IVTimelineSelectView: UIView {
         ctx?.clear(bounds)
         
         ctx?.setLineJoin(.round)
-        ctx?.setLineWidth(2)
-        ctx?.setStrokeColor(UIColor(rgb: 0x4A90E2).cgColor)
+        ctx?.setLineWidth(3)
+        ctx?.setStrokeColor(UIColor.white.cgColor)
         ctx?.stroke(CGRect(x: selectIndLeft.frame.midX,
                            y: verticalInset + 1,
                            width: selectIndRight.frame.midX - selectIndLeft.frame.midX,
                            height: bounds.height - 2 * (verticalInset + 1)))
+    }
+}
+
+
+class IVIndicatorLine: UIView {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.backgroundColor = .clear
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    override func draw(_ rect: CGRect) {
+        guard let context = UIGraphicsGetCurrentContext() else {return}
+        context.beginPath()
+        context.move(to: CGPoint(x: 0, y: 0))
+        context.addLine(to: CGPoint(x: rect.width, y: 0))
+        context.addLine(to: CGPoint(x: (rect.maxX / 2.0), y: 5))
+        context.closePath()
+        context.setFillColor(UIColor(hexString: "#2976FF").cgColor)
+        context.fillPath()
+        context.move(to: CGPoint(x: (rect.maxX / 2.0), y: 4))
+        context.addLine(to: CGPoint(x: rect.maxX / 2.0, y: rect.maxY))
+        context.setStrokeColor(UIColor(hexString: "#2976FF").cgColor)
+        context.strokePath()
     }
 }

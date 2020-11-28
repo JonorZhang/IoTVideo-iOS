@@ -16,6 +16,7 @@ class IVDatelineView: UIControl {
         }
     }
     
+    public var selectedColor: UIColor = UIColor(hexString: "#3F74F6")
     /// 点击选择日期回调
     public var selectedDateCallback: ((_ date: Date) -> Void)?
 
@@ -24,7 +25,7 @@ class IVDatelineView: UIControl {
     
     /// 时间轴布局
     private let layout = UICollectionViewFlowLayout().then {
-        $0.itemSize = CGSize(width: 60, height: 35)
+        $0.itemSize = CGSize(width: 60, height: 46)
         $0.minimumLineSpacing = 0
         $0.minimumInteritemSpacing = 0
         $0.scrollDirection = .horizontal
@@ -107,6 +108,7 @@ extension IVDatelineView: UICollectionViewDataSource, UICollectionViewDelegateFl
         let date = dateOfIndexPath(indexPath)
         cell.textLabel.text = stringOfDate(date)
         cell.isSelected = Calendar.current.isDate(date, inSameDayAs: selectedDate)
+        cell.selectedColor = self.selectedColor
         return cell
     }
         
@@ -140,11 +142,13 @@ fileprivate class IVDatelineCell: UICollectionViewCell {
 
     override var isSelected: Bool {
         didSet {
-            indicator.isHidden = !isSelected
-            textLabel.textColor = isSelected ? .black : .lightGray
-            textLabel.font = .systemFont(ofSize: isSelected ? 16 : 15)
+//            indicator.isHidden = !isSelected
+            textLabel.textColor = isSelected ? selectedColor : UIColor(hexString: "#666666")
+            textLabel.font = isSelected ? .systemFont(ofSize: 15, weight: .bold) : .systemFont(ofSize: 14)
         }
     }
+    
+    var selectedColor: UIColor = .lightGray
     
     override init(frame: CGRect) {
         super.init(frame: frame)

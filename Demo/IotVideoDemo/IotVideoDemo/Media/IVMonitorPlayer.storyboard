@@ -96,9 +96,18 @@
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="W2f-dv-hs2" userLabel="TopBar">
                                 <rect key="frame" x="0.0" y="44" width="414" height="31"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="device id" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZs-Es-IbZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="286" height="31"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0人观看" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0QR-3T-nny">
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="XOv-Zg-y1v"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0KB/s" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZs-Es-IbZ">
+                                        <rect key="frame" x="78" y="0.0" width="208" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                         <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -122,7 +131,9 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="YDP-tY-tYp" secondAttribute="bottom" id="Ano-27-JO3"/>
+                                    <constraint firstAttribute="bottom" secondItem="0QR-3T-nny" secondAttribute="bottom" id="Gd0-CD-IuT"/>
                                     <constraint firstAttribute="bottom" secondItem="VZs-Es-IbZ" secondAttribute="bottom" id="JKs-R6-ykY"/>
+                                    <constraint firstItem="0QR-3T-nny" firstAttribute="top" secondItem="W2f-dv-hs2" secondAttribute="top" id="Mkb-TO-nnx"/>
                                     <constraint firstItem="VZs-Es-IbZ" firstAttribute="top" secondItem="W2f-dv-hs2" secondAttribute="top" id="Upd-nD-IHh"/>
                                     <constraint firstItem="YDP-tY-tYp" firstAttribute="top" secondItem="W2f-dv-hs2" secondAttribute="top" id="j4K-dI-PYG"/>
                                 </constraints>
@@ -234,13 +245,14 @@
                     <navigationItem key="navigationItem" id="JG2-dH-Wzj"/>
                     <connections>
                         <outlet property="activityIndicatorView" destination="vec-R3-xhg" id="IRx-zp-H3q"/>
+                        <outlet property="audienceLabel" destination="0QR-3T-nny" id="ahi-wz-G97"/>
                         <outlet property="definitionSegment" destination="YDP-tY-tYp" id="AZ7-aI-xJa"/>
-                        <outlet property="deviceIdLabel" destination="VZs-Es-IbZ" id="MOo-F4-zg1"/>
                         <outlet property="micBtn" destination="pdp-vn-5vR" id="Caf-Ja-0cL"/>
                         <outlet property="playBtn" destination="isO-qx-Wmj" id="t0B-cO-AeU"/>
                         <outlet property="recordBtn" destination="4Nu-KO-1AJ" id="UrH-kM-jk4"/>
                         <outlet property="screenshotBtn" destination="X67-Sw-G1N" id="OXX-UA-CdJ"/>
                         <outlet property="speakerBtn" destination="bTi-iR-ZKc" id="S10-qs-IOG"/>
+                        <outlet property="speedLabel" destination="VZs-Es-IbZ" id="eKJ-rW-wPN"/>
                         <outlet property="userdataFiled" destination="ufz-FP-EeJ" id="hP4-nz-Y6K"/>
                     </connections>
                 </viewController>

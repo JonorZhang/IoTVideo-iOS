@@ -135,7 +135,6 @@ typedef struct _IVVideoFrame {
     
     // 摄像头采集输出时有效
     CVImageBufferRef imgBuf;
-    
 } IVVideoFrame;
 
 /// 音频原始帧

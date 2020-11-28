@@ -261,9 +261,9 @@ class IVFileLogTextViewController: UIViewController, IVFileLoggerDelegate {
     private func scrollToBottomIfNeed(_ force: Bool = false) {
         if force || self.autoScrollSwitch.isOn {
             DispatchQueue.main.async {
-//                let visiRect = self.textView.caretRect(for: self.textView.endOfDocument)
-//                self.textView.scrollRectToVisible(visiRect, animated: true)
-                self.textView.scrollRangeToVisible(NSRange(location: self.textView.text.count, length: 1))
+                let visiRect = self.textView.caretRect(for: self.textView.endOfDocument)
+                self.textView.scrollRectToVisible(visiRect, animated: true)
+//                self.textView.scrollRangeToVisible(NSRange(location: self.textView.text.count, length: 1)) // log 太长会卡住
             }
         }
     }

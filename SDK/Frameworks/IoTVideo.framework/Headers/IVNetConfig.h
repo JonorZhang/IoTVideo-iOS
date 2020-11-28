@@ -58,7 +58,7 @@ typedef void(^IVDeviceOnlineFullCallback)(IVDeviceOnline *deviceOnline);
 ///// 二维码配网
 //+ (IVQRCodeNetConfig *)QRCode;
 
-/// 配网结果回调  
+/// 配网结果回调/设备上线信息
 ///
 /// deviceId: 设备id
 ///
@@ -75,6 +75,7 @@ typedef void(^IVDeviceOnlineFullCallback)(IVDeviceOnline *deviceOnline);
 /// @endcode
 + (void)registerDeviceOnlineCallback:(IVDeviceOnlineCallback)onlineCallback;
 
+/// 完整的配网结果回调/设备上线信息
 + (void)registerDeviceOnlineFullCallback:(IVDeviceOnlineFullCallback)onlineCallback;
 
 /// 销毁监听block
@@ -83,7 +84,6 @@ typedef void(^IVDeviceOnlineFullCallback)(IVDeviceOnline *deviceOnline);
 /// 获取二维码/AP 配网所需要的配网 Token
 /// @param completionHandler 回调
 + (void)getToken:(void(^)(NSString * _Nullable token, NSError * _Nullable error))completionHandler;
-
                     
 /**
  * 通过web绑定成功后，快速订阅设备

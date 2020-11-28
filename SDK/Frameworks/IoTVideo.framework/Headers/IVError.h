@@ -47,7 +47,7 @@ typedef NS_ENUM(NSUInteger, IVTermErr) {
     //!< 终端使用
     IVTermErr_msg_send_peer_timeout          = 20001, //!< 消息发送给对方超时
     //calling相关
-    IVTermErr_msg_calling_hangup             = 20002, //!< 普通挂断，即设备端主动断开
+    IVTermErr_msg_calling_dev_hangup         = 20002, //!< 普通挂断，即设备端主动断开
     IVTermErr_msg_calling_send_timeout       = 20003, //!< calling消息发送超时
     IVTermErr_msg_calling_no_srv_addr        = 20004, //!< 服务器未分配转发地址
     IVTermErr_msg_calling_handshake_timeout  = 20005, //!< 握手超时
@@ -58,6 +58,8 @@ typedef NS_ENUM(NSUInteger, IVTermErr) {
     IVTermErr_msg_calling_check_token_error  = 20010, //!< token校验出错
     IVTermErr_msg_calling_dev_is_disable     = 20011, //!< 设备已经禁用
     IVTermErr_msg_calling_duplicate_call     = 20012, //!< 重复呼叫
+    IVTermErr_msg_calling_caller_hungup      = 20013, //!< 连接过程中主动断开
+
     //物模型
     IVTermErr_msg_gdm_handle_processing       = 20100, //!< 设备正在处理中
     IVTermErr_msg_gdm_handle_leaf_path_error  = 20101, //!< 设备端校验叶子路径非法

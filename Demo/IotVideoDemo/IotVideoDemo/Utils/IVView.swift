@@ -63,6 +63,20 @@ extension UIView {
     }
 }
 
+extension Array where Element: UIView {
+    @discardableResult
+    func addTapGesture(numberOfTapsRequired: Int = 1, numberOfTouchesRequired: Int = 1, _ action: @escaping (UIGestureRecognizer) -> Void) -> [UITapGestureRecognizer] {
+        guard !self.isEmpty else {
+            return []
+        }
+        var taps = [UITapGestureRecognizer]()
+        for item in self {
+            taps.append(item.addTapGesture(action))
+        }
+        return taps
+    }
+}
+
 extension UIView {
     
     @discardableResult

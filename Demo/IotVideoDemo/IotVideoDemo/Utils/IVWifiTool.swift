@@ -21,8 +21,8 @@ struct IVWifiTool {
     
     static var currentSSID: String? {
         guard let wifiInterfaces = CNCopySupportedInterfaces() else { return nil }
-        let interfaceArr = CFBridgingRetain(wifiInterfaces) as! Array<String>
-        if interfaceArr.count > 0 {
+        if let interfaceArr = CFBridgingRetain(wifiInterfaces) as? Array<String>,
+           interfaceArr.count > 0 {
             let interfaceName = interfaceArr[0] as CFString
             let ussafeInterfaceData = CNCopyCurrentNetworkInfo(interfaceName)
             if (ussafeInterfaceData != nil) {

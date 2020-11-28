@@ -244,16 +244,16 @@ typedef void(^IVMsgMultiRspCallback)(NSData * _Nullable data, NSError * _Nullabl
 #pragma mark - 离线推送
 /// 注册SDK离线推送
 /// @param pushId 推送ID 如极光推送的`registrationID`
-/// @param secrectId 从官网获取 的 secrectId
-- (void)registerRemoteNotificationsWithPushId:(NSString *)pushId completionHandler:(nullable IVMsgJSONCallback)completionHandler;
+/// @param appId 从官网获取 的 appId
+- (void)registerRemoteNotificationsWithPushId:(NSString *)pushId appId:(NSString *)appId completionHandler:(nullable IVMsgJSONCallback)completionHandler;
 
 /// 注册SDK离线推送
 /// @param pushId 推送ID 如极光推送的`registrationID`
 /// @param language 推送语言（默认中文zh_cn）
 /// @param zone 时区秒 （默认设备当前时区）
 /// @param appVersion app版本号
-/// @param osVersion 操作系统版本
-- (void)registerRemoteNotificationsWithPushId:(NSString *)pushId language:(nullable NSString *)language timeZone:(NSInteger)zone appVersion:(nullable NSString *)appVersion completionHandler:(nullable IVMsgJSONCallback)completionHandler;
+/// @param appId 从官网获取 的 appId
+- (void)registerRemoteNotificationsWithPushId:(NSString *)pushId language:(nullable NSString *)language timeZone:(NSInteger)zone appVersion:(nullable NSString *)appVersion appId:(NSString *)appId completionHandler:(nullable IVMsgJSONCallback)completionHandler;
 
 /// 反注册SDK离线推送
 - (void)unregisterRemoteNotification:(nullable IVMsgJSONCallback)completionHandler;

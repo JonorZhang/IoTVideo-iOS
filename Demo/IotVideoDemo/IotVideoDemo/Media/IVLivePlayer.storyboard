@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="w9V-Iq-ksu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="w9V-Iq-ksu">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -133,18 +132,28 @@
                                     <constraint firstAttribute="width" constant="140" id="MCu-hB-raJ"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0KB/s" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lu8-9m-Oc0">
+                                <rect key="frame" x="0.0" y="44" width="39.5" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <size key="shadowOffset" width="-1" height="-1"/>
+                            </label>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="ZDT-K3-eh8"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="38V-Xe-J9b" firstAttribute="trailing" secondItem="ZDT-K3-eh8" secondAttribute="trailing" id="5RA-9W-wIX"/>
                             <constraint firstItem="38V-Xe-J9b" firstAttribute="top" secondItem="ZDT-K3-eh8" secondAttribute="top" id="7gJ-lo-gcK"/>
                             <constraint firstItem="ZDT-K3-eh8" firstAttribute="bottom" secondItem="sah-Ly-7Lh" secondAttribute="bottom" id="9Xl-cg-x3T"/>
+                            <constraint firstItem="Lu8-9m-Oc0" firstAttribute="top" secondItem="ZDT-K3-eh8" secondAttribute="top" id="J5H-WV-atM"/>
                             <constraint firstItem="RVx-ff-oah" firstAttribute="centerX" secondItem="Xg9-36-PEM" secondAttribute="centerX" id="O2a-yS-WFr"/>
+                            <constraint firstItem="Lu8-9m-Oc0" firstAttribute="leading" secondItem="ZDT-K3-eh8" secondAttribute="leading" id="PD1-nC-icd"/>
                             <constraint firstItem="sah-Ly-7Lh" firstAttribute="trailing" secondItem="ZDT-K3-eh8" secondAttribute="trailing" id="PdM-Pu-w7M"/>
                             <constraint firstItem="sah-Ly-7Lh" firstAttribute="leading" secondItem="ZDT-K3-eh8" secondAttribute="leading" id="cV7-pc-NiA"/>
                             <constraint firstItem="RVx-ff-oah" firstAttribute="centerY" secondItem="Xg9-36-PEM" secondAttribute="centerY" id="f29-kO-QXZ"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="ZDT-K3-eh8"/>
                     </view>
                     <navigationItem key="navigationItem" title="双向视频通话" id="r3S-Rr-BoC"/>
                     <connections>
@@ -156,13 +165,14 @@
                         <outlet property="recordBtn" destination="JlL-Ex-yQr" id="WKe-mJ-eQi"/>
                         <outlet property="screenshotBtn" destination="uI3-1K-09M" id="OAm-h2-eVZ"/>
                         <outlet property="speakerBtn" destination="5hA-UV-mNJ" id="LvP-eW-bas"/>
+                        <outlet property="speedLabel" destination="Lu8-9m-Oc0" id="VWK-AL-Yb5"/>
                         <outlet property="switchBtn" destination="fWJ-6V-jFb" id="hfK-eJ-spp"/>
                         <outlet property="userdataFiled" destination="Uyt-eG-wUg" id="aTR-G2-LUP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cs3-i6-UkU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2741" y="-2560"/>
+            <point key="canvasLocation" x="-2742.0289855072465" y="-2560.0446428571427"/>
         </scene>
     </scenes>
     <resources>
