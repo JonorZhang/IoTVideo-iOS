@@ -33,7 +33,8 @@ protocol IVTimelineViewDelegate: class {
     /// - Parameters:
     ///   - timelineView: 时间轴对象
     ///   - time: 选择的时间范围
-    func timelineView(_ timelineView: IVTimelineView, didSelectRangeAt time: IVTime)
+    ///   - longest: 是否达到长可选时间范围
+    func timelineView(_ timelineView: IVTimelineView, didSelectRangeAt time: IVTime, longest: Bool)
 
     /// 数据源
     /// - Parameters:
@@ -172,6 +173,9 @@ class IVTimelineView: UIControl {
             timeCollView.isTracking
     }
     
+    var isSelecting: Bool {
+        return self.viewModel.state.value == .selecting
+    }
 }
 
 private extension IVTimelineView {
@@ -206,9 +210,6 @@ private extension IVTimelineView {
                     self.calendarView.transform = .identity
                 })
                 self.calendarView.currentDate = self.viewModel.current.date
-                if self.calendarView.markableDates.isEmpty {
-                    self.loadMarkList(at: self.viewModel.current.time)
-                }
             }
         }
 
@@ -218,12 +219,13 @@ private extension IVTimelineView {
             let rightDiff = indicatorLine.frame.midX - rightView.frame.minX
 
             var leftTime  = Double(timeCollView.contentOffset.x - leftDiff)  / self.viewModel.scale + viewModel.current.start
-            var rightTime = Double(timeCollView.contentOffset.x + rightDiff) / self.viewModel.scale + viewModel.current.start
+            var rightTime = Double(timeCollView.contentOffset.x - rightDiff) / self.viewModel.scale + viewModel.current.start
 
             leftTime = min(max(leftTime, viewModel.current.start), viewModel.current.end)
             rightTime = min(max(rightTime, viewModel.current.start), viewModel.current.end)
-
-            delegate?.timelineView(self, didSelectRangeAt: IVTime(start: leftTime, end: rightTime))
+            let longest = rightTime - leftTime >= 10 * 60 // 10分钟
+            self.selectView.longTimeEnable = !longest
+            delegate?.timelineView(self, didSelectRangeAt: IVTime(start: leftTime, end: rightTime), longest: longest)
         }
         
         viewModel.scrollToTimeIfNeed = { [weak self] pts, sectionTime in
@@ -242,11 +244,13 @@ private extension IVTimelineView {
         
         viewModel.state.observe { [weak self](state, _) in
             guard let `self` = self else { return }
-            self.selectView.isHidden = (state == .selecting)
             if state == .selecting {
-                self.delegate?.timelineView(self, didSelectRangeAt: IVTime(start: self.viewModel.current.start,
-                                                                           end: self.viewModel.current.end))
+                if self.viewModel.update(scale: 0.4) { //固定一个比例选择片段
+                    self.timeCollView.reloadData()
+                    self.scrollToTime(self.viewModel.pts, force: true, animated: false)
+                }
             }
+            self.selectView.isHidden = (state != .selecting) // 显示的时候会触发一次回调
         }
         
         datelineView.selectedDateCallback = { [weak self] date in
@@ -256,6 +260,14 @@ private extension IVTimelineView {
         calendarView.selectedDateCallback = { [weak self] date in
             self?.calendarView.alpha = 0
             self?.loadAndDisplaySection(at: IVTime(date: date))
+        }
+
+        calendarView.markableDatesDataSource = { [weak self] (t0, t1, callback) in
+            guard let `self` = self else { return }
+            self.delegate?.timelineView(self, markListForCalendarAt: IVTime(start: t0, end: t1), completionHandler: { (markList) in
+                let dates = markList?.map { TimeInterval($0) } ?? []
+                callback(dates)
+            })
         }
     }
     
@@ -379,14 +391,7 @@ private extension IVTimelineView {
             }
         }
     } 
-        
-    func loadMarkList(at time: IVTime) {
-        self.delegate?.timelineView(self, markListForCalendarAt: time, completionHandler: { [weak self](markList) in
-            guard let markList = markList else { return }
-            self?.calendarView.markableDates = markList.map { TimeInterval($0) }
-        })
-    }
- 
+         
     func enableAutoScroll(after delay: TimeInterval) {
         autoScrollEnable = false
         IVDelayWork.asyncAfter(delay, key: "autoScrollEnable") {[weak self] in
@@ -830,17 +835,26 @@ private func MarkHeight(of mark: IVTimeMark) -> Double {
 }
 
 fileprivate class IVTimelineSelectView: UIView {
+    
+    /// 是否还能放大时间
+    var longTimeEnable: Bool = true
     let selectIndLeft = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .right
         $0.image = UIImage(named: "iot_select_indicator_left")
     }
 
     let selectIndRight = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .left
         $0.image = UIImage(named: "iot_select_indicator_right")
     }
     
     var didChangeValue: ((_ leftView: UIView, _ rightView: UIView) -> Void)?
+    
+    override var isHidden: Bool {
+        didSet {
+            if !isHidden { didChangeValue?(selectIndLeft, selectIndRight) }
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -852,11 +866,15 @@ fileprivate class IVTimelineSelectView: UIView {
         
         selectIndLeft.addPanGesture { [unowned self](pan) in
             if let pan = pan as? UIPanGestureRecognizer, let panView = pan.view {
-                panView.frame.origin.x += pan.translation(in: self).x
+                let changeX = pan.translation(in: self).x
+                if !longTimeEnable, changeX < 0 {
+                    return
+                }
+                panView.frame.origin.x += changeX
                 if panView.frame.origin.x < 0 {
                     panView.frame.origin.x = 0
                 } else if panView.frame.maxX > self.selectIndRight.frame.minX {
-                    panView.frame.origin.x = self.selectIndRight.frame.minX - 35
+                    panView.frame.origin.x = self.selectIndRight.frame.minX - 40
                 }
                 self.setNeedsDisplay()
                 pan.setTranslation(.zero, in: self)
@@ -866,11 +884,16 @@ fileprivate class IVTimelineSelectView: UIView {
 
         selectIndRight.addPanGesture { [unowned self](pan) in
             if let pan = pan as? UIPanGestureRecognizer, let panView = pan.view {
-                panView.frame.origin.x += pan.translation(in: self).x
+                
+                let changeX = pan.translation(in: self).x
+                if !longTimeEnable, changeX > 0 {
+                    return
+                }
+                panView.frame.origin.x += changeX
                 if panView.frame.origin.x < self.selectIndLeft.frame.maxX {
                     panView.frame.origin.x = self.selectIndLeft.frame.maxX
-                } else if panView.frame.origin.x > self.bounds.width - 35 {
-                    panView.frame.origin.x = self.bounds.width - 35
+                } else if panView.frame.origin.x > self.bounds.width - 40 {
+                    panView.frame.origin.x = self.bounds.width - 40
                 }
                 self.setNeedsDisplay()
                 pan.setTranslation(.zero, in: self)
@@ -885,8 +908,8 @@ fileprivate class IVTimelineSelectView: UIView {
             
     override func layoutSubviews() {
         super.layoutSubviews()
-        selectIndLeft.frame  = CGRect(x: 0, y: verticalInset, width: 35, height: bounds.height - 2 * verticalInset)
-        selectIndRight.frame = CGRect(x: bounds.width - 35, y: verticalInset, width: 35, height: bounds.height - 2 * verticalInset)
+        selectIndLeft.frame  = CGRect(x: bounds.width/2 - 40, y: verticalInset, width: 40, height: bounds.height - 2 * verticalInset)
+        selectIndRight.frame = CGRect(x: bounds.width/2 + 40, y: verticalInset, width: 40, height: bounds.height - 2 * verticalInset)
     }
         
     override func draw(_ rect: CGRect) {
@@ -895,13 +918,23 @@ fileprivate class IVTimelineSelectView: UIView {
         let ctx = UIGraphicsGetCurrentContext()
         ctx?.clear(bounds)
         
+        // 选中区域
+        let selectRect = CGRect(x: selectIndLeft.frame.midX,
+                           y: verticalInset,
+                           width: selectIndRight.frame.midX - selectIndLeft.frame.midX,
+                           height: bounds.height - 2 * verticalInset)
+
+        // 选中区域边框
         ctx?.setLineJoin(.round)
         ctx?.setLineWidth(3)
         ctx?.setStrokeColor(UIColor.white.cgColor)
-        ctx?.stroke(CGRect(x: selectIndLeft.frame.midX,
-                           y: verticalInset + 1,
-                           width: selectIndRight.frame.midX - selectIndLeft.frame.midX,
-                           height: bounds.height - 2 * (verticalInset + 1)))
+        ctx?.stroke(selectRect)
+        
+        // 半透明蒙层
+        ctx?.addPath(UIBezierPath(rect: bounds).cgPath)
+        ctx?.addPath(UIBezierPath(rect: selectRect).cgPath)
+        ctx?.setFillColor(UIColor.init(white: 0, alpha: 0.5).cgColor)
+        ctx?.fillPath(using: .evenOdd)
     }
 }
 

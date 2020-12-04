@@ -59,8 +59,9 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
         let hud = ivLoadingHud()
         let timezone = TimeZone.current.secondsFromGMT()
         
-        IVVAS.shared.getVideoDateList(withDeviceId: device.deviceID, timezone: timezone) { (json, error) in
+        IVVAS.shared.getVideoDateList(withDeviceId: device.deviceID, timezone: timezone) { [weak self](json, error) in
             hud.hide()
+            guard let `self` = self else { return }
             guard let json = json else {
                 logError("\(String(describing: error))")
                 completionHandler(nil)
@@ -83,8 +84,9 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
     func getPlaybackList(time: IVTime, completionHandler: @escaping ([IVCSPlaybackItem]?) -> Void) {
         let hud = ivLoadingHud()
         
-        IVVAS.shared.getVideoPlayList(withDeviceId: device.deviceID, startTime: time.start, endTime: time.end) { (json, error) in
+        IVVAS.shared.getVideoPlayList(withDeviceId: device.deviceID, startTime: time.start, endTime: time.end) { [weak self](json, error) in
             hud.hide()
+            guard let `self` = self else { return }
             guard let json = json, error == nil else {
                 logError("\(String(describing: error))")
                 completionHandler([])
@@ -104,7 +106,8 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
     }
 
     func getEventList(at time: IVTime) {
-        IVVAS.shared.getEventList(withDeviceId: device.deviceID, startTime: time.start, endTime: time.end, pageSize: 50, filterTypeMask: nil, validCloudStorage: false) { (json, error) in
+        IVVAS.shared.getEventList(withDeviceId: device.deviceID, startTime: time.start, endTime: time.end, pageSize: 50, filterTypeMask: nil, validCloudStorage: false) { [weak self](json, error) in
+            guard let `self` = self else { return }
             logInfo("event list: \(json ?? "") , error: \(String(describing: error))")
             guard let json = json, error == nil else {
                 logError("\(String(describing: error))")
@@ -137,7 +140,8 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
         if let url = item.url {
             responseHandler?(url)
         } else {
-            IVVAS.shared.getVideoPlayAddress(withDeviceId: device.deviceID, startTime: TimeInterval(item.start), endTiem: TimeInterval(item.end)) { (json, error) in
+            IVVAS.shared.getVideoPlayAddress(withDeviceId: device.deviceID, startTime: TimeInterval(item.start), endTiem: TimeInterval(item.end)) { [weak self](json, error) in
+                guard let `self` = self else { return }
                 guard let json = json else {
                     responseHandler?(nil)
                     if (error! as NSError).code != 21000 {
@@ -311,7 +315,7 @@ extension IJKMediaViewController: IVTimelineViewDelegate {
         getEventList(at: time)
     }
 
-    func timelineView(_ timelineView: IVTimelineView, didSelectRangeAt time: IVTime) {
+    func timelineView(_ timelineView: IVTimelineView, didSelectRangeAt time: IVTime, longest: Bool) {
         
     }
 
@@ -360,7 +364,8 @@ extension IJKMediaViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "删除") { (action, view, completion) in
             let event = self.events[indexPath.row]
-            IVVAS.shared.deleteEvents(withDeviceId: self.device.deviceID, eventIds: [event.alarmId]) { (json, error) in
+            IVVAS.shared.deleteEvents(withDeviceId: self.device.deviceID, eventIds: [event.alarmId]) { [weak self](json, error) in
+                guard let `self` = self else { return }
                 logInfo("devent delete \(String(describing: json))")
                 guard error == nil else {
                     logDebug("event delete error  \(String(describing: error))")

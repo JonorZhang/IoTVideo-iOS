@@ -32,7 +32,7 @@ class IVNewConfigViewController: UIViewController {
     private func makeToast(_ msg: String) {
         let alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
         present(alert, animated: true)
-        DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute: {
             alert.dismiss(animated: true)
         })
     }
@@ -65,7 +65,7 @@ class IVNewConfigViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "覆盖", style: .destructive, handler: { _ in
                 let name = self.config?.name ?? ""
                 IVConfigMgr.updateCfg(name, newCfg)
-                self.makeToast("覆盖成功,重启后生效")
+//                self.makeToast("覆盖成功,重启后生效")
                 DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute: {
                     self.navigationController?.popViewController(animated: true)
                 })
@@ -73,7 +73,7 @@ class IVNewConfigViewController: UIViewController {
             present(alert, animated: true)
         } else {
             IVConfigMgr.addCfg(newCfg)
-            self.makeToast("保存成功,重启后生效")
+//            self.makeToast("保存成功,重启后生效")
             DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute: {
                 self.navigationController?.popViewController(animated: true)
             })

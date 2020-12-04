@@ -47,7 +47,22 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
             completionHandler(items)
         }
     }
-    
+
+    /// 获取日期列表
+    func loadDateList(timeRange: IVTime, completionHandler: @escaping ([NSNumber]?) -> Void) {
+        IVPlaybackPlayer.getDateList(ofDevice: device.deviceID, pageIndex: 0, countPerPage: 10000, startTime: timeRange.start, endTime: timeRange.end) { (page, err) in
+            guard let items = page?.items else {
+                completionHandler(nil)
+                if let err = err as NSError? {
+                    IVPopupView.showConfirm(title: err.localizedDescription, message: "\(err.userInfo["debugInfo"] ?? "")" , in: self.mediaView)
+                }
+                return
+            }
+            
+            completionHandler(items)
+        }
+    }
+
     @IBAction func deviceRecordClicked(_ sender: UIButton) {
         let data: Data
         if !sender.isSelected {
@@ -91,7 +106,11 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
 
 extension IVPlaybackViewController: IVTimelineViewDelegate {
     func timelineView(_ timelineView: IVTimelineView, markListForCalendarAt time: IVTime, completionHandler: @escaping ([IVCSMarkItem]?) -> Void) {
-        completionHandler([])
+        logDebug("loadDateList", Date(timeIntervalSince1970: time.start), Date(timeIntervalSince1970: time.end))
+        loadDateList(timeRange: time) { (dates) in
+            let markItems = dates?.compactMap({ $0.intValue }) ?? []
+            completionHandler(markItems)
+        }
     }
         
     func timelineView(_ timelineView: IVTimelineView, itemsForTimelineAt timeRange: IVTime, completionHandler: @escaping ([IVTimelineItem]?) -> Void) {
@@ -124,7 +143,7 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
         logInfo("select at date \(Date(timeIntervalSince1970: time.start))")
     }
 
-    func timelineView(_ timelineView: IVTimelineView, didSelectRangeAt time: IVTime) {
+    func timelineView(_ timelineView: IVTimelineView, didSelectRangeAt time: IVTime, longest: Bool) {
         
     }
 
@@ -138,6 +157,8 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
     
     override func player(_ player: IVPlayer, didUpdatePTS PTS: TimeInterval) {
         super.player(player, didUpdatePTS: PTS)
-        timelineView?.viewModel.update(pts: PTS)
+        DispatchQueue.main.async { [weak self] in
+            self?.timelineView?.viewModel.update(pts: PTS)
+        }
     }
 }

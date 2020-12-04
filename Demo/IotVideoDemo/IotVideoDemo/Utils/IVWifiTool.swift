@@ -24,9 +24,7 @@ struct IVWifiTool {
         if let interfaceArr = CFBridgingRetain(wifiInterfaces) as? Array<String>,
            interfaceArr.count > 0 {
             let interfaceName = interfaceArr[0] as CFString
-            let ussafeInterfaceData = CNCopyCurrentNetworkInfo(interfaceName)
-            if (ussafeInterfaceData != nil) {
-                let interfaceData = ussafeInterfaceData as! Dictionary<String, Any>
+            if let interfaceData = CNCopyCurrentNetworkInfo(interfaceName) as? Dictionary<String, Any> {
                 return interfaceData["SSID"] as? String
             }
         }

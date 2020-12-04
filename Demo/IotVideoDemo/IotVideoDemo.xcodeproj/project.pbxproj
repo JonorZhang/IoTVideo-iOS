@@ -104,6 +104,7 @@
 		EABF65FB24B46E3000DC56E1 /* IVTransmission.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EABF653324B46E3000DC56E1 /* IVTransmission.storyboard */; };
 		EADB60D2255509F40015189F /* IVAnonymousLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADB60CF255509F40015189F /* IVAnonymousLoginViewController.swift */; };
 		EAE34C71241B1C1800865A8A /* IVNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE34C37241B1C1800865A8A /* IVNavigationViewController.swift */; };
+		EAEB9E7625748B3600CFCADB /* IVCloudStorageBuyPkgViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEB9E7325748B3600CFCADB /* IVCloudStorageBuyPkgViewController.swift */; };
 		EAF055FE23CC237300432559 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAF055BB23CC237300432559 /* Assets.xcassets */; };
 		EAF0560C23CC237300432559 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAF055CB23CC237300432559 /* LaunchScreen.storyboard */; };
 		EAF0562823CC237300432559 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF055EF23CC237300432559 /* AppDelegate.swift */; };
@@ -242,6 +243,7 @@
 		EABF653324B46E3000DC56E1 /* IVTransmission.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = IVTransmission.storyboard; sourceTree = "<group>"; };
 		EADB60CF255509F40015189F /* IVAnonymousLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVAnonymousLoginViewController.swift; sourceTree = "<group>"; };
 		EAE34C37241B1C1800865A8A /* IVNavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVNavigationViewController.swift; sourceTree = "<group>"; };
+		EAEB9E7325748B3600CFCADB /* IVCloudStorageBuyPkgViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVCloudStorageBuyPkgViewController.swift; sourceTree = "<group>"; };
 		EAF055AD23CC233200432559 /* IVDevTools.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IVDevTools.xcodeproj; path = IVDevTools/IVDevTools.xcodeproj; sourceTree = "<group>"; };
 		EAF055B923CC237300432559 /* IotVideoDemo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IotVideoDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		EAF055BA23CC237300432559 /* IotVideoDemo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = IotVideoDemo.entitlements; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 		EABF636724B46E2F00DC56E1 /* TX */ = {
 			isa = PBXGroup;
 			children = (
+				EAEB9E7325748B3600CFCADB /* IVCloudStorageBuyPkgViewController.swift */,
 				EADB60CF255509F40015189F /* IVAnonymousLoginViewController.swift */,
 				EABF636824B46E2F00DC56E1 /* IVCloudStorages.storyboard */,
 				EABF636924B46E2F00DC56E1 /* IVDeviceListViewController.swift */,
@@ -697,6 +700,7 @@
 				EABF654724B46E3000DC56E1 /* IVTimelineView.swift in Sources */,
 				EABF655224B46E3000DC56E1 /* IVQRCodeAddDevice.swift in Sources */,
 				EABF654624B46E3000DC56E1 /* IVControl.swift in Sources */,
+				EAEB9E7625748B3600CFCADB /* IVCloudStorageBuyPkgViewController.swift in Sources */,
 				EABF655F24B46E3000DC56E1 /* IVCloudStorageViewController.swift in Sources */,
 				EABF653C24B46E3000DC56E1 /* IVJson.swift in Sources */,
 				EABF655924B46E3000DC56E1 /* IVMsgVC.swift in Sources */,
@@ -877,7 +881,7 @@
 				CODE_SIGN_ENTITLEMENTS = IotVideoDemo/IotVideoDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 42;
+				CURRENT_PROJECT_VERSION = 44;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C3MLE46F3M;
@@ -934,7 +938,7 @@
 				CODE_SIGN_ENTITLEMENTS = IotVideoDemo/IotVideoDemo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 42;
+				CURRENT_PROJECT_VERSION = 44;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C3MLE46F3M;
 				ENABLE_BITCODE = NO;

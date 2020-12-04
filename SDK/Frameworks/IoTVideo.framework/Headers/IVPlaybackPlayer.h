@@ -25,17 +25,20 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /// 回放文件分页
-@interface IVPlaybackPage: NSObject
+@interface IVPlaybackPage<PBItem>: NSObject
 /// 当前页码索引
 @property (nonatomic, assign) uint32_t  pageIndex;
 /// 总页数
 @property (nonatomic, assign) uint32_t  totalPage;
 /// 回放文件数组
-@property (nonatomic, strong) NSArray<IVPlaybackItem *> *items;
+@property (nonatomic, strong) NSArray<PBItem> *items;
 @end
 
+
 /// 回放文件获取回调
-typedef void (^PlaybackListCallback)(IVPlaybackPage *_Nullable page, NSError *_Nullable error);
+typedef void (^PlaybackListCallback)(IVPlaybackPage<IVPlaybackItem *> *_Nullable page, NSError *_Nullable error);
+/// 回放日期获取回调
+typedef void (^PlaybackDateCallback)(IVPlaybackPage<NSNumber *> *_Nullable page, NSError *_Nullable error);
 
 /// 回放播放器
 @interface IVPlaybackPlayer : IVPlayer
@@ -63,7 +66,6 @@ typedef void (^PlaybackListCallback)(IVPlaybackPage *_Nullable page, NSError *_N
 - (nullable instancetype)initWithDeviceId:(NSString *)deviceId sourceId:(uint16_t)sourceId playbackItem:(IVPlaybackItem *)item seekToTime:(NSTimeInterval)time;
 
 /// 获取一页回放文件列表
-/// 该方法要求设备SDK版本大于`v1.2(xxxx)`
 /// @param deviceId 设备ID
 /// @param pageIndex 页码索引，获取指定页码的回放文件（ pageIndex从0开始递增）
 /// @param countPerPage 在[startTime, endTime]时间范围内按每页`countPerPage`个文件查询，每次返回一页的数据，该值由APP设置，取值范围[1, 3200]
@@ -79,6 +81,20 @@ typedef void (^PlaybackListCallback)(IVPlaybackPage *_Nullable page, NSError *_N
                           endTime:(NSTimeInterval)endTime
                        filterType:(nullable NSString *)filterType
                 completionHandler:(PlaybackListCallback)completionHandler;
+
+/// 获取有回放文件的日期列表
+/// @param deviceId 设备ID
+/// @param pageIndex 页码索引，获取指定页码的回放文件（ pageIndex从0开始递增）
+/// @param countPerPage 在[startTime, endTime]时间范围内按每页`countPerPage`个文件查询，每次返回一页的数据，该值由APP设置，取值范围[1, 3200]
+/// @param startTime 开始时间戳（秒）
+/// @param endTime 结束时间戳（秒）
+/// @param completionHandler 结果回调
++ (void)getDateListOfDevice:(NSString *)deviceId
+                  pageIndex:(uint32_t)pageIndex
+               countPerPage:(uint32_t)countPerPage
+                  startTime:(NSTimeInterval)startTime
+                    endTime:(NSTimeInterval)endTime
+          completionHandler:(PlaybackDateCallback)completionHandler;
 
 /// (未播放前)设置回放参数.
 /// @note 应在文件尚未播放时使用，需手动调用`play`开始播放.

@@ -50,8 +50,7 @@ class IVMonitorViewController: IVDevicePlayerViewController {
     override func player(_ player: IVPlayer, didUpdate status: IVPlayerStatus) {
         super.player(player, didUpdate: status)
         DispatchQueue.main.async {[weak self] in
-            guard let `self` = self else { return }
-            self.definitionSegment?.isEnabled = (status != .preparing && status != .stopping)
+            self?.definitionSegment?.isEnabled = (status != .preparing && status != .stopping)
         }
     }
 }

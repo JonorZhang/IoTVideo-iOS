@@ -11,7 +11,7 @@ import UIKit
 func makeToast(_ msg: String) {
     let alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
     IVDevToolsAssistant.shared.developerVC.present(alert, animated: true)
-    DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
+    DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute: {
         alert.dismiss(animated: true)
     })
 }

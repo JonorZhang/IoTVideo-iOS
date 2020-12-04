@@ -74,7 +74,7 @@ class IVServerConfigCell: UITableViewCell {
     
     @IBAction func enableSwitchChanged(_ sender: UISwitch) {
         IVConfigMgr.enableCfg(nameLabel.text!, sender.isOn)
-        makeToast("修改成功,重启后生效")
+//        makeToast("修改成功,重启后生效")
     }
     
 }

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import IoTVideo.IVUtils
 
 private let margin: CGFloat = 10.0
 private let paddingLeft: CGFloat = 20.0
@@ -16,7 +16,7 @@ class IVCalendarView: UIView {
     // MARK: - Property
     
     // 需要标记的日期数组
-    public var markableDates: [TimeInterval] = [] {
+    public var markableDates: Set<TimeInterval> = [] {
         didSet {
             DispatchQueue.main.async {[weak self] in
                 CATransaction.setDisableActions(true)
@@ -31,12 +31,25 @@ class IVCalendarView: UIView {
         didSet { referenceDate = currentDate }
     }
 
+    typealias CCB = ([TimeInterval]) -> Void
+    // 打点日期数据源
+    public var markableDatesDataSource: ((_ t0: TimeInterval, _ t1: TimeInterval, _ completionHandler: @escaping CCB) -> Void)?
+
     /// 点击选择日期回调
     public var selectedDateCallback: ((_ date: Date) -> Void)?
 
     // 参考日期
     private var referenceDate = Date() {
         didSet {
+            var t0 = dateOfDay(1, from: self.referenceDate).timeIntervalSince1970
+            t0 = TimeInterval(startTimeOfDate(NSInteger(t0)))
+            let t1 = t0 + 86400 * TimeInterval(daysInMonth(date: self.referenceDate))
+            self.markableDatesDataSource?(t0, t1, { [weak self]dates in
+                guard let `self` = self else { return }
+                let arr = Array(self.markableDates) + dates
+                self.markableDates = Set(arr)
+            })
+            
             DispatchQueue.main.async {[weak self] in
                 CATransaction.setDisableActions(true)
                 self?.collectionView.reloadData()
@@ -420,13 +433,17 @@ class IVCalendarCell: UICollectionViewCell {
     }()
         
     lazy var markLayer: CALayer = {
-        let W: CGFloat = 6
         let mark = CALayer()
         mark.backgroundColor = UIColor.red.cgColor
-        mark.frame = CGRect(x: (self.frame.width - W)/2, y: self.frame.height - W, width: W, height: W)
-        mark.cornerRadius = W / 2
         mark.masksToBounds = true
         layer.addSublayer(mark)
         return mark
     }()
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let W: CGFloat = 6
+        markLayer.frame = CGRect(x: (self.frame.width - W)/2, y: self.frame.height - W, width: W, height: W)
+        markLayer.cornerRadius = W / 2
+    }
 }

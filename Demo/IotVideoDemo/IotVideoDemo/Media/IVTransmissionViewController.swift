@@ -164,7 +164,9 @@ extension IVTransmission {
 extension IVTransmissionViewController: IVConnectionDelegate {
     func connection(_ connection: IVConnection, didUpdate status: IVConnStatus) {
         logInfo("IVConnStatus", status.rawValue)
-        self.status = status
+        DispatchQueue.main.async {
+            self.status = status
+        }
     }
     
     func connection(_ connection: IVConnection, didReceiveError error: Error) {
@@ -194,26 +196,28 @@ extension IVTransmissionViewController: IVConnectionDelegate {
         let pkgs = rcvData[header.tag] ?? []
         let rcvSiz = pkgs.reduce(0, { $0 + $1.0.pkgSize })
         
-        if header.type == .image {
-            rcvProgLabel.text = String(format: "回传进度 %d%%", Int(Double(rcvSiz) / Double(header.totalSize) * 100.0))
-        }
-
-        // 已经接收完
-        if rcvSiz == header.totalSize {
-            let fulldat = pkgs.sorted(by: { $0.0.pkgIdx < $1.0.pkgIdx }).reduce(Data()) { $0 + $1.1 }
-            
+        DispatchQueue.main.async {
             if header.type == .image {
-                if let img = UIImage(data: fulldat) {
-                    rcvImgV.image = img
-                    imgVindicator.stopAnimating()
-                } else {
-                    IVPopupView(title: "图片已损坏").show()
-                    logError("图片已损坏", header, data[...20])
-                }
-            } else {
-                rcvTextV.text = fulldat.string(with: .utf8)
+                self.rcvProgLabel.text = String(format: "回传进度 %d%%", Int(Double(rcvSiz) / Double(header.totalSize) * 100.0))
             }
-            rcvData[header.tag] = nil
+            
+            // 已经接收完
+            if rcvSiz == header.totalSize {
+                let fulldat = pkgs.sorted(by: { $0.0.pkgIdx < $1.0.pkgIdx }).reduce(Data()) { $0 + $1.1 }
+                
+                if header.type == .image {
+                    if let img = UIImage(data: fulldat) {
+                        self.rcvImgV.image = img
+                        self.imgVindicator.stopAnimating()
+                    } else {
+                        IVPopupView(title: "图片已损坏").show()
+                        logError("图片已损坏", header, data[...20])
+                    }
+                } else {
+                    self.rcvTextV.text = fulldat.string(with: .utf8)
+                }
+                self.rcvData[header.tag] = nil
+            }
         }
     }
 }
