@@ -682,14 +682,15 @@ class IVTimelineCell: UICollectionViewCell {
 //                    print("markline -")
 
                     // 刻度/文字颜色
-                    let color = StrokeColor(of: mark)
+//                    let color = StrokeColor(of: mark)
+                    let color = UIColor(hexString: "#9DA5AD")
                     
                     // === 1.画刻度 ===
                     let markHeight = MarkHeight(of: mark)
-                    ctx?.setLineWidth(mark >= .hour ? 2 : 1)
+                    ctx?.setLineWidth(1)
                     ctx?.setStrokeColor(color.cgColor)
-                    ctx?.move(to:    CGPoint(x: offX, y: verticalInset))
-                    ctx?.addLine(to: CGPoint(x: offX, y: verticalInset + CGFloat(markHeight)))
+                    ctx?.move(to:    CGPoint(x: offX, y: bounds.height - verticalInset))
+                    ctx?.addLine(to: CGPoint(x: offX, y: bounds.height - verticalInset - CGFloat(markHeight)))
                     ctx?.strokePath()
 
                     // === 2.画文字 ===
@@ -709,7 +710,7 @@ class IVTimelineCell: UICollectionViewCell {
                                                                              .foregroundColor : color,
                                                                              .paragraphStyle : style])
                                 string.draw(in: CGRect(x: offX-labelWidth/2,
-                                                       y: bounds.height-20-verticalInset,
+                                                       y: bounds.height-20-verticalInset-CGFloat(markHeight),
                                                        width: labelWidth,
                                                        height: 20))
                                 break
@@ -799,9 +800,9 @@ private let verticalInset: CGFloat = 0
 
 private func FontSize(of mark: IVTimeMark) -> CGFloat {
     if mark.rawValue >= IVTimeMark.min1.rawValue  {
-        return 17
+        return 14
     }
-    return 12
+    return 10
 }
 
 private func DateFormat(of mark: IVTimeMark) -> String {
@@ -814,7 +815,7 @@ private func LabelWidth(of mark: IVTimeMark) -> CGFloat {
         return width
     }
     let text = DateFormat(of: mark) as NSString
-    let width = max(30, text.boundingRect(with: CGSize(width: 100, height: 20),
+    let width = max(30, text.boundingRect(with: CGSize(width: 100, height: 14),
                                   options: .usesFontLeading,
                                   attributes: [.font : UIFont.systemFont(ofSize: FontSize(of: mark))],
                                   context: nil).width)
@@ -825,12 +826,12 @@ private func LabelWidth(of mark: IVTimeMark) -> CGFloat {
 private func MarkHeight(of mark: IVTimeMark) -> Double {
     switch mark {
     case .hour4, .hour2, .hour: return 20
-    case .min30: return 18
-    case .min10: return 16
-    case .min5, .min1: return 14
-    case .sec30: return 12
-    case .sec10: return 10
-    case .sec5, .sec1: return 8
+    case .min30: return 20
+    case .min10: return 10
+    case .min5, .min1: return 10
+    case .sec30: return 5
+    case .sec10: return 5
+    case .sec5, .sec1: return 5
     }
 }
 

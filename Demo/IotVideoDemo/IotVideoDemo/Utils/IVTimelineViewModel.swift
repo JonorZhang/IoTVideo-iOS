@@ -130,11 +130,11 @@ struct IVTimelineItem: IVTiming {
         case "manual":
             return .orange
         case "alarm":
-            return .red
+            return UIColor(rgb: 0xFFC196)
         case "allday":
             return UIColor(rgb: 0x91B1EF)
         default:
-            return .green
+            return UIColor(rgb: 0xAFCCFF)
         }
     }
     
