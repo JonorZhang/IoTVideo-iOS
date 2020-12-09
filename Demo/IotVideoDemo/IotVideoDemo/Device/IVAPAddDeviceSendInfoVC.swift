@@ -123,7 +123,7 @@ class IVAPAddDeviceSendInfoVC: UIViewController {
                     hud.hide()
                     guard let `self` = self, let succ = data as? Bool else { return }
                     
-                    IVPopupView(title: "添加结果", message: succ ? "成功" : "失败", actions: [.iKnow({ (_) in
+                    IVPopupView(title: "添加结果", message: succ ? "成功" : "失败", actions: [.iKnow({ [unowned self](_) in
                         if succ {
                             self.navigationController?.popToRootViewController(animated: true)
                             IVNotiPost(.deviceListChange(by: .add))

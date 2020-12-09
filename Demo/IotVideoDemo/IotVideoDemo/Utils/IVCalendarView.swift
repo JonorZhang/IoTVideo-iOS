@@ -51,8 +51,9 @@ class IVCalendarView: UIView {
             })
             
             DispatchQueue.main.async {[weak self] in
+                guard let `self` = self else { return }
                 CATransaction.setDisableActions(true)
-                self?.collectionView.reloadData()
+                self.collectionView.reloadData()
                 CATransaction.commit()
             }
         }
@@ -86,7 +87,8 @@ class IVCalendarView: UIView {
             btn.setTitle("<", for: .normal)
             btn.titleLabel?.font = .systemFont(ofSize: 17)
         }
-        btn.addEvent { [unowned self](_) in
+        btn.addEvent { [weak self](_) in
+            guard let `self` = self else { return }
             self.referenceDate = self.lastMonth(self.referenceDate)
             self._initCalendarInfo()
             CATransaction.setDisableActions(true)
@@ -104,7 +106,8 @@ class IVCalendarView: UIView {
             btn.setTitle(">", for: .normal)
             btn.titleLabel?.font = .systemFont(ofSize: 17)
         }
-        btn.addEvent { [unowned self](_) in
+        btn.addEvent { [weak self](_) in
+            guard let `self` = self else { return }
             self.referenceDate = self.nextMonth(self.referenceDate)
             self._initCalendarInfo()
             CATransaction.setDisableActions(true)
@@ -118,7 +121,8 @@ class IVCalendarView: UIView {
         let btn = UIButton()
         btn.setTitle("今天", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 15)
-        btn.addEvent { [unowned self](_) in
+        btn.addEvent { [weak self](_) in
+            guard let `self` = self else { return }
             self.currentDate = Date()
             self._initCalendarInfo()
             CATransaction.setDisableActions(true)
@@ -170,7 +174,8 @@ class IVCalendarView: UIView {
         btn.setTitle("取消", for: .normal)
         btn.setTitleColor(UIColor.gray, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 17)
-        btn.addEvent { [unowned self](_) in
+        btn.addEvent { [weak self](_) in
+            guard let `self` = self else { return }
             self.alpha = 0
         }
         return btn
@@ -181,9 +186,11 @@ class IVCalendarView: UIView {
         btn.setTitle("确定", for: .normal)
         btn.setTitleColor(UIColor(rgb: 0x0075fe), for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 17)
-        btn.addEvent { [unowned self](_) in
+        btn.addEvent { [weak self](_) in
+            guard let `self` = self else { return }
             self.alpha = 0
             self.selectedDateCallback?(self.currentDate)
+            self.removeFromSuperview()
         }
         return btn
     }()

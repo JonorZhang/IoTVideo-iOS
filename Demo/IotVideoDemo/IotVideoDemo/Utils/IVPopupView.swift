@@ -119,7 +119,7 @@ class IVPopupView: UIView {
         let btn:UIButton  = $0
         btn.setImage(#imageLiteral(resourceName: "point_unsel"), for: .normal)
         btn.setImage(#imageLiteral(resourceName: "cell_select"), for: .selected)
-        btn.addEvent(action: { (obc) in
+        btn.addEvent(action: { [unowned btn](obc) in
             btn.isSelected = !btn.isSelected
             UserDefaults.standard.set(btn.isSelected, forKey: "surpportProtectionPlanTip")
         

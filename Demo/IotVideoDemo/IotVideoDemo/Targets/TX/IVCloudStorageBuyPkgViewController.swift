@@ -36,7 +36,7 @@ class IVCloudStorageBuyPkgViewController: IVDeviceAccessableTVC {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        IVPopupView(title: "您确定购买此云存套餐吗？", message:values[indexPath.row], input: nil, actions: [.cancel(), .confirm({ (_) in
+        IVPopupView(title: "您确定购买此云存套餐吗？", message:values[indexPath.row], input: nil, actions: [.cancel(), .confirm({ [unowned self](_) in
             let hud = ivLoadingHud()
             IVDemoNetwork.buyCloudStoragePackage(self.keys[indexPath.row], deviceId: self.device.deviceID) { (data, err) in
                 hud.hide()

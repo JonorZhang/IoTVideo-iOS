@@ -106,7 +106,7 @@ class IVMsgVC: UITableViewController, IVDeviceAccessable {
     /// 新增的 subKey与现有一致 会直接覆盖
     @objc func addProUserProperty() {
         // 添加已有物模型会覆盖原来的内容
-        pop = IVPopupView(title: "添加用户物模型 \n ProUser.", message: "属性不能以'_'开头，内容为json格式",input: ["不能以 '_' 开头", "{\"key\":\"value\"}"], actions: [.cancel(), .confirm({ (v) in
+        pop = IVPopupView(title: "添加用户物模型 \n ProUser.", message: "属性不能以'_'开头，内容为json格式",input: ["不能以 '_' 开头", "{\"key\":\"value\"}"], actions: [.cancel(), .confirm({ [unowned self](v) in
             let path = v.inputFields[0].text ?? ""
             let json = v.inputFields[1].text ?? ""
             let hud = ivLoadingHud()
@@ -222,7 +222,7 @@ extension IVMsgVC {
         title += msgPath
        
         
-        pop = IVPopupView(title: title, input: [currentTextJson], actions: [.cancel(), .confirm({ (v) in
+        pop = IVPopupView(title: title, input: [currentTextJson], actions: [.cancel(), .confirm({ [unowned self](v) in
             let inJson = v.inputFields[0].text ?? ""
             let hud = ivLoadingHud()
             if path == "Action" {
@@ -284,7 +284,7 @@ extension IVMsgVC {
         var subDatas = self.dataSource[index.section]["value"] as! [String]
         let subKey = subDatas[index.row]
         let path = sectionKey + "." + subKey
-        pop = IVPopupView(title: "是否删除此物模型", message: path, actions: [.cancel(), .confirm({ (v) in
+        pop = IVPopupView(title: "是否删除此物模型", message: path, actions: [.cancel(), .confirm({ [unowned self](v) in
             let hud = ivLoadingHud()
             IVMessageMgr.sharedInstance.deleteProperty(ofDevice: self.device.deviceID, path: path) { (json, error) in
                 hud.hide()
@@ -333,7 +333,7 @@ extension IVMsgVC {
     }
     
     func editBuildInUserPro(path: String, json: String) {
-        self.pop = IVPopupView(title: path, input: [json], actions: [.cancel(), .confirm({ (v) in
+        self.pop = IVPopupView(title: path, input: [json], actions: [.cancel(), .confirm({ [unowned self](v) in
             let inJson = v.inputFields[0].text ?? ""
             let hud = ivLoadingHud()
             IVMessageMgr.sharedInstance.writeProperty(ofDevice: self.device.deviceID, path: path, json: inJson, timeout: 30) { (json, err) in

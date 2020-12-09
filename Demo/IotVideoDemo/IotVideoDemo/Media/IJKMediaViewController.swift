@@ -106,7 +106,7 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
     }
 
     func getEventList(at time: IVTime) {
-        IVVAS.shared.getEventList(withDeviceId: device.deviceID, startTime: time.start, endTime: time.end, pageSize: 50, filterTypeMask: nil, validCloudStorage: false) { [weak self](json, error) in
+        IVVAS.shared.getEventList(withDeviceId: device.deviceID, startTime: time.start, endTime: time.end, pageSize: 50, filterTypeMask: [0x8000], validCloudStorage: true) { [weak self](json, error) in
             guard let `self` = self else { return }
             logInfo("event list: \(json ?? "") , error: \(String(describing: error))")
             guard let json = json, error == nil else {

@@ -40,7 +40,7 @@ class IVQRCodeAddDevice: UIViewController, CLLocationManagerDelegate {
                     hud.hide()
                     guard let succ = data as? Bool, error == nil else { return }
                     
-                    IVPopupView(title: "添加结果", message: succ ? "成功" : "失败", input: nil, actions: [.iKnow({ (_) in
+                    IVPopupView(title: "添加结果", message: succ ? "成功" : "失败", input: nil, actions: [.iKnow({ [unowned self](_) in
                         if succ {
                             self.navigationController?.popToRootViewController(animated: true)
                             IVNotiPost(.deviceListChange(by: .add))

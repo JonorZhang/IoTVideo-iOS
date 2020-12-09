@@ -195,7 +195,7 @@ private extension IVTimelineView {
         calendarBtn.addEvent { [unowned self](_) in
             let superview = self.nextViewController?.view
             superview?.addSubview(self.calendarView)
-            self.calendarView.snp.remakeConstraints { (make) in
+            self.calendarView.snp.makeConstraints { (make) in
                 make.height.equalTo(400)
                 make.width.equalTo(375)
                 make.centerX.equalToSuperview()
@@ -214,18 +214,18 @@ private extension IVTimelineView {
         }
 
         selectView.didChangeValue = { [unowned self] (leftView, rightView)in
-
             let leftDiff  = indicatorLine.frame.midX - leftView.frame.maxX
             let rightDiff = indicatorLine.frame.midX - rightView.frame.minX
 
-            var leftTime  = Double(timeCollView.contentOffset.x - leftDiff)  / self.viewModel.scale + viewModel.current.start
-            var rightTime = Double(timeCollView.contentOffset.x - rightDiff) / self.viewModel.scale + viewModel.current.start
+            var leftTime  = Double(self.timeCollView.contentOffset.x - leftDiff)  / self.viewModel.scale + self.viewModel.current.start
+            var rightTime = Double(self.timeCollView.contentOffset.x - rightDiff) / self.viewModel.scale + self.viewModel.current.start
 
-            leftTime = min(max(leftTime, viewModel.current.start), viewModel.current.end)
-            rightTime = min(max(rightTime, viewModel.current.start), viewModel.current.end)
+            leftTime = min(max(leftTime, self.viewModel.current.start), self.viewModel.current.end)
+            rightTime = min(max(rightTime, self.viewModel.current.start), self.viewModel.current.end)
+
             let longest = rightTime - leftTime >= 10 * 60 // 10分钟
             self.selectView.longTimeEnable = !longest
-            delegate?.timelineView(self, didSelectRangeAt: IVTime(start: leftTime, end: rightTime), longest: longest)
+            self.delegate?.timelineView(self, didSelectRangeAt: IVTime(start: leftTime, end: rightTime), longest: longest)
         }
         
         viewModel.scrollToTimeIfNeed = { [weak self] pts, sectionTime in
@@ -471,8 +471,8 @@ extension IVTimelineView: UICollectionViewDataSource {
             let prevDay = self.viewModel.current.before(days: 1)
             headerBtn?.setTitle("\(fmt.string(from: prevDay.date))   ☜=((・∀・*)☜=", for: .normal)
             headerBtn?.setTitle("╰(￣▽￣)╭", for: .selected)
-            headerBtn?.addEvent { (_) in
-                self.loadAndDisplaySection(at: prevDay)
+            headerBtn?.addEvent { [weak self](_) in
+                self?.loadAndDisplaySection(at: prevDay)
             }
         } else {
             footerBtn = headerfooter.btn
@@ -483,8 +483,8 @@ extension IVTimelineView: UICollectionViewDataSource {
                 let nextDay = self.viewModel.current.after(days: 1)
                 footerBtn?.setTitle("=☞(*・∀・))=☞   \(fmt.string(from: nextDay.date))", for: .normal)
                 footerBtn?.setTitle("╰(￣▽￣)╭", for: .selected)
-                footerBtn?.addEvent { (_) in
-                    self.loadAndDisplaySection(at: nextDay)
+                footerBtn?.addEvent { [weak self](_) in
+                    self?.loadAndDisplaySection(at: nextDay)
                 }
             }
         }
@@ -672,7 +672,9 @@ class IVTimelineCell: UICollectionViewCell {
              
         let style = NSMutableParagraphStyle()
         style.alignment = .center
-           
+        
+        let maxMarkHeight = MarkHeight(of: .hour4)
+
         while offset <= time.duration + halfLabelT {
             let offX = CGFloat(scale * offset) // min(max(CGFloat(scale * offset), self.bounds.minX - miniStep), self.bounds.maxX + miniStep)
 
@@ -710,7 +712,7 @@ class IVTimelineCell: UICollectionViewCell {
                                                                              .foregroundColor : color,
                                                                              .paragraphStyle : style])
                                 string.draw(in: CGRect(x: offX-labelWidth/2,
-                                                       y: bounds.height-20-verticalInset-CGFloat(markHeight),
+                                                       y: bounds.height-verticalInset-CGFloat(maxMarkHeight)-20,
                                                        width: labelWidth,
                                                        height: 20))
                                 break
@@ -771,27 +773,28 @@ class IVTimelineHeaderFooter: UICollectionReusableView {
         ctx?.setFillColor(UIColor(white: 0.98, alpha: 1).cgColor)
         ctx?.fill(rect)
         // 绘制00:00
+        let color = UIColor(hexString: "#9DA5AD")
         let mark = IVTimeMark.hour4
+        let markHeight = MarkHeight(of: mark)
         let font = UIFont.systemFont(ofSize: FontSize(of: mark))
         let style = NSMutableParagraphStyle()
         style.alignment = .center
         let string = NSAttributedString(string: "00:00",
                                         attributes: [.font : font,
-                                                     .foregroundColor : UIColor.black,
+                                                     .foregroundColor : color,
                                                      .paragraphStyle : style])
         let isHeader = (reuseIdentifier == UICollectionView.elementKindSectionHeader)
         let labelWidth = LabelWidth(of: mark)
         let offX = isHeader ? bounds.width : 0
         string.draw(in: CGRect(x: offX-labelWidth/2,
-                               y: bounds.height-20-verticalInset,
+                               y: bounds.height-CGFloat(markHeight)-verticalInset-20,
                                width: labelWidth,
                                height: 20))
         // 绘制｜
-        let markHeight = MarkHeight(of: mark)
         ctx?.setLineWidth(2)
-        ctx?.setStrokeColor(UIColor.black.cgColor)
-        ctx?.move(to: CGPoint(x: offX, y: verticalInset))
-        ctx?.addLine(to: CGPoint(x: offX, y: verticalInset + CGFloat(markHeight)))
+        ctx?.setStrokeColor(color.cgColor)
+        ctx?.move(to: CGPoint(x: offX, y: bounds.height-verticalInset))
+        ctx?.addLine(to: CGPoint(x: offX, y: bounds.height-CGFloat(markHeight)-verticalInset))
         ctx?.strokePath()
     }
 }
@@ -868,7 +871,7 @@ fileprivate class IVTimelineSelectView: UIView {
         selectIndLeft.addPanGesture { [unowned self](pan) in
             if let pan = pan as? UIPanGestureRecognizer, let panView = pan.view {
                 let changeX = pan.translation(in: self).x
-                if !longTimeEnable, changeX < 0 {
+                if !self.longTimeEnable, changeX < 0 {
                     return
                 }
                 panView.frame.origin.x += changeX
@@ -887,7 +890,7 @@ fileprivate class IVTimelineSelectView: UIView {
             if let pan = pan as? UIPanGestureRecognizer, let panView = pan.view {
                 
                 let changeX = pan.translation(in: self).x
-                if !longTimeEnable, changeX > 0 {
+                if !self.longTimeEnable, changeX > 0 {
                     return
                 }
                 panView.frame.origin.x += changeX
