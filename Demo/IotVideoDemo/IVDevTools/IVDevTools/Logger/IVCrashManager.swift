@@ -60,7 +60,6 @@ private func signalCrashHandler(signal:Int32) -> Void {
                CallStack: \(Thread.callStackSymbols.joined(separator: "\r\n"))
                """
     crashHandler?(mstr)
-    exit(signal)
 }
 
 private func imageOffset() -> Int {

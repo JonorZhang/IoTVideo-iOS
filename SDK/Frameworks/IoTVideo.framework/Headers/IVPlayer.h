@@ -195,6 +195,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// 音视频录制器, 默认为`IVAVRecorder`
 @property (nonatomic, strong, readwrite) id<IVAVRecordable> avRecorder;
 
+
+#pragma mark - DEBUG
+
+// 播放器调试模式，默认`NO`。若设为`YES`则在编/解码时将音视频数据写入Document根目录，⚠️开启可能会导致卡顿。
+@property (class, nonatomic, assign, readwrite) BOOL debugMode;
+
 @end
 
 NS_ASSUME_NONNULL_END

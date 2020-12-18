@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *macAddr;
 /// 预留
 @property (nonatomic, copy) NSString *reserve;
+/// 是否已经被绑定
+@property (nonatomic, assign) BOOL hasOwner;
 @end
 
 /// 局域网配网类

@@ -10,28 +10,6 @@ import Foundation
 import IVDevTools
 import IoTVideo
 
-//@objc class IVLog: NSObject {
-//    @objc static func error(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-//        IVLogger.log(.error, path: path, function: function, line: line, message: message(items))
-//    }
-//
-//    @objc static func warning(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-//        IVLogger.log(.warning, path: path, function: function, line: line, message: message(items))
-//    }
-//
-//    @objc static func info(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-//        IVLogger.log(.info, path: path, function: function, line: line, message: message(items))
-//    }
-//
-//    @objc static func debug(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-//        IVLogger.log(.debug, path: path, function: function, line: line, message: message(items))
-//    }
-//
-//    @objc static func verbose(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
-//        IVLogger.log(.verbose, path: path, function: function, line: line, message: message(items))
-//    }
-//}
-
 func logFatal(path: String = #file, function: String = #function, line: Int = #line, _ items: Any...) {
     IVLogger.log("APP", level: .fatal, path: path, function: function, line: line, message: message(items))
 }
@@ -71,6 +49,12 @@ var logLevel: UInt {
 func registerLogger() {
     IVLogger.register { (logger) in
         IoTVideo.sharedInstance.logLevel = IVLogLevel(rawValue: logLevel)!
+    }
+    
+    IVConfigMgr.enableCfgObserver { (cfg) in
+        if cfg.key == "IOT_AV_DEBUG" {
+            IVPlayer.debugMode = cfg.enable
+        }
     }
 }
 

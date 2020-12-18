@@ -419,9 +419,7 @@ class IVCalendarCell: UICollectionViewCell {
     }
     
     lazy var dayLabel: UILabel = {
-        let W: CGFloat = 32.0
-        let lb = UILabel(frame: CGRect(x: 0, y: 0, width: W, height: W))
-        lb.layer.cornerRadius = W / 2
+        let lb = UILabel()
         lb.layer.masksToBounds = true
         lb.textAlignment = .center
         lb.textColor = .black
@@ -431,7 +429,7 @@ class IVCalendarCell: UICollectionViewCell {
     }()
     
     lazy var subLabel: UILabel = {
-        let lb = UILabel(frame: CGRect(x: 0, y: bounds.height-15, width: bounds.width, height: 15))
+        let lb = UILabel()
         lb.textAlignment = .center
         lb.textColor = .lightGray
         lb.font = .systemFont(ofSize: 9)
@@ -449,8 +447,12 @@ class IVCalendarCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let W: CGFloat = 6
-        markLayer.frame = CGRect(x: (self.frame.width - W)/2, y: self.frame.height - W, width: W, height: W)
+        var W: CGFloat = 32
+        dayLabel.layer.cornerRadius = W / 2
+        dayLabel.frame = CGRect(x: (bounds.width - W)/2, y: 0, width: W, height: W)
+        subLabel.frame = CGRect(x: (bounds.width - W)/2, y: bounds.height-15, width: bounds.width, height: 15)
+        W = 6
+        markLayer.frame = CGRect(x: (bounds.width - W)/2, y: bounds.height - W, width: W, height: W)
         markLayer.cornerRadius = W / 2
     }
 }

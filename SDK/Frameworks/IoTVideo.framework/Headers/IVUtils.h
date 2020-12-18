@@ -29,4 +29,8 @@ extern NSInteger startTimeOfDate(NSInteger time);
 /// 获取SDK运行环境
 extern NSString *getSDKEnvironment(void);
 
+/// 加密 rtsp onvif 密码
+/// @param password 原始密码
+extern NSString *getRtspMd5Paasword(NSString *password);
+
 #endif /* IVUtils_h */

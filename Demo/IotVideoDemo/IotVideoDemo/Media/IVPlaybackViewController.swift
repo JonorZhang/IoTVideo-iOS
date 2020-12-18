@@ -158,7 +158,7 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
     override func player(_ player: IVPlayer, didUpdatePTS PTS: TimeInterval) {
         super.player(player, didUpdatePTS: PTS)
         DispatchQueue.main.async { [weak self] in
-            self?.timelineView?.viewModel.update(pts: PTS)
+            self?.timelineView?.viewModel.pts.value = PTS
         }
     }
 }

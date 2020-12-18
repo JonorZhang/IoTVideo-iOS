@@ -18,25 +18,37 @@ public struct Config: Codable {
 public class IVConfigMgr: NSObject {
     
     static let kAllConfigKeys = "IVConfigKeys"
-    
+        
     public static var allConfigs: [Config] = {
+        var allCfgs: [Config] = []
+        
         if let data = UserDefaults.standard.data(forKey: kAllConfigKeys),
             let cfgs = try? JSONDecoder().decode([Config].self, from: data), !cfgs.isEmpty {
-            return cfgs
+            allCfgs = cfgs
         }
-//        直接修改默认值： PS 只给 IoTVideoDemo使用， 其他项目请还原
-//        return []
         
-        return [            
-            Config(name: "TEST_P2P", key: "IOT_HOST_P2P", value: "TEST", enable: false),
-            Config(name: "TEST_WEB", key: "IOT_HOST_WEB", value: "TEST", enable: false)
-        ]
+        if !allCfgs.contains(where: { $0.key == "IOT_AV_DEBUG" }) {
+            allCfgs.append(Config(name: "AV_DEBUG", key: "IOT_AV_DEBUG", value: "true", enable: false))
+        }
+        if !allCfgs.contains(where: { $0.key == "IOT_HOST_P2P" }) {
+            allCfgs.append(Config(name: "TEST_P2P", key: "IOT_HOST_P2P", value: "TEST", enable: false))
+        }
+        if !allCfgs.contains(where: { $0.key == "IOT_HOST_WEB" }) {
+            allCfgs.append(Config(name: "TEST_WEB", key: "IOT_HOST_WEB", value: "TEST", enable: false))
+        }
+
+        return allCfgs
     }() {
         didSet {
             let data = try? JSONEncoder().encode(allConfigs)
             UserDefaults.standard.set(data, forKey: kAllConfigKeys)
         }
     }
+
+    public static func enableCfgObserver(_ enableObserver: ((Config) -> Void)?) {
+        self._enableCfgObserver = enableObserver
+    }
+    private static var _enableCfgObserver: ((Config) -> Void)?
 
     static func addCfg(_ cfg: Config) {
         if let idx = allConfigs.firstIndex(where: { $0.name == cfg.name }) {
@@ -61,6 +73,7 @@ public class IVConfigMgr: NSObject {
     static func enableCfg(_ name: String, _ enable: Bool) {
         if let idx = allConfigs.firstIndex(where: { $0.name == name }) {
             allConfigs[idx].enable = enable
+            _enableCfgObserver?(allConfigs[idx])
         }
     }
     

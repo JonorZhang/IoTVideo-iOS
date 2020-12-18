@@ -210,13 +210,12 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
         if mediaPlayer.duration > 0, let csItem = csItem {
             let newPTS = Int64(mediaPlayer.currentPlaybackTime + Double(csItem.start) + 0.5)
             print("refreshProgressSlider csItemStart:\(csItem.start) currentPlaybackTime:\(mediaPlayer.currentPlaybackTime) duration:\(mediaPlayer.duration) playableDuration:\(mediaPlayer.playableDuration)")
-            timelineView?.viewModel.update(pts: TimeInterval(newPTS))
+            timelineView?.viewModel.pts.value = TimeInterval(newPTS)
         }
     }
     
     func seek(toTime time: TimeInterval, playbackItem item: IVCSPlaybackItem) {
         logDebug("seekToTime", time, item)
-        
         if item.start != csItem?.start {
             seekTime = time
             prepareToPlay(item)
@@ -228,20 +227,21 @@ class IJKMediaViewController: UIViewController, IVDeviceAccessable {
     // MARK: - 点击事件
     
     @IBAction func playClicked(_ sender: UIButton) {
+        guard let `mediaPlayer` = mediaPlayer else { return }
         sender.isSelected = !sender.isSelected
         if sender.isSelected {
-            if csItem == nil {
-                if let item = timelineView?.viewModel.nextRawItem?.rawValue as? IVCSPlaybackItem {
-                    prepareToPlay(item)
-                } else {
-                    sender.isSelected = !sender.isSelected
-                    IVPopupView.showAlert(title: "当前日期无可播放文件", in: self.videoView)
-                    return
-                }
+            if let time = timelineView?.viewModel.pts.value,
+                let item = timelineView?.viewModel.anyRawItem?.rawValue as? IVCSPlaybackItem {
+                seek(toTime: time, playbackItem: item)
+            } else {
+                sender.isSelected = !sender.isSelected
+                IVPopupView.showAlert(title: "当前日期无可播放文件", in: self.videoView)
+                return
             }
-            mediaPlayer?.play()
+            mediaPlayer.play()
+            
         } else {
-            mediaPlayer?.pause()
+            mediaPlayer.pause()
         }
         refreshProgressSlider()
     }
@@ -313,6 +313,7 @@ extension IJKMediaViewController: IVTimelineViewDelegate {
     
     func timelineView(_ timelineView: IVTimelineView, didSelectDateAt time: IVTime) {
         getEventList(at: time)
+        mediaPlayer?.pause()
     }
 
     func timelineView(_ timelineView: IVTimelineView, didSelectRangeAt time: IVTime, longest: Bool) {
@@ -343,8 +344,9 @@ extension IJKMediaViewController: UITableViewDelegate, UITableViewDataSource {
         let event = events[indexPath.row]
         let fmt = DateFormatter()
         fmt.dateFormat = "HH:mm:ss"
-        let date = Date(timeIntervalSince1970: TimeInterval(event.startTime))
-        cell?.textLabel?.text = "\(fmt.string(from: date))"
+        let date0 = Date(timeIntervalSince1970: TimeInterval(event.startTime))
+        let date1 = Date(timeIntervalSince1970: TimeInterval(event.endTime))
+        cell?.textLabel?.text = "\(fmt.string(from: date0)) - \(fmt.string(from: date1))"
         cell?.detailTextLabel?.text = "type: \(event.firstAlarmType)"
         return cell!
     }

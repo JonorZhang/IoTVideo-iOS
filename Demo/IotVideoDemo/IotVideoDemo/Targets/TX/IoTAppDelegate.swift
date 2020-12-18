@@ -26,6 +26,7 @@ extension AppDelegate {
         IoTVideo.sharedInstance.setup(launchOptions: launchOptions)
         IoTVideo.sharedInstance.delegate = self
         IoTVideo.sharedInstance.logLevel = IVLogLevel(rawValue: logLevel) ?? .DEBUG
+        IVPlayer.debugMode = IVConfigMgr.allConfigs.first(where: { $0.key == "IOT_AV_DEBUG" })?.enable ?? false
     }
 }
 

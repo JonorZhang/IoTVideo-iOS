@@ -114,7 +114,9 @@ struct IVTime: IVTiming, Hashable {
         self.init(start: t0, end: t1)
     }
 
-    static let today = IVTime(date: Date())
+    static var today: IVTime {
+        return IVTime(date: Date())
+    }
 }
 
 struct IVTimelineItem: IVTiming {
@@ -132,7 +134,7 @@ struct IVTimelineItem: IVTiming {
         case "alarm":
             return UIColor(rgb: 0xFFC196)
         case "allday":
-            return UIColor(rgb: 0x91B1EF)
+            return UIColor(rgb: 0xAFCCFF)
         default:
             return UIColor(rgb: 0xAFCCFF)
         }
@@ -338,17 +340,17 @@ class IVTimelineViewModel {
     private(set) var current: IVTimelineSection
      
     /// 时间戳
-    private(set) var pts: TimeInterval
+    public var pts: IVObservable<TimeInterval> = .init(0)
     
     /// 当前文件
     var currentRawItem: IVTimelineItem? {
         if !current.isValid { return nil }
-        return current.rawItems.first(where: { $0.contains(pts) })
+        return current.rawItems.first(where: { $0.contains(pts.value) })
     }
     
     /// 下一个文件
     var nextRawItem: IVTimelineItem? {
-        if let nextIdx = current.rawItems.firstIndex(where: { $0.start >= pts }) {
+        if let nextIdx = current.rawItems.firstIndex(where: { $0.start >= pts.value }) {
             return current.rawItems[nextIdx]
         } else {
             if let nextSection = sections.first(where: { $0.time == current.after(days: 1) }), nextSection.isValid {
@@ -391,7 +393,7 @@ class IVTimelineViewModel {
 
     /// 构造方法
     init(time: IVTime) {
-        pts = time.start
+        pts.value = time.start
         current = .placeholder(time, scale: scale)
     }
 
@@ -413,16 +415,6 @@ class IVTimelineViewModel {
         }
         return true
     }
-
-    func update(pts: TimeInterval, needsScroll: Bool = true) {
-//        logVerbose("update(pts:\(pts), needsScroll:\(needsScroll))")
-        self.pts = pts
-        if needsScroll, state.value != .selecting {
-            scrollToTimeIfNeed?(pts, current.time)
-        }
-    }
-
-    var scrollToTimeIfNeed: ((_ pts: TimeInterval, _ sectionTime: IVTime) -> Void)?
     
     /// 插入数据源
     func insertSection(items: [IVTimelineItem], for time: IVTime) {
