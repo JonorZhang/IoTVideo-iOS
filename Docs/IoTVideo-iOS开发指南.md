@@ -27,6 +27,10 @@
 
 用户自有账号体系可以采用云对接的方式实现账户体系相关业务，详情请参见 [终端用户接入授权](https://cloud.tencent.com/document/product/1131/42365)。
 
+**3. 使用临时访问设备授权获取 accessId 和 accessToken**
+
+允许终端用户短时或一次性临时访问设备，详情参见 [终端用户临时访问设备授权](https://cloud.tencent.com/document/product/1131/42366)。
+
 ## 第三步：SDK初始化
 
 ### 1、初始化
@@ -568,23 +572,23 @@ xxxxPlayer.stop()
 ```swift
 // 基础播放器可自定义模块
 class IVPlayer {
-	/// 音频解码器, 默认实现为 `IVAudioDecoder`
+    /// 音频解码器, 默认实现为 `IVAudioDecoder`
     open var audioDecoder: (Any & IVAudioDecodable)?
-	/// 视频解码器, 默认实现为 `IVVideoDecoder`
+    /// 视频解码器, 默认实现为 `IVVideoDecoder`
      open var videoDecoder: (Any & IVVideoDecodable)?
-	/// 音频渲染器, 默认实现为 `IVAudioRender`
+    /// 音频渲染器, 默认实现为 `IVAudioRender`
     open var audioRender: (Any & IVAudioRenderable)?
-	/// 视频渲染器, 默认实现为`IVVideoRender`
+    /// 视频渲染器, 默认实现为`IVVideoRender`
     open var videoRender: (Any & IVVideoRenderable)?
-	/// 音视频录制器, 默认实现为`IVAVRecorder`
+    /// 音视频录制器, 默认实现为`IVAVRecorder`
     open var avRecorder: (Any & IVAVRecordable)?
 }
 
 // 可对讲播放器可自定义模块
 public protocol IVPlayerTalkable {    
-	/// 音频采集器, 默认实现为 `IVAudioCapture`
+    /// 音频采集器, 默认实现为 `IVAudioCapture`
     open var audioCapture: (Any & IVAudioCapturable)
-	/// 音频编码器, 默认实现为 `IVAudioEncoder`
+    /// 音频编码器, 默认实现为 `IVAudioEncoder`
     open var audioEncoder: (Any & IVAudioEncodable)
 }
 
@@ -889,9 +893,9 @@ json: 示例
 "code": 0,
 "msg": "Success",
 "data": {
-	"downUrl": "xxxxxxxxx", 
-	"version": "xxxxxxxxx", //版本号
-	"upgDescs": "xxxxxxxxx" //升级描述
+    "downUrl": "xxxxxxxxx", 
+    "version": "xxxxxxxxx", //版本号
+    "upgDescs": "xxxxxxxxx" //升级描述
     }
 }
 ```
@@ -956,19 +960,83 @@ open func sendData(toServer url: String, data: Data?, timeout: TimeInterval, com
 ```
 
 # 增值服务
+主要包含以下功能：
+##### 基本信息
 
-使用前提，设备已开通云存
+- 查询云存相关信息
 
-#### 视频相关
+##### 视频相关
 - 查询存在云存的日期信息
 - 获取回放文件列表
 - 获取回放 m3u8 播放地址
-####  事件相关
+#####  事件相关
 - 获取事件列表
 - 删除事件（可批量）
-##### 1.查询存在云存的日期信息
 
-```swift
+#### 接口详情
+##### 1.查询设备的云存详细信息
+- 1.1
+```objc
+/// 查询设备的云存详细信息
+/// @param deviceId 设备id
+/// @param responseHandler 回调
+- (void)getServiceDetailInfoWithDeviceId:(NSString *)deviceId responseHandler:(IVNetworkResponseHandler _Nullable)responseHandler;
+```
+- 1.2
+```objc
+/// 查询多通道设备的云存详细信息
+/// @param deviceId 设备id
+/// @param channel 视频流通道号。(对于存在多路视频流的设备，如NVR设备，与设备实际视频流通道号对应)。
+/// @param responseHandler 回调
+- (void)getServiceDetailInfoWithDeviceId:(NSString *)deviceId channel:(NSInteger)channel responseHandler:(IVNetworkResponseHandler _Nullable)responseHandler;
+```
+- 返回结果：json 示例
+```
+{  
+    "code":0,  
+    "msg":"Success",  
+    "data":{  
+        "status":1,  
+        "startTime":1606709335,  
+        "endTime":1611979735,  
+        "curOrderPkgType":1,  
+        "curOrderStorageDays":3,  
+        "curOrderStartTime":1606709335,  
+        "curOrderEndTime":1606709335,  
+        "playbackDays":3
+    }  
+}  
+```
+- 对应 data 结构
+
+参数名称             |类型           |描述
+---------------------|---------------|-----
+status               |Integer        |云存服务状态。
+startTime            |Integer        |云存服务开始时间。
+endTime              |Integer        |云存服务失效时间。
+curOrderPkgType      |Integer        |当前订单类型。
+curOrderStorageDays  |Integer        |当前订单存储时长，单位天。
+curOrderStartTime    |Integer        |当前订单开始时间。
+curOrderEndTime      |Integer        |当前订单结束事件。
+playbackStartTime    |Integer        |当前云存服务，支持检索回放文件的最早时间。<br> 这个时间点之前的云存文件不支持检索。
+
+- 云存服务状态
+
+值   | 描述                      
+---  | -------------------       
+ 1   | 正常使用中。             
+ 2   | 待续费。设备云存服务已到期，但是历史云存数据未过期。续费后仍可查看这些历史数据。
+ 3   | 已过期。查询不到设备保存在云端的数据。
+ 
+- 订单类型
+
+值   | 描述                      
+---  | -------------------       
+ 1   | 全时云存             
+ 2   | 事件云存
+##### 2.查询存在云存的日期信息
+
+```objc
 /// 获取云存视频可播放日期信息
 /// - 用于终端用户在云存页面中对云存服务时间内的日期进行标注，区分出是否有云存视频文件。
 /// @param deviceId 设备id
@@ -989,7 +1057,7 @@ open func sendData(toServer url: String, data: Data?, timeout: TimeInterval, com
 }
 ```
 
-##### 2. 获取回放文件列表
+##### 3. 获取回放文件列表
 ```objc
 /// 获取回放文件列表
 /// - 获取云存列表，用于对时间轴渲染
@@ -1018,7 +1086,7 @@ open func sendData(toServer url: String, data: Data?, timeout: TimeInterval, com
     },
 }
 ```
-##### 3.获取回放 m3u8 播放地址
+##### 4.获取回放 m3u8 播放地址
 
 ```swift
 /// 获取回放 m3u8 播放地址
@@ -1051,16 +1119,46 @@ endTime |int64  |此次m3u8文件播放结束时间
 endflag |boolean|播放结束标记， 表示此次请求结果的m3u8能否把需要播放的时间内的文件播完，<br> 不能则需以返回的 `endtime` 为基准再次请求。<br>`false` 表示未播放完，`true` 表示播放完成
 
 
-##### 4.获取事件列表
+##### 5.获取事件列表
 ```swift
 /// 获取事件列表
+///
 /// @param deviceId 设备id
-/// @param startTime 事件告警开始UTC时间,单位秒
-/// @param endTime 事件告警结束UTC时间，当为0时，默认当天的23点59分59秒
-/// @param pageNum 分页查询，第几页
-/// @param pageSize 分页查询，单页数量
-/// @param responseHandler 回调 json
-- (void)getEventListWithDeviceId:(NSString *)deviceId startTime:(NSTimeInterval)startTime endTime:(NSTimeInterval)endTime pageNum:(NSInteger)pageNum pageSize:(NSInteger)pageSize responseHandler:(IVNetworkResponseHandler _Nullable)responseHandler;
+/// @param startTime 事件告警开始UTC时间, 一般为当天开始时间， 单位秒
+/// @param endTime 事件告警结束UTC时间，获取更多应传入当前列表的最后一个事件的开始时间(事件列表按时间逆序排列)；
+/// @param pageSize 本次最多查询多少条记录，取值范围 [1 - 50]
+/// @param typeMasks 筛选指定类型的事件掩码数组：Array<UInt32>，
+/// @param validCloudStorage 是否只返回有效云存期内的事件
+/// @param responseHandler 回调 
+/// @code
+/// /// typeMask 过滤规则
+/// /// bit 0-15 为 SDK内置 bit16 - 32为调用者可自定义类型 bit15 为标志有视频的事件即 0x8000
+/// ///
+/// /// 对于列表中每个掩码，单个掩码中每个bit按 或 规则来过滤，例如
+/// /// almTypeMasks = [3]
+/// /// 3 等于 bit0 | bit1， 此时获取到的事件为 包含bit0 或 bit1类型的事件
+///
+/// /// 对于列表中掩码之间，按 与 的规则来过滤， 例如
+/// /// almTypeMasks = [1， 2]
+/// /// 1 等于 bit0 ，2 等于 bit1， 此时获取到的事件为 同时包含bit0 和 bit1类型的事件
+///
+/// /// 加载更多
+/// func getMoreEvents() {
+///     let endTime = eventList.last?.startTime ?? currDate + 86400
+///     IVVAS.shared.getEventList(withDeviceId: deviceID, startTime: currDate, endTime: endTime, pageSize: 50, filterTypeMask: 0) { [weak self](json, error) in
+///         /* get more data here */
+///     }
+/// }
+///
+/// /// 下拉刷新
+/// func refreshEvents() {
+///     let endTime = currDate + 86400
+///     IVVAS.shared.getEventList(withDeviceId: deviceID, startTime: currDate, endTime: endTime, pageSize: 50, filterTypeMask: 0) { [weak self](json, error) in
+///         /* new data here */
+///     }
+/// }
+/// @endcode
+- (void)getEventListWithDeviceId:(NSString *)deviceId startTime:(NSTimeInterval)startTime endTime:(NSTimeInterval)endTime pageSize:(NSInteger)pageSize filterTypeMask:(NSArray<NSNumber *> * _Nullable)typeMasks validCloudStorage:(BOOL)validCloudStorage responseHandler:(IVNetworkResponseHandler _Nullable)responseHandler;
 ```
 返回结果：json 示例
 ```
@@ -1080,12 +1178,14 @@ endflag |boolean|播放结束标记， 表示此次请求结果的m3u8能否把�
                 "endTime":1600653495,
                 "imgUrlSuffix":"xxxxx"
             }
-        ]
+        ],
+        "validStartTime":1111,
+        "pageEnd":false
     }
 }
 
 // 图片下载地址为 imgUrl = imgUrlPrefix + imgUrlSuffix
-// 缩略图下载地址为 thumbUrl = imgUrlPrefix + imgUrlSuffix + thumbUrlSuffix
+// 缩略图下载地址为 thumbUrl = imgUrl + thumbUrlSuffix
 ```
 对应 json 结构：
 
@@ -1099,7 +1199,9 @@ endTime       |int64   |告警结束时间, utc时间，单位秒
 imgUrlPrefix  |string  |告警图片下载地址前缀缀
 imgUrlSuffix  |string  |告警图片下载地址后缀
 thumbUrlSuffix|string  |告警图片缩略图下载地址后缀
-##### 5. 事件删除
+validVideoStartTime|int64|云存未过期视频的开始时间，为0代表未查询到云存记录
+pageEnd|bool| 为分页结束标志
+##### 6. 事件删除
 ```swift
 /// 事件删除
 /// @param deviceId 设备id
