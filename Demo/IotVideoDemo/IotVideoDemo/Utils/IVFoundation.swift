@@ -15,7 +15,6 @@ extension Data {
     }
 }
 
-
 @propertyWrapper
 struct Trimmed { //自动清除空格和换行 包装器
     private var value: String = ""
@@ -67,3 +66,32 @@ extension CGVector: IVPointer {}
   extension UIOffset: IVPointer {}
   extension UIRectEdge: IVPointer {}
 #endif
+
+extension Equatable where Self: Any {
+    
+    /// 是否等于给定序列的所有值
+    ///
+    ///     普通写法: if a == b && a == c && a == d { //true }
+    ///     高级写法: if a.isEqual(allOf: b, c, d) { //true }
+    /// - Parameter them: 要比较的参数序列
+    /// - Returns: 是否等于
+    public func isEqual(allOf them: Self...) -> Bool {
+        for e in them {
+            if e != self { return false }
+        }
+        return true
+    }
+    
+    /// 是否等于给定序列的任意值
+    ///
+    ///     普通写法: if a == b || a == c || a == d { //true }
+    ///     高级写法: if a.isEqual(oneOf: b, c, d) { //true }
+    /// - Parameter them: 要比较的参数序列
+    /// - Returns: 是否等于
+    public func isEqual(oneOf them: Self...) -> Bool {
+        for e in them {
+            if e == self { return true }
+        }
+        return false
+    }
+}

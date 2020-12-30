@@ -43,15 +43,15 @@ extension UIColor {
 
     convenience init(hexString: String) {
             let scanner = Scanner(string: hexString)
-            scanner.scanLocation = 1
+            scanner.scanLocation = 0
             
             var rgbValue: UInt64 = 0
             
             scanner.scanHexInt64(&rgbValue)
             
             let r = (rgbValue & 0xff0000) >> 16
-            let g = (rgbValue & 0xff00) >> 8
-            let b = rgbValue & 0xff
+            let g = (rgbValue & 0x00ff00) >> 8
+            let b = rgbValue & 0x0000ff
             
             self.init(
                 red: CGFloat(r) / 0xff,

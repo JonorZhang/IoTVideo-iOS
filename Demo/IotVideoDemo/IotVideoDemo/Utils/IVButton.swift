@@ -51,11 +51,14 @@ class IVButton: UIButton {
         }
     }
 
-    init(_ position: ImagePosition = .left, space: CGFloat = 0) {
+    init(_ position: ImagePosition = .top, space: CGFloat = 0) {
         self.position = position
         self.space = space
         super.init(frame: .zero)
         self.titleLabel?.numberOfLines = 0
+        self.titleLabel?.textAlignment = .center
+        self.titleLabel?.adjustsFontSizeToFitWidth = true
+        self.titleLabel?.minimumScaleFactor = 0.5
     }
        
     required init?(coder aDecoder: NSCoder) {
@@ -63,6 +66,7 @@ class IVButton: UIButton {
         self.space = 0
         super.init(coder: aDecoder)
         self.titleLabel?.numberOfLines = 0
+        self.titleLabel?.textAlignment = .center
     }
             
     override func sizeToFit() {
@@ -113,11 +117,17 @@ class IVButton: UIButton {
     // MARK: - top
    
     private func imageRectForImageTop(_ contentRect: CGRect, _ imageRect: CGRect, _ titleRect: CGRect) -> CGRect {
-        return imageRect
+        // return imageRect
+        let x = (imageRect.size.width + titleRect.size.width)/2 - imageRect.size.width/2
+        let rect = CGRect.init(x: imageRect.origin.x + x, y: 0, width: imageRect.size.width, height: imageRect.size.height)
+        return rect
     }
 
     private func titleRectForImageTop(_ contentRect: CGRect, _ imageRect: CGRect, _ titleRect: CGRect) -> CGRect {
-        return titleRect
+        //return titleRect
+                let x = (imageRect.size.width + titleRect.size.width)/2 - titleRect.size.width/2
+        let rect = CGRect.init(x: 0, y: imageRect.size.height + 4 , width: self.frame.size.width, height:self.frame.size.height - imageRect.size.height)
+        return rect
     }
     
     // MARK: - left

@@ -114,7 +114,36 @@ public extension UIView {
             print("Error: message, title, and image are all nil")
         } catch {}
     }
+  @objc  func makeToastSwift(_ message: String){
+          do {
+              let toast = try toastViewForMessage(message, title: nil, image: nil, style: ToastManager.shared.style)
+              showToast(toast, duration: ToastManager.shared.duration, position:  ToastManager.shared.position, completion: nil)
+          } catch ToastError.missingParameters {
+              print("Error: message, title, and image are all nil")
+          } catch {}
+      }
+    @objc  func makeToastSwiftCenter(_ message: String){
+             do {
+                
+                var style = ToastManager.shared.style
+                style.messageFont = UIFont.systemFont(ofSize: 13)
+                 let toast = try toastViewForMessage(message, title: nil, image: nil, style: style)
+                showToast(toast, duration: ToastManager.shared.duration, position:  ToastPosition.center, completion: nil)
+             } catch ToastError.missingParameters {
+                 print("Error: message, title, and image are all nil")
+             } catch {}
+         }
+    @objc  func makeToastSwiftlowerMid(_ message: String){
+                do {
     
+                   var style = ToastManager.shared.style
+                   style.messageFont = UIFont.systemFont(ofSize: 13)
+                    let toast = try toastViewForMessage(message, title: nil, image: nil, style: style)
+                   showToast(toast, duration: ToastManager.shared.duration, position:  ToastPosition.lowerMid, completion: nil)
+                } catch ToastError.missingParameters {
+                    print("Error: message, title, and image are all nil")
+                } catch {}
+            }
     /**
      Creates a new toast view and presents it at a given center point.
      
@@ -349,7 +378,7 @@ public extension UIView {
         self.addSubview(toast)
         
         UIView.animate(withDuration: ToastManager.shared.style.fadeDuration, delay: 0.0, options: [.curveEaseOut, .allowUserInteraction], animations: {
-            toast.alpha = 1.0
+            toast.alpha = 0.85
         }) { _ in
             let timer = Timer(timeInterval: duration, target: self, selector: #selector(UIView.toastTimerDidFinish(_:)), userInfo: toast, repeats: false)
             RunLoop.main.add(timer, forMode: .common)
@@ -508,7 +537,7 @@ public extension UIView {
         let wrapperHeight = max((messageRect.origin.y + messageRect.size.height + style.verticalPadding), (imageRect.size.height + (style.verticalPadding * 2.0)))
         
         wrapperView.frame = CGRect(x: 0.0, y: 0.0, width: wrapperWidth, height: wrapperHeight)
-        
+        wrapperView.layer.cornerRadius = (wrapperHeight < 80) ? (wrapperHeight / 2) : style.cornerRadius
         if let titleLabel = titleLabel {
             titleRect.size.width = longerWidth
             titleLabel.frame = titleRect
@@ -611,7 +640,7 @@ public struct ToastStyle {
     /**
      The message font. Default is `.systemFont(ofSize: 16.0)`.
     */
-    public var messageFont: UIFont = .systemFont(ofSize: 16.0)
+    public var messageFont: UIFont = .systemFont(ofSize: 13.0)
     
     /**
      The title text alignment. Default is `NSTextAlignment.Left`.
@@ -734,7 +763,7 @@ public class ToastManager {
      Default is 3.0.
      
      */
-    public var duration: TimeInterval = 2.0
+    public var duration: TimeInterval = 1.5
     
     /**
      Sets the default position. Used for the `makeToast` and
@@ -757,7 +786,7 @@ public enum ToastPosition {
 
     fileprivate func centerPoint(forToast toast: UIView, inSuperview superview: UIView) -> CGPoint {
         let topPadding: CGFloat = ToastManager.shared.style.verticalPadding + superview.csSafeAreaInsets.top
-        let bottomPadding: CGFloat = ToastManager.shared.style.verticalPadding + superview.csSafeAreaInsets.bottom
+        let bottomPadding: CGFloat = ToastManager.shared.style.verticalPadding + superview.csSafeAreaInsets.bottom + 40.0
         let offset: CGFloat = gIsLandscape ? 60 : 80
         
         switch self {

@@ -18,6 +18,14 @@
 /// @return data的十六进制字符串
 extern NSString *convertDataToHexStr(NSData *data);
 
+
+/// NSData转十六进制NSString
+///
+/// 仅转换前maxLen个字节，超过部分省略，形如 {length=195, bytes=0x00000000 00000000 00000000...}
+/// @param data 要转换的data
+/// @return data的十六进制字符串
+NSString *convertFullDataToHexStr(NSData *data, uint32_t maxLen);
+
 /// 计算任意时间当天开始时间
 ///
 /// 例如：输入1604073623 ( 2020-10-31 00:00:23 UTC+8) ，输出1604073600 ( 2020-10-31 00:00:00 UTC+8)

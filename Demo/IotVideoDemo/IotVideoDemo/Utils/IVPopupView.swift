@@ -37,10 +37,10 @@ class IVPopupAction: UIButton {
         
         switch style {
         case .default:
-            setTitleColor(UIColor(rgb: 0x2E6DEA), for: .normal)
+            setTitleColor(UIColor(rgb: 0x2976FF), for: .normal)
             titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         case .cancel:
-            setTitleColor(UIColor(rgb: 0x999999), for: .normal)
+            setTitleColor(UIColor(rgb: 0x2976FF), for: .normal)
             titleLabel?.font = UIFont.systemFont(ofSize: 17)
         case .destructive:
             setTitleColor(UIColor.red, for: .normal)
@@ -74,12 +74,12 @@ class IVPopupAction: UIButton {
 
 class IVPopupView: UIView {
     
-    typealias Style = IVPopupViewStyle
+    typealias Style = IVPopupViewStyle 
         
     // MARK: - 
     /// 标题
     @objc lazy var titleLabel = UILabel().then {
-        $0.font = .boldSystemFont(ofSize: 16)
+        $0.font = .boldSystemFont(ofSize: 18)
         $0.textAlignment = .center
         $0.textColor = UIColor(rgb: 0x333333)
         $0.numberOfLines = 0
@@ -94,9 +94,10 @@ class IVPopupView: UIView {
             $0.leftView = UIView().then{ $0.frame = CGRect(x: 0, y: 0, width: 5, height: 0) }
             $0.leftViewMode = .always
             $0.font = .systemFont(ofSize: 13, weight: .regular)
-            $0.layer.borderWidth = 1.0 / UIScreen.main.scale
-            $0.layer.borderColor = UIColor.lightGray.cgColor
-            $0.layer.cornerRadius = 2.0
+            $0.borderStyle = .none
+//            $0.layer.borderWidth = 1.0 / UIScreen.main.scale
+//            $0.layer.borderColor = UIColor.lightGray.cgColor
+//            $0.layer.cornerRadius = 2.0
             $0.layer.masksToBounds = true
         }
     }
@@ -184,7 +185,7 @@ class IVPopupView: UIView {
     }
     
     private let contentView = UIView().then {
-        $0.backgroundColor = UIColor(white: 0.8, alpha: 1)
+        $0.backgroundColor =  UIColor.init(rgb: 0xEEEEEE) //UIColor(white: 0.8, alpha: 1)
         $0.layer.cornerRadius = 12
         $0.layer.masksToBounds = true
     }
@@ -298,18 +299,30 @@ class IVPopupView: UIView {
 
         if !title.isEmpty {
             titleLabel.text = title
+            titleLabel.snp.remakeConstraints { (make) in
+                make.height.equalTo(55)
+            }
             stackViewV.addArrangedSubview(titleLabel)
         }
         
         placeholder?.forEach({ (pl) in
             let inField = makeInputField()
+            let lineview = UIView()
+            lineview.backgroundColor = UIColor.init(rgb: 0x999999)
             inField.delegate = self
             inField.placeholder = pl
             inputFields.append(inField)
             stackViewV.addArrangedSubview(inField)
+            stackViewV.addArrangedSubview(lineview)
             inField.snp.makeConstraints { make in
                 make.height.equalTo(40)
             }
+            lineview.snp.makeConstraints { make in
+                make.top.equalTo(inField.snp.bottom)
+                make.left.equalTo(inField.snp.left)
+                make.right.equalTo(inField.snp.right)
+                make.height.equalTo(0.5)
+                }
         })
                 
         if let image = image {
