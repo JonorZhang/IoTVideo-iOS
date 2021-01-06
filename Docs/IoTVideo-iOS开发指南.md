@@ -40,30 +40,35 @@
 ```swift
 import IoTVideo
 
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {
-    // 初始化
-    IoTVideo.sharedInstance.setup(launchOptions: launchOptions)
-    // 设置代理
-    IoTVideo.sharedInstance.delegate = self
-    // 设置日志等级
-    IoTVideo.sharedInstance.logLevel = .DEBUG
-    
-    ...
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+  
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {
+      // 初始化
+      IoTVideo.sharedInstance.setup(launchOptions: launchOptions)
+      // 设置代理
+      IoTVideo.sharedInstance.delegate = self
+      // 设置日志等级
+      IoTVideo.sharedInstance.logLevel = .DEBUG
+      
+    	...
+  }
 }
 
-/// IoTVideoDelegate协议
+/// 实现IoTVideoDelegate协议
 extension AppDelegate: IoTVideoDelegate {
-    func didUpdate(_ linkStatus: IVLinkStatus) {
-        print("sdkLinkStatus: \(linkStatus.rawValue)")
+    // SDK状态回调
+  	func didUpdate(_ linkStatus: IVLinkStatus) {
+       print("sdkLinkStatus: \(linkStatus.rawValue)")
     }
     
-    func didOutputLogMessage(_ message: String, level: IVLogLevel, file: String, func: String, line: Int32) {
-        print("\(Date()) <\(file):\(line)> \(`func`): \(message)")
+    // SDK日志输出
+    func didOutputPrettyLogMessage(_ message: String) {
+        print(message)
     }
 }
 
 ```
-
 
 ### 2、注册
 
@@ -74,6 +79,7 @@ import IoTVideo
 
 IoTVideo.sharedInstance.register(withAccessId: "********", accessToken: "********")
 ```
+注册后请留意SDK状态回调：`-[IoTVideoDelegate didUpdateLinkStatus:]`,也可通过`-[IoTVideo linkStatus]`主动查询SDK状态, 当状态变为`IVLinkStatusOnline`即表示SDK成功上线。
 
 ⚠️注意：对设备的操作都依赖于`accessId`和`accessToken`的加密校验，非法参数将无法操作设备。
 
@@ -99,7 +105,7 @@ IoTVideo.sharedInstance.register(withAccessId: "********", accessToken: "*******
 
 ### 3.设备订阅
 
-绑定成功后，获取到订阅token,需调用命令使IoTVideo SDK订阅该设备：
+绑定成功后，获取到订阅token, 需调用命令使IoTVideo SDK订阅该设备：
 
 ```swift
 import IoTVideo.IVNetConfig
@@ -124,13 +130,13 @@ monitorPlayer.delegate = self
 // 3.添加播放器渲染图层
 videoView.insertSubview(monitorPlayer.videoView!, at: 0)
 monitorPlayer.videoView?.frame = videoView.bounds
-// 4.预连接，获取流媒体头信息
-monitorPlayer.prepare()
+// 4.预连接，获取流媒体头信息【此步骤可跳过】
+monitorPlayer.prepare() 
 // 5.开始播放，启动推拉流、渲染模块
 monitorPlayer.play()
 // 6.开启/关闭语音对讲（只支持MonitorPlayer/LivePlayer）
-monitorPlayer.startTalk()
-monitorPlayer.stopTalk()
+monitorPlayer.startTalking()
+monitorPlayer.stopTalking()
 // 7.停止播放，断开连接
 monitorPlayer.stop()
 ```
@@ -1308,3 +1314,195 @@ pageEnd|bool| 为分页结束标志
 |  ASrv_binderror_dev_usr_has_bind  |  8022  | 设备已经绑定此用户               |
 | ASrv_binderror_dev_has_bind_other |  8023  | 设备已经绑定其他用户             |
 | ASrv_binderror_customer_diffrent  |  8024  | 设备的客户ID与用户的客户ID不一致 |
+
+
+# 常见问题Q&A
+
+*提示1：为方便定位问题，开发阶段建议启用SDK日志输出，设置方法参考 `【快速开始】->【第三步：SDK初始化】->【1、初始化】`*
+*提示2：日志中形如 {…17} 表示此位置包含了17次同类型日志信息。例如：`18:17:15.274 [SDK] {...17} rcv_au_data CH1 alen:519 apts:839000000`表示最近收到了17个音频数据包，并且最后一次数据为`alen:519 apts:839000000`*
+
+
+#### 一、SDK环境异常
+
+##### 1. 如何判断APP网络是否正常？
+```
+日志输出: 
+12:03:01.502 [SDK] [I]💙 ====当前网络状态为WiFi(IV-TEST-5G)=======
+
+日志解读: 
+当前手机连接了名为 “IV-TEST-5G”的Wi-Fi网络（该网络可正常上网）
+```
+
+##### 2. 如何判断SDK是否已注册？
+```
+日志输出：
+12:03:01.902 [SDK] [I]💙 IoTVideoSDK registered ✅
+
+日志解读：
+已调用SDK注册接口，见接口`-[IoTVideo registerWithAccessId:accessToken:]`
+```
+
+##### 3. 如何判断SDK是否可以正常使用？
+```
+日志输出：
+12:03:02.263 [SDK] [I]💙 IoTVideoSDK 🟩SDK在线(1)
+
+日志解读：
+收到`IoTVideo.linkStatus`更新通知
+	- 在线：可正常使用
+	- 离线：请检查网络，或尝试注册SDK
+	- Token失败：尝试重新注册SDK
+	- 账号被踢飞：尝试重新注册SDK
+
+提示：可通过`-[IoTVideo linkStatus]`主动查询，也可通过`-[IoTVideoDelegate didUpdateLinkStatus:]`监听
+```
+
+##### 4. 如何判断设备是否在线？
+```
+日志输出：
+16:14:42.086 [SDK] [I]💙 rcv_gdm_data_callback msgid:0 tid:031400005f1683ac63ffe31efc47573e type:2 path:ProReadonly._online json:{"stVal":0,"t":1609229681} ok
+
+日志解读：
+收到`ProReadonly._online`更新通知
+	- stVal:0 离线
+	- stVal:1 在线
+	- stVal:2 休眠
+
+提示：可通过`-[IVMessageMgr readPropertyOfDevice:path:completionHandler:]`主动查询（path取"ProReadonly._online"）
+```
+
+#### 二、 监控异常
+*提示1: 为快速定位监控相关问题，请知悉播放器的四大阶段及对应步骤的日志信息。如下所示：*
+*提示2: `*au*`为音频相关，`*vi*`为视频相关*
+*提示3: pts单位为微秒，由设备端在回调函数中填入，在APP端可见步骤⑦⑧⑨中的pts字段*
+*提示4: SDK提供保存关键步骤的音视频数据到沙盒的功能，便于校验数据正确性，默认关闭，详见`+[IVPlayer debugMode]`*
+
+(1) 连接阶段：
+```
+①创建播放器
+12:13:43.637 [SDK] IVMonitorPlayer(0x115b41560) init 031400005f1683ac63ffe31efc47573e_0:1 
+...
+②建立连接
+12:13:44.001 [SDK] async play IVMonitorPlayer(0x115b41560) 031400005f1683ac63ffe31efc47573e_0:1 L195
+12:13:44.004 [SDK] 建立连接ing...  IVMonitorPlayer(0x115b41560) type 1, action 1, seek:0 031400005f1683ac63ffe31efc47573e_0:1 
+...
+③连接成功
+12:13:46.924 [SDK] [I]💙 建立连接成功(CH1) IVMonitorPlayer(0x115b41560) 031400005f1683ac63ffe31efc47573e_0:1 
+```
+
+(2) 初始化阶段：
+```
+④收到音视频信息头
+12:13:47.473 [SDK] [I]💙 CH1 IVMonitorPlayer(0x115b41560) rcv AVHeader at:4 am:0 ac:2 abw:16 ar:8000 aspf:1024 vt:5 vr:15 vw:640 vh:360  
+...
+⑤注册编解码器
+12:13:47.016 [SDK] CH1 AMR Enc register succ 
+12:13:47.515 [SDK] CH1 AAC Dec register ch:1 sr:8000 
+12:13:47.559 [SDK] CH1 IVH265Dec register end 
+...
+⑥启动渲染器
+12:13:47.874 [SDK] CH1 start_au_render:e 
+12:13:47.500 [SDK] CH1 start_vi_render W1920xH1080
+```
+
+(3) 解码渲染阶段：
+```
+⑦收到音视频数据包
+12:13:50.227 [SDK] rcv_vi_data CH1 vpts:839000000 vlen:9519
+12:13:50.228 [SDK] rcv_au_data CH1 apts:840338773 diff:840338773 alen:270
+...
+⑧解码数据包
+12:13:50.231 [SDK] AAC Dec CH1 S:2048 pts:840338773
+12:13:50.272 [SDK] H265 Dec CH1 header:640x360 pic:640x360 pts:839000000
+...
+⑨渲染音视频帧
+12:13:50.240 [SDK] getAudioFrame CH1 ret:0 pts:840349523 diff:840349523 size:172
+12:13:50.311 [SDK] getVideoFrame CH1 ret:0 pts:839000000 diff:839000000
+```
+
+(4) 断开阶段：
+```
+⑩断开连接
+12:14:31.110 [SDK] CH1 async stop IVMonitorPlayer(0x115b41560) 031400005f1683ac63ffe31efc47573e_0:1
+12:14:31.118 [SDK] 断开连接ing... IVMonitorPlayer(0x115b41560) 031400005f1683ac63ffe31efc47573e_0:1 
+...
+⑪关闭编解码器
+12:14:31.193 [SDK] CH1 AMR Enc unregister 
+12:14:31.193 [SDK] CH1 AMR Enc dealloc 
+12:14:31.221 [SDK] CH1 AAC Dec unregister 
+12:14:31.221 [SDK] CH1 AAC Dec dealloc 
+12:14:31.222 [SDK] CH1 IVH265Dec unregister 
+12:14:31.222 [SDK] CH1 IVH265Dec dealloc 
+... 
+⑫关闭渲染器
+12:14:31.123 [SDK] CH1 stop_au_render:e 
+12:14:31.179 [SDK] CH1 stop_vi_render 
+...
+⑬释放播放器
+12:14:31.234 [SDK] 断开连接成功 IVMonitorPlayer(0x115b41560) 031400005f1683ac63ffe31efc47573e_0:1 
+12:14:31.623 [SDK] IVMonitorPlayer(0x115b41560) dealloc 031400005f1683ac63ffe31efc47573e_0:1 
+12:14:31.624 [SDK] CH1 IVAudioUnit dealloc 
+12:14:31.629 [SDK] CH1 IVVideoRender dealloc 
+```
+
+**Q：监控不出图？无声音？**
+
+请按顺序搜索步骤①～⑨中日志信息的关键字，确认APP处于流程中哪个步骤：
+```
+1. 若①～③过程未完成，属于连接未成功：
+    1）设备网络不通，需切换设备网络；
+    2）手机网络不通，需切换手机网络；
+    3）设备无响应，需排查设备日志（常见任务超时、任务阻塞、死循环、设备离线）；
+2. 若步骤④未完成，请检查设备是否有发送该音视频信息头；
+3. 若⑤～⑥未完成，请确认步骤④中设备传给APP的音视频信息头无误，否则会导致步骤⑤解码器和步骤⑥渲染器初始化错误；
+4. 若⑦～⑨过程无日志或未持续输出日志，请确认设备是否未发送数据或已停止发送数据；
+5. 请确保正确设置IVPlayer.videoView的约束；
+6. 其他情况请保留完整APP日志和设备日志，并联系我们；
+```
+
+**Q: 监控出图慢？**
+
+请按以下顺序排查问题：
+```
+1. 若①～③过程耗时大于1秒，属于连接慢：
+    1）设备网络慢，需切换设备网络；
+    2）手机网络慢，需切换手机网络；
+    3）设备响应慢，需排查设备日志（常见CPU负载高、任务阻塞）；
+2. 若③～⑦过程耗时大于1秒，属于收到数据慢：
+    1）设备网络不稳定，可尝试切换设备网络；
+    2）手机网络不稳定，可尝试切换手机网络；
+    3）设备响应慢，需排查设备日志（常见编码慢、回调慢、CPU负载高、任务阻塞）
+3. 若⑦～⑨过程耗时大于1秒，属于解码渲染慢：
+    1）请确认步骤④中设备传给APP的音视频信息头无误，否则会导致步骤⑤解码器和步骤⑥渲染器初始化错误
+    2）请确认设备发送的数据是可播放的（发送前记录到本地，用vlc或ffplay等验证）
+    3）请确认步骤⑦收到的音视频数据包与设备端发送的一致，否则应该是数据丢包了 
+    4）请确认音视频帧pts正确，且同一时间音视频pts不能相差超过1秒，否则会导致音视频同步异常，进而导致步骤⑨渲染异常, 
+    5）请确认APP解码成功，如上面步骤⑧的日志
+4. 其他情况请保留完整APP日志和设备日志，并联系我们。
+```
+
+**Q: 监控延迟大？卡顿？**
+
+请按以下思路排查问题：
+```
+1. 请检查网络是否流畅；
+2. 请确认音视频帧pts正确，且同一时间音视频pts不能相差超过1秒，否则会导致音视频同步异常，进而导致步骤⑨渲染异常；
+3. 查看步骤⑦的音视频pts是否连续，若不连续则表明有丢包，需检查设备发送情况和网络环境；
+4. 日志搜索"jitter stalled"可查看网络抖动情况。其中"tolerance"越大表明网络抖动越厉害，"delay"也会越大，若频繁输出此信息，表明网络不佳, 可尝试切换手机或设备网络；
+5. 从APP端日志估算⑦～⑨解码渲染阶段耗时，以上面的日志为例：
+    注意：并非每个数据包都会输出日志，估算时可认为相近的pts是同一个数据包，例如839123456和839000000是相近的，因为他们仅相差0.123456秒
+
+    12:13:50.227 收到了 pts为839000000 的视频包
+    12:13:50.272 解码出 pts为839000000 的视频帧
+    12:13:50.311 将渲染 pts为839000000 的视频帧
+
+    耗时为 12:13:50.311 - 12:13:50.227 ≈ 0.084秒，记为Td
+
+    1) 若Td一直很小，表明APP端处理基本不耗时，延时原因可能出在网络或者设备编码速度上；
+    2) 若Td较大或忽大忽小：表明网络不佳，可尝试切换手机或设备网络；
+```
+
+**Q: 音视频不同步**
+```
+请确认音视频帧pts正确，且同一时间音视频pts不能相差超过1秒，否则会导致音视频同步异常，进而导致步骤⑨渲染异常；
+```

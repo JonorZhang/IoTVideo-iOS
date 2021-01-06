@@ -67,6 +67,12 @@ typedef NS_ENUM(NSUInteger, IVTermErr) {
     IVTermErr_msg_gdm_handle_fail             = 20103, //!< 设备处理ACtion失败
     IVTermErr_msg_gdm_handle_no_cb_registered = 20104, //!< 设备未注册相应的ACtion回调函数
     IVTermErr_msg_gdm_handle_buildin_prowritable_error = 20105,//!< 设备不允许通过局域网修改内置可写对象
+    
+    //user cmd 错误返回
+    IVTermErr_msg_user_cmd_internal_error     = 20140,//!< 设备端内部处理错误
+    IVTermErr_msg_user_cmd_type_error         = 20141,//!< 不支持的 user cmd 类型
+    IVTermErr_msg_user_cmd_version_error      = 20142,//!< 不支持的 user cmd 版本
+    IVTermErr_msg_user_cmd_param_error        = 20143,//!< user cmd 参数超出范围
 };
 
 /**
