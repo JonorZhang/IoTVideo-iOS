@@ -336,11 +336,18 @@ class IVTimelineViewModel {
     /// 所有数据源
     private(set) var sections: [IVTimelineSection] = []
     
+    /// 要渲染的数组【前一天，当天，后一天】
+    private(set) var renderSections: [IVTimelineSection] = []
+
     /// 当前数据源
-    private(set) var current: IVTimelineSection
+    private(set) var current: IVTimelineSection {
+        didSet {
+            updateRenderSections()
+        }
+    }
      
     /// 时间戳
-    public var pts: IVObservable<TimeInterval> = .init(0)
+    public var pts: IVObservable<TimeInterval> = .init(Date().timeIntervalSince1970)
     
     /// 当前文件
     var currentRawItem: IVTimelineItem? {
@@ -395,8 +402,42 @@ class IVTimelineViewModel {
     init(time: IVTime) {
         pts.value = time.start
         current = .placeholder(time, scale: scale)
+        updateRenderSections()
     }
 
+    private func updateRenderSections() {
+        var currSection = current
+        if (currSection.scale != self.scale) {
+            currSection.redraw(toFit: self.scale)
+        }
+        renderSections = [currSection] //currSection头部有可能加入item，所以必须要在加入之后赋值
+
+        let prevTime = currSection.time.before(days: 1)
+        var prevSection = sections.first(where: { $0.time == prevTime }) ?? .placeholder(prevTime, scale: scale)
+        if let lastItem = prevSection.rawItems.last,
+            lastItem.isValid, lastItem.end > currSection.start {
+            // 前一个section末尾文件跨越section
+            currSection.insertItemAtStartIndex(lastItem)
+            currSection.redraw(toFit: currSection.scale)
+            renderSections = [currSection] //renderSections是值类型数组，currSection头部有可能加入item，所以必须要在加入之后重新赋值
+        } else if prevSection.scale != currSection.scale {
+            prevSection.redraw(toFit: currSection.scale)
+        }
+        renderSections.insert(prevSection, at: 0)
+        
+        let nextTime = currSection.time.after(days: 1)
+        var nextSection = sections.first(where: { $0.time == nextTime }) ?? .placeholder(nextTime, scale: scale)
+        if let lastItem = currSection.rawItems.last,
+            lastItem.isValid, lastItem.end > nextSection.start {
+            // 前一个section末尾文件跨越section
+            nextSection.insertItemAtStartIndex(lastItem)
+            nextSection.redraw(toFit: currSection.scale)
+        } else if nextSection.scale != currSection.scale {
+            nextSection.redraw(toFit: currSection.scale)
+        }
+        renderSections.insert(nextSection, at: 2)
+    }
+    
     func update(scale: Double) -> Bool {
         if (scale <= minimumScale && self.scale <= minimumScale) {
             return false
@@ -412,6 +453,7 @@ class IVTimelineViewModel {
         if scalerate >= 2.0 || scalerate <= 0.5 {
             logDebug(String(format: "scale: %f %f", self.scale, current.scale))
             current.redraw(toFit: self.scale)
+            
         }
         return true
     }
@@ -430,6 +472,7 @@ class IVTimelineViewModel {
         if current.time == time && current.isPlaceholder {
             loadSection(for: time)
         }
+        updateRenderSections()
     }
     
     /// 加载数据源
@@ -437,17 +480,6 @@ class IVTimelineViewModel {
         let newSec = sections.first(where: { $0.time == time })
         if (current.time != time) || (current.isPlaceholder && newSec != nil) {
             current = newSec ?? .placeholder(time, scale: scale)
-            
-            if !current.isPlaceholder {
-                // 前一个section末尾文件跨越section
-                let lastday = current.before(days: 1)
-                if let lastItem = sections.first(where: { $0.time == lastday })?.rawItems.last,
-                    lastItem.isValid, lastItem.end > current.start {
-                    current.insertItemAtStartIndex(lastItem)
-                }
-            }
-            
-            current.redraw(toFit: self.scale)
         }
     }
 }

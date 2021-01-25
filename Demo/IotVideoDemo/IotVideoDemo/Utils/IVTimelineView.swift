@@ -112,9 +112,6 @@ class IVTimelineView: UIControl {
     }()
 
     let loadingAnim = UIActivityIndicatorView(style: .gray)
-
-    private var headerBtn: UIButton?
-    private var footerBtn: UIButton?
     
     /// 缩放手势
     private lazy var pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(pinchGestureHandler(_:)))
@@ -157,10 +154,10 @@ class IVTimelineView: UIControl {
             
         self.timeCollView.reloadData()
         if viewModel.current.isPlaceholder {
-            loadAndDisplaySection(at: viewModel.current.time)
+            loadAndDisplaySection(at: viewModel.current.time, scrollToTime: viewModel.pts.value)
         } else {
-            scrollToTime(viewModel.pts.value, force: true, animated: false)
-        }        
+            scrollToTime(viewModel.pts.value, animated: false)
+        }
     }
     
     override var isTracking: Bool {
@@ -213,11 +210,14 @@ private extension IVTimelineView {
             let leftDiff  = indicatorLine.frame.midX - leftView.frame.maxX
             let rightDiff = indicatorLine.frame.midX - rightView.frame.minX
 
-            var leftTime  = Double(self.timeCollView.contentOffset.x - leftDiff)  / self.viewModel.scale + self.viewModel.current.start
-            var rightTime = Double(self.timeCollView.contentOffset.x - rightDiff) / self.viewModel.scale + self.viewModel.current.start
+            let startTime = viewModel.renderSections.first!.items.first!.start
+            let endTime   = viewModel.renderSections.last!.items.last!.end
 
-            leftTime = min(max(leftTime, self.viewModel.current.start), self.viewModel.current.end)
-            rightTime = min(max(rightTime, self.viewModel.current.start), self.viewModel.current.end)
+            var leftTime  = Double(self.timeCollView.contentOffset.x - leftDiff)  / self.viewModel.scale + startTime
+            var rightTime = Double(self.timeCollView.contentOffset.x - rightDiff) / self.viewModel.scale + startTime
+
+            leftTime = min(max(leftTime, startTime), endTime)
+            rightTime = min(max(rightTime, startTime), endTime)
 
             let longest = rightTime - leftTime >= 10 * 60 // 10分钟
             self.selectView.longTimeEnable = !longest
@@ -231,23 +231,23 @@ private extension IVTimelineView {
             if state == .selecting {
                 if self.viewModel.update(scale: 0.4) { //固定一个比例选择片段
                     self.timeCollView.reloadData()
-                    self.scrollToTime(self.viewModel.pts.value, force: true, animated: false)
+                    self.scrollToTime(self.viewModel.pts.value, animated: false)
                 }
             }
             self.selectView.isHidden = (state != .selecting) // 显示的时候会触发一次回调
         }
         
-        viewModel.pts.observe { [weak self](pts, _) in
-            guard let `self` = self else { return }
-            if self.viewModel.state.value == .tracking {
-                let sectionTime = self.viewModel.current.time
-                if pts < sectionTime.start {
-                    self.loadAndDisplaySection(at: sectionTime.before(days: UInt(sectionTime.start - pts) / 86400 + 1))
-                } else if pts > sectionTime.end {
-                    self.loadAndDisplaySection(at: sectionTime.after(days: UInt(pts - sectionTime.end) / 86400 + 1))
-                } else {
-                    DispatchQueue.main.async {
-                        self.scrollToTime(pts, force: false, animated: true)
+        viewModel.pts.observe { [weak self](pts, old) in
+            DispatchQueue.main.async {
+                guard let `self` = self else { return }
+                if self.viewModel.state.value == .tracking {
+                    let sectionTime = self.viewModel.current.time
+                    if pts < sectionTime.start {
+                        self.loadAndDisplaySection(at: sectionTime.before(days: UInt(sectionTime.start - pts) / 86400 + 1), scrollToTime: pts)
+                    } else if pts > sectionTime.end {
+                        self.loadAndDisplaySection(at: sectionTime.after(days: UInt(pts - sectionTime.end) / 86400 + 1), scrollToTime: pts)
+                    } else {
+                        self.scrollToTime(pts, animated: true)
                     }
                 }
             }
@@ -318,7 +318,7 @@ private extension IVTimelineView {
         }
     }
     /// 预加载数据
-    func preloadSectionIfNeed(at time: IVTime, isBackward: Bool) {
+    func preloadSectionIfNeed(at time: IVTime, isBackward : Bool, scrollToTime: TimeInterval? = nil) {
         DispatchQueue.main.async {[weak self] in
             guard let `self` = self else { return }
                         
@@ -333,16 +333,16 @@ private extension IVTimelineView {
                         self.loadingTimes.removeAll(where: { $0 == time})
                         self.loadingAnim.stopAnimating()
                         if let items = items {
-//                            logInfo("下载成功 \(time.dateString) \(items)")
+                            logInfo("下载成功 \(time.dateString) 个数：\(items.count)")
                             
                             self.viewModel.insertSection(items: items, for: time)
                             
+                            self.timeCollView.reloadData()
                             if self.viewModel.current.time == time {
-                                self.timeCollView.reloadData()
                                 if let destItem = isBackward ? self.viewModel.current.items.last(where: { $0.isValid }) : self.viewModel.current.items.first(where: { $0.isValid }) {
-                                    self.scrollToTime(destItem.start, force: true, animated: true)
-                                } else {
-                                    self.timeCollView.contentOffset.x = isBackward ? self.timeCollView.contentSize.width-self.timeCollView.frame.width : 0
+                                    self.scrollToTime(destItem.start, animated: true)
+                                } else if let scrollToTime = scrollToTime {
+                                    self.scrollToTime(scrollToTime, animated: true)
                                 }
                             }
                         } else {
@@ -355,39 +355,44 @@ private extension IVTimelineView {
     }
     
     /// 加载并刷新UI
-    func loadAndDisplaySection(at time: IVTime) {
+    func loadAndDisplaySection(at time: IVTime, scrollToTime: TimeInterval? = nil, complete:(()->Void)? = nil) {
         DispatchQueue.main.async {[weak self] in
             guard let `self` = self else { return }
             let isSameTime = (self.viewModel.current.time == time)
-            let isBackward = time.start < self.viewModel.current.start
-            
+            let timeOffset = Int(time.start) - Int(self.viewModel.current.start)
+
             // 通知外部点击的日期
             self.delegate?.timelineView(self, didSelectDateAt: time)
 
             if !isSameTime || self.viewModel.current.isPlaceholder {
                 self.viewModel.loadSection(for: time)
-                
-                if self.viewModel.current.isPlaceholder {
-                    // 是placeholder就下载
-                    self.preloadSectionIfNeed(at: time, isBackward: isBackward)
-                    if isSameTime { return } // 相同日期
+                self.datelineView.selectedDate = time.date
+
+                for section in self.viewModel.renderSections where section.isPlaceholder {
+                    self.preloadSectionIfNeed(at: section.time, isBackward: timeOffset < 0, scrollToTime: scrollToTime)
+                }
+                if self.viewModel.current.isPlaceholder, isSameTime {
+                    complete?()
+                    return // 相同日期
                 }
                                 
-                self.datelineView.selectedDate = time.date
-                
                 self.timeCollView.reloadData()
-                self.timeCollView.contentOffset.x = isBackward ? self.timeCollView.contentSize.width-self.timeCollView.frame.width : 0
                 
-                if !self.viewModel.current.isPlaceholder,
-                    let destItem = isBackward ? self.viewModel.current.items.last(where: { $0.isValid }) : self.viewModel.current.items.first(where: { $0.isValid }) {
-                    self.scrollToTime(destItem.start, force: true, animated: true)
-                }
-                
-                self.timeCollView.transform = CGAffineTransform(translationX: isBackward ? -100 : 100, y: 0)
-                UIView.animate(withDuration: 0.3) {
-                    self.timeCollView.transform = .identity
+                if let scrollToTime = scrollToTime {
+                    self.scrollToTime(scrollToTime, animated: false)
+                } else if !self.viewModel.current.isPlaceholder,
+                    let destItem = timeOffset < 0 ? self.viewModel.current.items.last(where: { $0.isValid }) : self.viewModel.current.items.first(where: { $0.isValid }) {
+                    self.scrollToTime(destItem.start, animated: true)
+                } else {
+                    self.scrollToTime(time.start + 5, animated: true)
+
+                    self.timeCollView.transform = CGAffineTransform(translationX: timeOffset < 0 ? -100 : 100, y: 0)
+                    UIView.animate(withDuration: 0.2) {
+                        self.timeCollView.transform = .identity
+                    }
                 }
             }
+            complete?()
         }
     }
     
@@ -397,15 +402,14 @@ private extension IVTimelineView {
             timeCollView.isDecelerating
     }
         
-    func scrollToTime(_ time: TimeInterval, force: Bool, animated: Bool) {
-        if !force && self.viewModel.state.value != .tracking {
-            return
-        }
-        let time = min(max(time, viewModel.current.start), viewModel.current.end)
-        let offsetX = CGFloat(time - viewModel.current.start) * CGFloat(viewModel.scale)
+    func scrollToTime(_ time: TimeInterval, animated: Bool) {
+        let startTime = viewModel.renderSections.first!.items.first!.start
+        let endTime   = viewModel.renderSections.last!.items.last!.end
+        let time = min(max(time, startTime), endTime)
+        let offsetX = CGFloat(time - startTime) * CGFloat(viewModel.scale)
         let point = CGPoint(x: offsetX, y: timeCollView.contentOffset.y)
         self.timeCollView.setContentOffset(point, animated: animated)
-        if viewModel.state.value != .tracking {
+        if Int(viewModel.pts.value) != Int(time) {
             viewModel.pts.value = time
         }
     }
@@ -420,7 +424,7 @@ private extension IVTimelineView {
             if viewModel.update(scale: oldScale * Double(pinch.scale)) {
 //                CATransaction.setDisableActions(true)
                 timeCollView.reloadData()
-                scrollToTime(viewModel.pts.value, force: true, animated: false)
+                scrollToTime(viewModel.pts.value, animated: false)
 //                CATransaction.commit()
             }
         default:
@@ -443,31 +447,40 @@ private extension IVTimelineView {
             guard let cell = cell as? IVTimelineCell else {
                 continue
             }
-            let newRect = timeCollView.convert(cell.frame, to: self)
+            let cellRect = timeCollView.convert(cell.frame, to: self)
             let indRect = indicatorLine.frame
             
-            guard newRect.contains(CGPoint(x: indRect.midX, y: indRect.midY)) else {
+            guard cellRect.minX - 0.5 <= indRect.midX && indRect.midX <= cellRect.maxX + 0.5 else {
                 continue
             }
             
-            var seekTime = Double(timeCollView.contentOffset.x) / self.viewModel.scale + viewModel.current.start
-            seekTime = min(max(seekTime, viewModel.current.start), viewModel.current.end)
-            
+            let startTime = viewModel.renderSections.first!.items.first!.start
+            let endTime   = viewModel.renderSections.last!.items.last!.end
+
+            var seekTime = Double(timeCollView.contentOffset.x) / self.viewModel.scale + startTime
+            seekTime = min(max(seekTime, startTime), endTime)
+             
             viewModel.pts.value = seekTime
             delegate?.timelineView(self, didScrollTo: seekTime)
 
             if didEnd {
-                if let item = viewModel.currentRawItem {
-                    logDebug("selected curr_item \(String(describing: item)) at \(seekTime)")
-                    delegate?.timelineView(self, didSelectItem: item, at: seekTime)
-                } else if let item = viewModel.nextRawItem, item.start < viewModel.current.end {
-                    IVDelayWork.asyncAfter(1, key: "selected next_item") {[weak self] in
-                        guard let `self` = self else { return }
-                        logDebug("selected next_item \(String(describing: item)) at \(seekTime)")
-                        self.scrollToTime(item.start, force: true, animated: true)
-                        self.delegate?.timelineView(self, didSelectItem: item, at: item.start)
+                if seekTime < self.datelineView.selectedDate.timeIntervalSince1970 {
+                    let prevSection = self.viewModel.renderSections[0]
+                    self.loadAndDisplaySection(at: prevSection.time, scrollToTime: seekTime) {
+                        self.autoScrollToValidItem(seekTime)
+                    }
+                    return
+                } else if seekTime > self.datelineView.selectedDate.timeIntervalSince1970 + 86400 {
+                    if self.viewModel.current.time < .today {
+                        let nextSection = self.viewModel.renderSections[2]
+                        self.loadAndDisplaySection(at: nextSection.time, scrollToTime: seekTime) {
+                            self.autoScrollToValidItem(seekTime)
+                        }
+                        return
                     }
                 }
+                
+                autoScrollToValidItem(seekTime)
             } else {
                 IVDelayWork.cancelTask(withKey: "selected next-item")
             }
@@ -483,22 +496,43 @@ private extension IVTimelineView {
         }
     }
     
+    func autoScrollToValidItem(_ seekTime: Double) {
+        if let item = viewModel.currentRawItem {
+            logDebug("selected curr_item \(String(describing: item)) at \(seekTime)")
+            delegate?.timelineView(self, didSelectItem: item, at: seekTime)
+        } else if let item = viewModel.nextRawItem, item.start < viewModel.current.end {
+            let origOffX = timeCollView.contentOffset.x
+            IVDelayWork.asyncAfter(1, key: "selected next_item") {[weak self] in
+                guard let `self` = self else { return }
+                if Int(origOffX) == Int(self.timeCollView.contentOffset.x) {
+                    logDebug("selected next_item \(String(describing: item)) at \(seekTime)")
+                    self.scrollToTime(item.start, animated: true)
+                    self.delegate?.timelineView(self, didSelectItem: item, at: item.start)
+                }
+            }
+        }
+    }
+    
 }
 
 // MARK: - 数据源
 
 extension IVTimelineView: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        if viewModel.current.time == .today {
+            return viewModel.renderSections.count - 1
+        } else {
+            return viewModel.renderSections.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.current.items.count
+        return viewModel.renderSections[section].items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IVTimelineCell", for: indexPath) as! IVTimelineCell
-        let item = viewModel.current.items[indexPath.item]
+        let item = viewModel.renderSections[indexPath.section].items[indexPath.item]
         let time = IVTime(start: item.start, end: item.end)
         cell.update(time: time, color: item.color, isValid: item.isValid, scale: viewModel.scale)
         return cell
@@ -506,32 +540,14 @@ extension IVTimelineView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerfooter = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kind, for: indexPath) as! IVTimelineHeaderFooter
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MM/dd"
-        
-        if kind == UICollectionView.elementKindSectionHeader {
-            headerBtn = headerfooter.btn
-            let prevDay = self.viewModel.current.before(days: 1)
-            headerBtn?.setTitle("\(fmt.string(from: prevDay.date))   ☜=((・∀・*)☜=", for: .normal)
-            headerBtn?.setTitle("╰(￣▽￣)╭", for: .selected)
-            headerBtn?.addEvent { [weak self](_) in
-                self?.loadAndDisplaySection(at: prevDay)
-            }
-        } else {
-            footerBtn = headerfooter.btn
-            if viewModel.current.time == .today {
-                footerBtn?.setTitle("(＞﹏＜)||", for: .normal)
-                footerBtn?.addEvent { _ in }
-            } else {
-                let nextDay = self.viewModel.current.after(days: 1)
-                footerBtn?.setTitle("=☞(*・∀・))=☞   \(fmt.string(from: nextDay.date))", for: .normal)
-                footerBtn?.setTitle("╰(￣▽￣)╭", for: .selected)
-                footerBtn?.addEvent { [weak self](_) in
-                    self?.loadAndDisplaySection(at: nextDay)
-                }
-            }
-        }
         headerfooter.setNeedsDisplay()
+        if kind == UICollectionView.elementKindSectionFooter,
+           viewModel.current.time == .today {
+            headerfooter.loadingAnim.stopAnimating()
+        } else {
+            headerfooter.loadingAnim.startAnimating()
+        }
+
         return headerfooter
     }
 }
@@ -541,13 +557,13 @@ extension IVTimelineView: UICollectionViewDataSource {
 extension IVTimelineView: UICollectionViewDelegateFlowLayout {
         
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = viewModel.current.items[indexPath.item]
+        let item = viewModel.renderSections[indexPath.section].items[indexPath.item]
         if !item.isValid { return }
-        scrollToTime(item.start, force: true, animated: true)
+        scrollToTime(item.start, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let item = viewModel.current.items[indexPath.item]
+        let item = viewModel.renderSections[indexPath.section].items[indexPath.item]
         let fscale = Double(UIScreen.main.scale) * viewModel.scale
         let floorStart = floor(fscale * item.start) / Double(UIScreen.main.scale)
         let floorEnd = floor(fscale * item.end) / Double(UIScreen.main.scale)
@@ -566,32 +582,25 @@ extension IVTimelineView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
+        
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width/2, height: collectionView.bounds.height)
+        let W = (section == 0 ? collectionView.bounds.width/2 : 0)
+        return CGSize(width: W, height: collectionView.bounds.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width/2, height: collectionView.bounds.height)
+        let W = (section == collectionView.numberOfSections - 1  ? collectionView.bounds.width/2 : 0)
+        return CGSize(width: W, height: collectionView.bounds.height)
     }
     
     // MARK: - 代理
-    
+        
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         viewModel.state.value = .dragging
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if scrollView.isDecelerating { return }
-        
-        if scrollView.contentOffset.x < -60 {
-            let prevDay = viewModel.current.before(days: 1)
-            loadAndDisplaySection(at: prevDay)
-        } else if viewModel.current.time != .today,
-            scrollView.contentOffset.x - scrollView.contentSize.width > -(scrollView.frame.width-60) {
-            let nextDay = viewModel.current.after(days: 1)
-            loadAndDisplaySection(at: nextDay)
-        }
         
         if decelerate { return }
         scrollhandler(didEnd: true)
@@ -602,9 +611,6 @@ extension IVTimelineView: UICollectionViewDelegateFlowLayout {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        headerBtn?.isSelected = (scrollView.isDragging && scrollView.contentOffset.x < -60)
-        footerBtn?.isSelected = (scrollView.isDragging && viewModel.current.time < .today && scrollView.contentOffset.x - scrollView.contentSize.width > -(scrollView.frame.width-60))
-        
         scrollhandler(didEnd: false)
     }
 }
@@ -755,9 +761,16 @@ fileprivate class IVTimelineHeaderFooter: UICollectionReusableView {
         return btn
     }()
     
+    lazy var loadingAnim = UIActivityIndicatorView(style: .gray).then {
+        $0.startAnimating()
+        $0.frame = self.bounds
+        $0.autoresizingMask = [.flexibleTopMargin, .flexibleLeftMargin, .flexibleBottomMargin, .flexibleRightMargin]
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(btn)
+        addSubview(loadingAnim)
     }
     
     required init?(coder: NSCoder) {
@@ -976,3 +989,4 @@ fileprivate class IVIndicatorLine: UIView {
         context.strokePath()
     }
 }
+

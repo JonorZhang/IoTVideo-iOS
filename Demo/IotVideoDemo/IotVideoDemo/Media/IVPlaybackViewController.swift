@@ -92,8 +92,10 @@ class IVPlaybackViewController: IVDevicePlayerViewController {
         guard let playbackPlayer = playbackPlayer else { return }
         if playbackPlayer.playbackItem == nil {
             //加载数据后自动预选择一段视频
-            if let item = timelineView?.viewModel.anyRawItem?.rawValue as? IVPlaybackItem {
-                playbackPlayer.setPlaybackItem(item, seekToTime: item.startTime)
+            if let pts = timelineView?.viewModel.pts.value,
+               let item = timelineView?.viewModel.anyRawItem?.rawValue as? IVPlaybackItem {
+                let seekToTime = (item.startTime <= pts && pts <= item.endTime) ? pts : item.startTime
+                playbackPlayer.setPlaybackItem(item, seekToTime: seekToTime)
                 super.playClicked(sender)
             } else {
                 IVPopupView.showAlert(title: "当前日期无可播放文件", in: self.mediaView)                
@@ -158,7 +160,9 @@ extension IVPlaybackViewController: IVTimelineViewDelegate {
     override func player(_ player: IVPlayer, didUpdatePTS PTS: TimeInterval) {
         super.player(player, didUpdatePTS: PTS)
         DispatchQueue.main.async { [weak self] in
-            self?.timelineView?.viewModel.pts.value = PTS
+            if player.status == .playing || player.status == .fastForward {
+                self?.timelineView?.viewModel.pts.value = PTS                
+            }
         }
     }
 }

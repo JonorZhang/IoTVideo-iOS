@@ -13,10 +13,12 @@ class IVObservable<T> {
     
     private var actions: [Action] = []
     
+    // 添加观察者，可添加多个观察者
     func addObserve(_ action: @escaping Action) {
         self.actions.append(action)
     }
     
+    // 设置单个观察者
     func observe(_ action: @escaping Action) {
         self.actions = [action]
     }

@@ -23,7 +23,7 @@ public class IVTencentNetwork: AFHTTPSessionManager {
 //    private var host = "http://14.22.4.147:80/"
     private var host: String = {
         if using_test_web_host {
-            return "https://test-iotvideotencentcloudapi.cloudlinks.cn:20443"
+            return "https://test-iotvideotencentcloudapi.cloudlinks.cn"
         } else {
             return "https://iotvideo.tencentcloudapi.com/"
         }

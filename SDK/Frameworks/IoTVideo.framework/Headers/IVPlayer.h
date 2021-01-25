@@ -45,6 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param audience 观众人数
 - (void)player:(IVPlayer *)player didUpdateAudience:(NSInteger)audience;
 
+/// 对讲人数变更
+/// @param player 播放器实例
+/// @param talkerNum 与当前设备对讲的人数
+- (void)player:(IVPlayer *)player didUpdateTalkerNum:(NSInteger)talkerNum;
+
 /// 播放错误回调
 /// @param player 播放器实例
 /// @param error 错误实例, 见 @c `IVPlayerError`
@@ -68,6 +73,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 音频编码器, 默认为 `IVAudioEncoder`
 @property (nonatomic, strong, readwrite) id<IVAudioEncodable> audioEncoder;
+
+/// 当前设备对讲人数
+@property (nonatomic, assign, readonly) NSUInteger talkerNum;
 
 /// 是否正在对讲
 @property (nonatomic, assign, readonly) BOOL isTalking;
@@ -131,6 +139,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 视频画面
 @property (nonatomic, strong, readonly) UIView *videoView;
+
+/// 当前设备观众人数。@c `-[IVPlayerDelegate player: didUpdateAudience:]`
+@property (nonatomic, assign, readonly) NSUInteger audience;
 
 /// 播放器状态
 @property (nonatomic, assign, readonly) IVPlayerStatus status;

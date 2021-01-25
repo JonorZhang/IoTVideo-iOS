@@ -47,13 +47,13 @@ typedef NS_ENUM(NSUInteger, IVTermErr) {
     //!< 终端使用
     IVTermErr_msg_send_peer_timeout          = 20001, //!< 消息发送给对方超时
     //calling相关
-    IVTermErr_msg_calling_dev_hangup         = 20002, //!< 普通挂断，即设备端主动断开
+    IVTermErr_msg_calling_dev_hangup         = 20002, //!< 普通挂断，即设备端主动断开，APP可尝试重连
     IVTermErr_msg_calling_send_timeout       = 20003, //!< calling消息发送超时
-    IVTermErr_msg_calling_no_srv_addr        = 20004, //!< 服务器未分配转发地址
-    IVTermErr_msg_calling_handshake_timeout  = 20005, //!< 握手超时
+    IVTermErr_msg_calling_no_srv_addr        = 20004, //!< 服务器未分配转发地址，APP可尝试重连
+    IVTermErr_msg_calling_handshake_timeout  = 20005, //!< 握手超时，APP可尝试重连
     IVTermErr_msg_calling_token_error        = 20006, //!< 设备端token校验失败
     IVTermErr_msg_calling_all_chn_busy       = 20007, //!< 监控通道数满
-    IVTermErr_msg_calling_timeout_disconnect = 20008, //!< 超时断开
+    IVTermErr_msg_calling_timeout_disconnect = 20008, //!< 超时断开，APP可尝试重连
     IVTermErr_msg_calling_no_find_dst_id     = 20009, //!< 未找到目的id
     IVTermErr_msg_calling_check_token_error  = 20010, //!< token校验出错
     IVTermErr_msg_calling_dev_is_disable     = 20011, //!< 设备已经禁用

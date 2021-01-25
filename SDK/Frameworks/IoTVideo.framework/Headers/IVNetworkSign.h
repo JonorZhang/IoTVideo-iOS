@@ -20,9 +20,18 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param str 需要散列字符串
 + (NSString *)SHA256WithString:(NSString *)str;
 
-/// HMAM-SHA1 签名
+/// HMAM-SHA1 签名 通过tokken解析key签名
 /// @param str 需要签名字符串
 + (NSString *)HMACSHA1WithString:(NSString *)str;
+
+/// HMAM-SHA1 签名
+/// @param str 需要签名的字符串
+/// @param key 签名key
++ (NSString *)HMACSHA1WithString:(NSString *)str withKey:(NSString *)key;
+
+/// 获取一套匿名加密数据
+/// @param salt salt
++ (NSDictionary *)getAnonymousSecureInfoBySalt:(NSString *)salt;
 
 @end
 
